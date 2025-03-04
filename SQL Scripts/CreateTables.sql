@@ -104,3 +104,9 @@ Create Table CustomerAddress(
     Foreign Key(CustomerID) References Customer(CustomerID),
     Primary Key(Address,CustomerID)
 );
+
+Create Table LowStockLog(
+	ItemID varchar(255) primary key,
+    EventDate date not null,
+    Foreign Key(ItemID) References Inventory(ItemID)
+);
