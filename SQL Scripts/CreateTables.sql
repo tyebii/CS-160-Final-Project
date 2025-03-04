@@ -110,3 +110,10 @@ Create Table LowStockLog(
     EventDate date not null,
     Foreign Key(ItemID) References Inventory(ItemID)
 );
+
+Create Table FaultyRobots(
+	RobotID varchar(255) primary key,
+    EventDate date not null,
+    Cause varchar(255) not null,
+    Foreign Key(RobotID) References robot(RobotID)
+);

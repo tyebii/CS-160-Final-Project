@@ -1,6 +1,7 @@
 Drop table customeraddress;
 Drop table customercreditcards;
 Drop table lowstocklog;
+Drop table faultyrobots;
 Drop table shoppingcart;
 Drop table transactions;
 Drop table robot;
