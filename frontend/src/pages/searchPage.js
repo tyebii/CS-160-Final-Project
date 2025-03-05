@@ -1,7 +1,17 @@
 import { useState } from "react";
-import searchResults from "../components/searchResults";
-import searchResultsFilter from "../components/searchResultsFilter";
+import SearchResults from "../components/SearchResults";
 
-const searchPage = () => {};
+function SearchPage() {
+  const[query, setQuery] = useState("");
+  return (
+    //TODO: Add loginNavbar component
+    <div className="flex">
+      <div className="flex-grow p-4">
+        {/*Navbar here */}
+        <SearchResults />
+      </div>
+    </div>
+  );
+}
 
-export default searchPage;
+export default SearchPage;
