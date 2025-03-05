@@ -1,7 +1,16 @@
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  useEffect(() => {
+    // Example Fetch
+    fetch('http://localhost:3301/api/greet')
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error:', error));
+  }, []); 
+
   return (
     <div className="App">
       <header className="App-header">
