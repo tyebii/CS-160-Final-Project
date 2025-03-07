@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import SearchResultsItem from "./SearchResultsItem";
 import SearchResultsFilter from "./SearchResultsFilter";
 
-const SearchResults = ({/*query*/}) => {
-  //TODO: Take in query from search bar 
+const SearchResults = (/*query*/) => {
+  //TODO: Take in query from search bar
   const mockResults = [
     {
       id: 1,
@@ -41,12 +41,12 @@ const SearchResults = ({/*query*/}) => {
   return (
     <div className="p-4 bg-gray-200 min-h-screen">
       {/* Search Results Header */}
-    <h2 className="text-4xl font-bold text-center mb-4">Search Results</h2>
+      <h2 className="text-4xl font-bold text-center mb-4">Search Results</h2>
 
-    {/* Filter Section */}
-    <div className="flex justify-start mb-4">
-      <SearchResultsFilter onFilterSelect={handleFilterSelect} />
-    </div>
+      {/* Filter Section */}
+      <div className="flex justify-start mb-4">
+        <SearchResultsFilter onFilterSelect={handleFilterSelect} />
+      </div>
 
       {/* Search Result List */}
       <div className="grid gap-4">
