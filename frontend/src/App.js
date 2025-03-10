@@ -1,34 +1,62 @@
-import React, { useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import FeaturedProductCard from "./Components-WelcomePage/FeaturedProductCard";
+import Category from "./Components-WelcomePage/Category";
+import carrot from "./Components-WelcomePage/carrot.png"
 
-function App() {
-  useEffect(() => {
-    // Example Fetch
-    fetch('http://localhost:3301/api/greet')
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error('Error:', error));
-  }, []); 
+const App = () => {
+  const featuredProducts = [
+    { imageSrc: carrot, name: "Carrot1" },
+    { imageSrc: carrot, name: "Carrot2" },
+    { imageSrc: carrot, name: "Carrot3" },
+  ];
+
+  const categories = [
+    { imageSrc: carrot, name: "Fresh Produce" },
+    { imageSrc: carrot, name: "Dairy and Eggs" },
+    { imageSrc: carrot, name: "Meat and Seafood" },
+    { imageSrc: carrot, name: "Frozen Foods" },
+    { imageSrc: carrot, name: "Bakery and Bread" },
+    { imageSrc: carrot, name: "Pantry Staples" },
+    { imageSrc: carrot, name: "Beverages" },
+    { imageSrc: carrot, name: "Snacks and Sweets" },
+    { imageSrc: carrot, name: "Health and Wellness" },
+  ];
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <div className="welcome">
+        <h1>Welcome to OFS!</h1>
+      </div>
+
+      <div className="featured-products">
+        <h2 className="section-title">Featured Products</h2>
+        <div className="products-slider">
+          <button className="arrow">←</button>
+          {featuredProducts.map((product, index) => (
+            <FeaturedProductCard
+              key={index}
+              imageSrc={product.imageSrc}
+              productName={product.name}
+            />
+          ))}
+          <button className="arrow">→</button>
+        </div>
+      </div>
+
+      <div className="categories">
+        <h2 className="section-title">Browse Categories</h2>
+        <div className="categories-grid">
+          {categories.map((category, index) => (
+            <Category
+              key={index}
+              imageSrc={category.imageSrc}
+              categoryName={category.name}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
-}
+};
 
 export default App;

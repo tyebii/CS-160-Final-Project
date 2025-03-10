@@ -12,41 +12,6 @@ img {
     padding: 15px;
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 15px;
-}
-
-.logo {
-    font-weight: bold;
-    font-size: 24px;
-}
-
-.search-bar {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-}
-
-.search-input {
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    margin-right: 10px;
-}
-
-.header-icons {
-    display: flex;
-    gap: 10px;
-}
-
-.header-icons img {
-    width: 20px;
-    height: 20px;
-}
-
 .welcome {
     text-align: center;
     margin: 20px 0;
@@ -64,9 +29,9 @@ img {
 
 .products-slider {
     display: flex;
-    align-items: center;  /* Centers items vertically */
-    justify-content: center;  /* Centers content horizontally */
-    gap: 15px;  /* Adds space between the arrows and the product */
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
 }
 
 .arrow {
@@ -220,33 +185,4 @@ img {
     border-radius: 5px;
     font-size: 12px;
     cursor: pointer;
-}
-
-.footer {
-    text-align: center;
-}
-
-.social-media {
-    margin-bottom: 15px;
-}
-
-.social-title {
-    font-weight: 500;
-    margin-bottom: 10px;
-}
-
-.social-icons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.social-icons span {
-    font-size: 20px;
-    color: #555;
-}
-
-.contact-info {
-    font-size: 14px;
-    color: #555;
 }
