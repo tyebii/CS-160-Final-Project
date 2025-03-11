@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
-import Navbar from './Components/Navbar/Navbar';
-
+import Layout from './Pages/Layout';
+import Home from './Pages/Home';
+import Login from './Pages/Login';
+import Shoppingcart from './Pages/Cart';
 function App() {
   useEffect(() => {
     // Example Fetch
@@ -13,9 +15,15 @@ function App() {
   }, []); 
 
   return (
-    <div className="App">
-      <Navbar></Navbar>
-    </div>
+    <BrowserRouter>
+      <Routes>
+          <Route path="/" element={<Layout />} >
+              <Route index element={<Home />} />
+              <Route path="login" element={<Login />} />
+              <Route path="shoppingcart" element={<Shoppingcart />}/>
+          </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

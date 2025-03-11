@@ -1,0 +1,74 @@
+.Google {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    margin: auto;
+    margin-top: 50px;
+    align-items: center;
+    background: linear-gradient(to bottom, red, white); 
+    outline: solid 2px black;
+    padding: 10px; 
+    box-sizing: border-box; 
+}
+
+.Twitter {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    margin: auto;
+    margin-top: 50px;
+    align-items: center;
+    background: linear-gradient(to bottom, #1DA1F2, white); 
+    outline: solid 2px black;
+    padding: 10px; 
+    box-sizing: border-box; 
+}
+
+.Meta {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    margin: auto;
+    margin-top: 50px;
+    align-items: center;
+    background: linear-gradient(to bottom, #4267B2, white);
+    outline: solid 2px black;
+    padding: 10px; 
+    box-sizing: border-box; 
+}
+
+.Google img, .Twitter img, .Meta img {
+    width: 70px;
+    height: 70px;
+    margin-right: 40px;
+}
+
+.Google:hover {
+    cursor: pointer;
+    background: linear-gradient(to bottom, white, red); 
+}
+
+.Twitter:hover {
+    cursor: pointer;
+    background: linear-gradient(to bottom, white, #1DA1F2);
+}
+
+.Meta:hover {
+    cursor: pointer;
+    background: linear-gradient(to bottom, white, #4267B2); 
+}
+
+.Login-Container h1{
+    font-size: 40px;
+    margin-top: 50px;
+}
+
+.Login-Container{
+    text-align: center;
+}
