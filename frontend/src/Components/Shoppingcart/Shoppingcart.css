@@ -25,13 +25,14 @@
     background: white;
     outline:2px solid black;
     text-align: left;
-    font-size: 16px;
+    font-size: 25px;
 }
 
 .Subtotal h1{
     margin-top: 90px;
     font-size: 30px;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .Proceed {

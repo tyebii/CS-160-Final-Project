@@ -45,6 +45,7 @@ Create Table Inventory(
 	ItemID varchar(255) primary key,
     Quantity int not null, 
     Distributor varchar(255) not null, 
+    Weight double not null, 
     ProductName varchar(255) not null, 
     Category enum('Fresh Produce', 'Dairy and Eggs', 'Meat and Seafood', 'Frozen Foods', 'Bakery and Bread', 'Pantry Staples', 'Beverages', 'Snacks and Sweets', 'Health and Wellness') not null,
 	SupplierCost double not null,
