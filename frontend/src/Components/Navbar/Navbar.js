@@ -1,5 +1,5 @@
 import '../Navbar/Navbar.css'
-import {useRef} from 'react';
+import {useEffect, useRef} from 'react';
 import React, { useState } from 'react';
 import {Link } from "react-router-dom";
 import ofsLogo from "./NavbarImages/ofsLogo.png"
@@ -8,12 +8,36 @@ import searchIcon from "./NavbarImages/searchIcon.jpg"
 import shoppingCartIcon from "./NavbarImages/shoppingCart.png"
 import dropDownIcon from "./NavbarImages/dropdownIcon.png"
 function Navbar(){
-    
+    const [textInput, settextInput] = useState("");
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const toggleDropdown = () => {
         setDropdownVisible(!dropdownVisible);
     };
 
+    useEffect(() => {
+        settextInput("");
+    },[]);
+
+    function formatText(text){
+        var sol = "";
+        var i = 0
+        while(i < text.length){
+            if(text[i] === " "){
+                while (i<text.length && text[i] === " "){
+                    i++;
+                }
+                if (i==text.length){
+                    return sol;
+                }
+                sol += "-";
+            }
+            else{
+                sol += text[i];
+                i +=1 
+            }
+        }
+        return sol;
+    }
 
     return( 
         <div className = "Navbar-Background">
@@ -43,9 +67,9 @@ function Navbar(){
             </div>
             <div className="Search-Login-Shoppingcart-Container">
                 <div className='Search-Container'>
-                    <input  type="text" placeholder='Search'></input>
-                    <Link to={`/search/product/`} className="SearchIcon">
-                        <img src = {searchIcon}></img>
+                    <input  onChange={(e)=>{settextInput(e.target.value)}} value = {textInput}  type="text" placeholder='Search'></input>
+                    <Link to={textInput !== "" ? `/search/product/${formatText(textInput)}` : ""} className="SearchIcon" onClick={()=>{settextInput("")}}>
+                        <img src={searchIcon} alt="search icon" />
                     </Link>
                 </div>
                 <Link to="/login" className='Links'>

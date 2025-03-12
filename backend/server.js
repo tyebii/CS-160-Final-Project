@@ -55,7 +55,7 @@ app.get('/api/search/:searchType/:query', (req, res) => {
       res.json(results);
     });
   }else if (searchType == "product") {
-    pool.query('SELECT * FROM inventory WHERE product = ?', [query], (err, results) => {
+    pool.query('SELECT * FROM inventory WHERE ProductName like ?', ["%" + query+ "%"], (err, results) => {
       if (err) {
         console.error('Error executing query:', err);
         res.status(500).json({ error: 'Internal Server Error' });
