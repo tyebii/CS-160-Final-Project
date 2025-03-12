@@ -8,7 +8,7 @@ import searchIcon from "./NavbarImages/searchIcon.jpg"
 import shoppingCartIcon from "./NavbarImages/shoppingCart.png"
 import dropDownIcon from "./NavbarImages/dropdownIcon.png"
 function Navbar(){
-    const inputRef = useRef();
+    
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const toggleDropdown = () => {
         setDropdownVisible(!dropdownVisible);
@@ -43,8 +43,8 @@ function Navbar(){
             </div>
             <div className="Search-Login-Shoppingcart-Container">
                 <div className='Search-Container'>
-                    <input ref = {inputRef} type="text" placeholder='Search'></input>
-                    <Link to={`/search/product/${inputRef.current.value}`} className="SearchIcon">
+                    <input  type="text" placeholder='Search'></input>
+                    <Link to={`/search/product/`} className="SearchIcon">
                         <img src = {searchIcon}></img>
                     </Link>
                 </div>
