@@ -53,7 +53,8 @@ Create Table Inventory(
     Cost double not null,
     StorageRequirement enum('Frozen', 'Room Temperature', 'Warm', 'Hot','Refrigerated') not null,
     LastModification date not null,
-    ImageLink varchar(255) not null
+    ImageLink varchar(255) not null,
+    Description varchar(255) not null
 );
 
 Create Table ShoppingCart(

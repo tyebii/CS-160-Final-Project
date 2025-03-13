@@ -6,6 +6,7 @@ import WelcomePage from './Pages/WelcomePage';
 import LoginPage from './Pages/LoginPage';
 import Shoppingcart from './Pages/Cart';
 import SearchPage from './Pages/searchPage';
+import ItemPage from './Pages/ItemPage';
 function App() {
   useEffect(() => {
     // Example Fetch
@@ -23,6 +24,7 @@ function App() {
               <Route path="login" element={<LoginPage />} />
               <Route path="shoppingcart" element={<Shoppingcart />}/>
               <Route path="search/:searchType/:query" element={<SearchPage />}/>
+              <Route path="itemview/:itemid" element={<ItemPage/>}/>
           </Route>
       </Routes>
     </BrowserRouter>

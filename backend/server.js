@@ -66,6 +66,24 @@ app.get('/api/search/:searchType/:query', (req, res) => {
   }
 });
 
+
+
+app.get('/searchItem/:itemid', (req, res) => {
+  let {itemid} = req.params;
+  console.log(itemid);
+  pool.query('SELECT * FROM inventory WHERE ItemID = ?', [itemid], (err, results) => {
+    if (err) {
+        console.error('Error executing query:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+    }
+    console.log(results);
+    res.json(results);
+    });
+  }
+);
+
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

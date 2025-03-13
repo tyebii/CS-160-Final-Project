@@ -48,6 +48,9 @@ function Welcome(){
                     <Link to = "/search/category/health-and-wellness">
                         <CategoryCard imageSrc={Carrot} categoryName="Health and Wellness" />
                     </Link>
+                    <Link to = "/search/category/health-and-wellness">
+                        <CategoryCard imageSrc={Carrot} categoryName="Frozen Foods" />
+                    </Link>
                 </div>
             </div>
             <hr/>

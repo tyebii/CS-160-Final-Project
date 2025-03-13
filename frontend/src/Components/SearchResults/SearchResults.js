@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import SearchResultsItem from "./SearchResultsItem";
 import SearchResultsFilter from "./SearchResultsFilter";
-import { useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 const SearchResults = (/*query*/) => {
   const {searchType, query} = useParams();
@@ -22,7 +22,7 @@ const SearchResults = (/*query*/) => {
       });
     
   },[searchType, query]);
-  
+
   
 
   
@@ -44,7 +44,7 @@ const SearchResults = (/*query*/) => {
     setResults(sortedResults);
 };
   return (
-    <div className="p-4 bg-gray-200 w-[2000px]">
+    <div className="p-4 bg-gray-200 w-[1000px]">
       {/* Search Results Header */}
       <h2 className="text-4xl font-bold text-center mb-4">Search Results</h2>
 
@@ -59,7 +59,11 @@ const SearchResults = (/*query*/) => {
           <h3 className="text-2xl font-bold text-center">No results found</h3>
         ) : (
           results.map((result) => (
-            <SearchResultsItem key={result.ItemID} result={result} />
+            <Link to = {`/itemview/${result.ItemID}`}>
+              <SearchResultsItem result={result} />
+            </Link>
+
+            
           ))
         )}
       </div>
