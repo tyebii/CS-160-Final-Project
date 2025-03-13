@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
 import Layout from './Pages/Layout';
-import Home from './Pages/Home';
-import Login from './Pages/Login';
+import WelcomePage from './Pages/WelcomePage';
+import LoginPage from './Pages/LoginPage';
 import Shoppingcart from './Pages/Cart';
 import SearchPage from './Pages/searchPage';
 function App() {
@@ -19,8 +19,8 @@ function App() {
     <BrowserRouter>
       <Routes>
           <Route path="/" element={<Layout />} >
-              <Route index element={<Home />} />
-              <Route path="login" element={<Login />} />
+              <Route index element={<WelcomePage />} />
+              <Route path="login" element={<LoginPage />} />
               <Route path="shoppingcart" element={<Shoppingcart />}/>
               <Route path="search/:searchType/:query" element={<SearchPage />}/>
           </Route>

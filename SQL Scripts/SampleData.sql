@@ -1,0 +1,16 @@
+INSERT INTO Inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, Cost, StorageRequirement, LastModification, ImageLink) VALUES
+('ITM001', 50, 'Fresh Farms', 1.2, 'Organic Apples', 'Fresh Produce', 2.50, '2025-06-10', 3.99, 'Room Temperature', '2025-03-11', 'https://example.com/apple.jpg'),
+('ITM002', 30, 'DairyCo', 0.5, 'Whole Milk', 'Dairy and Eggs', 1.80, '2025-04-20', 2.99, 'Refrigerated', '2025-03-10', 'https://example.com/milk.jpg'),
+('ITM003', 20, 'Seafood Direct', 1.0, 'Salmon Fillet', 'Meat and Seafood', 12.99, '2025-03-25', 18.50, 'Frozen', '2025-03-11', 'https://example.com/salmon.jpg'),
+('ITM004', 40, 'Baker’s Best', 0.75, 'Whole Wheat Bread', 'Bakery and Bread', 3.25, '2025-03-18', 5.49, 'Room Temperature', '2025-03-10', 'https://example.com/bread.jpg'),
+('ITM005', 100, 'SnackWorld', 0.2, 'Chocolate Bar', 'Snacks and Sweets', 1.20, '2025-12-15', 2.50, 'Room Temperature', '2025-03-12', 'https://example.com/chocolate.jpg'),
+('ITM006', 60, 'Healthy Living', 0.3, 'Vitamin C Supplement', 'Health and Wellness', 5.50, '2026-01-30', 9.99, 'Room Temperature', '2025-03-09', 'https://example.com/vitamin.jpg'),
+('ITM007', 15, 'Frozen Delights', 2.0, 'Frozen Pizza', 'Frozen Foods', 7.99, '2025-07-05', 12.99, 'Frozen', '2025-03-11', 'https://example.com/pizza.jpg'),
+('ITM008', 25, 'Beverage Co.', 1.5, 'Orange Juice', 'Beverages', 3.99, '2025-05-12', 6.49, 'Refrigerated', '2025-03-10', 'https://example.com/oj.jpg'),
+('ITM009', 35, 'Pantry Essentials', 1.0, 'Rice Bag', 'Pantry Staples', 4.75, '2026-02-15', 8.99, 'Room Temperature', '2025-03-11', 'https://example.com/rice.jpg'),
+('ITM010', 10, 'Gourmet Meats', 2.5, 'Beef Steak', 'Meat and Seafood', 15.99, '2025-03-28', 24.99, 'Frozen', '2025-03-12', 'https://example.com/steak.jpg'),
+('ITM011', 22, 'Hot Foods Inc.', 1.2, 'Rotisserie Chicken', 'Meat and Seafood', 8.50, '2025-03-15', 12.99, 'Hot', '2025-03-12', 'https://example.com/chicken.jpg'),
+('ITM012', 18, 'SpiceWorld', 0.1, 'Chili Powder', 'Pantry Staples', 1.80, '2026-06-22', 4.99, 'Room Temperature', '2025-03-12', 'https://example.com/chili.jpg'),
+('ITM013', 27, 'Organic Growers', 0.8, 'Carrots', 'Fresh Produce', 2.20, '2025-04-15', 3.99, 'Room Temperature', '2025-03-11', 'https://example.com/carrots.jpg'),
+('ITM014', 12, 'Warm Delicacies', 1.5, 'Fresh Baked Pizza', 'Bakery and Bread', 9.75, '2025-03-14', 15.99, 'Warm', '2025-03-11', 'https://example.com/fresh_pizza.jpg'),
+('ITM015', 8, 'Gourmet Beverages', 0.75, 'Specialty Tea', 'Beverages', 4.25, '2026-09-10', 8.49, 'Room Temperature', '2025-03-11', 'https://example.com/tea.jpg');

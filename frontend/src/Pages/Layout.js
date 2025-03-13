@@ -6,8 +6,10 @@ function Layout(){
     return (
         <div className='Layout'>
             <Navbar></Navbar>
-            <Outlet />
-            <Contact></Contact>
+            <div className='flex flex-col justify-between w-full items-center h-[100%]'>
+                <Outlet />
+                <Contact></Contact>
+            </div>
         </div>
     );
 }
