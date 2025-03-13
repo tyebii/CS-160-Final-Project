@@ -50,7 +50,8 @@ Create Table Inventory(
     Category enum('Fresh Produce', 'Dairy and Eggs', 'Meat and Seafood', 'Frozen Foods', 'Bakery and Bread', 'Pantry Staples', 'Beverages', 'Snacks and Sweets', 'Health and Wellness') not null,
 	SupplierCost double not null,
     Expiration date not null,
-    StorageRequirement enum('Frozen', 'Room Temperature', 'Warm', 'Hot') not null,
+    Cost double not null,
+    StorageRequirement enum('Frozen', 'Room Temperature', 'Warm', 'Hot','Refrigerated') not null,
     LastModification date not null,
     ImageLink varchar(255) not null
 );

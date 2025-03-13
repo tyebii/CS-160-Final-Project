@@ -44,7 +44,7 @@ const SearchResults = (/*query*/) => {
     setResults(sortedResults);
 };
   return (
-    <div className="p-4 bg-gray-200 min-h-screen">
+    <div className="p-4 bg-gray-200 w-[2000px]">
       {/* Search Results Header */}
       <h2 className="text-4xl font-bold text-center mb-4">Search Results</h2>
 
