@@ -1,0 +1,16 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  text-align: center;
+  background: linear-gradient(to bottom, #808080, #ffffff);
+}
+
+.Layout {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
