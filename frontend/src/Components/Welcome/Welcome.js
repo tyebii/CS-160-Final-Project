@@ -1,8 +1,8 @@
 import './Welcome.css';
 import Carrot from './Images/carrot.png';
 import {Link } from "react-router-dom";
-import FeaturedProductCard from './FeaturedProductCard';
-import CategoryCard from './Category';
+import FeaturedProductCard from './Components/FeaturedProductCard';
+import CategoryCard from './Components/Category';
 function Welcome(){
     return (
         <div class="container">
