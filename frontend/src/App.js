@@ -1,8 +1,11 @@
 import React from "react";
-import FeaturedProductCard from "./Components-WelcomePage/FeaturedProductCard";
-import Category from "./Components-WelcomePage/Category";
+//import FeaturedProductCard from "./Components-WelcomePage/FeaturedProductCard";
+//import Category from "./Components-WelcomePage/Category";
+import ItemView from "./Components-ItemView/ItemView";
 import carrot from "./Components-WelcomePage/carrot.png"
 
+// This is for Welcome Page
+/** 
 const App = () => {
   const featuredProducts = [
     { imageSrc: carrot, name: "Carrot1" },
@@ -55,6 +58,29 @@ const App = () => {
           ))}
         </div>
       </div>
+    </div>
+  );
+};
+**/
+
+// This is for Item View
+const App = () => {
+  // Example Carrot Item
+  const carrotItem = {
+    imageSrc: carrot,
+    itemName: 'Mike\'s Organic Carrots',
+    distributor: 'Mike\'s Farm',
+    availability: 'In Stock',
+    expiration: '3/20/2025',
+    storageType: 'Dry',
+    cost: '$4.99',
+    weight: '2 LBS',
+    description: 'These fresh organic carrots are also rich in vitamin A and are great to eat raw or cooked!',
+  };
+
+  return (
+    <div>
+      <ItemView {...carrotItem} />
     </div>
   );
 };
