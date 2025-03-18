@@ -1,7 +1,3 @@
-
-
-
-
 .container {
     padding: 15px;
     align-items: center;
@@ -90,8 +86,6 @@
 .dot.active {
     background-color: #e63946;
 }
-
-
 
 .arrow-btn {
     background: none;
