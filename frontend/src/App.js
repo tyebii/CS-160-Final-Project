@@ -1,29 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import './App.css';
-import Layout from './Pages/Layout';
-import Home from './Pages/Home';
-import Login from './Pages/Login';
-import Shoppingcart from './Pages/Cart';
-import SearchPage from './Pages/searchPage';
+import "./App.css";
+import Layout from "./Pages/Layout";
+import Home from "./Pages/Home";
+import Login from "./Pages/Login";
+import Shoppingcart from "./Pages/Cart";
+import SearchPage from "./Pages/searchPage";
+import Portal from "./Pages/Portal";
 function App() {
   useEffect(() => {
     // Example Fetch
-    fetch('http://localhost:3301/api/greet')
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error('Error:', error));
-  }, []); 
+    fetch("http://localhost:3301/api/greet")
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Error:", error));
+  }, []);
 
   return (
     <BrowserRouter>
       <Routes>
-          <Route path="/" element={<Layout />} >
-              <Route index element={<Home />} />
-              <Route path="login" element={<Login />} />
-              <Route path="shoppingcart" element={<Shoppingcart />}/>
-              <Route path="search/:searchType/:query" element={<SearchPage />}/>
-          </Route>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="shoppingcart" element={<Shoppingcart />} />
+          <Route path="search/:searchType/:query" element={<SearchPage />} />
+          <Route path="portal" element={<Portal />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
