@@ -1,5 +1,0 @@
-
-app.get('/api/greet', async (req, res) => {
-  const [rows, fields] = await pool.promise().query('Select * From Address')
-  res.json(rows);
-});
