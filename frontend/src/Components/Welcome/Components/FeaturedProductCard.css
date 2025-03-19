@@ -1,18 +1,16 @@
 .product-card {
-    width: 200px;
-    height: 280px;
+    width: 180px;
+    height: 250px;
     border: 2px solid #ccc;
     border-radius: 10px;
     text-align: center;
     align-items: center;
-    padding: 10px;
     background: white;
     box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
 }
 
 .product-card-img{
-    margin-right: 0px;
-    padding: 0;
+    width: 150px;
 }
 
 .product-name {
