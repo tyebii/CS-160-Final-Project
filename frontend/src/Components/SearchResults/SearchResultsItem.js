@@ -13,7 +13,7 @@ const SearchResultsItem = ({ result }) => {
         <h3 className="text-lg font-bold">{result.ProductName}</h3>
         <p className="text-gray-600">Distributed by {result.Distributor}</p>
         <p>
-          <strong>Cost:</strong> ${Number(result.SupplierCost).toLocaleString()}
+          <strong>Cost:</strong> ${Number(result.Cost).toLocaleString()}
         </p>
         <p>
           <strong>Average Weight:</strong> {result.Weight} LBS

@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Layout from "./Pages/Layout";
-import Home from "./Pages/Home";
-import Login from "./Pages/Login";
+import WelcomePage from "./Pages/WelcomePage";
+import LoginPage from "./Pages/LoginPage";
 import Shoppingcart from "./Pages/Cart";
 import SearchPage from "./Pages/searchPage";
-import Portal from "./Pages/Portal";
+import ItemPage from "./Pages/ItemPage";
 function App() {
   useEffect(() => {
     // Example Fetch
@@ -20,11 +20,11 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="login" element={<Login />} />
+          <Route index element={<WelcomePage />} />
+          <Route path="login" element={<LoginPage />} />
           <Route path="shoppingcart" element={<Shoppingcart />} />
           <Route path="search/:searchType/:query" element={<SearchPage />} />
-          <Route path="portal" element={<Portal />} />
+          <Route path="itemview/:itemid" element={<ItemPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
