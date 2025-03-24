@@ -1,5 +1,5 @@
 import React from "react";
-
+import './Category.css';
 const Category = ({ imageSrc, categoryName }) => {
   return (
     <div className="category">
@@ -7,7 +7,7 @@ const Category = ({ imageSrc, categoryName }) => {
         <img src={imageSrc} alt={categoryName} />
       </div>
       <p className="category-name">{categoryName}</p>
-      <button className="view-more">View More</button>
+      <button className="view-more">View</button>
     </div>
   );
 };

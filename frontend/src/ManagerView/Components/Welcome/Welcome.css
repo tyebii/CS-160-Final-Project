@@ -1,0 +1,84 @@
+.container {
+    padding: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.subsection-title {
+    width: auto;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.transactions {
+    width: auto;
+    border-radius: 10px;
+}
+
+
+.welcome-categories {
+    margin-bottom: 30px;
+}
+
+.welcome-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+/* from navbar */
+.Search-Container{
+    display:flex;
+    align-items: center;
+    background: white;
+    outline: 2px solid black;
+    border-radius: 10px;
+    margin-right: 20px;
+    width: 500px;
+    height: 30px;
+}
+
+.Search-Container input{
+    width: 500px;
+    height: 30px;
+    font-size: 20px;
+    border: none;
+    padding: 10px;
+    
+}
+
+.Search-Container input:focus{
+    border: none; 
+    outline: none;
+}
+
+.SearchIcon{
+    width: 30px;
+    padding: 10px;
+    height: 10px;
+    outline: 2px solid black;
+    border-radius: 10px;
+}
+.SearchIcon img{
+    width: 20px;
+    height: 20px;
+}
+
+.SearchIcon:hover{
+    cursor: pointer;
+    background: lightgray;
+    border-radius: 10px;
+}

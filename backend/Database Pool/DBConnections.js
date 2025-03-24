@@ -1,4 +1,4 @@
-const mysql = require('mysql2') //NPM install mysql12
+const mysql = require('mysql2') //NPM install mysql2
 
 const pool = mysql.createPool({
     host: 'localhost',   // Use 'localhost' 

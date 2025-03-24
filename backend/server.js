@@ -7,12 +7,14 @@ const inventory = require('./Inventory/inventory.js')
 const authentication = require('./Auth/Authentication.js')
 const address = require('./Checkout/Address.js')
 const card = require('./Checkout/Card.js')
+const transactions = require('./Transactions/Transactions.js');
 app.use(express.json())
 app.use('/api',inventory)
 app.use('/api', authentication)
 app.use('/api', shoppingcart)
 app.use('/api', address)
 app.use('/api', card)
+app.use('/api', transactions);
 
 // Enable CORS for requests from localhost:3300 only
 app.use(cors({
