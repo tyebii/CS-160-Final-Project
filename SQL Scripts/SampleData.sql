@@ -29,7 +29,7 @@ INSERT INTO CreditCard (CardNumber, CardHolderFirst, CardHolderLast, SecurityCod
 INSERT INTO Inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description) VALUES
 ('item001', 50, 'FreshFarm', 2.5, 'Apples', 'Fresh Produce', 1.00, '2025-05-10', 2.50, 'Room Temperature', '2025-03-15', 'apple.jpg', 'Red delicious apples.'),
 ('item002', 20, 'DairyBest', 1.0, 'Milk', 'Dairy and Eggs', 2.00, '2025-04-20', 4.00, 'Refrigerated', '2025-03-15', 'milk.jpg', 'Organic whole milk.'),
-('item003', 10, 'SeafoodSupply', 5.0, 'Salmon', 'Meat and Seafood', 7.50, '2025-03-25', 15.00, 'Frozen', '2025-03-15', 'salmon.jpg', 'Fresh')
+('item003', 10, 'SeafoodSupply', 5.0, 'Salmon', 'Meat and Seafood', 7.50, '2025-03-25', 15.00, 'Frozen', '2025-03-15', 'salmon.jpg', 'Fresh');
 
 INSERT INTO ShoppingCart (CustomerID, ItemID, OrderQuantity) VALUES
 ('cust001', 'item001', 3),
