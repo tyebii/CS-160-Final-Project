@@ -1,53 +1,60 @@
-import './Welcome.css';
+//Category Images
 import Carrot from './Images/carrot.png';
 import bakeryAndBreadImage from '../../CategoryImages/bakeryandbread.jpg';
 import beverages from '../../CategoryImages/beverages.jpg';
 import dairyAndEggs from '../../CategoryImages/dairyeggs.webp';
-import freshProduce from '../../CategoryImages/freshproduce.webp'
-import frozenFoods from '../../CategoryImages/frozenfoods.jpg'
-import healthAndWellness from '../../CategoryImages/healthandwellness.jpg'
-import meatAndSeafood from '../../CategoryImages/meatseafood.webp'
-import pantryStaples from '../../CategoryImages/pantrystaples.jpg'
-import snacksAndSweets from '../../CategoryImages/snacksandsweets.jpg'
+import freshProduce from '../../CategoryImages/freshproduce.webp';
+import frozenFoods from '../../CategoryImages/frozenfoods.jpg';
+import healthAndWellness from '../../CategoryImages/healthandwellness.jpg';
+import meatAndSeafood from '../../CategoryImages/meatseafood.webp';
+import pantryStaples from '../../CategoryImages/pantrystaples.jpg';
+import snacksAndSweets from '../../CategoryImages/snacksandsweets.jpg';
 
+//React Functions
 import { useState } from 'react';
-
-import {Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import FeaturedProductCard from './Components/FeaturedProductCard';
 import CategoryCard from './Components/Category';
-function Welcome(){
-    const [index, changeIndex] = useState(0)
 
+//Welcome Page Component
+function Welcome() {
+
+    //Carousel Index
+    const [index, changeIndex] = useState(0);
+
+    //Sample Featured Items
     const loadedFeatured = [
-        {imageSrc:Carrot, productName:"Carrots"},
-        {imageSrc:Carrot, productName:"Carrots"},
-        {imageSrc:Carrot, productName:"Carrots"},
-        {imageSrc:Carrot, productName:"Carrots"}
-    ]
+        {imageSrc: Carrot, productName: "Carrots"},
+        {imageSrc: Carrot, productName: "Carrots"},
+        {imageSrc: Carrot, productName: "Carrots"},
+        {imageSrc: Carrot, productName: "Carrots"}
+    ];
 
-    const handleLeftClick = (e) => {
-        changeIndex(index+1 % loadedFeatured.length)
-    }
+    //Carousel Left Click
+    const handleLeftClick = () => {
+        changeIndex((index + 1) % loadedFeatured.length);
+    };
 
-    const handleRightClick = (e) => {
-        if(index - 1 == -1){
-            changeIndex(loadedFeatured.length-1)
-            return
+    //Carousel Right Click
+    const handleRightClick = () => {
+        if(index - 1 === -1){
+            changeIndex(loadedFeatured.length - 1);
+            return;
         }
-        changeIndex(index-1 % loadedFeatured.length)
-        
-    }
+        changeIndex((index - 1) % loadedFeatured.length);
+    };
 
     return (
-        <div class="container">
-            <div class="welcome">
-                <h1>Welcome to OFS!</h1>
-            </div>
-            
-            <div class="featured-products">
-                <h2 class="section-title">Featured Products</h2>
-                <div class="products-slider">
-                    <button class="arrow" onClick = {handleLeftClick}>←</button>
+        <div className="max-w-screen-xl mx-auto px-5">
+            <header className="text-center mb-8">
+                <h1 className="text-4xl font-bold">Welcome to OFS!</h1>
+            </header>
+
+            {/*Carousel*/}
+            <section className="text-center mb-10">
+                <h2 className="text-2xl mb-4">Featured Products</h2>
+                <div className="flex items-center justify-center gap-4 overflow-x-auto p-3">
+                    <button className="text-2xl bg-blue-500 text-white rounded-full p-3 hover:bg-blue-700" onClick={handleLeftClick}>←</button>
                     {
                         [...Array(3)].map((_, iter) => {
                             const tempIndex = (index + iter) % loadedFeatured.length;
@@ -59,46 +66,46 @@ function Welcome(){
                                 />
                             );
                         })
-                    
-                        }
-                    <button class="arrow" onClick = {handleRightClick}>→</button>
+                    }
+                    <button className="text-2xl bg-blue-500 text-white rounded-full p-3 hover:bg-blue-700" onClick={handleRightClick}>→</button>
                 </div>
-            </div>
-            
-            <div class="categories">
-                <h2 class="section-title">Browse Categories</h2>
-                <div class="categories-grid">
-                    <Link to = "/search/category/fresh-produce">
+            </section>
+
+            <section className="mt-10">
+                <h2 className="text-2xl mb-6 text-center">Browse Categories</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 px-3 justify-center">
+                    <Link to="/search/category/Fresh-Produce">
                         <CategoryCard imageSrc={freshProduce} categoryName="Fresh Produce" />
                     </Link>
-                    <Link to = "/search/category/dairy-and-eggs">
+                    <Link to="/search/category/Dairy-and-Eggs">
                         <CategoryCard imageSrc={dairyAndEggs} categoryName="Dairy and Eggs" />
                     </Link>
-                    <Link to = "/search/category/meat-and-seafood">
+                    <Link to="/search/category/Meat-and-Seafood">
                         <CategoryCard imageSrc={meatAndSeafood} categoryName="Meat and Seafood" />
                     </Link>
-                    <Link to = "/search/category/bakery-and-bread">
+                    <Link to="/search/category/Bakery-and-Bread">
                         <CategoryCard imageSrc={bakeryAndBreadImage} categoryName="Bakery and Bread" />
                     </Link>
-                    <Link to = "/search/category/pantry-staples">
+                    <Link to="/search/category/Pantry-Staples">
                         <CategoryCard imageSrc={pantryStaples} categoryName="Pantry Staples" />
                     </Link>
-                    <Link to = "/search/category/beverages">
+                    <Link to="/search/category/Beverages">
                         <CategoryCard imageSrc={beverages} categoryName="Beverages" />
                     </Link>
-                    <Link to = "/search/category/snacks-and-sweets">
+                    <Link to="/search/category/Snacks-and-Sweets">
                         <CategoryCard imageSrc={snacksAndSweets} categoryName="Snacks and Sweets" />
                     </Link>
-                    <Link to = "/search/category/health-and-wellness">
+                    <Link to="/search/category/Health-and-Wellness">
                         <CategoryCard imageSrc={healthAndWellness} categoryName="Health and Wellness" />
                     </Link>
-                    <Link to = "/search/category/health-and-wellness">
+                    <Link to="/search/category/Frozen-Foods">
                         <CategoryCard imageSrc={frozenFoods} categoryName="Frozen Foods" />
                     </Link>
                 </div>
-            </div>
-            <hr/>
+            </section>
+            <hr className="border-t border-gray-300 my-10" />
         </div>
     );
 }
+
 export default Welcome;

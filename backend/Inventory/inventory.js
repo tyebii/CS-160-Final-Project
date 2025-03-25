@@ -1,7 +1,7 @@
 const express = require('express')
 const {authenticateToken, authorizeManager, authorizeEmployee} = require('../Auth/AuthenticationController.js')
 const router = express.Router();
-const {productQueryID, productQueryName, productQueryNameEmployee, categoryQuery, categoryQueryEmployee,  productInsert, productUpdate, deleteProduct, lowStockSearch} = require('./inventoryControllers.js')
+const {productCustomerQueryID, productQueryID, productQueryName, productQueryNameEmployee, categoryQuery, categoryQueryEmployee,  productInsert, productUpdate, deleteProduct, lowStockSearch} = require('./inventoryControllers.js')
 
 router.get('/search/category/customer/:name', categoryQuery);
 
@@ -9,9 +9,11 @@ router.get('/search/item/customer/:name', productQueryName);
   
 router.get('/search/category/employee/:name', authenticateToken, authorizeEmployee, categoryQueryEmployee);
 
-router.get('/search/item/Employee/:name', authenticateToken, authorizeEmployee, productQueryNameEmployee);
+router.get('/search/item/employee/:name', authenticateToken, authorizeEmployee, productQueryNameEmployee);
   
-router.get('/search/itemID/:itemid', authenticateToken, authorizeEmployee, productQueryID);
+router.get('/search/itemID/customer/:itemid', productCustomerQueryID);
+
+router.get('/search/itemID/employee/:itemid', authenticateToken, authorizeEmployee, productQueryID);
 
 router.post('/insert/item', authenticateToken, authorizeManager, productInsert);
 

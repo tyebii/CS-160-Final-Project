@@ -8,7 +8,7 @@ const categoryQuery = (req, res) => {
     let {name} = req.params;
     
     //Replace the delimiters with spaces
-    name = name.replace("-"," ");
+    name = name.replace(/-/g, " ");
 
     //Check if value is in set 
     if(!searchCategoryFormat(name)){
@@ -32,7 +32,7 @@ const productQueryName = (req, res) => {
     //Get the name of the product
     let {name} = req.params;
     //Replace delimitters with spaces
-    name = name.replace("-"," ");
+    name = name.replace(/-/g, " ");
 
     //Makes sure input is proper
     if(!searchProductNameFormat(name)){
@@ -57,7 +57,7 @@ const categoryQueryEmployee = (req, res) => {
     let {name} = req.params;
     
     //Replace delimitters with spaces
-    name = name.replace("-"," ");
+    name = name.replace(/-/g, " ");
 
     //Validate the input 
     if(!searchCategoryFormat(name)){
@@ -82,7 +82,7 @@ const productQueryNameEmployee = (req, res) => {
     let {name} = req.params;
 
     //Replace delimitters with spaces
-    name = name.replace("-"," ");
+    name = name.replace(/-/g, " ");
 
     //Make sure that the input is sanitized
     if(!searchProductNameFormat(name)){
@@ -108,6 +108,22 @@ const productQueryID = (req, res) => {
 
     //Query for items with that ID
     pool.query('SELECT * FROM inventory WHERE ItemID = ?', [itemid], (err, results) => {
+      if (err) {
+          console.error('Error executing query:', err);
+          res.status(500).json({ error: 'Internal Server Error' });
+          return;
+      }
+        res.status(200).json(results);
+    });
+}
+
+//Call back for product id queries
+const productCustomerQueryID = (req, res) => {
+    //Get item id
+    let {itemid} = req.params;
+
+    //Query for items with that ID
+    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE ItemID = ?', [itemid], (err, results) => {
       if (err) {
           console.error('Error executing query:', err);
           res.status(500).json({ error: 'Internal Server Error' });
@@ -257,5 +273,5 @@ const searchCategoryFormat = (categoryName) => {
 
 
 //Exporting the methods
-module.exports = {productQueryID, productQueryNameEmployee, productQueryName, categoryQuery, categoryQueryEmployee, productInsert, productUpdate, deleteProduct, lowStockSearch}
+module.exports = {productQueryID, productQueryNameEmployee, productQueryName, categoryQuery, categoryQueryEmployee, productInsert, productUpdate, deleteProduct, lowStockSearch, productCustomerQueryID}
     
