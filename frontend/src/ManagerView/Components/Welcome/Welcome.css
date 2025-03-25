@@ -40,7 +40,7 @@
 }
 
 /* from navbar */
-.Search-Container{
+.Welcome-Search-Container{
     display:flex;
     align-items: center;
     background: white;
@@ -51,7 +51,7 @@
     height: 30px;
 }
 
-.Search-Container input{
+.Welcome-Search-Container input{
     width: 500px;
     height: 30px;
     font-size: 20px;
@@ -60,24 +60,24 @@
     
 }
 
-.Search-Container input:focus{
+.Welcome-Search-Container input:focus{
     border: none; 
     outline: none;
 }
 
-.SearchIcon{
+.WelcomeSearchIcon{
     width: 30px;
     padding: 10px;
     height: 10px;
     outline: 2px solid black;
     border-radius: 10px;
 }
-.SearchIcon img{
+.WelcomeSearchIcon img{
     width: 20px;
     height: 20px;
 }
 
-.SearchIcon:hover{
+.WelcomeSearchIcon:hover{
     cursor: pointer;
     background: lightgray;
     border-radius: 10px;

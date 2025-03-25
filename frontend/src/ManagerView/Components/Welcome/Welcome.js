@@ -1,18 +1,16 @@
 import './Welcome.css';
 import Carrot from '../../../Components/Welcome/Images/carrot.png';
 import Robot from './Images/robot.png'
-import searchIcon from "../../../Components/Navbar/NavbarImages/searchIcon.jpg"
+import WelcomesearchIcon from "../../../Components/Navbar/NavbarImages/searchIcon.jpg"
 import {Link } from "react-router-dom";
 import CategoryCard from './Components/Category';
 import RobotCard from './Components/Robots';
 import TransactionsTable from '../Table/TransactionsTable';
-import { useState, useEffect} from 'react';
+import { useState} from 'react';
 
 // todo: update links for manager, fix transactions (currently fails to fetch)
 function ManagerWelcome(){
     // from navbar
-    const [textInput, settextInput] = useState("");
-
     const [transactionSearchInput, setTransactionSearchInput] = useState("");
     const [employeeSearchInput, setEmployeeSearchInput] = useState("");
 
@@ -106,17 +104,17 @@ function ManagerWelcome(){
                 </div>
                 <div className="search">
                     <h3 className="subsection-title">Transaction Search</h3>
-                    <div className='Search-Container'>
+                    <div className='Welcome-Search-Container'>
                         <input  onChange={(e)=>{setTransactionSearchInput(e.target.value)}} value = {transactionSearchInput}  type="text" placeholder='Search Transactions'></input>
-                        <Link to={transactionSearchInput !== "" ? `/search/transaction/${formatText(transactionSearchInput)}` : ""} className="SearchIcon" onClick={()=>{setTransactionSearchInput("")}}>
-                            <img src={searchIcon} alt="search icon" />
+                        <Link to={transactionSearchInput !== "" ? `/search/transaction/${formatText(transactionSearchInput)}` : ""} className="WelcomeSearchIcon" onClick={()=>{setTransactionSearchInput("")}}>
+                            <img src={WelcomesearchIcon} alt="search icon" />
                         </Link>
                     </div>
                     <h3 className="subsection-title">Manage Employees</h3> 
-                    <div className='Search-Container'>
+                    <div className='Welcome-Search-Container'>
                         <input  onChange={(e)=>{setEmployeeSearchInput(e.target.value)}} value = {employeeSearchInput}  type="text" placeholder='Search Employees'></input>
-                        <Link to={employeeSearchInput !== "" ? `/search/employee/${formatText(employeeSearchInput)}` : ""} className="SearchIcon" onClick={()=>{setEmployeeSearchInput("")}}>
-                            <img src={searchIcon} alt="search icon" />
+                        <Link to={employeeSearchInput !== "" ? `/search/employee/${formatText(employeeSearchInput)}` : ""} className="WelcomeSearchIcon" onClick={()=>{setEmployeeSearchInput("")}}>
+                            <img src={WelcomesearchIcon} alt="search icon" />
                         </Link>
                     </div>
                 </div>
