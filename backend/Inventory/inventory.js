@@ -1,5 +1,5 @@
 const express = require('express')
-const {authenticateToken, authorizeCustomer, authorizeRegularEmployee, authorizeManager, authorizeEmployee} = require('../Auth/AuthenticationController.js')
+const {authenticateToken, authorizeManager, authorizeEmployee} = require('../Auth/AuthenticationController.js')
 const router = express.Router();
 const {productQueryID, productQueryName, productQueryNameEmployee, categoryQuery, categoryQueryEmployee,  productInsert, productUpdate, deleteProduct, lowStockSearch} = require('./inventoryControllers.js')
 

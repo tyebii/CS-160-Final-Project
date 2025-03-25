@@ -21,11 +21,6 @@ INSERT INTO Address (Address, City, Zip, Street, State) VALUES
 ('addr002', 'Los Angeles', '90001', '456 Sunset Blvd', 'CA'),
 ('addr003', 'San Diego', '92101', '789 Harbor Dr', 'CA');
 
-INSERT INTO CreditCard (CardNumber, CardHolderFirst, CardHolderLast, SecurityCode) VALUES
-('4111111111111111', 'John', 'Doe', '123'),
-('5555555555554444', 'Jane', 'Smith', '456'),
-('378282246310005', 'Alice', 'Johnson', '789');
-
 INSERT INTO Inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description) VALUES
 ('item001', 50, 'FreshFarm', 2.5, 'Apples', 'Fresh Produce', 1.00, '2025-05-10', 2.50, 'Room Temperature', '2025-03-15', 'apple.jpg', 'Red delicious apples.'),
 ('item002', 20, 'DairyBest', 1.0, 'Milk', 'Dairy and Eggs', 2.00, '2025-04-20', 4.00, 'Refrigerated', '2025-03-15', 'milk.jpg', 'Organic whole milk.'),
@@ -46,10 +41,6 @@ INSERT INTO Transactions (CustomerID, TransactionID, TransactionCost, Transactio
 ('cust002', 'txn002', 8.00, 1.0, 'addr002', 'In progress', '2025-03-12', 'robot002'),
 ('cust003', 'txn003', 15.00, 5.0, 'addr003', 'Failed', '2025-03-09', 'robot003');
 
-INSERT INTO CustomerCreditCards (CustomerID, CardNumber) VALUES
-('cust001', '4111111111111111'),
-('cust002', '5555555555554444'),
-('cust003', '378282246310005');
 
 INSERT INTO CustomerAddress (Address, CustomerID) VALUES
 ('addr001', 'cust001'),
