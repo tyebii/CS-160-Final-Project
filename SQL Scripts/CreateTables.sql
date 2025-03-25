@@ -6,7 +6,7 @@ Create Table Employee(
     EmployeeDepartment varchar(255) not null,
     EmployeeHourly double not null, 
     SupervisorID varchar(255),
-    Foreign Key(SupervisorID) References Employee(EmployeeID)
+    Foreign Key(SupervisorID) References Employee(EmployeeID) on delete cascade
 );
 
 Create Table Customer(
@@ -33,14 +33,6 @@ Create Table Address(
     Street varchar(255) not null,
     State varchar(255) not null
 );
-
-Create Table CreditCard (
-	CardNumber varchar(19) primary key,
-    CardHolderFirst varchar(255) not null,
-    CardHolderLast varchar(255) not null,
-    SecurityCode char(3) not null
-);
-    
     
 Create Table Inventory(
 	ItemID varchar(255) primary key,
@@ -62,8 +54,8 @@ Create Table ShoppingCart(
 	CustomerID varchar(255) ,
     ItemID varchar(255) ,
     OrderQuantity int not null,
-    Foreign Key(CustomerID) References Customer(CustomerID),
-    Foreign Key(ItemID) References Inventory(ItemID),
+    Foreign Key(CustomerID) References Customer(CustomerID) on delete cascade,
+    Foreign Key(ItemID) References Inventory(ItemID) on delete cascade,
     Primary Key(CustomerID,ItemID)
 );
 
@@ -76,7 +68,7 @@ Create Table Robot(
 	Speed double not null,
     BatteryLife double not null,
     EstimatedDelivery double,
-	Foreign Key(RobotAddress) References Address(Address)
+	Foreign Key(RobotAddress) References Address(Address) on delete cascade
 );
 
 Create Table Transactions(
@@ -88,37 +80,29 @@ Create Table Transactions(
     TransactionStatus enum('In progress', 'Complete', 'Failed') not null,
     TransactionDate date not null,
     RobotID varchar(255),
-    Foreign Key(TransactionAddress) References Address(Address),
-    Foreign Key(CustomerID) References Customer(CustomerID),
+    Foreign Key(TransactionAddress) References Address(Address) on delete cascade,
+    Foreign Key(CustomerID) References Customer(CustomerID) on delete cascade,
     Foreign Key(RobotID) References Robot(RobotID),
     Primary Key(CustomerID, TransactionID)
-);
-
-Create Table CustomerCreditCards(
-	CustomerID varchar(255) ,
-    CardNumber varchar(255),
-    Foreign Key(CustomerID) References Customer(CustomerID),
-    Foreign Key(CardNumber) References CreditCard(CardNumber),
-    Primary Key(CustomerID, CardNumber)
 );
 
 Create Table CustomerAddress(
 	Address varchar(255) ,
     CustomerID varchar(255) ,
 	Foreign Key(Address) References Address(Address) on delete cascade,
-    Foreign Key(CustomerID) References Customer(CustomerID),
+    Foreign Key(CustomerID) References Customer(CustomerID) on delete cascade,
     Primary Key(Address,CustomerID)
 );
 
 Create Table LowStockLog(
 	ItemID varchar(255) primary key,
     EventDate date not null,
-    Foreign Key(ItemID) References Inventory(ItemID)
+    Foreign Key(ItemID) References Inventory(ItemID) on delete cascade
 );
 
 Create Table FaultyRobots(
 	RobotID varchar(255) primary key,
     EventDate date not null,
     Cause varchar(255) not null,
-    Foreign Key(RobotID) References robot(RobotID)
+    Foreign Key(RobotID) References robot(RobotID) on delete cascade
 );
