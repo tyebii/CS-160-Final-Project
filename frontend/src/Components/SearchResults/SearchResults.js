@@ -1,33 +1,45 @@
+//React funtions
 import { useState, useEffect } from "react";
 import SearchResultsItem from "./SearchResultsItem";
 import SearchResultsFilter from "./SearchResultsFilter";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-const SearchResults = (/*query*/) => {
-  const {searchType, query} = useParams();
-  let mockResults = [];
-  const [results, setResults] = useState(mockResults);
+import { useAuth } from '../../Context/AuthHook';
 
+//Backend Requests
+import axios from "axios";
+
+//Search Result Component
+function SearchResults() {
+
+  //Auth hook
+  const {auth} = useAuth()
+
+  //Parameters passed in the URL
+  const {searchType, query} = useParams();
+
+  //Array holding search results
+  const [results, setResults] = useState([]);
+
+  //Renders based on changes to searchType and Query 
   useEffect(() => {
-    console.log(searchType, query);
-    axios.get(`http://localhost:3301/api/search/${searchType}/${query}`)
+    let endPoint = ``
+    console.log("This is auth", auth)
+    if(auth==null || auth == "Customer"){
+      endPoint = `http://localhost:3301/api/search/${searchType}/customer/${query}`
+    }else{
+      endPoint = `http://localhost:3301/api/search/${searchType}/employee/${query}`
+    }
+    axios.get(endPoint)
       .then((response) => {
-        console.log(response.data);  
-        mockResults = response.data;
-        console.log(mockResults);
-        setResults(mockResults);
+        setResults(response.data);
       })
       .catch((error) => {
         console.error("Error:", error);  
       });
     
   },[searchType, query]);
-
   
-
-  
-
-  
+  //Filtering the results based on demmand
   const handleFilterSelect = (filterType) => {
     let sortedResults = [...results];  // Make a copy of the results array to avoid mutating the original data
 
@@ -42,9 +54,10 @@ const SearchResults = (/*query*/) => {
     }
 
     setResults(sortedResults);
-};
+  };
+
   return (
-    <div className="p-4 bg-gray-200 w-[1000px]">
+    <nav className="p-4 bg-gray-200 w-[1000px]">
       {/* Search Results Header */}
       <h2 className="text-4xl font-bold text-center mb-4">Search Results</h2>
 
@@ -59,15 +72,13 @@ const SearchResults = (/*query*/) => {
           <h3 className="text-2xl font-bold text-center">No results found</h3>
         ) : (
           results.map((result) => (
-            <Link to = {`/itemview/${result.ItemID}`}>
+            <Link key = {result.ItemID} to = {`/itemview/${result.ItemID}`}>
               <SearchResultsItem result={result} />
             </Link>
-
-            
           ))
         )}
       </div>
-    </div>
+    </nav>
   );
 };
 

@@ -3,7 +3,7 @@ const pool = require('../Database Pool/DBConnections')
 
 const getShoppingCart = (req, res) => {
     const id = req.user.CustomerID
-    pool.query("select * from shoppingcart where customerid = ?", [id], (err,result)=>{
+    pool.query("select * from shoppingcart s, inventory i where s.customerid = ? and s.itemid = i.itemid", [id], (err,result)=>{
         if(err){
             res.status(500)
             return;
