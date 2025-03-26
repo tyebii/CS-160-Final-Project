@@ -30,13 +30,13 @@ const ItemView = () => {
   const clickAdd = (e) => {
     e.preventDefault();
     const token = localStorage.getItem('accessToken'); // Assuming you store the token in localStorage
-    console.log("this that", token)
+    console.log(token)
     axios.post(
       `http://localhost:3301/api/shoppingcart`,
       {
         // Data to send in the request body
         ItemID: results.ItemID,
-        Quantity: 1
+        Quantity: document.getElementById("quantitySelect").value
       },
       {
         headers: {
@@ -53,7 +53,7 @@ const ItemView = () => {
   };
 
   return (
-    <section className="w-[800px] mx-auto bg-gray-200 p-5 mt-12 flex flex-col">
+    <section id ="quantitySelect" className="w-[800px] mx-auto bg-gray-200 p-5 mt-12 flex flex-col">
       {/* Top Section */}
       <div className="flex mb-5">
         {/* Product Image */}
@@ -92,9 +92,9 @@ const ItemView = () => {
           id="quantity"
           className="border border-gray-300 rounded-lg p-2 text-center w-full max-w-xs"
         >
-          {Array.from({ length: results.Quantity }, (_, i) => (
-            <option key={i} value={i} className="text-center">
-              {i}
+          {Array.from({ length: results.Quantity}, (_, i) => (
+            <option key={i+1} value={i+1} className="text-center">
+              {i+1}
             </option>
           ))}
         </select>

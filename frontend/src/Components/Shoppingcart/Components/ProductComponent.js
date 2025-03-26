@@ -1,6 +1,6 @@
 import "./ProductComponent.css"
 import carrot from "./Images/carrot.png"
-function ProductComponent(result){
+function ProductComponent({result}){
     return (
         <div className="flex items-center border p-4 bg-white rounded-lg shadow-lg">
           {/* Product Image */}
@@ -21,10 +21,10 @@ function ProductComponent(result){
               <strong>Average Weight:</strong> {result.Weight} LBS
             </p>
             <p>
-              <strong>Stock:</strong> {result.Quantity} Quantity
+              <strong>Stock:</strong> {result.Quantity}
             </p>
             <p>
-              <strong>Quantity:</strong> {result.Quantity} Quantity
+              <strong>Order Quantity:</strong> {result.OrderQuantity}
             </p>
           </div>
         </div>
