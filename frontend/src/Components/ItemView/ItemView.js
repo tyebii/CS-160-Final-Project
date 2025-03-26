@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../../Context/AuthHook';
-
+import { useNavigate } from 'react-router-dom';
 const ItemView = () => {
-  const { auth} = useAuth();
+  const {auth} = useAuth();
 
   const { itemid } = useParams();
   const [results, setResults] = useState({});
+  const navigate = useNavigate() 
 
   useEffect(() => {
     let endPoint = ``
@@ -29,6 +30,10 @@ const ItemView = () => {
 
   const clickAdd = (e) => {
     e.preventDefault();
+    if(!auth){
+      navigate('/login')
+      return;
+    }
     const token = localStorage.getItem('accessToken'); // Assuming you store the token in localStorage
     console.log(token)
     axios.post(
@@ -46,6 +51,7 @@ const ItemView = () => {
     )
       .then((response) => {
         console.log("Item added to shopping cart:", response.data);
+        navigate("/")
       })
       .catch((error) => {
         console.error("Error:", error);
