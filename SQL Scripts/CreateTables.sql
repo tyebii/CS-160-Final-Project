@@ -16,9 +16,10 @@ Create Table Customer(
 
 CREATE TABLE Users(
 	UserID varchar(255) Primary Key,
+    Password varchar(255) Not null,
 	UserNameFirst varchar(255) Not Null,
     UserNameLast varchar(255) Not Null,
-    UserPhoneNumber char(11) Not Null,
+    UserPhoneNumber varchar(20) Not Null,
     EmployeeID varchar(255),
     CustomerID varchar(255),
     Foreign Key(EmployeeID) References Employee(EmployeeID) on delete cascade,
@@ -53,7 +54,8 @@ Create Table Inventory(
     Cost double not null,
     StorageRequirement enum('Frozen', 'Room Temperature', 'Warm', 'Hot','Refrigerated') not null,
     LastModification date not null,
-    ImageLink varchar(255) not null
+    ImageLink varchar(255) not null,
+    Description varchar(255) not null
 );
 
 Create Table ShoppingCart(
@@ -103,7 +105,7 @@ Create Table CustomerCreditCards(
 Create Table CustomerAddress(
 	Address varchar(255) ,
     CustomerID varchar(255) ,
-	Foreign Key(Address) References Address(Address),
+	Foreign Key(Address) References Address(Address) on delete cascade,
     Foreign Key(CustomerID) References Customer(CustomerID),
     Primary Key(Address,CustomerID)
 );
