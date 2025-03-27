@@ -19,8 +19,14 @@ code {
 
 
 html, body {
+  background: linear-gradient( #85b2e2, #aaa9a9);
+}
+
+html, body {
   margin: 0;
   padding: 0;
-  height: auto;
-  min-height: 0;
+  height: 100%;
+  overflow-x: hidden; /* Prevent horizontal overflow */
 }
+
+

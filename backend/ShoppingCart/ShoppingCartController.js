@@ -2,8 +2,8 @@
 const pool = require('../Database Pool/DBConnections')
 
 const getShoppingCart = (req, res) => {
-    const id = req.user.customerid 
-    pool.query("select * from shoppingcart where customerid = ?", [id], (err,result)=>{
+    const id = req.user.CustomerID
+    pool.query("select * from shoppingcart s, inventory i where s.customerid = ? and s.itemid = i.itemid", [id], (err,result)=>{
         if(err){
             res.status(500)
             return;
@@ -14,9 +14,9 @@ const getShoppingCart = (req, res) => {
 }
 
 const addToShoppingCart = (req, res) => {
-    const CustomerID = req.user.customerid 
+    const CustomerID = req.user.CustomerID
     const {ItemID, Quantity} = req.body
-    pool.query("INSERT INTO shoppingcart(customerid, itemid, orderquantity) VALUES (?,?,?)", [CustomerID, ItemID, Quantity], (err, result)=>{
+    pool.query("INSERT IGNORE INTO shoppingcart(customerid, itemid, orderquantity) VALUES (?,?,?)", [CustomerID, ItemID, Quantity], (err, result)=>{
         if(err){
             res.status(500);
             return;
@@ -29,7 +29,7 @@ const addToShoppingCart = (req, res) => {
 
 
 const updateShoppingCart = (req, res) => {
-    const CustomerID = req.user.customerid 
+    const CustomerID = req.user.CustomerID
     const {ItemID, Quantity} = req.body
     pool.query("UPDATE shoppingcart SET orderquantity = ? WHERE customerid = ? AND itemid = ?", [Quantity, CustomerID, ItemID], (err, result)=>{
         if(err){
@@ -43,7 +43,7 @@ const updateShoppingCart = (req, res) => {
 }
 
 const removeFromShoppingCart = (req, res) => {
-    const CustomerID = req.user.customerid 
+    const CustomerID = req.user.CustomerID 
     const {ItemID} = req.body
     pool.query("DELETE FROM shoppingcart WHERE customerid = ? AND itemid = ?", [CustomerID, ItemID], (err, result)=>{
         if(err){

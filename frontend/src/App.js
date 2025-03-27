@@ -8,14 +8,6 @@ import Shoppingcart from "./Pages/Cart";
 import SearchPage from "./Pages/searchPage";
 import ItemPage from "./Pages/ItemPage";
 function App() {
-  useEffect(() => {
-    // Example Fetch
-    fetch("http://localhost:3301/api/greet")
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error("Error:", error));
-  }, []);
-
   return (
     <BrowserRouter>
       <Routes>
