@@ -7,7 +7,7 @@ import {
 
 const Footer = () => {
   return (
-    <div className="bg-gray-300  p-6 mt-8 mb-0 w-full">
+    <div className="bg-gray-300  p-6  mb-0 w-full">
       <div className="container mx-auto flex justify-between items-center h-full">
         {/* Social Media Links */}
         <div className="flex flex-col items-center space-y-2">

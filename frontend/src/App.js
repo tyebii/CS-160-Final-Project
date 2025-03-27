@@ -11,14 +11,6 @@ import ManagerWelcomePage from './ManagerView/Pages/ManagerWelcomePage'
 import ManagerItemPage from './ManagerView/Pages/ManagerItemPage'
 import ManagerItemEditPage from './ManagerView/Pages/ManagerItemEditPage';
 function App() {
-  useEffect(() => {
-    // Example Fetch
-    fetch('http://localhost:3301/api/greet')
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error('Error:', error));
-  }, []); 
-
   return (
     <BrowserRouter>
       <Routes>
