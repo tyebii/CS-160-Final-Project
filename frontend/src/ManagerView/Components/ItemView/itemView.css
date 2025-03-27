@@ -104,6 +104,44 @@
     background-color: #e6db00;
 }
 
+.cancel-edit {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 22px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 500px;
+    align-self: center;
+}
+
+.cancel-edit:hover {
+    background-color: #cc0000;
+}
+
+.confirm-edit {
+    background-color: #2b40fd;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 22px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 500px;
+    align-self: center;
+}
+
+.confirm-edit:hover {
+    background-color: #1e45b7;
+}
+
 .buttons {
     display: flex;
     gap: 10px;

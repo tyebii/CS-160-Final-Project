@@ -7,8 +7,9 @@ import LoginPage from './Pages/LoginPage';
 import Shoppingcart from './Pages/Cart';
 import SearchPage from './Pages/searchPage';
 import ItemPage from './Pages/ItemPage';
-import ManagerWelcome from './ManagerView/Pages/ManagerWelcomePage'
+import ManagerWelcomePage from './ManagerView/Pages/ManagerWelcomePage'
 import ManagerItemPage from './ManagerView/Pages/ManagerItemPage'
+import ManagerItemEditPage from './ManagerView/Pages/ManagerItemEditPage';
 function App() {
   useEffect(() => {
     // Example Fetch
@@ -22,7 +23,7 @@ function App() {
     <BrowserRouter>
       <Routes>
           <Route path="/" element={<Layout />} >
-              <Route index element={<ManagerItemPage />} />
+              <Route index element={<ManagerWelcomePage />} />
               <Route path="login" element={<LoginPage />} />
               <Route path="shoppingcart" element={<Shoppingcart />}/>
               <Route path="search/:searchType/:query" element={<SearchPage />}/>
