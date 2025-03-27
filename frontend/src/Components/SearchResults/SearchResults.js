@@ -39,7 +39,11 @@ const SearchResults = (/*query*/) => {
         sortedResults.sort((a, b) => a.SupplierCost - b.SupplierCost);
     } else if (filterType === "High to Low Cost") {
         sortedResults.sort((a, b) => b.SupplierCost - a.SupplierCost);
-    }
+    } else if (filterType === "Low to High Stock") {
+      sortedResults.sort((a, b) => a.Quantity - b.Quantity);
+  } else if (filterType === "High to Low Stock") {
+      sortedResults.sort((a, b) => b.Quantity - a.Quantity);
+  } else 
 
     setResults(sortedResults);
 };
