@@ -18,7 +18,9 @@ import CategoryCard from './Components/Category';
 
 //Welcome Page Component
 function Welcome() {
-
+    //loaded features
+    
+    
     //Carousel Index
     const [index, changeIndex] = useState(0);
 

@@ -106,3 +106,8 @@ Create Table FaultyRobots(
     Cause varchar(255) not null,
     Foreign Key(RobotID) References robot(RobotID) on delete cascade
 );
+
+Create Table FeaturedItems( 
+    ItemID varchar(255) primary key,
+    Foreign Key(ItemID) References Inventory(ItemID) on delete cascade
+)
