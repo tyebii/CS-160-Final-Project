@@ -24,7 +24,18 @@ INSERT INTO Address (Address, City, Zip, Street, State) VALUES
 INSERT INTO Inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description) VALUES
 ('item001', 50, 'FreshFarm', 2.5, 'Apples', 'Fresh Produce', 1.00, '2025-05-10', 2.50, 'Room Temperature', '2025-03-15', 'apple.jpg', 'Red delicious apples.'),
 ('item002', 20, 'DairyBest', 1.0, 'Milk', 'Dairy and Eggs', 2.00, '2025-04-20', 4.00, 'Refrigerated', '2025-03-15', 'milk.jpg', 'Organic whole milk.'),
-('item003', 10, 'SeafoodSupply', 5.0, 'Salmon', 'Meat and Seafood', 7.50, '2025-03-25', 15.00, 'Frozen', '2025-03-15', 'salmon.jpg', 'Fresh');
+('item003', 10, 'SeafoodSupply', 5.0, 'Salmon', 'Meat and Seafood', 7.50, '2025-03-25', 15.00, 'Frozen', '2025-03-15', 'salmon.jpg', 'Fresh'),
+('item004', 30, 'BakeryDelight', 0.5, 'Bread', 'Bakery and Bread', 1.50, '2025-04-15', 3.00, 'Room Temperature', '2025-03-15', 'bread.jpg', 'Freshly baked whole wheat bread.'),
+('item005', 15, 'PantryKing', 1.2, 'Rice', 'Pantry Staples', 3.00, '2026-02-01', 6.00, 'Room Temperature', '2025-03-15', 'rice.jpg', 'Premium jasmine rice.'),
+('item006', 40, 'BeverageWorld', 1.0, 'Orange Juice', 'Beverages', 2.50, '2025-06-10', 5.00, 'Refrigerated', '2025-03-15', 'orange_juice.jpg', '100% pure orange juice.'),
+('item007', 25, 'SnackMasters', 0.3, 'Chocolate Bar', 'Snacks and Sweets', 1.20, '2025-12-20', 2.50, 'Room Temperature', '2025-03-15', 'chocolate.jpg', 'Dark chocolate with almonds.'),
+('item008', 12, 'SeafoodSupply', 6.0, 'Shrimp', 'Meat and Seafood', 8.00, '2025-04-05', 16.00, 'Frozen', '2025-03-15', 'shrimp.jpg', 'Fresh frozen shrimp.'),
+('item009', 18, 'DairyBest', 0.2, 'Butter', 'Dairy and Eggs', 2.30, '2025-07-12', 4.50, 'Refrigerated', '2025-03-15', 'butter.jpg', 'Salted butter sticks.'),
+('item010', 50, 'FreshFarm', 1.5, 'Bananas', 'Fresh Produce', 0.80, '2025-03-28', 1.50, 'Room Temperature', '2025-03-15', 'bananas.jpg', 'Ripe yellow bananas.'),
+('item011', 20, 'FrozenDelights', 1.2, 'Ice Cream', 'Frozen Foods', 3.50, '2025-09-30', 7.00, 'Frozen', '2025-03-15', 'ice_cream.jpg', 'Vanilla bean ice cream.'),
+('item012', 22, 'HealthSupply', 0.6, 'Vitamin C Tablets', 'Health and Wellness', 5.00, '2027-01-15', 10.00, 'Room Temperature', '2025-03-15', 'vitamin_c.jpg', '1000mg Vitamin C tablets.'),
+('item013', 35, 'PantryKing', 0.8, 'Pasta', 'Pantry Staples', 2.00, '2026-03-01', 4.00, 'Room Temperature', '2025-03-15', 'pasta.jpg', 'Italian-made spaghetti pasta.');
+
 
 INSERT INTO ShoppingCart (CustomerID, ItemID, OrderQuantity) VALUES
 ('cust001', 'item001', 3),
@@ -46,3 +57,9 @@ INSERT INTO CustomerAddress (Address, CustomerID) VALUES
 ('addr001', 'cust001'),
 ('addr002', 'cust002'),
 ('addr003', 'cust003');
+
+INSERT INTO FeaturedItems (ItemID) VALUES
+('item001'),
+('item002'),
+('item003'),
+('item004');

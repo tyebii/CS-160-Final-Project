@@ -264,12 +264,14 @@ function authenticateToken(req, res, next) {
     //If JWT is not there
     if (token == null){
         return res.status(401).json({ error: 'No token provided' });
+        return;
     } 
 
     //The JWT is verified with enviornment variable secret -- purpose: keeps secret out of source code
     jwt.verify(token, process.env.Secret_Key, (err, user) => {
         //If token is altered or expired 
         if (err) {
+            console.log(err.message)
             res.status(403).json({ error: 'Forbidden: Invalid token' });
             return
         }

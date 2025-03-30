@@ -1,26 +1,49 @@
+//Import react libraries
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { useAuth } from '../../Context/AuthHook';
 import { useNavigate } from 'react-router-dom';
+
+//Authentication context
+import { useAuth } from '../../Context/AuthHook';
+
+//Import Axios
+import axios from 'axios';
+
+//Item view component
 const ItemView = () => {
+
+  //Use the auth var from the hook
   const {auth} = useAuth();
 
+  //Get the itemid from the url
   const { itemid } = useParams();
+
+  //State variable to manage displaying the shopping cart
   const [results, setResults] = useState({});
+
+  //Navigate hook
   const navigate = useNavigate() 
 
+  //On the load of the page and changes of itemid
   useEffect(() => {
+    if(!itemid){
+      console.log("Could not identify item id")
+      return;
+    }
+    //Backend endpoint
     let endPoint = ``
     
-    console.log("This is auth", auth)
+    //Checking whether we should ping the customer or employee endpoint
     if(!auth || auth == "Customer"){
       endPoint = `http://localhost:3301/api/search/itemID/customer/${itemid}`
     }else{
       endPoint = `http://localhost:3301/api/search/itemID/employee/${itemid}`
     }
+
+    //Axios request to backend
     axios.get(endPoint)
       .then((response) => {
+        //If data is there, then set results
         setResults(response.data[0]);
       })
       .catch((error) => {
@@ -28,21 +51,35 @@ const ItemView = () => {
       });
   }, [itemid]);
 
+  //When add to cart is clicked
   const clickAdd = (e) => {
+    //Prevent the page from refreshing
     e.preventDefault();
+    
+    //If there is no authentication context redirect to the login page
     if(!auth){
       navigate('/login')
       return;
     }
-    const token = localStorage.getItem('accessToken'); // Assuming you store the token in localStorage
-    console.log(token)
+
+    //Get the token from the local storage
+    const token = localStorage.getItem('accessToken'); 
+    console.log("Retrieved Token:", token);
+    //Check if token is in local storage
+    if(!token){
+      console.log("couldn't identify token")
+      return
+    }
+   
+    //Request the backend in order to insert into DB
     axios.post(
       `http://localhost:3301/api/shoppingcart`,
+      //Json for data transfer
       {
-        // Data to send in the request body
         ItemID: results.ItemID,
-        Quantity: document.getElementById("quantitySelect").value
+        Quantity: document.getElementById("quantity").value
       },
+      //Make sure backend recieves token
       {
         headers: {
           Authorization: `Bearer ${token}`,  
@@ -50,6 +87,7 @@ const ItemView = () => {
       }
     )
       .then((response) => {
+        //If successfully added, then navigate home
         console.log("Item added to shopping cart:", response.data);
         navigate("/")
       })
@@ -59,7 +97,7 @@ const ItemView = () => {
   };
 
   return (
-    <section id ="quantitySelect" className="w-[800px] mx-auto bg-gray-200 p-5 mt-12 flex flex-col">
+    <section className="w-[800px] mx-auto bg-gray-200 p-5 mt-12 flex flex-col">
       {/* Top Section */}
       <div className="flex mb-5">
         {/* Product Image */}
@@ -86,10 +124,8 @@ const ItemView = () => {
       <h2 className="text-2xl font-bold mb-3">Description</h2>
       <p className="text-gray-700 leading-relaxed mb-5">{results.Description}</p>
 
-      {/* Add to Cart Button */}
       
-        
-        
+      {/* Select the quantity from 1 - max availability */}
       <form className="flex flex-col items-center space-y-4">
         <label htmlFor="quantity" className="text-lg font-semibold">
           Select Quantity:
@@ -105,6 +141,7 @@ const ItemView = () => {
           ))}
         </select>
 
+        {/* Add to Cart Button */}
         <button
           className="bg-red-500 hover:bg-red-600 text-white py-3 px-4 text-lg rounded-lg w-full max-w-md"
           onClick={(e) => {clickAdd(e)}}

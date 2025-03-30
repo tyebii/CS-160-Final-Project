@@ -96,7 +96,10 @@ function Login() {
                 {/* Styled Sign-Up Link */}
                 <div className="mt-4 text-center">
                     <span className="text-gray-600 text-md">Don't have an account? </span>
-                    <p onClick = {clickSignUp} className="text-blue-600 font-semibold hover:underline hover:text-blue-800 transition">
+                    <p 
+                    onClick={clickSignUp} 
+                    className="text-blue-600 font-semibold text-sm inline-block hover:underline hover:cursor-pointer hover:text-blue-800 transition"
+                    >
                         Sign Up
                     </p>
                 </div>
