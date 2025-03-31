@@ -1,8 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const {handleStripe} = require('./StripeController')
+const { authenticateToken, authorizeCustomer } = require('../Auth/AuthenticationController')
+
+router.post("/create-checkout-session", authenticateToken, authorizeCustomer, handleStripe)
 
 
-router.post("/create-checkout-session", handleStripe)
 
 module.exports = router;

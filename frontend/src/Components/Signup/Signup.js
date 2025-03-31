@@ -34,12 +34,12 @@ export function Signup() {
             navigate("/");
         })
         .catch((err) => {
-            console.log("Error:", err.response ? err.response.data : err.message);
+            alert("Network Error: " + err.message);
         });
     };
 
     return (
-        <form onSubmit={clickSubmit} className="bg-white p-6 rounded-2xl shadow-lg w-96 mt-10">
+        <form onSubmit={clickSubmit} className="m-auto bg-white p-6 rounded-2xl shadow-lg w-96 mt-10">
             <h2 className="text-2xl font-semibold text-center mb-4">Sign Up</h2>
             
             <label className="block mb-2 text-gray-700">Username</label>

@@ -16,7 +16,7 @@ const getShoppingCart = (req, res) => {
 const addToShoppingCart = (req, res) => {
     const CustomerID = req.user.CustomerID
     const {ItemID, Quantity} = req.body
-    pool.query("INSERT INTO shoppingcart(customerid, itemid, orderquantity) VALUES (?,?,?)", [CustomerID, ItemID, Quantity], (err, result)=>{
+    pool.query(`INSERT INTO shoppingcart (customerid, itemid, orderquantity) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE orderquantity = ?`, [CustomerID, ItemID, Quantity, Quantity], (err, result)=>{
         if(err){
             res.status(500);
             return;

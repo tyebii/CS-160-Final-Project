@@ -11,16 +11,32 @@ import pantryStaples from './CategoryImages/pantrystaples.jpg';
 import snacksAndSweets from './CategoryImages/snacksandsweets.jpg';
 
 //React Functions
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import FeaturedProductCard from './Components/FeaturedProductCard';
 import CategoryCard from './Components/Category';
 
+//Import axios
+import axios from 'axios';
+
 //Welcome Page Component
 function Welcome() {
     //loaded features
+    const [loadedFeatured, setFeatured] = useState([])
+
+    useEffect(() => {
+        axios.get("http://localhost:3301/api/featured")
+            .then((results) => {
+                console.log("Success", results.data);  // Log the data before updating state
+                setFeatured(results.data);
+            })
+            .catch((err) => {
+                alert("Network Error: " + err.message);
+            });
+    }, []);
     
-    const loadedFeatured = [{}]
+
+
 
     //Carousel Index
     const [index, changeIndex] = useState(0);
@@ -53,16 +69,21 @@ function Welcome() {
                 <div className="flex items-center justify-center gap-4 overflow-x-auto p-3">
                     <button className="text-2xl bg-blue-500 text-white rounded-full p-3 hover:bg-blue-700" onClick={handleLeftClick}>←</button>
                     {
-                        [...Array(3)].map((_, iter) => {
-                            const tempIndex = (index + iter) % loadedFeatured.length;
-                            return (
-                                <FeaturedProductCard
-                                    key={tempIndex}
-                                    imageSrc={loadedFeatured[tempIndex].imageSrc}
-                                    productName={loadedFeatured[tempIndex].productName}
-                                />
-                            );
-                        })
+                        loadedFeatured.length > 0 ? (
+                            [...Array(3)].map((_, iter) => {
+                                const tempIndex = (index + iter) % loadedFeatured.length;
+                                return (
+                                    <FeaturedProductCard
+                                        key={loadedFeatured[tempIndex].ItemID}
+                                        item = {loadedFeatured[tempIndex].ItemID}
+                                        imageSrc={loadedFeatured[tempIndex].ImageLink}
+                                        productName={loadedFeatured[tempIndex].ProductName}
+                                    />
+                                );
+                            })
+                        ) : (
+                            <p>Loading featured products...</p>
+                        )
                     }
                     <button className="text-2xl bg-blue-500 text-white rounded-full p-3 hover:bg-blue-700" onClick={handleRightClick}>→</button>
                 </div>

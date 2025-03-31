@@ -133,29 +133,37 @@ const ItemView = () => {
 
       
       {/* Select the quantity from 1 - max availability */}
-      <form className="flex flex-col items-center space-y-4">
+      <form
+        className="flex flex-col items-center space-y-4"
+      >
         <label htmlFor="quantity" className="text-lg font-semibold">
           Select Quantity:
         </label>
+
         <select
           id="quantity"
           className="border border-gray-300 rounded-lg p-2 text-center w-full max-w-xs"
         >
-          {Array.from({ length: results.Quantity}, (_, i) => (
-            <option key={i+1} value={i+1} className="text-center">
-              {i+1}
+          {Array.from({ length: results?.Quantity || 0 }, (_, i) => (
+            <option key={i + 1} value={i + 1} className="text-center">
+              {i + 1}
             </option>
           ))}
         </select>
 
         {/* Add to Cart Button */}
         <button
+          type="button" // Prevents form submission
           className="bg-red-500 hover:bg-red-600 text-white py-3 px-4 text-lg rounded-lg w-full max-w-md"
-          onClick={(e) => {clickAdd(e)}}
+          onClick={(e) => {
+            e.preventDefault(); // Prevents refresh when clicking
+            clickAdd(e);
+          }}
         >
           Add to Cart
         </button>
       </form>
+
 
 
         
