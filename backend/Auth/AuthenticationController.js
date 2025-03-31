@@ -260,10 +260,12 @@ function authenticateToken(req, res, next) {
 
     //Check if there is an authentication header if so you need to extract it
     const token = authHeader && authHeader.split(' ')[1];
+    console.log(token)
 
     //If JWT is not there
     if (token == null){
-        return res.status(401).json({ error: 'No token provided' });
+        console.log("no token here")
+        return res.status(401).json({ error: 'No token' });
         return;
     } 
 
@@ -272,7 +274,7 @@ function authenticateToken(req, res, next) {
         //If token is altered or expired 
         if (err) {
             console.log(err.message)
-            res.status(403).json({ error: 'Forbidden: Invalid token' });
+            res.status(401).json({ error: 'Forbidden: Invalid token' });
             return
         }
 
@@ -287,7 +289,7 @@ function authenticateToken(req, res, next) {
 //Authorize Employees both Manager and Employee
 function authorizeEmployee(req, res, next){
     if (!req.user.EmployeeID){
-        return res.status(401).json({error:"not authorized as employee"})
+        return res.status(403).json({error:"not authorized as employee"})
     }
     next();
 }
@@ -295,7 +297,7 @@ function authorizeEmployee(req, res, next){
 //Authorize Standard Employees
 function authorizeRegularEmployee(req, res, next){
     if (!req.user.EmployeeID || !req.user.SupervisorID){
-        return res.status(401).json({error:"not authorized as standard employee"})
+        return res.status(403).json({error:"not authorized as standard employee"})
     }
     next();
 }
@@ -303,7 +305,7 @@ function authorizeRegularEmployee(req, res, next){
 //Authorize Customer
 function authorizeCustomer(req, res, next){
     if (!req.user.CustomerID){
-        return res.status(401).json({error:"not authorized as customer"})
+        return res.status(403).json({error:"not authorized as customer"})
     }
     next();
 }
@@ -311,7 +313,7 @@ function authorizeCustomer(req, res, next){
 //Authorize Manager
 function authorizeManager(req,res,next){
     if(req.user.SupervisorID){
-        return res.status(401).json({error:"not authorized as manager"})
+        return res.status(403).json({error:"not authorized as manager"})
     }
     next();
 }
