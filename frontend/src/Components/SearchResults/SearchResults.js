@@ -35,6 +35,9 @@ function SearchResults() {
       })
       .catch((error) => {
         console.error("Error:", error);  
+        if(error.response.status === 401){
+          logout()
+        }
       });
     
   },[searchType, query]);
@@ -57,29 +60,31 @@ function SearchResults() {
   };
 
   return (
-    <nav className="p-4 bg-gray-200 w-[1000px]">
-      {/* Search Results Header */}
-      <h2 className="text-4xl font-bold text-center mb-4">Search Results</h2>
-
-      {/* Filter Section */}
-      <div className="flex justify-start mb-4">
-        <SearchResultsFilter onFilterSelect={handleFilterSelect} />
-      </div>
-
-      {/* Search Result List */}
-      <div className="grid gap-4">
-        {results.length === 0 ? (
-          <h3 className="text-2xl font-bold text-center">No results found</h3>
-        ) : (
-          results.map((result) => (
-            <Link key = {result.ItemID} to = {`/itemview/${result.ItemID}`}>
-              <SearchResultsItem result={result} />
-            </Link>
-          ))
-        )}
-      </div>
-    </nav>
-  );
+    <div className="flex justify-center w-full">
+      <nav className="p-4 bg-gray-200 w-[1000px] mx-auto">
+        {/* Search Results Header */}
+        <h2 className="text-4xl font-bold text-center mb-4">Search Results</h2>
+  
+        {/* Filter Section */}
+        <div className="flex justify-start mb-4">
+          <SearchResultsFilter onFilterSelect={handleFilterSelect} />
+        </div>
+  
+        {/* Search Result List */}
+        <div className="grid gap-4">
+          {results.length === 0 ? (
+            <h3 className="text-2xl font-bold text-center">No results found</h3>
+          ) : (
+            results.map((result) => (
+              <Link key={result.ItemID} to={`/itemview/${result.ItemID}`}>
+                <SearchResultsItem result={result} />
+              </Link>
+            ))
+          )}
+        </div>
+      </nav>
+    </div>
+  );  
 };
 
 export default SearchResults;

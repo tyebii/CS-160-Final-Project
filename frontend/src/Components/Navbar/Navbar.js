@@ -100,6 +100,7 @@ function Navbar() {
     navigate("/login")
   }
 
+  //Logout
   const clickLogout = () => {
     logout()
   }

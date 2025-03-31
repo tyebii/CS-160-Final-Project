@@ -1,14 +1,14 @@
 //Category Images
-import Carrot from './Images/carrot.png';
-import bakeryAndBreadImage from '../../CategoryImages/bakeryandbread.jpg';
-import beverages from '../../CategoryImages/beverages.jpg';
-import dairyAndEggs from '../../CategoryImages/dairyeggs.webp';
-import freshProduce from '../../CategoryImages/freshproduce.webp';
-import frozenFoods from '../../CategoryImages/frozenfoods.jpg';
-import healthAndWellness from '../../CategoryImages/healthandwellness.jpg';
-import meatAndSeafood from '../../CategoryImages/meatseafood.webp';
-import pantryStaples from '../../CategoryImages/pantrystaples.jpg';
-import snacksAndSweets from '../../CategoryImages/snacksandsweets.jpg';
+
+import bakeryAndBreadImage from './CategoryImages/bakeryandbread.jpg';
+import beverages from './CategoryImages/beverages.jpg';
+import dairyAndEggs from './CategoryImages/dairyeggs.webp';
+import freshProduce from './CategoryImages/freshproduce.webp';
+import frozenFoods from './CategoryImages/frozenfoods.jpg';
+import healthAndWellness from './CategoryImages/healthandwellness.jpg';
+import meatAndSeafood from './CategoryImages/meatseafood.webp';
+import pantryStaples from './CategoryImages/pantrystaples.jpg';
+import snacksAndSweets from './CategoryImages/snacksandsweets.jpg';
 
 //React Functions
 import { useState } from 'react';
@@ -20,17 +20,12 @@ import CategoryCard from './Components/Category';
 function Welcome() {
     //loaded features
     
-    
+    const loadedFeatured = [{}]
+
     //Carousel Index
     const [index, changeIndex] = useState(0);
 
     //Sample Featured Items
-    const loadedFeatured = [
-        {imageSrc: Carrot, productName: "Carrots"},
-        {imageSrc: Carrot, productName: "Carrots"},
-        {imageSrc: Carrot, productName: "Carrots"},
-        {imageSrc: Carrot, productName: "Carrots"}
-    ];
 
     //Carousel Left Click
     const handleLeftClick = () => {
@@ -48,9 +43,9 @@ function Welcome() {
 
     return (
         <div className="max-w-screen-xl mx-auto px-5">
-            <header className="text-center mb-8">
-                <h1 className="text-4xl font-bold">Welcome to OFS!</h1>
-            </header>
+
+            <h1 className="text-4xl font-bold text-center mb-8">Welcome to OFS!</h1>
+            
 
             {/*Carousel*/}
             <section className="text-center mb-10">

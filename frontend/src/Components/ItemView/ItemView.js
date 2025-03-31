@@ -13,7 +13,7 @@ import axios from 'axios';
 const ItemView = () => {
 
   //Use the auth var from the hook
-  const {auth} = useAuth();
+  const {auth, logout} = useAuth();
 
   //Get the itemid from the url
   const { itemid } = useParams();
@@ -47,7 +47,11 @@ const ItemView = () => {
         setResults(response.data[0]);
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.log(error.message)
+        if(error.response.status === 401){
+          alert("You need to login again!")
+          logout()
+        }
       });
   }, [itemid]);
 
@@ -93,6 +97,9 @@ const ItemView = () => {
       })
       .catch((error) => {
         console.error("Error:", error);
+        if(error.response.status === 401){
+          logout()
+        }
       });
   };
 

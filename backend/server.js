@@ -12,6 +12,7 @@ const robot = require('./Robot/Robot.js');
 const employee = require('./Employee/Employee.js');
 const customer = require('./Customer/Customer.js');
 const transaction = require('./Transactions/Transaction.js');
+const stripe = require('./Stripe/Stripe.js')
 
 // Apply CORS before route handling
 app.use(cors({
@@ -24,6 +25,7 @@ app.use(cors({
 app.use(express.json());
 
 // Routes
+app.use('/api', stripe)
 app.use('/api', inventory);
 app.use('/api', authentication);
 app.use('/api', shoppingcart);
