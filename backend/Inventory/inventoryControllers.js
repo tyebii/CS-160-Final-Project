@@ -143,7 +143,7 @@ const productInsert = (req, res) => {
         res.status(400).json({error:"bad request format"})
         return;
     }
-    
+
     //Unique ID
     let InventoryID = uuidv4(); // Generates a cryptographically safe unique customer ID'
                 
@@ -215,6 +215,19 @@ const lowStockSearch = (req,res) => {
     });
 }
 
+//Featured Search
+const featuredSearch = (req,res) => {
+    //Get the featured
+    pool.query('SELECT featureditems.ItemID, ProductName, ImageLink FROM featureditems , inventory  WHERE featureditems.ItemID = inventory.ItemID', (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            res.status(500).json({ error: 'Internal Server Error' });
+            return;
+        }
+        res.status(200).json(results);
+    }); 
+}
+
 
 //Input Validation
 const insertFormat = (Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost, Expiration, StorageRequirement, ImageLink, Description) => {
@@ -273,5 +286,5 @@ const searchCategoryFormat = (categoryName) => {
 
 
 //Exporting the methods
-module.exports = {productQueryID, productQueryNameEmployee, productQueryName, categoryQuery, categoryQueryEmployee, productInsert, productUpdate, deleteProduct, lowStockSearch, productCustomerQueryID}
+module.exports = {featuredSearch, productQueryID, productQueryNameEmployee, productQueryName, categoryQuery, categoryQueryEmployee, productInsert, productUpdate, deleteProduct, lowStockSearch, productCustomerQueryID}
     

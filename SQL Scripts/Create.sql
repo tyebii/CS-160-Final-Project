@@ -1,3 +1,7 @@
+Create Database OFS;
+
+Use OFS;
+
 Create Table Employee(
 	EmployeeID varchar(255) primary key,
     EmployeeHireDate date Not Null,
@@ -110,7 +114,7 @@ Create Table FaultyRobots(
 Create Table FeaturedItems( 
     ItemID varchar(255) primary key,
     Foreign Key(ItemID) References Inventory(ItemID) on delete cascade
-)
+);
 
 Alter Table robot
 Add Constraint CheckRobotWeight Check (CurrentLoad<=200 and Currentload >= 0);

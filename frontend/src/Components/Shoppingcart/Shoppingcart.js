@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
-
+import AddressComponent from "./Components/AddressComponent"
+import { AddressModal } from './Components/AddressModal';
+import {useAuth} from '../../Context/AuthHook'
 //Import Product Component
 import ProductComponent from './Components/ProductComponent';
 
@@ -11,14 +13,20 @@ import axios from 'axios';
 
 //Shopping cart component
 function ShoppingCart() {
+
+  const {logout} = useAuth()
+  
   // State variables
   const [results, setResults] = useState([]);
   const [weight, setWeight] = useState(0);
   const [cost, setCost] = useState(0);
+  const [selectedAddress, setSelectedAddress] = useState(null); // Added state for selected address
+  const [addressModalOpen, setAddressModalOpen] = useState(false);
+  const [addresses, setAddresses] = useState([]);
 
-  
   //Navigation Hook
   const navigate = useNavigate();  // Hook for navigation
+
   // Fetch shopping cart on load
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -88,14 +96,11 @@ function ShoppingCart() {
     const token = localStorage.getItem('accessToken');
     axios
         .post('http://localhost:3301/api/create-checkout-session', {
-            // Data sent to the backend
             items: results.map((item) => ({
                 ItemID: item.ItemID,
                 Quantity: item.OrderQuantity,
             })),
-            Weight: weight
         }, {
-            // This is where the Authorization header should be
             headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
@@ -107,9 +112,22 @@ function ShoppingCart() {
           }
         })
         .catch((error) => console.error('Error:', error));
-};
+  };
 
+  const handleAddressClick = () => {
+    setAddressModalOpen(false);
+  };
 
+  const handleAddAddress = (e) => {
+    console.log('Adding new address:', newAddress.Address);  // Check what is being passed here
+    setAddresses([...addresses, newAddress]);
+    setAddressModalOpen(false);
+    
+  };
+
+  const handleAddressSelection = (address) => {
+    setSelectedAddress(address); // Update selected address
+  };
 
   return (
     <section className="w-full max-w-4xl mx-auto my-10 p-8 bg-gray-100 rounded-lg shadow-lg">
@@ -125,7 +143,7 @@ function ShoppingCart() {
           <h3 className="text-2xl font-semibold text-gray-500 text-center">No items in the cart</h3>
         ) : (
           results.map((result) => (
-            <div className="flex items-center gap-4 p-4 bg-white border-2 border-gray-300 rounded-lg shadow-md" key={result.ItemID}>
+            <div className="flex items-center gap-4 p-4" key={result.ItemID}>
               <button
                 onClick={() => clickRemove(result.ItemID)}
                 className="bg-red-500 h-8 w-8 text-blue-500 rounded-full flex items-center justify-center text-white hover:cursor-pointer hover:bg-red-600"
@@ -138,6 +156,97 @@ function ShoppingCart() {
             </div>
           ))
         )}
+      </div>
+
+      <div className="relative container px-4 mx-auto">
+        <div className="flex flex-wrap justify-center">
+          {/* Address Section */}
+          <div className="w-full lg:w-1/2 pb-8 bg-white p-6 rounded-lg shadow-lg border border-gray-300">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">Delivery Address</h2>
+            <div className="space-y-4">
+            <form>
+                {addresses.length === 0 ? (
+                  <p className="text-gray-600">No address added yet.</p>
+                ) : (
+                  addresses.map((address, index) => (
+                    <div key={index} className="flex items-center mb-4 w-full"> {/* Add w-full or custom width */}
+                      <input
+                        type="radio"
+                        id={`address-${index}`}
+                        name="address"
+                        value={address}
+                        checked={selectedAddress === address}
+                        onChange={() => handleAddressSelection(address)} // Update selected address on change
+                        className="mr-4"
+                      />
+                      <label htmlFor={`address-${index}`} className="text-gray-800 w-full"> {/* Optionally, add w-full here for the address component */}
+                        <AddressComponent address={address} />
+                      </label>
+                    </div>
+                  ))
+                )}
+              </form>
+              <button
+                className="text-blue-600 hover:text-blue-800 mt-4 text-sm"
+                onClick={() => setAddressModalOpen(true)}
+              >
+                Add an Address
+              </button>
+            </div>
+
+            {/* Address Modal */}
+            {addressModalOpen && (
+              <AddressModal onSubmit={handleAddAddress} onCancel={handleAddressClick} onClose={handleAddressClick}>
+                <div className="space-y-4">
+                  <div className="flex space-x-2">
+                    <input
+                      type="text"
+                      name="Address"
+                      id="address"
+                      className="w-2/3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
+                      placeholder="Address"
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="apt"
+                      id="apt"
+                      className="w-1/3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
+                      placeholder="Apt, Suite, etc."
+                      required
+                    />
+                  </div>
+                  <div className="flex space-x-2">
+                    <input
+                      type="text"
+                      name="city"
+                      id="city"
+                      className="w-1/3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
+                      placeholder="City"
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="state"
+                      id="state"
+                      className="w-1/3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
+                      placeholder="State"
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="zip"
+                      id="zip"
+                      className="w-1/3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
+                      placeholder="ZIP"
+                      required
+                    />
+                  </div>
+                </div>
+              </AddressModal>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className="mt-12 text-center">
