@@ -207,14 +207,6 @@ function ShoppingCart() {
                       placeholder="Address"
                       required
                     />
-                    <input
-                      type="text"
-                      name="apt"
-                      id="apt"
-                      className="w-1/3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
-                      placeholder="Apt, Suite, etc."
-                      required
-                    />
                   </div>
                   <div className="flex space-x-2">
                     <input

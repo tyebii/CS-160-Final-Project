@@ -7,12 +7,14 @@ import Shoppingcart from './Pages/Cart';
 import SearchPage from './Pages/searchPage';
 import ItemPage from './Pages/ItemPage';
 import { SignupPage } from './Pages/SignupPage';
+import {useAuth} from './Context/AuthHook'
 function App() {
+  const {auth} = useAuth()
   return (
     <BrowserRouter>
       <Routes>
           <Route path="/" element={<Layout />} >
-              <Route index element={<WelcomePage />} />
+              <Route index element= {<WelcomePage />} />
               <Route path="login" element={<LoginPage />} />
               <Route path="shoppingcart" element={<Shoppingcart />}/>
               <Route path="search/:searchType/:query" element={<SearchPage />}/>

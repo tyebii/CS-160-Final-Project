@@ -122,8 +122,8 @@ const ItemView = () => {
           <p className="text-lg mb-2">Availability: {results.Quantity}</p>
           <p className="text-lg mb-2">Expiration: {results.Expiration}</p>
           <p className="text-lg mb-2">Storage Type: {results.StorageRequirement}</p>
-          <p className="text-lg font-semibold mb-2">Cost: {results.Cost}</p>
-          <p className="text-lg font-semibold mb-2">Weight: {results.Weight}</p>
+          <p className="text-lg font-semibold mb-2">Cost: ${results.Cost}</p>
+          <p className="text-lg font-semibold mb-2">Weight: {results.Weight} LBS</p>
         </div>
       </div>
 

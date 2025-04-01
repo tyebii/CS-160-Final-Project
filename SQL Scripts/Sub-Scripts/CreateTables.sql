@@ -30,7 +30,6 @@ Create Table Address(
 	Address varchar(255) primary key,
     City varchar(255) not null,
     Zip char(5) not null,
-    Street varchar(255) not null,
     State varchar(255) not null
 );
     
@@ -110,4 +109,4 @@ Create Table FaultyRobots(
 Create Table FeaturedItems( 
     ItemID varchar(255) primary key,
     Foreign Key(ItemID) References Inventory(ItemID) on delete cascade
-)
+);
