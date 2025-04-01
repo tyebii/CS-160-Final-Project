@@ -22,7 +22,7 @@ function ShoppingCart() {
   const [cost, setCost] = useState(0);
   const [selectedAddress, setSelectedAddress] = useState(null); // Added state for selected address
   const [addressModalOpen, setAddressModalOpen] = useState(false);
-  const [addresses, setAddresses] = useState([]);
+  const [addresses, setAddresses] = useState([{Name: "In Store Pickup", Address: "272 E Santa Clara St", City: "San Jose", State:"CA", Zip:"95113"}]);
 
   //Navigation Hook
   const navigate = useNavigate();  // Hook for navigation
@@ -43,7 +43,25 @@ function ShoppingCart() {
         },
       })
       .then((response) => {
-        setResults(response.data); // Update results
+        setResults(response.data); 
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        if (error.response?.status === 401) {
+          alert("You need to login again!")
+          logout();
+        }
+      });
+
+    axios
+      .get('http://localhost:3301/api/address', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log(response.data)
+        setAddresses((prevAddresses) => [...prevAddresses, ...response.data]);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -94,6 +112,11 @@ function ShoppingCart() {
   // Checkout
   const clickCheckout = () => {
     const token = localStorage.getItem('accessToken');
+
+    if(results.length==0){
+      alert("Cannot checkout. There are no items")
+      return
+    }
     axios
         .post('http://localhost:3301/api/create-checkout-session', {
             items: results.map((item) => ({
@@ -119,18 +142,47 @@ function ShoppingCart() {
   };
 
   const handleAddAddress = (e) => {
-    console.log('Adding new address:', newAddress.Address);  // Check what is being passed here
-    setAddresses([...addresses, newAddress]);
-    setAddressModalOpen(false);
-    
+    const newAddress = {Address: document.getElementById("address").value,
+                        City: document.getElementById("city").value,
+                        Zip: document.getElementById("zip").value,
+                        State: document.getElementById("state").value,
+                        Name: document.getElementById("name").value 
+    }
+
+    const token = localStorage.getItem('accessToken');
+    axios.post(
+      `http://localhost:3301/api/address`,
+      newAddress,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,  
+        },
+      }
+    )
+    .then((response) => {
+      console.log("Address Added");
+      
+      setAddresses((prevAddresses) => [...prevAddresses, newAddress]);
+      setAddressModalOpen(false);
+    })
+    .catch((error) => {
+      
+      if (error.response?.status === 401) {
+        alert("Need to log back in")
+        logout();
+      } 
+      alert(error.message)
+      setAddressModalOpen(false);
+    });
   };
 
   const handleAddressSelection = (address) => {
-    setSelectedAddress(address); // Update selected address
+    setSelectedAddress(address); 
   };
 
   return (
     <section className="w-full max-w-4xl mx-auto my-10 p-8 bg-gray-100 rounded-lg shadow-lg">
+      {/*Header*/}
       <div className="text-center mb-6">
         <h2 className="text-4xl font-bold mb-2">Shopping Cart</h2>
         <h3 onClick={handleClear} className="text-md text-blue-500 underline hover:cursor-pointer">
@@ -138,6 +190,7 @@ function ShoppingCart() {
         </h3>
       </div>
 
+      {/*Products in shopping cart */}
       <div className="grid gap-6 mb-8">
         {results.length === 0 ? (
           <h3 className="text-2xl font-semibold text-gray-500 text-center">No items in the cart</h3>
@@ -158,6 +211,7 @@ function ShoppingCart() {
         )}
       </div>
 
+      
       <div className="relative container px-4 mx-auto">
         <div className="flex flex-wrap justify-center">
           {/* Address Section */}
@@ -174,8 +228,6 @@ function ShoppingCart() {
                         type="radio"
                         id={`address-${index}`}
                         name="address"
-                        value={address}
-                        checked={selectedAddress === address}
                         onChange={() => handleAddressSelection(address)} // Update selected address on change
                         className="mr-4"
                       />
@@ -201,6 +253,16 @@ function ShoppingCart() {
                   <div className="flex space-x-2">
                     <input
                       type="text"
+                      name="Name"
+                      id="name"
+                      className="w-2/3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
+                      placeholder="Custom Name"
+                      required
+                    />
+                  </div>
+                  <div className="flex space-x-2">
+                    <input
+                      type="text"
                       name="Address"
                       id="address"
                       className="w-2/3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
@@ -211,23 +273,25 @@ function ShoppingCart() {
                   <div className="flex space-x-2">
                     <input
                       type="text"
-                      name="city"
+                      name="City"
                       id="city"
                       className="w-1/3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
-                      placeholder="City"
+                      value="San Jose"
+                      readOnly
                       required
                     />
                     <input
                       type="text"
-                      name="state"
+                      name="State"
                       id="state"
                       className="w-1/3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
-                      placeholder="State"
+                      value="CA"
+                      readOnly
                       required
                     />
                     <input
                       type="text"
-                      name="zip"
+                      name="Zip"
                       id="zip"
                       className="w-1/3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
                       placeholder="ZIP"
@@ -241,20 +305,23 @@ function ShoppingCart() {
         </div>
       </div>
 
+      {/* Subtotal */}
       <div className="mt-12 text-center">
         <h1 className="text-3xl font-semibold mb-4">Subtotal</h1>
         <div className="p-6 border-2 border-gray-300 rounded-lg bg-white shadow-md text-lg">
-          <h3 className="mb-3">Cost: ${cost.toFixed(2)}</h3>
+          <h3 className="mb-3">Cost: ${cost}</h3>
           <h3>Weight: {weight} lbs</h3>
         </div>
       </div>
 
+      {/* Submit */}
       <button
         onClick={clickCheckout}
         className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold text-xl py-3 px-6 rounded-lg w-full mt-10 transition duration-300 ease-in-out"
       >
         Proceed to Checkout
       </button>
+
     </section>
   );
 }

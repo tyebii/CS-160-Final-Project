@@ -260,7 +260,6 @@ function authenticateToken(req, res, next) {
 
     //Check if there is an authentication header if so you need to extract it
     const token = authHeader && authHeader.split(' ')[1];
-    console.log(token)
 
     //If JWT is not there
     if (token == null){
