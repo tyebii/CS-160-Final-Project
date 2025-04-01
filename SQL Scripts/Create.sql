@@ -33,6 +33,7 @@ CREATE TABLE Users(
 Create Table Address(
 	Address varchar(255) primary key,
     City varchar(255) not null,
+    Name varchar(255) not null,
     Zip char(5) not null,
     State varchar(255) not null
 );
@@ -65,13 +66,11 @@ Create Table ShoppingCart(
 Create Table Robot(
 	RobotID varchar(255) primary key,
     CurrentLoad double not null,
-    RobotAddress varchar(255) not null,
     RobotStatus enum('En Route', 'Broken', 'Maintenance', 'Charging', 'Free') not null,
     Maintanence Date not null,
 	Speed double not null,
     BatteryLife double not null,
-    EstimatedDelivery double,
-	Foreign Key(RobotAddress) References Address(Address) on delete cascade
+    EstimatedDelivery double
 );
 
 Create Table Transactions(
@@ -243,10 +242,10 @@ INSERT INTO Users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumbe
 ('user004', 'hashed_password_4', 'Bob', 'Brown', '555-987-6543', 'emp002', NULL),
 ('manager001', 'hashed_password_5', 'Charlie', 'Davis', '111-222-3333', 'emp003', NULL);
 
-INSERT INTO Address (Address, City, Zip, Street, State) VALUES
-('addr001', 'San Francisco', '94105', '123 Market St', 'CA'),
-('addr002', 'Los Angeles', '90001', '456 Sunset Blvd', 'CA'),
-('addr003', 'San Diego', '92101', '789 Harbor Dr', 'CA');
+INSERT INTO Address (Address, City, Zip, State, Name) VALUES
+('123 Market St', 'San Francisco', '94105', 'CA', 'Cool'),
+('456 Sunset Blvd', 'Los Angeles', '90001', 'CA', 'Spot'),
+('789 Harbor Dr', 'San Diego', '92101', 'CA', 'Home');
 
 INSERT INTO Inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description) VALUES
 ('item001', 50, 'FreshFarm', 2.5, 'Apples', 'Fresh Produce', 1.00, '2025-05-10', 2.50, 'Room Temperature', '2025-03-15', 'apple.jpg', 'Red delicious apples.'),
@@ -269,21 +268,21 @@ INSERT INTO ShoppingCart (CustomerID, ItemID, OrderQuantity) VALUES
 ('cust002', 'item002', 2),
 ('cust003', 'item003', 1);
 
-INSERT INTO Robot (RobotID, CurrentLoad, RobotAddress, RobotStatus, Maintanence, Speed, BatteryLife, EstimatedDelivery) VALUES
-('robot001', 5.0, 'addr001', 'En Route', '2025-03-01', 10.0, 80.0, 15.0),
-('robot002', 2.0, 'addr002', 'Charging', '2025-03-05', 8.5, 50.0, NULL),
-('robot003', 0.0, 'addr003', 'Free', '2025-02-28', 9.0, 100.0, NULL);
+INSERT INTO Robot (RobotID, CurrentLoad, RobotStatus, Maintanence, Speed, BatteryLife, EstimatedDelivery) VALUES
+('robot001', 5.0,  'En Route', '2025-03-01', 10.0, 80.0, 15.0),
+('robot002', 2.0,  'Charging', '2025-03-05', 8.5, 50.0, NULL),
+('robot003', 0.0,  'Free', '2025-02-28', 9.0, 100.0, NULL);
 
 INSERT INTO Transactions (CustomerID, TransactionID, TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, TransactionDate, RobotID) VALUES
-('cust001', 'txn001', 7.50, 2.5, 'addr001', 'Complete', '2025-03-10', 'robot001'),
-('cust002', 'txn002', 8.00, 1.0, 'addr002', 'In progress', '2025-03-12', 'robot002'),
-('cust003', 'txn003', 15.00, 5.0, 'addr003', 'Failed', '2025-03-09', 'robot003');
+('cust001', 'txn001', 7.50, 2.5, '123 Market St', 'Complete', '2025-03-10', 'robot001'),
+('cust002', 'txn002', 8.00, 1.0, '456 Sunset Blvd', 'In progress', '2025-03-12', 'robot002'),
+('cust003', 'txn003', 15.00, 5.0, '789 Harbor Dr', 'Failed', '2025-03-09', 'robot003');
 
 
 INSERT INTO CustomerAddress (Address, CustomerID) VALUES
-('addr001', 'cust001'),
-('addr002', 'cust002'),
-('addr003', 'cust003');
+('123 Market St', 'cust001'),
+('456 Sunset Blvd', 'cust002'),
+('789 Harbor Dr', 'cust003');
 
 INSERT INTO FeaturedItems (ItemID) VALUES
 ('item001'),
