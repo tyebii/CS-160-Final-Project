@@ -265,7 +265,6 @@ function authenticateToken(req, res, next) {
     if (token == null){
         console.log("no token here")
         return res.status(401).json({ error: 'No token' });
-        return;
     } 
 
     //The JWT is verified with enviornment variable secret -- purpose: keeps secret out of source code
@@ -273,8 +272,8 @@ function authenticateToken(req, res, next) {
         //If token is altered or expired 
         if (err) {
             console.log(err.message)
-            res.status(401).json({ error: 'Forbidden: Invalid token' });
-            return
+            return res.status(401).json({ error: 'Forbidden: Invalid token' });
+            
         }
 
         //Create new request object and pass on to next middleware

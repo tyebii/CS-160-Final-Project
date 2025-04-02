@@ -199,6 +199,11 @@ function ShoppingCart() {
       return
     }
 
+    if(!selectedAddress){
+      alert("Select Address!")
+      return
+    }
+
     console.log(selectedAddress.Address)
     //Create A Stripe Session Checkout
     axios
@@ -211,7 +216,8 @@ function ShoppingCart() {
             TransactionWeight: weight,
             TransactionAddress: selectedAddress.Address,
             TransactionStatus: "In Progress",
-            TransactionDate: new Date()
+            TransactionDate: new Date(),
+            InStore: selectedAddress == addresses[0]? true:false
         }, {
             headers: { Authorization: `Bearer ${token}` },
         })
