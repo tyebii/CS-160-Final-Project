@@ -3,6 +3,7 @@ const { authenticateToken, authorizeManager} = require('../Auth/AuthenticationCo
 const {getEmployee, getEmployeeID, deleteEmployee, updateEmployee} = require('./EmployeeController')
 const {signUpFormatEmployee} = require('../Auth/AuthenticationController')
 const router = express.Router()
+router.use(express.json());
 
 router.get('/employee', authenticateToken, authorizeManager, getEmployee)
 

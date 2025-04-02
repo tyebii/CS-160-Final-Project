@@ -16,13 +16,13 @@ const stripe = require('./Stripe/Stripe.js')
 
 // Apply CORS before route handling
 app.use(cors({
-  origin: 'http://localhost:3300',
+  origin: '*',
   methods: 'GET,POST,DELETE,PUT,OPTIONS',  // Make sure OPTIONS is allowed
   allowedHeaders: 'Content-Type, Authorization', // Allow Content-Type and Authorization headers
 }));
 
 // Middleware for parsing JSON
-app.use(express.json());
+//app.use(express.json());
 
 // Routes
 app.use('/api', stripe)

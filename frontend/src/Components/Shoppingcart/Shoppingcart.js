@@ -1,10 +1,14 @@
 //Import React Libraries 
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+
+//Import Custom Components 
 import AddressComponent from "./Components/AddressComponent"
 import { AddressModal } from './Components/AddressModal';
+
+//Import Auth Context 
 import {useAuth} from '../../Context/AuthHook'
+
 //Import Product Component
 import ProductComponent from './Components/ProductComponent';
 
@@ -14,28 +18,44 @@ import axios from 'axios';
 //Shopping cart component
 function ShoppingCart() {
 
+  //Get the logout function from the auth context
   const {logout} = useAuth()
   
-  // State variables
+  // State Variable For Product Fetch 
   const [results, setResults] = useState([]);
+
+  //State Variable For The Sum of The Results Weight
   const [weight, setWeight] = useState(0);
+
+  //State Variable For The Delivery Fee
+  const [deliveryFee, setDeliveryFee] = useState(0);
+
+  //State Variable For The Sum of The Results Cost
   const [cost, setCost] = useState(0);
-  const [selectedAddress, setSelectedAddress] = useState(null); // Added state for selected address
+
+  //State Variable For The Current Address Selected Among the Radio Options 
+  const [selectedAddress, setSelectedAddress] = useState(null); 
+
+  //State Variable For The Visibility Of The AddressModal  
   const [addressModalOpen, setAddressModalOpen] = useState(false);
+
+  //State Variable For The User's Addresses
   const [addresses, setAddresses] = useState([{Name: "In Store Pickup", Address: "272 E Santa Clara St", City: "San Jose", State:"CA", Zip:"95113"}]);
 
-  //Navigation Hook
-  const navigate = useNavigate();  // Hook for navigation
-
-  // Fetch shopping cart on load
+  //Fetches the User's Products And Addresses When The Page Mounts
   useEffect(() => {
+
+    //Get the JWT Token From The Local Storage
     const token = localStorage.getItem('accessToken');
 
+    //If There Is No Token Alert The User and Log Them Out
     if (!token) {
-      console.error('No token found');
+      alert('No token found');
+      logout()
       return;
     }
 
+    //Fetch The User's Shopping Cart 
     axios
       .get('http://localhost:3301/api/shoppingcart', {
         headers: {
@@ -43,16 +63,20 @@ function ShoppingCart() {
         },
       })
       .then((response) => {
+        //Set The Results State Variable To The Fetched Products
         setResults(response.data); 
       })
       .catch((error) => {
-        console.error('Error:', error);
+        //If The User Is Not Authorized To Use Endpoint Log Them Out Else Display The Error
         if (error.response?.status === 401) {
           alert("You need to login again!")
           logout();
+        }else{
+          alert(error.message)
         }
       });
 
+    //Fetch the User's Associated Addresses
     axios
       .get('http://localhost:3301/api/address', {
         headers: {
@@ -60,73 +84,139 @@ function ShoppingCart() {
         },
       })
       .then((response) => {
-        console.log(response.data)
+        //Set the Results State Variable To Previous State Plus The Response 
         setAddresses((prevAddresses) => [...prevAddresses, ...response.data]);
       })
       .catch((error) => {
-        console.error('Error:', error);
+        //If The User Is Not Authorized To Use Endpoint Log Them Out Else Display The Error
         if (error.response?.status === 401) {
           alert("You need to login again!")
           logout();
+        }else{
+          alert(error.message)
         }
       });
+
   }, []);
 
-  // Recalculate weight and cost when `results` changes
+  //Recalulate The Cost And Weight State Variables When State Variable 'results' Changes
   useEffect(() => {
-    setWeight(results.reduce((sum, item) => sum + item.Weight * item.OrderQuantity, 0));
-    setCost(results.reduce((sum, item) => sum + item.Cost * item.OrderQuantity, 0));
+    // Compute weight and cost
+    const newWeight = results.reduce((sum, item) => sum + item.Weight * item.OrderQuantity, 0);
+    const newCost = results.reduce((sum, item) => sum + item.Cost * item.OrderQuantity, 0);
+  
+    // Update state variables
+    setWeight(newWeight);
+    setCost(newCost);
+  
+    // Use the newly computed weight value for delivery fee calculation
+    setDeliveryFee(newWeight > 20 ? 10 : 0);
   }, [results]);
 
-  // Clear cart
+  //Clears The Cart
   const handleClear = () => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) return console.error('No token found');
 
+    //Get The Token From The Local Storage
+    const token = localStorage.getItem('accessToken');
+
+    //If There Is No Token Alert The User and Log Them Out
+    if (!token) {
+      alert('No token found');
+      logout()
+      return;
+    }
+
+    //Deletes The User's Shopping Cart
     axios
       .delete('http://localhost:3301/api/shoppingcart/clear', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
-        setResults([]); // Empty cart
+        //Set The Result's State To Reflect Change
+        alert("Cleared")
+        setResults([]);
       })
-      .catch((error) => console.error('Error:', error));
+      .catch((error) => {
+        //If The User Is Not Authorized To Use Endpoint Log Them Out Else Display The Error
+        if (error.response?.status === 401) {
+          alert("You need to login again!")
+          logout();
+        }else{
+          alert(error.message)
+        }
+      })
   };
 
-  // Remove item
+  // Remove A Given Item From The User's Shopping Cart
   const clickRemove = (itemid) => {
+    //Get The Token From The Local Storage
     const token = localStorage.getItem('accessToken');
-    if (!token) return console.error('No token found');
 
+    //If There Is No Token Alert The User and Log Them Out
+    if (!token) {
+      alert('No token found');
+      logout()
+      return;
+    }
+
+    //Delete An Item From The Shopping Cart
     axios
       .delete('http://localhost:3301/api/shoppingcart', {
         headers: { Authorization: `Bearer ${token}` },
         data: { ItemID: itemid },
       })
       .then(() => {
+        alert("Deleted")
+        //Set The Results To An Updated Form Where The Removed Item Is No Longer Present
         setResults((prevItems) => prevItems.filter((item) => item.ItemID !== itemid));
       })
-      .catch((error) => console.error('Error:', error));
+      .catch((error) => {
+        //If The User Is Not Authorized To Use Endpoint Log Them Out Else Display The Error
+        if (error.response?.status === 401) {
+          alert("You need to login again!")
+          logout();
+        }else{
+          alert(error.message)
+        }
+      })
   };
 
   // Checkout
   const clickCheckout = () => {
+    //Get The Token From The Local Storage
     const token = localStorage.getItem('accessToken');
 
+    //If There Is No Token Alert The User and Log Them Out
+    if (!token) {
+      alert('No token found');
+      logout()
+      return;
+    }
+
+    //If the Cart Is Empty Do Not Allow Checkout
     if(results.length==0){
       alert("Cannot checkout. There are no items")
       return
     }
+
+    console.log(selectedAddress.Address)
+    //Create A Stripe Session Checkout
     axios
         .post('http://localhost:3301/api/create-checkout-session', {
             items: results.map((item) => ({
                 ItemID: item.ItemID,
                 Quantity: item.OrderQuantity,
             })),
+            TransactionCost: cost + deliveryFee, 
+            TransactionWeight: weight,
+            TransactionAddress: selectedAddress.Address,
+            TransactionStatus: "In Progress",
+            TransactionDate: new Date()
         }, {
             headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
+          //If Successful Redirect To Success Page
           if (response.status === 200 && response.data.url) {
             window.location.href = response.data.url;
           } else {
@@ -134,14 +224,20 @@ function ShoppingCart() {
             alert("An error occurred while processing your payment.");
           }
         })
-        .catch((error) => console.error('Error:', error));
+        .catch((error) => {
+          //If The User Is Not Authorized To Use Endpoint Log Them Out Else Display The Error
+          if (error.response?.status === 401) {
+            alert("You need to login again!")
+            logout();
+          }else{
+            alert(error.message)
+          }
+        })
   };
 
-  const handleAddressClick = () => {
-    setAddressModalOpen(false);
-  };
-
+  //Adds An Address To User
   const handleAddAddress = (e) => {
+    //Gets The Address Values
     const newAddress = {Address: document.getElementById("address").value,
                         City: document.getElementById("city").value,
                         Zip: document.getElementById("zip").value,
@@ -149,7 +245,17 @@ function ShoppingCart() {
                         Name: document.getElementById("name").value 
     }
 
+    //Get The Token From The Local Storage
     const token = localStorage.getItem('accessToken');
+
+    //If There Is No Token Alert The User and Log Them Out
+    if (!token) {
+      alert('No token found');
+      logout()
+      return;
+    }
+
+    //Adds The Address To The User
     axios.post(
       `http://localhost:3301/api/address`,
       newAddress,
@@ -160,26 +266,31 @@ function ShoppingCart() {
       }
     )
     .then((response) => {
-      console.log("Address Added");
-      
+      alert("Address Added");
+      //Append New Address
       setAddresses((prevAddresses) => [...prevAddresses, newAddress]);
+      //Close The Modal
       setAddressModalOpen(false);
     })
     .catch((error) => {
-      
+      //If Not Authorized Logout
       if (error.response?.status === 401) {
         alert("Need to log back in")
         logout();
-      } 
-      alert(error.message)
+      } else{
+        alert(error.message)
+      }
       setAddressModalOpen(false);
     });
   };
 
+  //Holds the Currently Selected Radio Button
   const handleAddressSelection = (address) => {
     setSelectedAddress(address); 
   };
 
+
+  //HTML
   return (
     <section className="w-full max-w-4xl mx-auto my-10 p-8 bg-gray-100 rounded-lg shadow-lg">
       {/*Header*/}
@@ -191,7 +302,7 @@ function ShoppingCart() {
       </div>
 
       {/*Products in shopping cart */}
-      <div className="grid gap-6 mb-8">
+      <div className="grid mb-8">
         {results.length === 0 ? (
           <h3 className="text-2xl font-semibold text-gray-500 text-center">No items in the cart</h3>
         ) : (
@@ -211,10 +322,10 @@ function ShoppingCart() {
         )}
       </div>
 
-      
+      {/* Address Section */}
       <div className="relative container px-4 mx-auto">
         <div className="flex flex-wrap justify-center">
-          {/* Address Section */}
+          
           <div className="w-full lg:w-1/2 pb-8 bg-white p-6 rounded-lg shadow-lg border border-gray-300">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Delivery Address</h2>
             <div className="space-y-4">
@@ -222,17 +333,17 @@ function ShoppingCart() {
                 {addresses.length === 0 ? (
                   <p className="text-gray-600">No address added yet.</p>
                 ) : (
-                  addresses.map((address, index) => (
-                    <div key={index} className="flex items-center mb-4 w-full"> {/* Add w-full or custom width */}
+                  addresses.map((address) => (
+                    <div key={address.Address} className="flex items-center mb-4 w-full"> {/* Add w-full or custom width */}
                       <input
                         type="radio"
-                        id={`address-${index}`}
+                        id={address.Address}
                         name="address"
                         onChange={() => handleAddressSelection(address)} // Update selected address on change
                         className="mr-4"
                       />
-                      <label htmlFor={`address-${index}`} className="text-gray-800 w-full"> {/* Optionally, add w-full here for the address component */}
-                        <AddressComponent address={address} />
+                      <label htmlFor={address.Address} className="text-gray-800 w-full"> {/* Optionally, add w-full here for the address component */}
+                        <AddressComponent address={address} setAddress={setAddresses} addressList={addresses}/>
                       </label>
                     </div>
                   ))
@@ -248,7 +359,7 @@ function ShoppingCart() {
 
             {/* Address Modal */}
             {addressModalOpen && (
-              <AddressModal onSubmit={handleAddAddress} onCancel={handleAddressClick} onClose={handleAddressClick}>
+              <AddressModal onSubmit={handleAddAddress} onCancel={()=>{setAddressModalOpen(false)}} onClose={()=>{setAddressModalOpen(false)}}>
                 <div className="space-y-4">
                   <div className="flex space-x-2">
                     <input
@@ -309,8 +420,10 @@ function ShoppingCart() {
       <div className="mt-12 text-center">
         <h1 className="text-3xl font-semibold mb-4">Subtotal</h1>
         <div className="p-6 border-2 border-gray-300 rounded-lg bg-white shadow-md text-lg">
-          <h3 className="mb-3">Cost: ${cost}</h3>
+          <h3 className="mb-3">Raw Cost: ${cost}</h3>
           <h3>Weight: {weight} lbs</h3>
+          <h3>Delivery Fee: ${deliveryFee} </h3>
+          <h3>Total: ${deliveryFee + cost} </h3>
         </div>
       </div>
 
