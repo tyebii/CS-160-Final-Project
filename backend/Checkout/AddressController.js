@@ -34,17 +34,17 @@ const addAddress = async (req, res) => {
         
 
         //Insert address and ignore error if duplicate
-        const sqlQueryOne = 'INSERT INTO Address (Address, City, Zip, State, Name) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE Address=Address;'
+        const sqlQueryOne = 'INSERT INTO Address (Address, City, Zip, State) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE Address=Address;'
         await connection.query(
             sqlQueryOne, 
-            [Address, City, Zip, State, Name]
+            [Address, City, Zip, State]
         );
     
         // Insert customer/address relationship into customeraddress
-        const sqlQueryTwo = 'Insert Into customeraddress (Address,CustomerID) Values (?,?)'
+        const sqlQueryTwo = 'Insert Into customeraddress (Address,CustomerID, Name) Values (?,?,?)'
         await connection.query(
             sqlQueryTwo, 
-            [Address, customerid]
+            [Address, customerid, Name]
         );
     
         // Commit the transaction

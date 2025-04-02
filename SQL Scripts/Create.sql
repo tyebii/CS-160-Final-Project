@@ -33,7 +33,6 @@ CREATE TABLE Users(
 Create Table Address(
 	Address varchar(255) primary key,
     City varchar(255) not null,
-    Name varchar(255) not null,
     Zip char(5) not null,
     State varchar(255) not null
 );
@@ -73,24 +72,31 @@ Create Table Robot(
     EstimatedDelivery double
 );
 
-Create Table Transactions(
-	CustomerID varchar(255),
-    TransactionID varchar(255),
-    TransactionCost double not null,
-	TransactionWeight double not null,
+CREATE TABLE Transactions (
+    CustomerID varchar(255) NOT NULL,
+    TransactionID varchar(255) PRIMARY KEY,
+    StripeTransactionID varchar(255) UNIQUE, 
+    TransactionCost DOUBLE NOT NULL,
+    TransactionWeight DOUBLE NOT NULL,
     TransactionAddress varchar(255),
-    TransactionStatus enum('In progress', 'Complete', 'Failed') not null,
-    TransactionDate date not null,
+    TransactionStatus ENUM('In progress', 'Complete', 'Failed', 'Out For Delivery') NOT NULL,
+    TransactionDate DATETIME NOT NULL,
     RobotID varchar(255),
-    Foreign Key(TransactionAddress) References Address(Address) on delete cascade,
-    Foreign Key(CustomerID) References Customer(CustomerID) on delete cascade,
-    Foreign Key(RobotID) References Robot(RobotID),
-    Primary Key(CustomerID, TransactionID)
+    PaymentMethod VARCHAR(50),
+    ChargeStatus ENUM('succeeded', 'pending', 'failed'),
+    ReceiptURL TEXT,
+    Currency VARCHAR(10),
+    AmountPaid DOUBLE,
+    FOREIGN KEY (TransactionAddress) REFERENCES Address(Address) ON DELETE CASCADE,
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID) ON DELETE CASCADE,
+    FOREIGN KEY (RobotID) REFERENCES Robot(RobotID)
 );
+
 
 Create Table CustomerAddress(
 	Address varchar(255) ,
     CustomerID varchar(255) ,
+    Name varchar(255) not null,
 	Foreign Key(Address) References Address(Address) on delete cascade,
     Foreign Key(CustomerID) References Customer(CustomerID) on delete cascade,
     Primary Key(Address,CustomerID)
@@ -242,10 +248,10 @@ INSERT INTO Users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumbe
 ('user004', 'hashed_password_4', 'Bob', 'Brown', '555-987-6543', 'emp002', NULL),
 ('manager001', 'hashed_password_5', 'Charlie', 'Davis', '111-222-3333', 'emp003', NULL);
 
-INSERT INTO Address (Address, City, Zip, State, Name) VALUES
-('123 Market St', 'San Francisco', '94105', 'CA', 'Cool'),
-('456 Sunset Blvd', 'Los Angeles', '90001', 'CA', 'Spot'),
-('789 Harbor Dr', 'San Diego', '92101', 'CA', 'Home');
+INSERT INTO Address (Address, City, Zip, State) VALUES
+('123 Market St', 'San Francisco', '94105', 'CA'),
+('456 Sunset Blvd', 'Los Angeles', '90001', 'CA'),
+('789 Harbor Dr', 'San Diego', '92101', 'CA');
 
 INSERT INTO Inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description) VALUES
 ('item001', 50, 'FreshFarm', 2.5, 'Apples', 'Fresh Produce', 1.00, '2025-05-10', 2.50, 'Room Temperature', '2025-03-15', 'apple.jpg', 'Red delicious apples.'),
@@ -273,16 +279,23 @@ INSERT INTO Robot (RobotID, CurrentLoad, RobotStatus, Maintanence, Speed, Batter
 ('robot002', 2.0,  'Charging', '2025-03-05', 8.5, 50.0, NULL),
 ('robot003', 0.0,  'Free', '2025-02-28', 9.0, 100.0, NULL);
 
-INSERT INTO Transactions (CustomerID, TransactionID, TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, TransactionDate, RobotID) VALUES
-('cust001', 'txn001', 7.50, 2.5, '123 Market St', 'Complete', '2025-03-10', 'robot001'),
-('cust002', 'txn002', 8.00, 1.0, '456 Sunset Blvd', 'In progress', '2025-03-12', 'robot002'),
-('cust003', 'txn003', 15.00, 5.0, '789 Harbor Dr', 'Failed', '2025-03-09', 'robot003');
+INSERT INTO Transactions (
+    CustomerID, TransactionID, StripeTransactionID, TransactionCost, TransactionWeight, 
+    TransactionAddress, TransactionStatus, TransactionDate, RobotID, 
+    PaymentMethod, ChargeStatus, ReceiptURL, Currency, AmountPaid
+) VALUES
+('cust001', 'txn001', 'stripe_txn_001', 7.50, 2.5, '123 Market St', 'Complete', '2025-03-10', 'robot001', 'card', 'succeeded', 'https://stripe.com/receipt/txn001', 'USD', 7.50),
+('cust001', 'txn002', 'stripe_txn_002', 8.00, 1.0, '123 Market St', 'In progress', '2025-03-12', 'robot001', 'card', 'pending', NULL, 'USD', NULL),
+('cust001', 'txn003', 'stripe_txn_003', 15.00, 5.0, '123 Market St', 'Failed', '2025-03-09', 'robot001', 'bank_transfer', 'failed', NULL, 'USD', 0.00),
+('cust001', 'txn004', 'stripe_txn_004', 20.50, 3.2, '123 Market St', 'Out For Delivery', '2025-03-15', 'robot001', 'card', 'succeeded', 'https://stripe.com/receipt/txn004', 'EUR', 20.50),
+('cust001', 'txn005', 'stripe_txn_005', 12.75, 2.0, '123 Market St', 'Complete', '2025-03-11', 'robot001', 'paypal', 'succeeded', 'https://stripe.com/receipt/txn005', 'USD', 12.75);
 
 
-INSERT INTO CustomerAddress (Address, CustomerID) VALUES
-('123 Market St', 'cust001'),
-('456 Sunset Blvd', 'cust002'),
-('789 Harbor Dr', 'cust003');
+
+INSERT INTO CustomerAddress (Address, CustomerID, Name) VALUES
+('123 Market St', 'cust001', 'Cool'),
+('456 Sunset Blvd', 'cust002', 'Coolio'),
+('789 Harbor Dr', 'cust003', 'Cools');
 
 INSERT INTO FeaturedItems (ItemID) VALUES
 ('item001'),

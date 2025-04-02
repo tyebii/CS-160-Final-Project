@@ -23,7 +23,6 @@ function SearchResults() {
   //Renders based on changes to searchType and Query 
   useEffect(() => {
     let endPoint = ``
-    console.log("This is auth", auth)
     if(auth==null || auth == "Customer"){
       endPoint = `http://localhost:3301/api/search/${searchType}/customer/${query}`
     }else{

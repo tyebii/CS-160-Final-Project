@@ -2,6 +2,7 @@ const express = require('express')
 const {authenticateToken, authorizeManager, authorizeEmployee} = require('../Auth/AuthenticationController.js')
 const router = express.Router();
 const {featuredSearch, productCustomerQueryID, productQueryID, productQueryName, productQueryNameEmployee, categoryQuery, categoryQueryEmployee,  productInsert, productUpdate, deleteProduct, lowStockSearch} = require('./inventoryControllers.js')
+router.use(express.json());
 
 router.get('/search/category/customer/:name', categoryQuery);
 
