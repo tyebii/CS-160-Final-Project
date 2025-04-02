@@ -2,7 +2,7 @@ const express = require('express')
 const { authenticateToken, authorizeManager, authorizeEmployee} = require('../Auth/AuthenticationController')
 const {getRobot, addRobot, updateRobot, deleteRobot, getFaultyRobot} = require('./RobotController')
 const router = express.Router()
-router.use(express.json());
+router.use([express.json()]);
 
 router.get('/robot', authenticateToken, authorizeEmployee, getRobot)
 

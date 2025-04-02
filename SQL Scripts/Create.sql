@@ -249,6 +249,7 @@ INSERT INTO Users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumbe
 ('manager001', 'hashed_password_5', 'Charlie', 'Davis', '111-222-3333', 'emp003', NULL);
 
 INSERT INTO Address (Address, City, Zip, State) VALUES
+('272 E Santa Clara St', 'San Jose', '95113', 'CA'),
 ('123 Market St', 'San Francisco', '94105', 'CA'),
 ('456 Sunset Blvd', 'Los Angeles', '90001', 'CA'),
 ('789 Harbor Dr', 'San Diego', '92101', 'CA');
