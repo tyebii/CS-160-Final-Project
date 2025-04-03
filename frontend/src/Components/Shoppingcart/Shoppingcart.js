@@ -43,6 +43,7 @@ function ShoppingCart() {
   const [addresses, setAddresses] = useState([{Name: "In Store Pickup", Address: "272 E Santa Clara St", City: "San Jose", State:"CA", Zip:"95113"}]);
 
   //Fetches the User's Products And Addresses When The Page Mounts
+  //This is likely causing a double logout alert
   useEffect(() => {
 
     //Get the JWT Token From The Local Storage
@@ -67,12 +68,12 @@ function ShoppingCart() {
         setResults(response.data); 
       })
       .catch((error) => {
-        //If The User Is Not Authorized To Use Endpoint Log Them Out Else Display The Error
+        //If Unauthorized Response
         if (error.response?.status === 401) {
-          alert("You need to login again!")
+          alert("You need to login again!");
           logout();
         }else{
-          alert(error.message)
+          alert(`Error Status ${error.status}: ${error.response.data.error}`);
         }
       });
 
@@ -88,12 +89,12 @@ function ShoppingCart() {
         setAddresses((prevAddresses) => [...prevAddresses, ...response.data]);
       })
       .catch((error) => {
-        //If The User Is Not Authorized To Use Endpoint Log Them Out Else Display The Error
+        //If Unauthorized Response
         if (error.response?.status === 401) {
-          alert("You need to login again!")
+          alert("You need to login again!");
           logout();
         }else{
-          alert(error.message)
+          alert(`Error Status ${error.status}: ${error.response.data.error}`);
         }
       });
 
@@ -108,8 +109,6 @@ function ShoppingCart() {
     // Update state variables
     setWeight(newWeight);
     setCost(newCost);
-  
-    // Use the newly computed weight value for delivery fee calculation
     setDeliveryFee(newWeight > 20 ? 10 : 0);
   }, [results]);
 
@@ -133,21 +132,21 @@ function ShoppingCart() {
       })
       .then(() => {
         //Set The Result's State To Reflect Change
-        alert("Cleared")
+        alert("Cleared Your Shoppingcart!")
         setResults([]);
       })
       .catch((error) => {
-        //If The User Is Not Authorized To Use Endpoint Log Them Out Else Display The Error
+        //If Unauthorized Response
         if (error.response?.status === 401) {
-          alert("You need to login again!")
+          alert("You need to login again!");
           logout();
         }else{
-          alert(error.message)
+          alert(`Error Status ${error.status}: ${error.response.data.error}`);
         }
       })
   };
 
-  // Remove A Given Item From The User's Shopping Cart
+  //Remove A Given Item From The User's Shopping Cart
   const clickRemove = (itemid) => {
     //Get The Token From The Local Storage
     const token = localStorage.getItem('accessToken');
@@ -166,17 +165,17 @@ function ShoppingCart() {
         data: { ItemID: itemid },
       })
       .then(() => {
-        alert("Deleted")
+        alert("Deleted The Item!")
         //Set The Results To An Updated Form Where The Removed Item Is No Longer Present
         setResults((prevItems) => prevItems.filter((item) => item.ItemID !== itemid));
       })
       .catch((error) => {
-        //If The User Is Not Authorized To Use Endpoint Log Them Out Else Display The Error
+        //If Unauthorized Response
         if (error.response?.status === 401) {
-          alert("You need to login again!")
+          alert("You need to login again!");
           logout();
         }else{
-          alert(error.message)
+          alert(`Error Status ${error.status}: ${error.response.data.error}`);
         }
       })
   };
@@ -204,7 +203,6 @@ function ShoppingCart() {
       return
     }
 
-    console.log(selectedAddress.Address)
     //Create A Stripe Session Checkout
     axios
         .post('http://localhost:3301/api/create-checkout-session', {
@@ -223,20 +221,15 @@ function ShoppingCart() {
         })
         .then((response) => {
           //If Successful Redirect To Success Page
-          if (response.status === 200 && response.data.url) {
-            window.location.href = response.data.url;
-          } else {
-            console.error("Unexpected response format:", response);
-            alert("An error occurred while processing your payment.");
-          }
+          window.location.href = response.data.url;
         })
         .catch((error) => {
-          //If The User Is Not Authorized To Use Endpoint Log Them Out Else Display The Error
+          //If Unauthorized Response
           if (error.response?.status === 401) {
-            alert("You need to login again!")
+            alert("You need to login again!");
             logout();
           }else{
-            alert(error.message)
+            alert(`Error Status ${error.status}: ${error.response.data.error}`);
           }
         })
   };
@@ -272,29 +265,23 @@ function ShoppingCart() {
       }
     )
     .then((response) => {
-      alert("Address Added");
+      alert("Address Added!");
       //Append New Address
       setAddresses((prevAddresses) => [...prevAddresses, newAddress]);
       //Close The Modal
       setAddressModalOpen(false);
     })
     .catch((error) => {
-      //If Not Authorized Logout
+      //If Unauthorized Response
       if (error.response?.status === 401) {
-        alert("Need to log back in")
+        alert("You need to login again!");
         logout();
-      } else{
-        alert(error.message)
+      }else{
+        alert(`Error Status ${error.status}: ${error.response.data.error}`);
       }
       setAddressModalOpen(false);
     });
   };
-
-  //Holds the Currently Selected Radio Button
-  const handleAddressSelection = (address) => {
-    setSelectedAddress(address); 
-  };
-
 
   //HTML
   return (
@@ -345,7 +332,7 @@ function ShoppingCart() {
                         type="radio"
                         id={address.Address}
                         name="address"
-                        onChange={() => handleAddressSelection(address)} // Update selected address on change
+                        onChange={() => setSelectedAddress(address)} // Update selected address on change
                         className="mr-4"
                       />
                       <label htmlFor={address.Address} className="text-gray-800 w-full"> {/* Optionally, add w-full here for the address component */}
@@ -426,7 +413,7 @@ function ShoppingCart() {
       <div className="mt-12 text-center">
         <h1 className="text-3xl font-semibold mb-4">Subtotal</h1>
         <div className="p-6 border-2 border-gray-300 rounded-lg bg-white shadow-md text-lg">
-          <h3 className="mb-3">Raw Cost: ${cost}</h3>
+          <h3>Raw Cost: ${cost}</h3>
           <h3>Weight: {weight} lbs</h3>
           <h3>Delivery Fee: ${deliveryFee} </h3>
           <h3>Total: ${deliveryFee + cost} </h3>

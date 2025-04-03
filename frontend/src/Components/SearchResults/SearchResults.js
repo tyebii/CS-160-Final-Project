@@ -28,14 +28,19 @@ function SearchResults() {
     }else{
       endPoint = `http://localhost:3301/api/search/${searchType}/employee/${query}`
     }
+
+    //This function will require an authentication header for employees
     axios.get(endPoint)
       .then((response) => {
         setResults(response.data);
       })
       .catch((error) => {
-        console.error("Error:", error);  
-        if(error.response.status === 401){
-          logout()
+        //If Unauthorized Response
+        if (error.response?.status === 401) {
+          alert("Login Again!")
+          logout();
+        }else{
+          alert(`Error Status ${error.status}: ${error.response.data.error}`);
         }
       });
     
@@ -59,7 +64,7 @@ function SearchResults() {
   };
 
   return (
-    <div className="flex justify-center w-full">
+    <section className="flex justify-center w-full">
       <nav className="p-4 bg-gray-200 w-[1000px] mx-auto">
         {/* Search Results Header */}
         <h2 className="text-4xl font-bold text-center mb-4">Search Results</h2>
@@ -82,7 +87,7 @@ function SearchResults() {
           )}
         </div>
       </nav>
-    </div>
+    </section>
   );  
 };
 

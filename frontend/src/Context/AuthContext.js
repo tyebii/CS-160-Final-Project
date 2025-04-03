@@ -1,15 +1,30 @@
-import React, { createContext, useState } from 'react';
+//Import React Functions
+import React, { createContext, useState, useEffect } from 'react';
+
+//Decodes The Base-Encoded JWT
 import { jwtDecode } from 'jwt-decode';
-import { useEffect } from 'react';
+
+//Create The Context
 export const AuthContext = createContext();
 
+
 export const AuthProvider = ({children}) => {
+  
+  //Auth State Variable
   const [auth, setAuth] = useState("");
 
+  //Nulls The Context And Cleans The Local Storage
+  const logout = () => {
+    setAuth(null)
+    localStorage.removeItem("accessToken")
+    localStorage.removeItem("Auth")
+  }
+
+  //Login Function
   const login = ()=>{
     try {
       const decoded = jwtDecode(localStorage.getItem("accessToken"))
-      console.log(decoded); 
+
       if(decoded.SupervisorID != null){
         localStorage.setItem("Auth", "Manager")
         return setAuth("Manager")
@@ -17,21 +32,19 @@ export const AuthProvider = ({children}) => {
       }else if(decoded.EmployeeID == null){
         localStorage.setItem("Auth", "Customer")
         return setAuth("Customer")
+
       }else{
         localStorage.setItem("Auth", "Employee")
         return setAuth("Employee")
       }
+
     } catch (error) {
-      console.error('Could not be decoded');
+      alert('Bad JWT');
+      logout()
     }
   }
 
-  const logout = () => {
-    setAuth(null)
-    localStorage.removeItem("accessToken")
-    localStorage.removeItem("Auth")
-  }
-
+  //When The React App Starts It Gets Information From LocalStorage
   useEffect(() => {
     if(localStorage.getItem("Auth")){
       setAuth(localStorage.getItem("Auth"))

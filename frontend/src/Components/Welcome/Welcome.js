@@ -27,11 +27,10 @@ function Welcome() {
     useEffect(() => {
         axios.get("http://localhost:3301/api/featured")
             .then((results) => {
-                console.log("Success", results.data);  // Log the data before updating state
                 setFeatured(results.data);
             })
             .catch((err) => {
-                alert("Network Error: " + err.message);
+                alert(`Error Status ${error.status}: ${error.response.data.error}`);
             });
     }, []);
     

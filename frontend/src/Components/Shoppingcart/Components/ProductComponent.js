@@ -1,6 +1,8 @@
 
-
+//Product Card In Shoppingcart
 function ProductComponent({ result }) {
+  
+  //HTML For ProductComponent
   return (
     <div className="flex items-center border p-4 bg-white rounded-lg shadow-lg max-w-4xl mx-auto mt-5">
       {/* Product Image */}
@@ -17,7 +19,7 @@ function ProductComponent({ result }) {
         
         <div className="mt-2 space-y-1 text-gray-700">
           <p>
-            <strong>Cost:</strong> ${Number(result.Cost).toLocaleString()}
+            <strong>Cost:</strong> ${result.Cost}
           </p>
           <p>
             <strong>Average Weight:</strong> {result.Weight} LBS

@@ -151,8 +151,6 @@ const addTransaction = async (req, res, next) => {
     }
 };
 
-
-
 //Check if TransactionID is taken
 function transactionIDExists(transactionID) {
     return new Promise((resolve, reject) => {

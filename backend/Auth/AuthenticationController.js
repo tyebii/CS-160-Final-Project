@@ -224,12 +224,12 @@ const login = async (req, res) => {
 
         //If no user was found with the given name throw err 
         if (rows.length === 0) {
-            return res.status(400).json({ error: "Invalid Username" });
+            return res.status(401).json({ error: "Wrong Credentials" });
         }
 
         //Compare the password with the hashed password. If wrong throw err
         if (!(await bcrypt.compare(Password, rows[0].password))) {
-            return res.status(401).json({ error: "Invalid Password" });
+            return res.status(401).json({ error: "Wrong Credentials" });
         }
 
         //Contents of the JWT -- purpose: allows us to create protected routes by checking the JWT payload
@@ -511,18 +511,18 @@ async function checkSupervisorExists(SupervisorID) {
 //Checks login format
 function loginFormat(req,res,next){
     if (!req.body.UserID || typeof req.body.UserID != 'string' ){
-        return res.status(400).json({error:"invalid username"})
+        return res.status(400).json({error:"Username Not Found"})
     }
     if (!req.body.Password || typeof req.body.Password != 'string' ){
-        return res.status(400).json({error:"invalid username"})
+        return res.status(400).json({error:"Password Not Found"})
     }
     req.body.UserID = req.body.UserID.trim()
     req.body.Password = req.body.Password.trim()
     if (req.body.UserID.length < 5){
-        return res.status(400).json({error:"invalid username"})
+        return res.status(400).json({error:"Username username"})
     }
     if (req.body.Password.length < 7){
-        return res.status(400).json({error:"invalid username"})
+        return res.status(400).json({error:"Password Too Short"})
     }
     next();
 }
