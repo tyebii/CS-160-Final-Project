@@ -47,15 +47,16 @@ function AddressComponent({address,setAddress,addressList}){
             //Remove Item From Address List
             setAddress(addressList => {
                 return addressList.filter((a) => a.Address !== address.Address);
-              });
+            });
           })
           .catch((error) => {
-            if (error.response?.status === 401) {
-              alert("Need to log back in");
-              logout();
-            } else {
-              alert(error.message);
-            }
+          //If Unauthorized Response
+          if (error.response?.status === 401) {
+            alert("You need to login again!");
+            logout();
+          }else{
+            alert(`Error Status ${error.status}: ${error.response.data.error}`);
+          }
           });
       };
       

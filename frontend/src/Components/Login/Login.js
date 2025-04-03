@@ -1,7 +1,11 @@
 //React Functions
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
+
+//Import Auth Hook
 import {useAuth} from '../../Context/AuthHook'
+
+//Import Axios
 import axios from 'axios'; // Make sure axios is imported
 
 //Login Component
@@ -16,13 +20,22 @@ function Login() {
     const navigate = useNavigate();  // Hook for navigation
 
     //Authentication Hook
-    const {login , auth} = useAuth();
+    const {login} = useAuth();
 
     //Submission of Login Form
     const handleSubmit = (e) => {
         //Prevent page refresh and default sending
         e.preventDefault();
         
+        if (username.length < 5){
+            alert("Username Too Short");
+            return
+        }else if(password.length < 7){
+            alert("Password Too Short")
+            return
+        }
+
+
         //Axios request to backend
         axios.post(
             "http://localhost:3301/api/login", 
@@ -51,7 +64,7 @@ function Login() {
             navigate("/");
         })
         .catch((err) => {
-            console.log("Error:", err.response ? err.response.data : err.message);
+            alert(`Error Status ${err.status}: ${err.response.data.error}`);
         });
     };
 
@@ -60,10 +73,11 @@ function Login() {
         navigate("/signup")
     }
 
+    //HTML
     return (
         <section className="flex justify-center items-center h-screen w-screen">
             <div className="bg-white shadow-2xl rounded-3xl p-10 w-[450px]">
-                <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">Login</h1>
+                <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Login</h2>
                 
                 {/* Login Form */}
                 <form onSubmit={handleSubmit}>
@@ -86,7 +100,6 @@ function Login() {
                     />
 
                     <button
-                        type="submit"
                         className="w-full bg-blue-600 text-white py-3 text-lg font-semibold rounded-xl hover:bg-blue-700 transition"
                     >
                         Submit

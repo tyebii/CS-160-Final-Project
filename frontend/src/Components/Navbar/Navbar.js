@@ -1,5 +1,5 @@
 //React functions
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../Context/AuthHook';
 
@@ -10,6 +10,7 @@ import searchIcon from './NavbarImages/searchIcon.jpg';
 import shoppingCartIcon from './NavbarImages/shoppingCart.png';
 import dropDownIcon from './NavbarImages/dropdownIcon.png';
 import { useNavigate } from 'react-router-dom';
+
 //Navbar Component
 function Navbar() {
   //Authentication hook
@@ -65,6 +66,8 @@ function Navbar() {
       'Snacks and Sweets',
       'Health and Wellness',
     ];
+
+    //Drop Down Menu
     return (
       <div className="absolute top-full left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-2xl w-72 z-10">
         {categories.map((category) => (
@@ -91,8 +94,9 @@ function Navbar() {
     if (text.trim() === "") {
       return;
     }
+
     setSearchText("")
-    navigate(`/search/item/${formatText(text.toLowerCase())}`); // Use backticks
+    navigate(`/search/item/${formatText(text.toLowerCase())}`);
   }
 
   //Click login icon

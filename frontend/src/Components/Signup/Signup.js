@@ -33,8 +33,8 @@ export function Signup() {
             //Navigate home
             navigate("/");
         })
-        .catch((err) => {
-            alert("Network Error: " + err.message);
+        .catch((error) => {
+            alert(`Error Status ${error.status}: ${error.response.data.error}`);
         });
     };
 
