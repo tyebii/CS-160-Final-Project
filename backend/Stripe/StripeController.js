@@ -69,7 +69,8 @@ const handleStripe = async (req, res) => {
             cancel_url: 'http://localhost:3300/fail',
             metadata: {
                 transaction_id: req.body.TransactionID,  // Make sure this is populated
-                in_store: req.body.InStore
+                in_store: req.body.InStore,
+                customer_id: req.user.CustomerID
             }
         });
 
@@ -88,47 +89,83 @@ const handleStripe = async (req, res) => {
     }
 };
 
-//Add A Transaction To The Database
-const addTransaction = (req,res, next) => {
-    //Transaction Items
-    const {TransactionCost, TransactionWeight,TransactionAddress,TransactionStatus,TransactionDate} = req.body
+const addTransaction = async (req, res, next) => {
+    const { TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, TransactionDate } = req.body;
+    let CustomerID = req.user.CustomerID;
 
-    //CustomerID
-    let CustomerID = req.user.CustomerID
-    console.log(CustomerID)
+    console.log(CustomerID);
     
-    //Unique ID
-    let TransactionID = uuidv4(); // Generates a cryptographically safe unique customer ID'
-                
-    //In case of collisions
-    while(transactionIDExists(TransactionID)){
+    // Generate a Unique TransactionID
+    let TransactionID;
+    do {
         TransactionID = uuidv4();
-    }
+    } while (await transactionIDExists(TransactionID));
 
-    //Format The String For SQL
     const formattedTransactionDate = new Date(TransactionDate).toISOString().slice(0, 19).replace('T', ' ');
 
-    //Insertion
-    pool.query('Insert Into Transactions(CustomerID, TransactionID, TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, TransactionDate) Values (?,?,?,?,?,?,?)', [CustomerID,TransactionID,TransactionCost, TransactionWeight,TransactionAddress,TransactionStatus,formattedTransactionDate], (err)=>{
-        if(err){
-            console.log(err.message)
-            return res.status(500).json({err:err.message});
+    try {
+        // Get a connection from the pool
+        const connection = await pool.promise().getConnection(); 
+
+        try {
+            // Start a transaction
+            await connection.beginTransaction();
+
+            // Insert Transaction into Database
+            await connection.query(
+                `INSERT INTO Transactions 
+                 (CustomerID, TransactionID, TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, TransactionDate) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                [CustomerID, TransactionID, TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, formattedTransactionDate]
+            );
+
+            // Update The Inventory
+            await connection.query(
+                `UPDATE Inventory 
+                 JOIN ShoppingCart ON Inventory.ItemID = ShoppingCart.ItemID 
+                 SET Inventory.Quantity = Inventory.Quantity - ShoppingCart.OrderQuantity 
+                 WHERE ShoppingCart.CustomerID = ?`,
+                [CustomerID]
+            );
+
+            // Commit the transaction if everything is successful
+            await connection.commit();
+            console.log("Success in Adding");
+
+            req.body.TransactionID = TransactionID;
+            next();
+        } catch (err) {
+            // Rollback transaction on error
+            await connection.rollback();
+            console.error("Transaction Failed:", err.message);
+            res.status(500).json({ error: err.message });
+            return; // Stop further execution
+        } finally {
+            // Release connection back to the pool
+            connection.release();
         }
-        req.body.TransactionID = TransactionID;
-        console.log("Success in Adding")
-        next()
-    })
-}
+    } catch (err) {
+        console.error("Database Connection Failed:", err.message);
+        res.status(500).json({ error: err.message });
+        return; // Stop further execution
+    }
+};
+
+
 
 //Check if TransactionID is taken
-function transactionIDExists(transactionID){
-    pool.query('Select * From Transactions Where TransactionID = ?', [transactionID], (err, results) => {
-        if (err || results.length != 0) {
-            return true;
-        }
-        return false
+function transactionIDExists(transactionID) {
+    return new Promise((resolve, reject) => {
+        pool.query('SELECT * FROM Transactions WHERE TransactionID = ?', [transactionID], (err, results) => {
+            if (err) {
+                reject(err); // Handle database error
+            } else {
+                resolve(results.length > 0); // Resolve with true if found, false otherwise
+            }
+        });
     });
 }
+
 
 const handleHook = async (req, res) => {
     const sig = req.headers['stripe-signature'];
@@ -141,84 +178,119 @@ const handleHook = async (req, res) => {
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    switch (event.type) {
-        case 'checkout.session.completed':
-            const session = event.data.object;
-            
-            // Fetch the PaymentIntent to check its final status
-            const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent);
+    try {
+        const session = event.data.object;
 
-            console.log("PaymentIntent status:", paymentIntent.status);
+        switch (event.type) {
+            case 'checkout.session.completed': {
+                let connection;
+                try {
+                    connection = await pool.promise().getConnection();
+                    await connection.beginTransaction(); // Begin transaction
 
-            const transactionStatus = paymentIntent.status === 'succeeded' ? (session.metadata.in_store? 'Complete': 'Out For Delivery') : 'Failed';
+                    const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent);
+                    console.log("PaymentIntent status:", paymentIntent.status);
 
+                    const transactionStatus = paymentIntent.status === 'succeeded'
+                        ? (session.metadata.in_store ? 'Complete' : 'Out For Delivery')
+                        : 'Failed';
 
-            const charges = await stripe.charges.list({ payment_intent: paymentIntent.id });
-            const charge = charges.data[0] || {}; // Get the first charge if exists
+                    const charges = await stripe.charges.list({ payment_intent: paymentIntent.id });
+                    const charge = charges.data.length > 0 ? charges.data[0] : {}; // Ensure charge exists
 
+                    const sqlQuery = `
+                        UPDATE Transactions 
+                        SET 
+                            StripeTransactionID = ?, 
+                            PaymentMethod = ?, 
+                            ChargeStatus = ?, 
+                            ReceiptURL = ?, 
+                            Currency = ?, 
+                            AmountPaid = ?, 
+                            TransactionStatus = ? 
+                        WHERE 
+                            TransactionID = ?;
+                    `;
 
-            const sqlQuery = `
-                UPDATE transactions 
-                SET 
-                    StripeTransactionID = ?, 
-                    PaymentMethod = ?, 
-                    ChargeStatus = ?, 
-                    ReceiptURL = ?, 
-                    Currency = ?, 
-                    AmountPaid = ?, 
-                    TransactionStatus = ? 
-                WHERE 
-                    TransactionID = ?;
-            `;
-            
-            const values = [
-                paymentIntent.id, // StripeTransactionID
-                paymentIntent.payment_method, // PaymentMethod
-                paymentIntent.status, // ChargeStatus (e.g., 'succeeded', 'failed')
-                charge.receipt_url || null, // ReceiptURL
-                session.currency, // Currency
-                session.amount_total / 100, // AmountPaid (Stripe uses cents)
-                transactionStatus, // Final transaction status
-                session.metadata.transaction_id // TransactionID (from metadata)
-            ];
+                    const values = [
+                        paymentIntent.id,
+                        paymentIntent.payment_method,
+                        paymentIntent.status,
+                        charge.receipt_url || null,
+                        session.currency,
+                        session.amount_total / 100,
+                        transactionStatus,
+                        session.metadata.transaction_id
+                    ];
 
-            pool.query(sqlQuery, values, (err, results) => {
-                if (err) {
-                    console.error('Database update error:', err.message);
-                    return res.status(500).json({ err: err.message });
+                    await connection.query(sqlQuery, values);
+
+                    if (paymentIntent.status !== 'succeeded') {
+                        await connection.query(
+                            `UPDATE Inventory 
+                             JOIN ShoppingCart ON Inventory.ItemID = ShoppingCart.ItemID 
+                             SET Inventory.Quantity = Inventory.Quantity + ShoppingCart.OrderQuantity 
+                             WHERE ShoppingCart.CustomerID = ?`,
+                            [session.metadata.customer_id]
+                        );
+                    }else{
+                        await connection.query("DELETE FROM shoppingcart WHERE customerid = ?", [session.metadata.customer_id])
+                    }
+                    await connection.commit(); // Commit changes
+                    console.log("Transaction updated successfully.");
+                } catch (err) {
+                    if (connection) await connection.rollback(); // Rollback transaction
+                    console.error("Error updating transaction:", err.message);
+                } finally {
+                    if (connection) connection.release();
                 }
-                console.log('Transaction updated successfully:', results);
-                return res.sendStatus(200);
-            });
-            return;
-        case "checkout.session.expired":
-            const sqlQueryFailed = `
-                UPDATE transactions 
-                SET 
-                    TransactionStatus = ? 
-                WHERE 
-                    TransactionID = ?;
-            `;
-            
-            const valuesFailed = [
-                'Failed', // Final transaction status
-                session.metadata.transaction_id // TransactionID (from metadata)
-            ];
+                break;
+            }
 
-            pool.query(sqlQueryFailed, valuesFailed, (err, results) => {
-                if (err) {
-                    console.error('Database update error:', err.message);
-                    return res.status(500).json({ err: err.message });
+            case 'checkout.session.expired': {
+                let connection;
+                try {
+                    connection = await pool.promise().getConnection();
+                    await connection.beginTransaction(); // Begin transaction
+
+                    const sqlQueryFailed = `
+                        DELETE FROM Transactions
+                        WHERE TransactionID = ?;
+                    `;
+                    const valuesFailed = [session.metadata.transaction_id];
+                    await connection.query(sqlQueryFailed, valuesFailed);
+
+                    await connection.query(
+                        `UPDATE Inventory 
+                         JOIN ShoppingCart ON Inventory.ItemID = ShoppingCart.ItemID 
+                         SET Inventory.Quantity = Inventory.Quantity + ShoppingCart.OrderQuantity 
+                         WHERE ShoppingCart.CustomerID = ?`,
+                        [session.metadata.customer_id]
+                    );
+
+                    await connection.commit(); // Commit changes
+                    console.log("Expired session transaction deleted successfully.");
+                } catch (err) {
+                    if (connection) await connection.rollback();
+                    console.error("Error deleting expired transaction:", err.message);
+                } finally {
+                    if (connection) connection.release();
                 }
-                console.log('Transaction updated successfully:', results);
-                return res.sendStatus(200);
-            });
-            return;
-        default:
-            console.log(`Unhandled event type: ${event.type}`);
-            return res.sendStatus(200);
+                break;
+            }
+
+            default:
+                console.log(`Unhandled event type: ${event.type}`);
+                break;
+        }
+
+        res.sendStatus(200);
+    } catch (err) {
+        console.error("Error handling webhook event:", err.message);
+        res.status(500).send("Internal Server Error");
     }
 };
+
 
 
 module.exports = { handleStripe, addTransaction, handleHook };
