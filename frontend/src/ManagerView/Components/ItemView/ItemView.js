@@ -3,10 +3,11 @@ import './itemView.css';
 import {useState} from 'react';
 import axios from 'axios';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 const ItemView = () => {
   const {itemid} = useParams();
   const [results, setResults] = useState({});
+  const navigate = useNavigate();
   useEffect(() => {
     axios.get(`http://localhost:3301/searchItem/${itemid}`)
       .then((response) => {
@@ -17,6 +18,19 @@ const ItemView = () => {
       });
       
   },[itemid]);
+
+  const handleDelete = async () => {
+    if (window.confirm('Are you sure you want to delete this item?')) {
+      try {
+        await axios.delete(`http://localhost:3301/api/inventory/${itemid}`);
+        alert('Item deleted successfully!');
+        navigate('/managerwelcomepage'); // i'm assuming they would go back to their welcome page after deleting an item
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Failed to delete item.");
+      }
+    }
+  };
   
   return (
 
@@ -41,8 +55,9 @@ const ItemView = () => {
       <p className="item-product-description">{results.Description}</p>
 
       <div className="buttons">
-        <button className="edit-item">Edit</button>
-        <button className="delete-item">Delete</button>
+        {/*I made a new path for managers' item edits and views, called manageritemedit and manageritemview*/}
+        <button onClick={() => navigate(`/manageritemedit/${itemid}`)} className="edit-item">Edit</button>
+        <button onClick={handleDelete} className="delete-item">Delete</button>
       </div>
     </div>
   );

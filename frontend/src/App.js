@@ -15,11 +15,14 @@ function App() {
     <BrowserRouter>
       <Routes>
           <Route path="/" element={<Layout />} >
-              <Route index element={<ManagerWelcomePage />} />
+              <Route index element={<ManagerItemPage />} />
               <Route path="login" element={<LoginPage />} />
               <Route path="shoppingcart" element={<Shoppingcart />}/>
               <Route path="search/:searchType/:query" element={<SearchPage />}/>
               <Route path="itemview/:itemid" element={<ItemPage/>}/>
+              <Route path="manageritemview/:itemid" element={<ManagerItemPage/>}/>
+              <Route path="manageritemedit/:itemid" element={<ManagerItemEditPage/>}/>
+
           </Route>
       </Routes>
     </BrowserRouter>

@@ -8,7 +8,7 @@ import RobotCard from './Components/Robots';
 import TransactionsTable from '../Table/TransactionsTable';
 import { useState} from 'react';
 
-// todo: update links for manager, fix transactions (currently fails to fetch)
+// todo: update links for manager
 function ManagerWelcome(){
     // from navbar
     const [transactionSearchInput, setTransactionSearchInput] = useState("");
