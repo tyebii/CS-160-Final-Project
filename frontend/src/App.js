@@ -6,8 +6,12 @@ import LoginPage from './Pages/LoginPage';
 import Shoppingcart from './Pages/Cart';
 import SearchPage from './Pages/searchPage';
 import ItemPage from './Pages/ItemPage';
+import { AccountPage } from './Pages/AccountPage';
 import { SignupPage } from './Pages/SignupPage';
+import { OrdersPage } from './Pages/OrdersPage';
 import {useAuth} from './Context/AuthHook'
+import { TransactionPage } from './Pages/TransactionPage';
+
 function App() {
   const {auth} = useAuth()
   return (
@@ -20,6 +24,9 @@ function App() {
               <Route path="search/:searchType/:query" element={<SearchPage />}/>
               <Route path="itemview/:itemid" element={<ItemPage/>}/>
               <Route path="signup" element={<SignupPage/>}/>
+              <Route path="account" element={<AccountPage/>}/>
+              <Route path="orders" element={<OrdersPage/>}/>
+              <Route path="/transaction/view" element={<TransactionPage/>}/>
           </Route>
       </Routes>
     </BrowserRouter>

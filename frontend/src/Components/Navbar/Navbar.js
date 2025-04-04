@@ -114,6 +114,16 @@ function Navbar() {
     navigate("/shoppingcart")
   }
 
+  //Click orders
+  const clickOrders = () => {
+    navigate("/orders")
+  }
+
+  //Click orders
+  const clickAccount = () => {
+    navigate("/account")
+  }
+
   //Component
   return (
     <nav className="w-full h-48 bg-gray-100 flex justify-between items-center">
@@ -146,11 +156,34 @@ function Navbar() {
           <p>{auth ? "Logout" : "Login"}</p>
         </li>
 
+        {/* View Account */}
+        {auth ? (
+          <li 
+            onClick={clickAccount}
+            className="flex items-center space-x-2 p-2 hover:bg-gray-300 hover:cursor-pointer rounded-lg"
+          >
+            <p>My Account</p>
+          </li>
+        ) : null}
+
+        {/* View Orders */}
+        {auth ? (
+          <li 
+            onClick={clickOrders}
+            className="flex items-center space-x-2 p-2 hover:bg-gray-300 hover:cursor-pointer rounded-lg"
+          >
+            <p>My Orders</p>
+          </li>
+        ) : null}
+
         {/*Shopping Cart*/}
         <li onClick={auth ? clickShoppingCart : clickLogin} className="flex items-center space-x-2 p-2 hover:bg-gray-300 hover:cursor-pointer rounded-lg">
           <img src={shoppingCartIcon} alt="shopping cart icon" className="w-20 h-12" />
           <p>Shopping Cart</p>
         </li>
+
+
+
       </ul>
 
     </nav>

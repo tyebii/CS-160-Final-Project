@@ -29,8 +29,12 @@ function Welcome() {
             .then((results) => {
                 setFeatured(results.data);
             })
-            .catch((err) => {
-                alert(`Error Status ${error.status}: ${error.response.data.error}`);
+            .catch((error) => {
+                if (error.response?.data?.error) {
+                    alert(`Error Status ${error.status}: ${error.response.data.error}`);
+                } else {
+                    alert("Backend Down");
+                }
             });
     }, []);
     
