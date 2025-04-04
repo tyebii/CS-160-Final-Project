@@ -39,7 +39,7 @@ const handleStripe = async (req, res) => {
                 price_data: {
                     currency: 'usd',
                     product_data: {
-                        name: storeItem[0].ProductName,
+                        name: (storeItem[0].ProductName + ": " + storeItem[0].ItemID),
                     },
                     // Convert to cents for Stripe
                     unit_amount: storeItem[0].Cost * 100, 
@@ -63,7 +63,7 @@ const handleStripe = async (req, res) => {
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
-            expires_at: Math.floor(Date.now() / 1000) + 3600,
+            expires_at: Math.floor(Date.now() / 1000) + 1800,
             line_items: lineItems,
             success_url: 'http://localhost:3300/success',
             cancel_url: 'http://localhost:3300/fail',

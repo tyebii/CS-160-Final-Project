@@ -24,4 +24,16 @@ const getTransactionID = (req, res) => {
     })
 }
 
-module.exports = {getCurrentTransactions, getTransactionID}
+const getCustomerTransactions = (req, res) => {
+    const CustomerID = req.user.CustomerID
+    const sqlQuery = "Select * From Transactions Where CustomerID = ? Order By TransactionDate Desc"
+    pool.query(sqlQuery, [CustomerID], (err,results) => {
+        if(err){
+            res.status(500).json({err:err.message})
+            return;
+        }
+        res.status(200).json(results)
+    })
+}
+
+module.exports = {getCurrentTransactions, getTransactionID, getCustomerTransactions}

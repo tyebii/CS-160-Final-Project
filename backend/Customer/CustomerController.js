@@ -6,7 +6,7 @@ const getCustomer = (req, res) => {
     //Get the customer id
     const customerID = req.user.CustomerID
     //Query essential customer information
-    const sqlQuery = "SELECT u.UserPhoneNumber, u.UserNameLast, u.UserNameFirst, u.UserID, c.JoinDate, u.CustomerID FROM customer c INNER JOIN users u ON c.CustomerID = u.CustomerID WHERE c.CustomerID = ?"
+    const sqlQuery = "SELECT UserID, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, c.CustomerID, c.JoinDate FROM customer c INNER JOIN users u ON c.CustomerID = u.CustomerID WHERE c.CustomerID = ?"
     pool.query(sqlQuery, [customerID], (err, results)=>{
         if(err){
             res.status(500).json({err:err.message})
