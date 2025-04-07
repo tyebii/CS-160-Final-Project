@@ -12,7 +12,7 @@ import axios from "axios";
 function SearchResults() {
 
   //Auth hook
-  const {auth} = useAuth()
+  const {auth,logout} = useAuth()
 
   //Parameters passed in the URL
   const {searchType, query} = useParams();
@@ -22,15 +22,25 @@ function SearchResults() {
 
   //Renders based on changes to searchType and Query 
   useEffect(() => {
-    let endPoint = ``
-    if(auth==null || auth == "Customer"){
-      endPoint = `http://localhost:3301/api/search/${searchType}/customer/${query}`
+    let endPoint = "";
+    const token = localStorage.getItem('accessToken');
+    if(!auth || auth == "Customer"){
+      endPoint = `http://localhost:3301/api/inventory/search/${searchType}/customer/${query}`
     }else{
-      endPoint = `http://localhost:3301/api/search/${searchType}/employee/${query}`
+      if (!token) {
+          alert('No token found');
+          logout();
+          return;
+      }
+      endPoint = `http://localhost:3301/api/inventory/search/${searchType}/employee/${query}`
     }
-
+    console.log(auth)
     //This function will require an authentication header for employees
-    axios.get(endPoint)
+    axios.get(endPoint,{
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+      })
       .then((response) => {
         setResults(response.data);
       })

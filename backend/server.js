@@ -25,15 +25,15 @@ app.use(cors({
 //app.use(express.json());
 
 // Routes
-app.use('/api', stripe)
-app.use('/api', inventory);
-app.use('/api', authentication);
-app.use('/api', shoppingcart);
-app.use('/api', address);
-app.use('/api', robot);
-app.use('/api', employee);
-app.use('/api', customer);
-app.use('/api', transaction);
+app.use('/api/stripe', stripe)
+app.use('/api/robot', robot);
+app.use('/api/inventory', inventory);
+app.use('/api/authentication', authentication);
+app.use('/api/shoppingcart', shoppingcart);
+app.use('/api/address', address);
+app.use('/api/employee', employee);
+app.use('/api/customer', customer);
+app.use('/api/transaction', transaction);
 
 // Start server
 app.listen(PORT, () => {

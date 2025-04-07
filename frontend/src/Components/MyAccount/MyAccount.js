@@ -21,7 +21,7 @@ export function MyAccount (){
         }
 
         axios
-            .get("http://localhost:3301/api/customer", {
+            .get("http://localhost:3301/api/customer/customer", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

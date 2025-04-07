@@ -28,7 +28,7 @@ export function MyOrders (){
         }
 
         axios
-        .get("http://localhost:3301/api/transactions/customer", {
+        .get("http://localhost:3301/api/transaction/transactions/customer", {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

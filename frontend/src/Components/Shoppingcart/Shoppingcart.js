@@ -58,7 +58,7 @@ function ShoppingCart() {
 
     //Fetch The User's Shopping Cart 
     axios
-      .get('http://localhost:3301/api/shoppingcart', {
+      .get('http://localhost:3301/api/shoppingcart/shoppingcart', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -79,7 +79,7 @@ function ShoppingCart() {
 
     //Fetch the User's Associated Addresses
     axios
-      .get('http://localhost:3301/api/address', {
+      .get('http://localhost:3301/api/address/address', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -127,7 +127,7 @@ function ShoppingCart() {
 
     //Deletes The User's Shopping Cart
     axios
-      .delete('http://localhost:3301/api/shoppingcart/clear', {
+      .delete('http://localhost:3301/api/shoppingcart/shoppingcart/clear', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
@@ -160,7 +160,7 @@ function ShoppingCart() {
 
     //Delete An Item From The Shopping Cart
     axios
-      .delete('http://localhost:3301/api/shoppingcart', {
+      .delete('http://localhost:3301/api/shoppingcart/shoppingcart', {
         headers: { Authorization: `Bearer ${token}` },
         data: { ItemID: itemid },
       })
@@ -205,7 +205,7 @@ function ShoppingCart() {
 
     //Create A Stripe Session Checkout
     axios
-        .post('http://localhost:3301/api/create-checkout-session', {
+        .post('http://localhost:3301/api/stripe/create-checkout-session', {
             items: results.map((item) => ({
                 ItemID: item.ItemID,
                 Quantity: item.OrderQuantity,
@@ -215,7 +215,7 @@ function ShoppingCart() {
             TransactionAddress: selectedAddress.Address,
             TransactionStatus: "In Progress",
             TransactionDate: new Date(),
-            InStore: selectedAddress == addresses[0]? true:false
+            InStore: selectedAddress === addresses[0]? true:false
         }, {
             headers: { Authorization: `Bearer ${token}` },
         })
@@ -256,7 +256,7 @@ function ShoppingCart() {
 
     //Adds The Address To The User
     axios.post(
-      `http://localhost:3301/api/address`,
+      `http://localhost:3301/api/address/address`,
       newAddress,
       {
         headers: {

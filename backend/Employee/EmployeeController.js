@@ -4,8 +4,8 @@ const pool = require('../Database Pool/DBConnections')
 
 //Get total list of employees
 const getEmployee = (req,res) => {
-    const sqlQuery = "Select * From Employee" 
-    pool.query(sqlQuery, (err,results)=>{
+    const sqlQuery = "Select * From Employee e, Users u Where e.EmployeeID != ? and e.EmployeeID = u.EmployeeID and e.SupervisorID != '' " 
+    pool.query(sqlQuery, req.user.EmployeeID, (err,results)=>{
         if(err){
             res.status(500).json({err:err.message})
             return;
@@ -50,7 +50,7 @@ const deleteEmployee = (req, res) => {
     const EmployeeID = req.body.EmployeeID
 
     //Delete from DB
-    const sqlQuery = "Delete From Employee Where EmployeeID = ?"
+    const sqlQuery = "DELETE e, u FROM Employee e JOIN Users u ON u.EmployeeID = e.EmployeeID WHERE e.EmployeeID = ?"
     pool.query(sqlQuery, [EmployeeID], (err, results)=>{
         if(err){
             res.status(500).json({err:err.message})

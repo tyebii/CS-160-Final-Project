@@ -186,8 +186,8 @@ const deleteProduct = (req, res) => {
     let {itemid} = req.params;
 
     //Format the ID
-    if(!searchProductIDFormat(itemid)){
-        res.status(400).json({error:"bad request format"})
+    if(!itemid){
+        res.status(400).json({error:"No ItemID"})
         return;
     }
 

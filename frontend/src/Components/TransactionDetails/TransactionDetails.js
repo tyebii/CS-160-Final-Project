@@ -1,6 +1,8 @@
 import React from "react";
-
+import { useAuth } from "../../Context/AuthHook";
 export function TransactionDetails({transaction}) {
+  
+
   if (!transaction) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -9,13 +11,20 @@ export function TransactionDetails({transaction}) {
     );
   }
 
+  const { auth } = useAuth();
+
   return (
     <div className="flex items-center justify-center min-h-screen  p-6">
       <div className="bg-white shadow-lg rounded-lg p-6 max-w-2xl w-full border border-gray-300">
         <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Transaction Summary</h2>
-
         <div className="space-y-4">
           <DetailRow label="Customer ID" value={transaction.CustomerID} />
+          {auth === "Manager" || auth === "Employee" ? (<>
+            <DetailRow label="User ID" value={transaction.UserID} />
+            <DetailRow label="First Name" value={transaction.UserNameFirst} />
+            <DetailRow label="Last Name" value={transaction.UserNameLast} />
+            <DetailRow label="Phone Number" value={transaction.UserPhoneNumber} />
+          </>): null}
           <DetailRow label="Transaction ID" value={transaction.TransactionID} />
           <DetailRow label="Stripe Transaction ID" value={transaction.StripeTransactionID} defaultValue="None" />
           <DetailRow label="Transaction Cost" value={`$${transaction.TransactionCost}`} />
@@ -41,7 +50,7 @@ export function TransactionDetails({transaction}) {
 
 const DetailRow = ({ label, value, defaultValue = "", isBadge = false }) => {
     if (!value) value = defaultValue;
-  
+
     return (
       <p className="text-gray-700">
         <strong className="font-semibold text-gray-800">{label}:</strong>{" "}

@@ -239,7 +239,7 @@ const login = async (req, res) => {
             CustomerID: rows[0].customerid,
             SupervisorID: rows[0].supervisorid 
         };
-        console.log(user.SupervisorID)
+        
         //Creates the JWT token with an expiration time of one hour -- purpose: compromised JWT won't be alive forever
         const accessToken = jwt.sign(user, process.env.Secret_Key, { expiresIn: '1h' });
 
@@ -286,34 +286,40 @@ function authenticateToken(req, res, next) {
 
 //Authorize Employees both Manager and Employee
 function authorizeEmployee(req, res, next){
-    if (!req.user.EmployeeID){
+    if (req.user.EmployeeID!=null){
+        next();
+    }else{
         return res.status(403).json({error:"not authorized as employee"})
     }
-    next();
 }
 
 //Authorize Standard Employees
 function authorizeRegularEmployee(req, res, next){
-    if (!req.user.EmployeeID || !req.user.SupervisorID){
+    if (req.user.EmployeeID!=null && req.user.SupervisorID!=null){
+        next();
+    }else{
         return res.status(403).json({error:"not authorized as standard employee"})
     }
-    next();
 }
 
 //Authorize Customer
 function authorizeCustomer(req, res, next){
-    if (!req.user.CustomerID){
+    if (req.user.CustomerID!=null){
+        next();
+    }else{
         return res.status(403).json({error:"not authorized as customer"})
     }
-    next();
 }
 
 //Authorize Manager
 function authorizeManager(req,res,next){
-    if(req.user.SupervisorID){
+    console.log(req.user.EmployeeID, req.user.SupervisorID)
+    if(req.user.EmployeeID != null && req.user.SupervisorID == null){
+        next();
+    }else{
         return res.status(403).json({error:"not authorized as manager"})
     }
-    next();
+
 }
 
 //Check if the UserID is taken
