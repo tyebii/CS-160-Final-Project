@@ -1,4 +1,10 @@
+import { useAuth } from '../../Context/AuthHook';
+
+//Search Results Card
 const SearchResultsItem = ({ result }) => {
+
+  const { auth } = useAuth();
+  //Card HTML
   return (
     <div className="flex items-center border p-4 bg-white rounded-lg shadow-lg">
       {/* Product Image */}
@@ -13,14 +19,23 @@ const SearchResultsItem = ({ result }) => {
         <h3 className="text-lg font-bold">{result.ProductName}</h3>
         <p className="text-gray-600">Distributed by {result.Distributor}</p>
         <p>
-          <strong>Cost:</strong> ${Number(result.Cost).toLocaleString()}
+          <strong>Cost:</strong> ${result.Cost}
         </p>
         <p>
           <strong>Average Weight:</strong> {result.Weight} LBS
         </p>
-        <p>
-          <strong>Stock:</strong> {result.Quantity} Quantity
-        </p>
+        
+        {auth == "Manager" || auth == "Employee" ? (
+          <div>
+            <p>
+              <strong>Last Modification:</strong> {result.LastModification} 
+            </p>
+            <p>
+              <strong>ItemID:</strong> {result.ItemID} 
+            </p>
+          </div>
+        ) : null}
+        
       </div>
     </div>
   );

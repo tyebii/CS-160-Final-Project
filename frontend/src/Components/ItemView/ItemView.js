@@ -1,78 +1,197 @@
+//Import React Functions
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+
+//Import Auth Context
 import { useAuth } from '../../Context/AuthHook';
-import { useNavigate } from 'react-router-dom';
+
+//Import Axios For Backend Queries
+import axios from 'axios';
+
+//Item View Component
 const ItemView = () => {
-  const {auth} = useAuth();
 
+  //Import Necessary Attributes From Auth Hook
+  const { auth, logout } = useAuth();
+
+  //Get The ItemID In The URL
+  //Allows User To Bookmark Website URL
   const { itemid } = useParams();
-  const [results, setResults] = useState({});
-  const navigate = useNavigate() 
 
+  //Result Object From Querying For The Item 
+  const [results, setResults] = useState({});
+  const navigate = useNavigate();
+
+  //On The Change Of The ItemID Refresh The Results
   useEffect(() => {
-    let endPoint = ``
-    
-    console.log("This is auth", auth)
-    if(!auth || auth == "Customer"){
-      endPoint = `http://localhost:3301/api/search/itemID/customer/${itemid}`
-    }else{
-      endPoint = `http://localhost:3301/api/search/itemID/employee/${itemid}`
+    //If There Is No Item ID Alert The User
+    if (!itemid) {
+      alert("Could not identify item id");
+      return;
     }
-    axios.get(endPoint)
+
+    const token = localStorage.getItem('accessToken');
+
+
+    //Determine The EndPoint Based On The Type Of User
+    let endPoint = "";
+    if (!auth || auth === "Customer") {
+      endPoint = `http://localhost:3301/api/inventory/search/itemID/customer/${itemid}`;
+    } else {
+      if (!token) {
+        alert('No token found');
+        logout();
+        return;
+      }
+      endPoint = `http://localhost:3301/api/inventory/search/itemID/employee/${itemid}`;
+    }
+    
+
+    //Get Request To The Backend
+    axios
+      .get(endPoint,{
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+      })
       .then((response) => {
         setResults(response.data[0]);
       })
       .catch((error) => {
-        console.error("Error:", error);
+        //If Unauthorized Response
+        if (error.response?.status === 401) {
+          alert("You need to login again!");
+          logout();
+        }else{
+          alert(`Error Status ${error.status}: ${error.response.data.error}`);
+        }
       });
   }, [itemid]);
 
+  //Adding The Item To Shopping Cart
   const clickAdd = (e) => {
+    //Stop Default Functionality
     e.preventDefault();
-    if(!auth){
-      navigate('/login')
+
+    //If There Is No One Logged In
+    if (!auth) {
+      alert("Login!");
+      navigate('/login');
       return;
     }
-    const token = localStorage.getItem('accessToken'); // Assuming you store the token in localStorage
-    console.log(token)
-    axios.post(
-      `http://localhost:3301/api/shoppingcart`,
-      {
-        // Data to send in the request body
-        ItemID: results.ItemID,
-        Quantity: document.getElementById("quantitySelect").value
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,  
+
+    //Get The JWT Token
+    const token = localStorage.getItem('accessToken');
+
+    //If The JWT Token Is Not In The Storage
+    if (!token) {
+      alert("Login!");
+      logout();
+      return;
+    }
+
+    //Post Request To The Backend
+    axios
+      .post(
+        `http://localhost:3301/api/shoppingcart/shoppingcart`,
+        {
+          ItemID: results.ItemID,
+          Quantity: document.getElementById("quantity").value,
         },
-      }
-    )
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
-        console.log("Item added to shopping cart:", response.data);
-        navigate("/")
+        alert("Item added to shopping cart!");
+        navigate("/");
       })
       .catch((error) => {
-        console.error("Error:", error);
+        //If Unauthorized Response
+        if (error.response?.status === 401) {
+          alert("Login Again!")
+          logout();
+        }else{
+          alert(`Error Status ${error.status}: ${error.response.data.error}`);
+        }
       });
   };
 
+  const handleDelete = async () => {
+    if (window.confirm('Are you sure you want to delete this item?')) {
+      
+      //If There Is No One Logged In
+      if (!auth) {
+        alert("Login!");
+        navigate('/login');
+        return;
+      }
+  
+      //Get The JWT Token
+      const token = localStorage.getItem('accessToken');
+  
+      //If The JWT Token Is Not In The Storage
+      if (!token) {
+        alert("Login!");
+        logout();
+        return;
+      }
+        
+
+    //Post Request To The Backend
+    axios
+      .delete(
+        `http://localhost:3301/api/inventory/delete/item/${results.ItemID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        alert('Item deleted successfully!');
+        navigate('/');
+      })
+      .catch((error) => {
+        //If Unauthorized Response
+        if (error.response?.status === 401) {
+          alert("Login Again!")
+          logout();
+        }else{
+          alert(`Error Status ${error.status}: ${error.response.data.error}`);
+        }
+      });
+
+    }
+  };
+
+  
+
+  //Item View HTML
   return (
-    <section id ="quantitySelect" className="w-[800px] mx-auto bg-gray-200 p-5 mt-12 flex flex-col">
-      {/* Top Section */}
+    <section className="w-[800px] mx-auto bg-gray-200 p-5 mt-12 flex flex-col">
       <div className="flex mb-5">
-        {/* Product Image */}
         <div className="border-2 border-gray-300 rounded-lg shadow-md bg-white p-3 w-[300px] h-[300px] flex items-center justify-center mr-5">
-          <img 
-            alt={results.ProductName} 
-            className="max-w-full max-h-full object-contain" 
+          {/* Need To Add Source Attribute */}
+          <img
+            alt={results.ProductName}
+            className="max-w-full max-h-full object-contain"
           />
         </div>
 
-        {/* Product Information */}
+        {/*Populated From The Results State Variable*/}
         <div className="flex-1">
-          <h1 className="text-2xl font-bold mb-2">{results.ProductName}</h1>
+          <h2 className="text-2xl font-bold mb-2">{results.ProductName}</h2>
+          {auth === "Employee" || auth === "Manager" ? (
+            <div>
+              <p className="text-lg mb-2">Last Modification: {results.LastModification}</p>
+              <p className="text-lg mb-2">ItemID: {results.ItemID}</p>
+              <p className="text-lg mb-2">Category: {results.Category}</p>
+              <p className="text-lg mb-2">Supplier Cost: {results.SupplierCost}</p>
+            </div>): null
+          }
           <p className="text-lg mb-2">Distributed By: {results.Distributor}</p>
           <p className="text-lg mb-2">Availability: {results.Quantity}</p>
           <p className="text-lg mb-2">Expiration: {results.Expiration}</p>
@@ -81,41 +200,57 @@ const ItemView = () => {
           <p className="text-lg font-semibold mb-2">Weight: {results.Weight}</p>
         </div>
       </div>
-
-      {/* Description Section */}
-      <h2 className="text-2xl font-bold mb-3">Description</h2>
+      <h3 className="text-2xl font-bold mb-3">Description</h3>
       <p className="text-gray-700 leading-relaxed mb-5">{results.Description}</p>
 
-      {/* Add to Cart Button */}
-      
-        
-        
-      <form className="flex flex-col items-center space-y-4">
-        <label htmlFor="quantity" className="text-lg font-semibold">
-          Select Quantity:
-        </label>
-        <select
-          id="quantity"
-          className="border border-gray-300 rounded-lg p-2 text-center w-full max-w-xs"
-        >
-          {Array.from({ length: results.Quantity}, (_, i) => (
-            <option key={i+1} value={i+1} className="text-center">
-              {i+1}
-            </option>
-          ))}
-        </select>
+      {(auth === "Customer" || !auth) ? (
+        <form className="flex flex-col items-center space-y-4 mt-6 w-full">
+          <label htmlFor="quantity" className="text-lg font-semibold text-gray-700">
+            Select Quantity:
+          </label>
 
-        <button
-          className="bg-red-500 hover:bg-red-600 text-white py-3 px-4 text-lg rounded-lg w-full max-w-md"
-          onClick={(e) => {clickAdd(e)}}
-        >
-          Add to Cart
-        </button>
-      </form>
+          {results.Quantity === 0 ? (
+            <p className="text-red-600 font-medium">No Available Stock</p>
+          ) : (
+            <>
+              <select
+                id="quantity"
+                className="border border-gray-300 rounded-lg p-2 text-center w-full max-w-xs focus:ring-2 focus:ring-red-500"
+              >
+                {Array.from({ length: results.Quantity }, (_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {i + 1}
+                  </option>
+                ))}
+              </select>
 
+              <button
+                className="bg-red-500 hover:bg-red-600 text-white py-3 px-4 text-lg rounded-lg w-full max-w-md shadow-md transition-all"
+                onClick={(e) => clickAdd(e)}
+              >
+                Add to Cart
+              </button>
+            </>
+          )}
+        </form>
+      ) : null}
 
-        
-      
+      {auth === "Manager" ? (
+            <div className="mx-auto flex gap-4">
+            <button
+              onClick={() => navigate(`/manageritemedit/`, state={results})}
+              className="bg-yellow-400 text-black py-3 px-6 text-lg font-semibold rounded-lg hover:bg-yellow-500 transition duration-200 w-full max-w-xs"
+            >
+              Edit
+            </button>
+            <button
+              onClick={handleDelete}
+              className="bg-red-500 text-white py-3 px-6 text-lg font-semibold rounded-lg hover:bg-red-600 transition duration-200 w-full max-w-xs"
+            >
+              Delete
+            </button>
+        </div>):null}
+  
     </section>
   );
 };

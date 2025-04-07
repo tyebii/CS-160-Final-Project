@@ -1,6 +1,7 @@
 const express = require('express');
 const {login, signUpFormatManager, signUpCustomer, authenticateToken, signUpFormat, loginFormat, authorizeManager, signUpEmployee, signUpFormatEmployee, signUpManager} = require('./AuthenticationController')
 const router = express.Router();
+router.use(express.json()); 
 
 router.post('/signup/customer', signUpFormat,  signUpCustomer);
 

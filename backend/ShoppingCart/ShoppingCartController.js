@@ -16,7 +16,7 @@ const getShoppingCart = (req, res) => {
 const addToShoppingCart = (req, res) => {
     const CustomerID = req.user.CustomerID
     const {ItemID, Quantity} = req.body
-    pool.query("INSERT IGNORE INTO shoppingcart(customerid, itemid, orderquantity) VALUES (?,?,?)", [CustomerID, ItemID, Quantity], (err, result)=>{
+    pool.query(`INSERT INTO shoppingcart (customerid, itemid, orderquantity) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE orderquantity = ?`, [CustomerID, ItemID, Quantity, Quantity], (err, result)=>{
         if(err){
             res.status(500);
             return;
@@ -56,4 +56,18 @@ const removeFromShoppingCart = (req, res) => {
     )
 }
 
-module.exports = {removeFromShoppingCart, updateShoppingCart, addToShoppingCart, getShoppingCart}
+const clearShoppingCart = (req, res) => {
+    const CustomerID = req.user.CustomerID 
+    const {ItemID} = req.body
+    pool.query("DELETE FROM shoppingcart WHERE customerid = ?", [CustomerID], (err, result)=>{
+        if(err){
+            res.status(500);
+            return;
+        }
+        res.status(200).json({success:"true"})
+        return;
+    }
+    )
+}
+
+module.exports = {removeFromShoppingCart, clearShoppingCart, updateShoppingCart, addToShoppingCart, getShoppingCart}

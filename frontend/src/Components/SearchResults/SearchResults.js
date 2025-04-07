@@ -12,7 +12,7 @@ import axios from "axios";
 function SearchResults() {
 
   //Auth hook
-  const {auth} = useAuth()
+  const {auth,logout} = useAuth()
 
   //Parameters passed in the URL
   const {searchType, query} = useParams();
@@ -22,19 +22,36 @@ function SearchResults() {
 
   //Renders based on changes to searchType and Query 
   useEffect(() => {
-    let endPoint = ``
-    console.log("This is auth", auth)
-    if(auth==null || auth == "Customer"){
-      endPoint = `http://localhost:3301/api/search/${searchType}/customer/${query}`
+    let endPoint = "";
+    const token = localStorage.getItem('accessToken');
+    if(!auth || auth == "Customer"){
+      endPoint = `http://localhost:3301/api/inventory/search/${searchType}/customer/${query}`
     }else{
-      endPoint = `http://localhost:3301/api/search/${searchType}/employee/${query}`
+      if (!token) {
+          alert('No token found');
+          logout();
+          return;
+      }
+      endPoint = `http://localhost:3301/api/inventory/search/${searchType}/employee/${query}`
     }
-    axios.get(endPoint)
+    console.log(auth)
+    //This function will require an authentication header for employees
+    axios.get(endPoint,{
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+      })
       .then((response) => {
         setResults(response.data);
       })
       .catch((error) => {
-        console.error("Error:", error);  
+        //If Unauthorized Response
+        if (error.response?.status === 401) {
+          alert("Login Again!")
+          logout();
+        }else{
+          alert(`Error Status ${error.status}: ${error.response.data.error}`);
+        }
       });
     
   },[searchType, query]);
@@ -57,29 +74,31 @@ function SearchResults() {
   };
 
   return (
-    <nav className="p-4 bg-gray-200 w-[1000px]">
-      {/* Search Results Header */}
-      <h2 className="text-4xl font-bold text-center mb-4">Search Results</h2>
-
-      {/* Filter Section */}
-      <div className="flex justify-start mb-4">
-        <SearchResultsFilter onFilterSelect={handleFilterSelect} />
-      </div>
-
-      {/* Search Result List */}
-      <div className="grid gap-4">
-        {results.length === 0 ? (
-          <h3 className="text-2xl font-bold text-center">No results found</h3>
-        ) : (
-          results.map((result) => (
-            <Link key = {result.ItemID} to = {`/itemview/${result.ItemID}`}>
-              <SearchResultsItem result={result} />
-            </Link>
-          ))
-        )}
-      </div>
-    </nav>
-  );
+    <section className="flex justify-center w-full">
+      <nav className="p-4 bg-gray-200 w-[1000px] mx-auto">
+        {/* Search Results Header */}
+        <h2 className="text-4xl font-bold text-center mb-4">Search Results</h2>
+  
+        {/* Filter Section */}
+        <div className="flex justify-start mb-4">
+          <SearchResultsFilter onFilterSelect={handleFilterSelect} />
+        </div>
+  
+        {/* Search Result List */}
+        <div className="grid gap-4">
+          {results.length === 0 ? (
+            <h3 className="text-2xl font-bold text-center">No results found</h3>
+          ) : (
+            results.map((result) => (
+              <Link key={result.ItemID} to={`/itemview/${result.ItemID}`}>
+                <SearchResultsItem result={result} />
+              </Link>
+            ))
+          )}
+        </div>
+      </nav>
+    </section>
+  );  
 };
 
 export default SearchResults;

@@ -1,5 +1,5 @@
 //React functions
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../Context/AuthHook';
 
@@ -9,7 +9,9 @@ import loginIcon from './NavbarImages/loginIcon.jpg';
 import searchIcon from './NavbarImages/searchIcon.jpg';
 import shoppingCartIcon from './NavbarImages/shoppingCart.png';
 import dropDownIcon from './NavbarImages/dropdownIcon.png';
+import portalIcon from './NavbarImages/portalIcon.png';
 import { useNavigate } from 'react-router-dom';
+
 //Navbar Component
 function Navbar() {
   //Authentication hook
@@ -54,30 +56,65 @@ function Navbar() {
   //Renders the components of the browse
   const renderDropdown = (visible) => {
     if (!visible) return null;
-    const categories = [
-      'Fresh Produce',
-      'Dairy and Eggs',
-      'Meat and Seafood',
-      'Frozen Foods',
-      'Bakery and Bread',
-      'Pantry Staples',
-      'Beverages',
-      'Snacks and Sweets',
-      'Health and Wellness',
-    ];
-    return (
-      <div className="absolute top-full left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-2xl w-72 z-10">
-        {categories.map((category) => (
-          <Link 
-            key={category} 
-            to={`/search/category/${category.replace(/ /g, '-')}`} 
-            className="block p-3 text-lg hover:bg-gray-300 rounded-lg"
-          >
-            {category}
-          </Link>
-        ))}
-      </div>
-    );
+
+    if (auth == "Employee" || auth == "Manager"){
+      let categories;
+      if (auth == "Manager"){
+        categories = [
+          'Product Management',
+          'Robot Management',
+          'Employee Management',
+          'View Transactions',
+        ]
+      }else{
+        categories = [
+          'Robot View',
+          'View Transactions',
+        ]
+      }
+      return (
+        <div className="absolute top-full left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-2xl w-72 z-10">
+          {categories.map((category) => (
+            <Link 
+              key={category} 
+              to={`/#${category.replace(/ /g, '-')}`} 
+              className="block p-3 text-lg hover:bg-gray-300 rounded-lg"
+            >
+              {category}
+            </Link>
+          ))}
+        </div>
+      );
+
+    }else{
+      const categories = [
+        'Fresh Produce',
+        'Dairy and Eggs',
+        'Meat and Seafood',
+        'Frozen Foods',
+        'Bakery and Bread',
+        'Pantry Staples',
+        'Beverages',
+        'Snacks and Sweets',
+        'Health and Wellness',
+      ];
+  
+      //Drop Down Menu
+      return (
+        <div className="absolute top-full left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-2xl w-72 z-10">
+          {categories.map((category) => (
+            <Link 
+              key={category} 
+              to={`/search/category/${category.replace(/ /g, '-')}`} 
+              className="block p-3 text-lg hover:bg-gray-300 rounded-lg"
+            >
+              {category}
+            </Link>
+          ))}
+        </div>
+      );
+    }
+
   };
   
   //Click the OFS logo
@@ -91,8 +128,9 @@ function Navbar() {
     if (text.trim() === "") {
       return;
     }
+
     setSearchText("")
-    navigate(`/search/item/${formatText(text.toLowerCase())}`); // Use backticks
+    navigate(`/search/item/${formatText(text.toLowerCase())}`);
   }
 
   //Click login icon
@@ -100,6 +138,7 @@ function Navbar() {
     navigate("/login")
   }
 
+  //Logout
   const clickLogout = () => {
     logout()
   }
@@ -107,6 +146,21 @@ function Navbar() {
   //Click shopping cart
   const clickShoppingCart = () => {
     navigate("/shoppingcart")
+  }
+
+  //Click orders
+  const clickOrders = () => {
+    navigate("/orders")
+  }
+
+  //Click orders
+  const clickAccount = () => {
+    navigate("/account")
+  }
+
+  //Click portal
+  const clickPortal = () => {
+    navigate("/portal")
   }
 
   //Component
@@ -118,12 +172,14 @@ function Navbar() {
         <li>
           <img src={ofsLogo} alt="ofsLogo" className="w-72 h-48 hover:cursor-pointer" onClick={clickLogo}/>
         </li>
+
         {/*Dropdown*/}
-        <li className="relative flex items-center p-5 hover:bg-gray-300 rounded-xl hover:cursor-pointer" onClick={toggleDropdown}>
-          <p className="text-xl">Browse</p>
-          <img src={dropDownIcon} alt="dropdownIcon" className="w-12 h-12 pl-2" />
-          {renderDropdown(dropdownVisible)}
-        </li>
+          <li className="relative flex items-center p-5 hover:bg-gray-300 rounded-xl hover:cursor-pointer" onClick={toggleDropdown}>
+            <p className="text-xl">{auth == "Employee" || auth == "Manager"? "Tools" : "Browse"}</p>
+            <img src={dropDownIcon} alt="dropdownIcon" className="w-12 h-12 pl-2" />
+            {renderDropdown(dropdownVisible)}
+          </li>
+        
       </ul>
 
       {/*Search Bar*/}
@@ -141,11 +197,38 @@ function Navbar() {
           <p>{auth ? "Logout" : "Login"}</p>
         </li>
 
+        {/* View Account */}
+        {auth == "Customer" ? (
+          <li 
+            onClick={clickAccount}
+            className="flex items-center space-x-2 p-2 hover:bg-gray-300 hover:cursor-pointer rounded-lg"
+          >
+            <p>My Account</p>
+          </li>
+        ) : null}
+
+        {/* View Orders */}
+        {auth == "Customer" ? (
+          <li 
+            onClick={clickOrders}
+            className="flex items-center space-x-2 p-2 hover:bg-gray-300 hover:cursor-pointer rounded-lg"
+          >
+            <p>My Orders</p>
+          </li>
+        ) : null}
+
         {/*Shopping Cart*/}
-        <li onClick={auth ? clickShoppingCart : clickLogin} className="flex items-center space-x-2 p-2 hover:bg-gray-300 hover:cursor-pointer rounded-lg">
-          <img src={shoppingCartIcon} alt="shopping cart icon" className="w-20 h-12" />
-          <p>Shopping Cart</p>
-        </li>
+        {auth == "Manager" || auth == "Employee" ? 
+            (<li onClick={clickPortal} className="flex items-center space-x-2 p-2 hover:bg-gray-300 hover:cursor-pointer rounded-lg">
+              <img src={portalIcon} alt="shopping cart icon" className="w-20 h-12 object-cover" />
+              <p>Portal</p>
+            </li>):
+          (<li onClick={auth ? clickShoppingCart : clickLogin} className="flex items-center space-x-2 p-2 hover:bg-gray-300 hover:cursor-pointer rounded-lg">
+            <img src={shoppingCartIcon} alt="shopping cart icon" className="w-20 h-12" />
+            <p>Shopping Cart</p>
+          </li>)
+        }
+        
       </ul>
 
     </nav>

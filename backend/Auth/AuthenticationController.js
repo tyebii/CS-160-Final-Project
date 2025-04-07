@@ -224,12 +224,12 @@ const login = async (req, res) => {
 
         //If no user was found with the given name throw err 
         if (rows.length === 0) {
-            return res.status(400).json({ error: "Invalid Username" });
+            return res.status(401).json({ error: "Wrong Credentials" });
         }
 
         //Compare the password with the hashed password. If wrong throw err
         if (!(await bcrypt.compare(Password, rows[0].password))) {
-            return res.status(401).json({ error: "Invalid Password" });
+            return res.status(401).json({ error: "Wrong Credentials" });
         }
 
         //Contents of the JWT -- purpose: allows us to create protected routes by checking the JWT payload
@@ -239,7 +239,7 @@ const login = async (req, res) => {
             CustomerID: rows[0].customerid,
             SupervisorID: rows[0].supervisorid 
         };
-        console.log(user.SupervisorID)
+        
         //Creates the JWT token with an expiration time of one hour -- purpose: compromised JWT won't be alive forever
         const accessToken = jwt.sign(user, process.env.Secret_Key, { expiresIn: '1h' });
 
@@ -263,15 +263,17 @@ function authenticateToken(req, res, next) {
 
     //If JWT is not there
     if (token == null){
-        return res.status(401).json({ error: 'No token provided' });
+        console.log("no token here")
+        return res.status(401).json({ error: 'No token' });
     } 
 
     //The JWT is verified with enviornment variable secret -- purpose: keeps secret out of source code
     jwt.verify(token, process.env.Secret_Key, (err, user) => {
         //If token is altered or expired 
         if (err) {
-            res.status(403).json({ error: 'Forbidden: Invalid token' });
-            return
+            console.log(err.message)
+            return res.status(401).json({ error: 'Forbidden: Invalid token' });
+            
         }
 
         //Create new request object and pass on to next middleware
@@ -284,34 +286,40 @@ function authenticateToken(req, res, next) {
 
 //Authorize Employees both Manager and Employee
 function authorizeEmployee(req, res, next){
-    if (!req.user.EmployeeID){
-        return res.status(401).json({error:"not authorized as employee"})
+    if (req.user.EmployeeID!=null){
+        next();
+    }else{
+        return res.status(403).json({error:"not authorized as employee"})
     }
-    next();
 }
 
 //Authorize Standard Employees
 function authorizeRegularEmployee(req, res, next){
-    if (!req.user.EmployeeID || !req.user.SupervisorID){
-        return res.status(401).json({error:"not authorized as standard employee"})
+    if (req.user.EmployeeID!=null && req.user.SupervisorID!=null){
+        next();
+    }else{
+        return res.status(403).json({error:"not authorized as standard employee"})
     }
-    next();
 }
 
 //Authorize Customer
 function authorizeCustomer(req, res, next){
-    if (!req.user.CustomerID){
-        return res.status(401).json({error:"not authorized as customer"})
+    if (req.user.CustomerID!=null){
+        next();
+    }else{
+        return res.status(403).json({error:"not authorized as customer"})
     }
-    next();
 }
 
 //Authorize Manager
 function authorizeManager(req,res,next){
-    if(req.user.SupervisorID){
-        return res.status(401).json({error:"not authorized as manager"})
+    console.log(req.user.EmployeeID, req.user.SupervisorID)
+    if(req.user.EmployeeID != null && req.user.SupervisorID == null){
+        next();
+    }else{
+        return res.status(403).json({error:"not authorized as manager"})
     }
-    next();
+
 }
 
 //Check if the UserID is taken
@@ -392,6 +400,8 @@ async function signUpFormatEmployee(req, res, next) {
     req.body.EmployeeHourly = req.body.EmployeeHourly;
     req.body.SupervisorID = req.body.SupervisorID.trim();
 
+
+
     const {
         EmployeeHireDate,
         EmployeeStatus,
@@ -451,7 +461,6 @@ async function signUpFormatManager(req, res, next) {
     req.body.EmployeeBirthDate = req.body.EmployeeBirthDate.trim();
     req.body.EmployeeDepartment = req.body.EmployeeDepartment.trim();
     req.body.EmployeeHourly = req.body.EmployeeHourly;
-    req.body.SupervisorID = req.body.SupervisorID.trim();
 
     const {
         EmployeeHireDate,
@@ -459,7 +468,6 @@ async function signUpFormatManager(req, res, next) {
         EmployeeBirthDate,
         EmployeeDepartment,
         EmployeeHourly,
-        SupervisorID
     } = req.body;
 
     if (!EmployeeHireDate || isNaN(new Date(EmployeeHireDate).getTime())) {
@@ -509,18 +517,18 @@ async function checkSupervisorExists(SupervisorID) {
 //Checks login format
 function loginFormat(req,res,next){
     if (!req.body.UserID || typeof req.body.UserID != 'string' ){
-        return res.status(400).json({error:"invalid username"})
+        return res.status(400).json({error:"Username Not Found"})
     }
     if (!req.body.Password || typeof req.body.Password != 'string' ){
-        return res.status(400).json({error:"invalid username"})
+        return res.status(400).json({error:"Password Not Found"})
     }
     req.body.UserID = req.body.UserID.trim()
     req.body.Password = req.body.Password.trim()
     if (req.body.UserID.length < 5){
-        return res.status(400).json({error:"invalid username"})
+        return res.status(400).json({error:"Username username"})
     }
     if (req.body.Password.length < 7){
-        return res.status(400).json({error:"invalid username"})
+        return res.status(400).json({error:"Password Too Short"})
     }
     next();
 }

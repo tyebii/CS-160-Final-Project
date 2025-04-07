@@ -24,7 +24,7 @@ const addAddress = async (req, res) => {
         const customerid = req.user.CustomerID
 
         //Information associated with the address input
-        const { Address, City, Zip, Street, State } = req.body;
+        const { Address, City, Zip, State, Name } = req.body;
             
         // Get the connection from the pool
         connection = await pool.promise().getConnection(); 
@@ -34,17 +34,17 @@ const addAddress = async (req, res) => {
         
 
         //Insert address and ignore error if duplicate
-        const sqlQueryOne = 'Insert Ignore Into Address(Address,City,Zip,Street,State) Values(?,?,?,?,?)'
+        const sqlQueryOne = 'INSERT INTO Address (Address, City, Zip, State) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE Address=Address;'
         await connection.query(
             sqlQueryOne, 
-            [Address, City, Zip, Street, State]
+            [Address, City, Zip, State]
         );
     
         // Insert customer/address relationship into customeraddress
-        const sqlQueryTwo = 'Insert Ignore Into customeraddress (Address,CustomerID) Values (?,?)'
+        const sqlQueryTwo = 'Insert Into customeraddress (Address,CustomerID, Name) Values (?,?,?)'
         await connection.query(
             sqlQueryTwo, 
-            [Address, customerid]
+            [Address, customerid, Name]
         );
     
         // Commit the transaction
@@ -56,16 +56,18 @@ const addAddress = async (req, res) => {
         res.status(200).json({ success: true });
 
     } catch (err) {
-        console.error("Error:", err.message);
-    
+        console.log(err.message)
         if (connection) {
             // Rollback if there's an error
             await connection.rollback();
             connection.release();
-            return;
         }
-    
-        res.status(500).json({ error: "Internal Server Error" });
+
+        if (err.code === 'ER_DUP_ENTRY') {
+            return res.status(409).json({ error: "This address is already linked to this customer." });
+        }
+
+        return res.status(500).json({ error: err.message });
     }
 };
 
@@ -128,15 +130,15 @@ const deleteAddress =  async(req,res)=>{
 
 //Format incoming address
 function formatAddress(req, res, next) {
-    if(!req.body.Address || !req.body.City || !req.body.State || !req.body.Zip || !req.body.Street){
+    if(!req.body.Address || !req.body.City || !req.body.State || !req.body.Zip || !req.body.Name){
        return res.status(400).json({err: "invalid input"})
     }
+    req.body.Name = req.body.Name.trim()
     req.body.Address = req.body.Address.trim()
     req.body.City = req.body.City.trim()
     req.body.State = req.body.State.trim()
     req.body.Zip = req.body.Zip.trim()
-    req.body.Street = req.body.Street.trim()
-    const { Address, City, Zip, Street, State } = req.body;
+    const { Address, City, Zip, State, Name } = req.body;
     
 
     // Validate Address
@@ -156,16 +158,17 @@ function formatAddress(req, res, next) {
         return res.status(400).json({ error: 'Zip code must be in the format XXXXX.' });
     }
 
-    // Validate Street
-    if (typeof Street !== 'string' || Street.trim() === '') {
-        return res.status(400).json({ error: 'Street is required and must be a non-empty string.' });
-    }
-
     // Validate State
     const stateRegex = /^[A-Za-z]{2}$/;
     if (typeof State !== 'string' || !stateRegex.test(State.trim())) {
         return res.status(400).json({ error: 'State must be a two-letter abbreviation.' });
     }
+
+    //Validate Name
+    if (typeof Name !== 'string' || Name=="") {
+        return res.status(400).json({ error: 'Name must be at least one character' });
+    }
+    
 
     next();
 }

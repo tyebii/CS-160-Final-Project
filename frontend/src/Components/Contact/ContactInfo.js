@@ -1,3 +1,4 @@
+//Import The Social Media Icons 
 import {
   FaFacebook,
   FaInstagram,
@@ -5,6 +6,7 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 
+//Contact Component
 const Footer = () => {
   return (
     <div className="bg-gray-300  p-6  mb-0 w-full">
