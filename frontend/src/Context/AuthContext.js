@@ -24,8 +24,7 @@ export const AuthProvider = ({children}) => {
   const login = ()=>{
     try {
       const decoded = jwtDecode(localStorage.getItem("accessToken"))
-
-      if(decoded.SupervisorID != null){
+      if(decoded.EmployeeID != null && decoded.SupervisorID == null){
         localStorage.setItem("Auth", "Manager")
         return setAuth("Manager")
         

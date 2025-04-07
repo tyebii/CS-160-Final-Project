@@ -4,12 +4,8 @@ const { v4: uuidv4 } = require('uuid');
 
 //Get the robot
 const getRobot = (req,res) => {
-    //Get the ID of the robot
-    const {RobotID} = req.body
-    
-    //Get the robot information
-    const sqlQuery = "Select * From robot where RobotID = ?"
-    pool.query(sqlQuery, RobotID, (err, results)=>{
+    const sqlQuery = "Select * From robot"
+    pool.query(sqlQuery, (err, results)=>{
             if(err){
                 res.status(500).json({ err: err.message})
                 return;
@@ -36,10 +32,9 @@ const getFaultyRobot = (req,res)=>{
 //Add a robot 
 const addRobot = (req, res) => {
     //Robot data
-    const {CurrentLoad,RobotAddress,RobotStatus, Maintanence, Speed,BatteryLife, EstimatedDelivery} = req.body
-    const RobotID = uuidv4();
-    const sqlQuery = "Insert Into Robot(RobotID, CurrentLoad, RobotAddress, RobotStatus, Maintanence, Speed, BatteryLife, EstimatedDelivery) Values(?,?,?,?,?,?,?,?)"
-    pool.query(sqlQuery, [RobotID,CurrentLoad,RobotAddress,RobotStatus,Maintanence,Speed,BatteryLife,EstimatedDelivery], (err, results)=>{
+    const {RobotID, CurrentLoad,RobotStatus, Maintanence, Speed,BatteryLife, EstimatedDelivery} = req.body
+    const sqlQuery = "Insert Into Robot(RobotID, CurrentLoad, RobotStatus, Maintanence, Speed, BatteryLife, EstimatedDelivery) Values(?,?,?,?,?,?,?)"
+    pool.query(sqlQuery, [RobotID,CurrentLoad,RobotStatus,Maintanence,Speed,BatteryLife,EstimatedDelivery], (err, results)=>{
             if(err){
                 res.status(500).json({ err: err.message})
                 return;
@@ -50,9 +45,9 @@ const addRobot = (req, res) => {
 }
 
 const updateRobot = (req, res) => {
-    const {RobotID, CurrentLoad,RobotAddress,RobotStatus, Maintanence, Speed,BatteryLife, EstimatedDelivery} = req.body
-    const sqlQuery = "Update robot set CurrentLoad = ?, RobotAddress = ?, RobotStatus = ?, Maintanence = ?, Speed = ?, BatteryLife = ?, EstimatedDelivery = ? Where RobotID = ?"
-    pool.query(sqlQuery, [CurrentLoad,RobotAddress,RobotStatus,Maintanence,Speed,BatteryLife,EstimatedDelivery, RobotID], (err, results)=>{
+    const {RobotID, CurrentLoad,RobotStatus, Maintanence, Speed,BatteryLife, EstimatedDelivery} = req.body
+    const sqlQuery = "Update robot set CurrentLoad = ?, RobotStatus = ?, Maintanence = ?, Speed = ?, BatteryLife = ?, EstimatedDelivery = ? Where RobotID = ?"
+    pool.query(sqlQuery, [CurrentLoad,RobotStatus,Maintanence,Speed,BatteryLife,EstimatedDelivery, RobotID], (err, results)=>{
         if(err){
             res.status(500).json({ err: err.message})
             return;

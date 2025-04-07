@@ -11,6 +11,9 @@ import { SignupPage } from './Pages/SignupPage';
 import { OrdersPage } from './Pages/OrdersPage';
 import {useAuth} from './Context/AuthHook'
 import { TransactionPage } from './Pages/TransactionPage';
+import { RobotAddPage } from './Pages/RobotAddPage';
+import { UpdateRobotPage } from './Pages/UpdateRobotPage';
+import Portal from './Pages/Portal';
 
 function App() {
   const {auth} = useAuth()
@@ -26,7 +29,11 @@ function App() {
               <Route path="signup" element={<SignupPage/>}/>
               <Route path="account" element={<AccountPage/>}/>
               <Route path="orders" element={<OrdersPage/>}/>
-              <Route path="/transaction/view" element={<TransactionPage/>}/>
+              <Route path="transaction/view" element={<TransactionPage/>}/>
+              <Route path="portal" element={<Portal/>}/>
+              <Route path="addrobot" element={<RobotAddPage></RobotAddPage>}/>
+              <Route path="updaterobot" element={<UpdateRobotPage></UpdateRobotPage>}/>
+              <Route path="*" element={<h1>404 Not Found</h1>} />
           </Route>
       </Routes>
     </BrowserRouter>

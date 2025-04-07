@@ -5,7 +5,6 @@ export function TransactionPage() {
     const location = useLocation();
     const transaction = location.state;
   
-    console.log(transaction);
     return (
         <TransactionDetails transaction={transaction}/>
     );

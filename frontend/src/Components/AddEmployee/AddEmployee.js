@@ -1,43 +1,5 @@
-//Import axios
-import axios from "axios";
-
-//Import navigation functionality
-import { useNavigate } from "react-router-dom";
-
-//Signup Component
-export function Signup() {
-
-    //Use navigate hook
-    const navigate = useNavigate();
-
-    //Handler function on submit
-    const clickSubmit = (e) => {
-
-        //Prevent submission and refresh
-        e.preventDefault();
-
-        //Make an axios request to the backend 
-        axios.post(
-            "http://localhost:3301/api/authentication/signup/customer", 
-            {
-                UserID: document.getElementById("User-ID").value,
-                Password: document.getElementById("Password").value,
-                UserNameFirst: document.getElementById("First-Name").value,
-                UserNameLast: document.getElementById("Last-Name").value,
-                UserPhoneNumber: document.getElementById("Phone-Number").value,
-            }
-        )
-        //Results of request
-        .then((results) => {
-            console.log("Success")
-            //Navigate home
-            navigate("/");
-        })
-        .catch((error) => {
-            alert(`Error Status ${error.status}: ${error.response.data.error}`);
-        });
-    };
-
+const function AddEmployee(){
+    //UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID
     return (
         <form onSubmit={clickSubmit} className="m-auto bg-white p-6 rounded-2xl shadow-lg w-96 mt-10">
             <h2 className="text-2xl font-semibold text-center mb-4">Sign Up</h2>
@@ -59,5 +21,5 @@ export function Signup() {
             
             <button className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200">Sign Up</button>
         </form>
-    );
+    )
 }

@@ -65,8 +65,8 @@ const handleStripe = async (req, res) => {
             mode: 'payment',
             expires_at: Math.floor(Date.now() / 1000) + 1800,
             line_items: lineItems,
-            success_url: 'http://localhost:3300/success',
-            cancel_url: 'http://localhost:3300/fail',
+            success_url: 'http://localhost:3300/orders',
+            cancel_url: 'http://localhost:3300/orders',
             metadata: {
                 transaction_id: req.body.TransactionID,  // Make sure this is populated
                 in_store: req.body.InStore,
@@ -190,7 +190,7 @@ const handleHook = async (req, res) => {
                     console.log("PaymentIntent status:", paymentIntent.status);
 
                     const transactionStatus = paymentIntent.status === 'succeeded'
-                        ? (session.metadata.in_store ? 'Complete' : 'Out For Delivery')
+                        ? (session.metadata.in_store === 'true' ? 'Complete' : 'Out For Delivery')
                         : 'Failed';
 
                     const charges = await stripe.charges.list({ payment_intent: paymentIntent.id });

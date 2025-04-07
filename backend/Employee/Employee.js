@@ -5,7 +5,7 @@ const {signUpFormatEmployee} = require('../Auth/AuthenticationController')
 const router = express.Router()
 router.use(express.json());
 
-router.get('/employee', authenticateToken, authorizeManager, getEmployee)
+router.get('/employee/supervisor', authenticateToken, authorizeManager, getEmployee)
 
 router.get('/employee/id', authenticateToken, authorizeManager, getEmployeeID)
 

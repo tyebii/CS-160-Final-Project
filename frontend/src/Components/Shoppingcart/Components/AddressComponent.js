@@ -33,7 +33,7 @@ function AddressComponent({address,setAddress,addressList}){
         //Delete The Address
         axios
           .delete(
-            `http://localhost:3301/api/address`,
+            `http://localhost:3301/api/address/address`,
             {
               data: { Address: address.Address },
               headers: {

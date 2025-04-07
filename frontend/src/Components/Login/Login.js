@@ -38,7 +38,7 @@ function Login() {
 
         //Axios request to backend
         axios.post(
-            "http://localhost:3301/api/login", 
+            "http://localhost:3301/api/authentication/login", 
             { // Request body (JSON payload)
                 UserID: username,
                 Password: password
