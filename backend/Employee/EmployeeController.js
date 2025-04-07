@@ -30,19 +30,41 @@ const getEmployeeID = (req,res) => {
 
 //Update the employees information
 const updateEmployee = (req, res) => {
-    //EmployeeInformation
-    const {EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID} = req.body
-    
-    //Append the information to DB
-    const sqlQuery = "Update employee Set EmployeeHireDate = ?, EmployeeStatus = ?, EmployeeBirthDate = ?, EmployeeDepartment = ?, EmployeeHourly = ?, SupervisorID = ? Where EmployeeID = ?"
-    pool.query(sqlQuery, [EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID, EmployeeID], (err, results)=>{
-        if(err){
-            res.status(500).json({err:err.message})
+    // Destructure employee information from the request body
+    const { UserID, EmployeeID, UserNameFirst, UserNameLast, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, UserPhoneNumber, SupervisorID } = req.body;
+
+    console.log(req.body)
+    // SQL query to update both employee and user information
+    const sqlQuery = `
+        UPDATE employee e
+        JOIN users u ON e.EmployeeID = u.EmployeeID
+        SET 
+            u.UserNameFirst = ?, 
+            u.UserNameLast = ?, 
+            u.UserPhoneNumber = ?, 
+            e.EmployeeHireDate = ?, 
+            e.EmployeeStatus = ?, 
+            e.EmployeeBirthDate = ?, 
+            e.EmployeeDepartment = ?, 
+            e.EmployeeHourly = ?, 
+            e.SupervisorID = ?
+        WHERE e.EmployeeID = ? and u.UserID=?;
+    `;
+
+    // Execute the query with the provided values
+    pool.query(sqlQuery, [
+        UserNameFirst, UserNameLast, UserPhoneNumber, 
+        EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, 
+        EmployeeDepartment, EmployeeHourly, SupervisorID, EmployeeID, UserID
+    ], (err, results) => {
+        if (err) {
+            res.status(500).json({ err: err.message });
             return;
         }
-        res.status(200).json({success:"True"})
-    })
-}
+        res.status(200).json({ success: "True" });
+    });
+};
+
 
 //Delete the employee
 const deleteEmployee = (req, res) => {

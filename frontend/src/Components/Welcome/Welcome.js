@@ -193,11 +193,14 @@ function Welcome() {
                     <h2 className="text-center text-3xl font-bold mb-6 text-gray-800">Robot Fleet</h2>
                     <Robots></Robots>
                     <h2 className="text-center text-3xl font-bold mb-6 text-gray-800">Add Robot</h2>
-                    <div className="mb-10 flex justify-center items-center h-full">
-                        <button onClick = {()=>{navigate('/addrobot')}} className="bg-green-500 text-white px-8 py-2 rounded-lg hover:bg-green-600 transition-colors">
-                            Add Robot
-                        </button>
-                    </div>
+                    {auth == "Manager"?(                    
+                        <div className="mb-10 flex justify-center items-center h-full">
+                            <button onClick = {()=>{navigate('/addrobot')}} className="bg-green-500 text-white px-8 py-2 rounded-lg hover:bg-green-600 transition-colors">
+                                Add Robot
+                            </button>
+                        </div>)
+                    : null}
+
                 </section>
             ):null}
             
