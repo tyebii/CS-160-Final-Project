@@ -13,6 +13,8 @@ import {useAuth} from './Context/AuthHook'
 import { TransactionPage } from './Pages/TransactionPage';
 import { RobotAddPage } from './Pages/RobotAddPage';
 import { UpdateRobotPage } from './Pages/UpdateRobotPage';
+import { AddEmployePage } from './Pages/AddEmployeePage';
+import { UpdateEmployeePage } from './Pages/UpdateEmployee';
 import Portal from './Pages/Portal';
 
 function App() {
@@ -33,6 +35,8 @@ function App() {
               <Route path="portal" element={<Portal/>}/>
               <Route path="addrobot" element={<RobotAddPage></RobotAddPage>}/>
               <Route path="updaterobot" element={<UpdateRobotPage></UpdateRobotPage>}/>
+              <Route path="addemployee" element={<AddEmployePage></AddEmployePage>}/>
+              <Route path="updateemployee" element={<UpdateEmployeePage></UpdateEmployeePage>}/>
               <Route path="*" element={<h1>404 Not Found</h1>} />
           </Route>
       </Routes>

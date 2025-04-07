@@ -400,6 +400,8 @@ async function signUpFormatEmployee(req, res, next) {
     req.body.EmployeeHourly = req.body.EmployeeHourly;
     req.body.SupervisorID = req.body.SupervisorID.trim();
 
+
+
     const {
         EmployeeHireDate,
         EmployeeStatus,
@@ -459,7 +461,6 @@ async function signUpFormatManager(req, res, next) {
     req.body.EmployeeBirthDate = req.body.EmployeeBirthDate.trim();
     req.body.EmployeeDepartment = req.body.EmployeeDepartment.trim();
     req.body.EmployeeHourly = req.body.EmployeeHourly;
-    req.body.SupervisorID = req.body.SupervisorID.trim();
 
     const {
         EmployeeHireDate,
@@ -467,7 +468,6 @@ async function signUpFormatManager(req, res, next) {
         EmployeeBirthDate,
         EmployeeDepartment,
         EmployeeHourly,
-        SupervisorID
     } = req.body;
 
     if (!EmployeeHireDate || isNaN(new Date(EmployeeHireDate).getTime())) {

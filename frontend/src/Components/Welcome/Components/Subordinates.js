@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../../Context/AuthHook";
-
+import { useNavigate } from "react-router-dom";
 const Subordinates = () => {
+  const navigate = useNavigate()
   const { logout } = useAuth();
   const [subordinates, setSubordinates] = useState([]);
 
@@ -77,14 +78,14 @@ const Subordinates = () => {
             className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:scale-105 p-5 flex flex-col items-center"
             >
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Employee {subordinate.EmployeeID}
+                Employee {subordinate.UserID}
             </h3>
             <p className="text-sm text-gray-500 mb-4 italic">
                 {`${subordinate.UserNameFirst} ${subordinate.UserNameLast}`}
             </p>
             <div className="w-full text-sm text-gray-700 space-y-1 mb-6">
                 <p><strong>Phone:</strong> {subordinate.UserPhoneNumber}</p>
-                <p><strong>ID:</strong> {subordinate.EmployeeID}</p>
+                <p><strong>Employee ID:</strong> {subordinate.EmployeeID}</p>
                 <p><strong>Hire Date:</strong> {subordinate.EmployeeHireDate.slice(0,10)}</p>
                 <p><strong>Status:</strong> {subordinate.EmployeeStatus}</p>
                 <p><strong>Department:</strong> {subordinate.EmployeeDepartment}</p>
@@ -92,7 +93,7 @@ const Subordinates = () => {
                 <p><strong>Supervisor ID:</strong> {subordinate.SupervisorID}</p>
             </div>
             <div>
-                <button className="mr-5 mt-auto bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
+                <button onClick = {() => { navigate("/updateemployee", { state: subordinate }) }} className="mr-5 mt-auto bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors">
                     Edit
                 </button>
                 <button onClick = {()=>{clickTerminate(subordinate.EmployeeID)}}className="mt-auto bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
