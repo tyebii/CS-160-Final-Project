@@ -4,6 +4,7 @@ import Layout from './Pages/Layout';
 import WelcomePage from './Pages/WelcomePage';
 import LoginPage from './Pages/LoginPage';
 import Shoppingcart from './Pages/Cart';
+import CheckoutPage from './Pages/CheckoutPage';
 import SearchPage from './Pages/searchPage';
 import ItemPage from './Pages/ItemPage';
 import { AccountPage } from './Pages/AccountPage';
@@ -26,6 +27,7 @@ function App() {
               <Route index element= {<WelcomePage />} />
               <Route path="login" element={<LoginPage />} />
               <Route path="shoppingcart" element={<Shoppingcart />}/>
+              <Route path="checkoutpage" element={<CheckoutPage />}/>
               <Route path="search/:searchType/:query" element={<SearchPage />}/>
               <Route path="itemview/:itemid" element={<ItemPage/>}/>
               <Route path="signup" element={<SignupPage/>}/>
