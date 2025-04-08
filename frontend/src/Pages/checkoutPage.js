@@ -1,9 +1,11 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {AddressModal} from './Modal/AddressModal';
 import {PaymentModal} from './Modal/PaymentModal';
 
 import AddressComponent from './AddressComponent';
 import PaymentComponent from './PaymentComponent';
+
+import axios from "axios"; 
 
 function CheckoutPage() {
 
@@ -18,6 +20,15 @@ function CheckoutPage() {
     const handlePaymentClick = () => {
         setPaymentModalOpen(false);
     };
+
+    useEffect( () => {
+        //auth
+
+        let endPoint = ``;
+        axios
+            //tbi after merge
+        }
+    );
 
     return(
         <div class="relative overflow-hidden"> 
@@ -42,7 +53,7 @@ function CheckoutPage() {
                                             <div className="flex flex-row mx-4 mb-4">
                                                     <input type="text" id="address" className="w-2/3 mx-1 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" placeholder="Address" required />
                                                     <input type="text" id="apt" className="w-1/3 mx-1 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" placeholder="Apt, Suite, etc." required />
-                                            </div> 
+                                            </div>
                                             <div className="flex flex-row mx-4">
                                                 <input type="text" id="city" className="mx-1 w-1/3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" placeholder="City" required />
                                                 <input type="text" id="state" className="mx-1 w-1/3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" placeholder="State" required />
@@ -63,11 +74,11 @@ function CheckoutPage() {
                                     {paymentModalOpen && (
                                         <PaymentModal onSubmit={handlePaymentClick} onCancel={handlePaymentClick} onClose={handlePaymentClick}>
                                             <div className="flex flex-col mx-4 mb-4">
-                                                    <input type="text" id="card_number" className="w-full mx-1 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" placeholder="Credit Card Number" required />
+                                                    <input type="number" id="card_number" className="w-full mx-1 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" placeholder="Credit Card Number" required />
                                             </div> 
                                             <div className="flex flex-row mx-4">
                                                 <input type="text" id="expiry" className="mx-1 w-3/5 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" placeholder="Expiration MM/YY" required />
-                                                <input type="text" id="cvn" className="mx-1 w-2/5 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" placeholder="CVN" required />
+                                                <input type="password" id="cvn" className="mx-1 w-2/5 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" placeholder="CVN" required />
                                             </div>
                                         </PaymentModal>
                                     )}

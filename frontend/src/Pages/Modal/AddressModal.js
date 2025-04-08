@@ -4,7 +4,7 @@ import React from 'react';
 export const AddressModal = ({onSubmit, onCancel, onClose, children}) => {
     return(
         <div className="flex">
-            <div className="flex flex-col rounded-md border-2 border-gray-900 border-solid">
+            <div className="flex flex-col rounded-md border-2 border-gray-400 border-solid">
                 <div className="flex justify-end px-2 text-3xl">
                     <p className="" onClick={() => onClose()}>&times;</p>
                 </div>
