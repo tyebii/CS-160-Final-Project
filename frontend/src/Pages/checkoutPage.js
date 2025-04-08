@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react';
-import {AddressModal} from './Modal/AddressModal';
-import {PaymentModal} from './Modal/PaymentModal';
+import {AddressModal} from '../Components/Checkout/Modal/AddressModal';
+import {PaymentModal} from '../Components/Checkout/Modal/PaymentModal';
 
-import AddressComponent from './AddressComponent';
-import PaymentComponent from './PaymentComponent';
+import AddressComponent from '../Components/Checkout/AddressComponent';
+import PaymentComponent from '../Components/Checkout/PaymentComponent';
 
 import axios from "axios"; 
 
