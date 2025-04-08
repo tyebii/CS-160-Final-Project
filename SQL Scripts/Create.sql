@@ -120,6 +120,11 @@ Create Table FeaturedItems(
     Foreign Key(ItemID) References Inventory(ItemID) on delete cascade
 );
 
+Create Table NearExpiration( 
+    ItemID varchar(255) primary key,
+    Foreign Key(ItemID) References Inventory(ItemID) on delete cascade
+);
+
 Alter Table robot
 Add Constraint CheckRobotWeight Check (CurrentLoad<=200 and Currentload >= 0);
 
@@ -226,6 +231,20 @@ BEGIN
     END IF;
 END$$
 
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE EVENT NearExpiration
+ON SCHEDULE EVERY 1 DAY
+DO
+BEGIN
+    INSERT IGNORE INTO NearExpiration(ItemID)
+    SELECT ItemID
+    FROM Inventory
+    WHERE DATEDIFF(Expiration, CURDATE()) <= 3;
+END;
 
 DELIMITER ;
 

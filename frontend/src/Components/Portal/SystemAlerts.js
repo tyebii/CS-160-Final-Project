@@ -64,16 +64,16 @@ const SystemAlerts = () => {
         <p>
           <strong>
             Low Stock Triggers: {lowStockTriggers.length}
-            { lowStockTriggers.length == 0 ? (<p>No Low Stock Inventory</p>) : (<TaggedItems items={lowStockTriggers} />)}
           </strong>
+          { lowStockTriggers.length == 0 ? (<p className="mb-5">No Low Stock Inventory</p>) : (<TaggedItems items={lowStockTriggers} />)}
         </p>
         <p>
           <strong>Expiration Date Triggers: {expirationDateTriggers.length}</strong>
-          { expirationDateTriggers.length == 0 ? (<p className="mb-5">No Expiration</p>) : (<TaggedItems items={expirationDateTriggers} />)}
+          { expirationDateTriggers.length == 0 ? (<p className="mb-5">No Expiration</p>) : (<TaggedItems  items={expirationDateTriggers} />)}
         </p>
         <p>
           <strong>Robot Malfunctions:  {robotMalfunctions.length}</strong>
-          { robotMalfunctions.length == 0 ? (<p className="mb-5">No Faulty Robots</p>) : (<TaggedItems items={robotMalfunctions} />)}
+          { robotMalfunctions.length == 0 ? (<p className="mb-5">No Faulty Robots</p>) : (<TaggedItems  robots={robotMalfunctions} />)}
         </p>
     </div>
   );

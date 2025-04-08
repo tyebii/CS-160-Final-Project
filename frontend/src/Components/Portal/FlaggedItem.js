@@ -1,7 +1,7 @@
 //Import navigation functionality
 import { useNavigate } from "react-router-dom";
 
-const FlaggedItem = ({ item }) => {
+const FlaggedItem = ({ item, robots }) => {
   const navigate = useNavigate();
 
   return (
