@@ -22,19 +22,11 @@ function Login() {
     //Authentication Hook
     const {login} = useAuth();
 
+
     //Submission of Login Form
     const handleSubmit = (e) => {
         //Prevent page refresh and default sending
         e.preventDefault();
-        
-        if (username.length < 5){
-            alert("Username Too Short");
-            return
-        }else if(password.length < 7){
-            alert("Password Too Short")
-            return
-        }
-
 
         //Axios request to backend
         axios.post(
@@ -42,11 +34,6 @@ function Login() {
             { // Request body (JSON payload)
                 UserID: username,
                 Password: password
-            }, 
-            { // Headers (Third Argument)
-                headers: {
-                    'Content-Type': 'application/json'
-                }
             }
         )
         //Results of request

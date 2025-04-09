@@ -34,7 +34,6 @@ export function MyOrders (){
             },
         })
         .then((response) => {
-            console.log(response.data)
             setResults(response.data)
         })
         .catch((error) => {

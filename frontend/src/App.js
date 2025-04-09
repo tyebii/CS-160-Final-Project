@@ -16,9 +16,10 @@ import { UpdateRobotPage } from './Pages/UpdateRobotPage';
 import { AddEmployePage } from './Pages/AddEmployeePage';
 import { UpdateEmployeePage } from './Pages/UpdateEmployee';
 import Portal from './Pages/Portal';
+import { ItemEditPage } from './Pages/ItemEditPage';
+import { ItemAddPage } from './Pages/ItemAddPage';
 
 function App() {
-  const {auth} = useAuth()
   return (
     <BrowserRouter>
       <Routes>
@@ -37,6 +38,8 @@ function App() {
               <Route path="updaterobot" element={<UpdateRobotPage></UpdateRobotPage>}/>
               <Route path="addemployee" element={<AddEmployePage></AddEmployePage>}/>
               <Route path="updateemployee" element={<UpdateEmployeePage></UpdateEmployeePage>}/>
+              <Route path="itemedit" element={<ItemEditPage></ItemEditPage>}/>
+              <Route path="additem" element={<ItemAddPage></ItemAddPage>}/>
               <Route path="*" element={<h1>404 Not Found</h1>} />
           </Route>
       </Routes>

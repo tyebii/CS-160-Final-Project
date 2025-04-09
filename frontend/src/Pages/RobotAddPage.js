@@ -1,4 +1,4 @@
-import { RobotAdd } from "../Components/RobotAdd/RobotAdd";
+import { RobotAdd } from "../Components/UpdateAddRobot/RobotAdd"
 
 export function RobotAddPage(){
     return (<RobotAdd></RobotAdd>)

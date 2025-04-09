@@ -1,6 +1,7 @@
 //Import the database connection pool
 const pool = require('../Database Pool/DBConnections')
-
+const multer = require('multer');
+const path = require('path');
 
 //Call back for category name queries
 const categoryQuery = (req, res) => {
@@ -23,6 +24,11 @@ const categoryQuery = (req, res) => {
             res.status(500).json({ error: 'Internal Server Error' });
             return;
         }
+        
+        for(let i = 0; i < results.length; i++){
+            results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
+        }
+
         res.status(200).json(results);
     });
 };
@@ -46,6 +52,9 @@ const productQueryName = (req, res) => {
           console.error('Error executing query:', err);
           res.status(500).json({ error: 'Internal Server Error' });
           return;
+        }
+        for(let i = 0; i < results.length; i++){
+            results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
         }
         res.status(200).json(results);
     });
@@ -72,6 +81,9 @@ const categoryQueryEmployee = (req, res) => {
             res.status(500).json({ error: 'Internal Server Error' });
             return;
         }
+        for(let i = 0; i < results.length; i++){
+            results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
+        }
         res.status(200).json(results);
     });
 };
@@ -97,9 +109,13 @@ const productQueryNameEmployee = (req, res) => {
           res.status(500).json({ error: 'Internal Server Error' });
           return;
         }
+        for(let i = 0; i < results.length; i++){
+            results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
+        }
         res.status(200).json(results);
     });
 }
+
 
 //Call back for product id queries
 const productQueryID = (req, res) => {
@@ -113,6 +129,9 @@ const productQueryID = (req, res) => {
           res.status(500).json({ error: 'Internal Server Error' });
           return;
       }
+      for(let i = 0; i < results.length; i++){
+        results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
+        }
         res.status(200).json(results);
     });
 }
@@ -129,17 +148,48 @@ const productCustomerQueryID = (req, res) => {
           res.status(500).json({ error: 'Internal Server Error' });
           return;
       }
+      for(let i = 0; i < results.length; i++){
+        results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
+    }
         res.status(200).json(results);
     });
 }
 
+
+// Set storage location and file naming convention for uploaded files
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        console.log(req.body)
+        cb(null, './uploads/');  // Store images in './uploads' directory
+    },
+    filename: function (req, file, cb) {
+        
+        cb(null, Date.now() + path.extname(file.originalname));  // Use a unique name based on the timestamp
+    }
+});
+
+const upload = multer({ storage: storage });
+
+
 //Insert product into inventory
 const productInsert = (req, res) => {
-    //Items description to insert
-    const {Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost,  Expiration, StorageRequirement, ImageLink, Description} = req.body;
-    
+    const fileName = req.file.filename;  
+    const { 
+        ProductName,
+        Distributor,
+        Quantity,
+        Expiration,
+        StorageRequirement,
+        Cost,
+        Weight,
+        Category,
+        SupplierCost,
+        Description
+    } = JSON.parse(req.body.Json);
+
+    console.log({ProductName, Distributor, Quantity, Expiration, StorageRequirement, Cost, Weight, Category, SupplierCost, Description})
     //Make sure all the entries are up to code
-    if(!insertFormat(Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost, Expiration, StorageRequirement, ImageLink, Description)){
+    if(!insertFormat(Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost, Expiration, StorageRequirement, fileName, Description)){
         res.status(400).json({error:"bad request format"})
         return;
     }
@@ -148,7 +198,7 @@ const productInsert = (req, res) => {
     let InventoryID = uuidv4(); // Generates a cryptographically safe unique customer ID'
                 
     //Insert into the inventory
-    pool.query('INSERT IGNORE INTO inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, StorageRequirement, LastModification, ImageLink, Cost, Description) Values (?,?,?,?,?,?,?,?,?,?,?,?,?)', [InventoryID, Number(Quantity), Distributor, Number(Weight), ProductName, Category, Number(SupplierCost), new Date(Expiration), StorageRequirement, new Date(), ImageLink, Number(Cost), Description], (err, results) => {
+    pool.query('INSERT IGNORE INTO inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, StorageRequirement, LastModification, ImageLink, Cost, Description) Values (?,?,?,?,?,?,?,?,?,?,?,?,?)', [InventoryID, Number(Quantity), Distributor, Number(Weight), ProductName, Category, Number(SupplierCost), new Date(Expiration), StorageRequirement, new Date(), fileName, Number(Cost), Description], (err, results) => {
         if (err) {
             console.error('Error executing query:', err.message);
             res.status(500).json({ error: 'Internal Server Error' });
@@ -158,19 +208,32 @@ const productInsert = (req, res) => {
     });
 }
 
+
 //update product in inventory
 const productUpdate = (req, res) => {
-    //Updated product
-    const {ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost,  Expiration, StorageRequirement, ImageLink, Description} = req.body;
+    const fileName = req.file.filename;  
+    const { 
+        ProductName,
+        Distributor,
+        Quantity,
+        Expiration,
+        StorageRequirement,
+        ItemID, 
+        Cost,
+        Weight,
+        Category,
+        SupplierCost,
+        Description
+    } = JSON.parse(req.body.Json);
     
     //Check the format
-    if(!insertFormat(Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost, Expiration, StorageRequirement, ImageLink, Description)){
+    if(!insertFormat(Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost, Expiration, StorageRequirement, fileName, Description)){
         res.status(400).json({error:"bad request format"})
         return;
     }
 
     //Update the DB
-    pool.query('update inventory set Quantity = ?, Distributor = ?, Weight = ?, ProductName = ?, Category = ?, SupplierCost = ?, Expiration = ?, StorageRequirement = ?, LastModification = curdate(), ImageLink = ?, Cost = ?, Description = ? where ItemID = ?', [Number(Quantity), Distributor, Number(Weight), ProductName, Category, Number(SupplierCost), new Date(Expiration), StorageRequirement, ImageLink, Number(Cost), Description, ItemID], (err, results) => {
+    pool.query('update inventory set Quantity = ?, Distributor = ?, Weight = ?, ProductName = ?, Category = ?, SupplierCost = ?, Expiration = ?, StorageRequirement = ?, LastModification = curdate(), ImageLink = ?, Cost = ?, Description = ? where ItemID = ?', [Number(Quantity), Distributor, Number(Weight), ProductName, Category, Number(SupplierCost), new Date(Expiration), StorageRequirement, fileName, Number(Cost), Description, ItemID], (err, results) => {
         if (err) {
             console.error('Error executing query:', err);
             res.status(500).json({ error: 'Internal Server Error' });
@@ -211,6 +274,7 @@ const lowStockSearch = (req,res) => {
             res.status(500).json({ error: 'Internal Server Error' });
             return;
         }
+
         res.status(200).json(results);
     });
 }
@@ -224,22 +288,27 @@ const featuredSearch = (req,res) => {
             res.status(500).json({ error: 'Internal Server Error' });
             return;
         }
+        for(let i = 0; i < results.length; i++){
+            results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
+        }
         res.status(200).json(results);
     }); 
 }
 
-
 //Input Validation
 const insertFormat = (Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost, Expiration, StorageRequirement, ImageLink, Description) => {
-    if(!(Distributor && ProductName && Category && Expiration && StorageRequirement && ImageLink && Description)){
+    if(!(Distributor && ProductName && Category && Expiration && StorageRequirement  && Description && ImageLink)){
+        console.log("Missing required fields")
         return false
     }
 
     if (isNaN(Quantity) || isNaN(Weight) || isNaN(SupplierCost) || isNaN(Cost) || Cost < 0 ||  Quantity < 0 || Weight < 0 || SupplierCost < 0){
+        console.log("Invalid number format")
         return false
     }
 
-    if(Distributor.trim() == "" || ProductName.trim() == "" || ImageLink.trim() == "" || Description.trim() == ""){
+    if(Distributor.trim() == "" || ProductName.trim() == "" || Description.trim() == ""){
+        console.log("Invalid string format")
         return false
     }
 
@@ -247,6 +316,7 @@ const insertFormat = (Quantity, Distributor, Weight, ProductName, Category, Supp
     const categorySet = new Set(categoryEnum)
 
     if (!categorySet.has(Category)){
+        console.log("Invalid category")
         return false
     }
 
@@ -254,11 +324,13 @@ const insertFormat = (Quantity, Distributor, Weight, ProductName, Category, Supp
     const storageSet = new Set(storageEnum)
 
     if (!storageSet.has(StorageRequirement)){
+        console.log("Invalid storage requirement")
         return false
     }
 
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!dateRegex.test(Expiration)){
+        console.log("Invalid date format")
         return false
     }
     
@@ -267,6 +339,7 @@ const insertFormat = (Quantity, Distributor, Weight, ProductName, Category, Supp
     const expirationDate = new Date(Expiration);
 
     if (isNaN(expirationDate.getTime())) {
+        console.log("Invalid date format")
         return false;
     }
     return true
@@ -286,5 +359,5 @@ const searchCategoryFormat = (categoryName) => {
 
 
 //Exporting the methods
-module.exports = {featuredSearch, productQueryID, productQueryNameEmployee, productQueryName, categoryQuery, categoryQueryEmployee, productInsert, productUpdate, deleteProduct, lowStockSearch, productCustomerQueryID}
+module.exports = {upload, featuredSearch, productQueryID, productQueryNameEmployee, productQueryName, categoryQuery, categoryQueryEmployee, productInsert, productUpdate, deleteProduct, lowStockSearch, productCustomerQueryID}
     

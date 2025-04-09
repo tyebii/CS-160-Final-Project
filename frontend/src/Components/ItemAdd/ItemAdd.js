@@ -1,40 +1,28 @@
-//Import React Functions
+import React from "react";
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-
-//Import Axios
 import axios from 'axios';
-
-//Import Custom Component  
-import TextEntryBox from "./TextBox";
-
-//Import context
+import TextEntryBox from "../ItemEdit/TextBox";
 import {useAuth} from "../../Context/AuthHook";
 
-//Item Edit Component
-export const ItemEdit = ({ item }) => {
-    //Logout Function
+export const ItemAdd = () => {
     const {logout} = useAuth();
-
-    //Navigate Function
     const navigate = useNavigate();
-
-    //File State
     const [file, setFile] = useState(null);
 
     // State initialization using `item` prop
     const [formData, setFormData] = useState({
-        ProductName: item.ProductName,
-        Distributor: item.Distributor,
-        Quantity: item.Quantity,
-        Expiration: item.Expiration.slice(0,10),
-        StorageRequirement: item.StorageRequirement,
-        ItemID: item.ItemID, 
-        Cost: item.Cost,
-        Weight: item.Weight,
-        Category: item.Category,
-        SupplierCost: item.SupplierCost,
-        Description: item.Description
+        ProductName:'',
+        Distributor: '',
+        Quantity:  '',
+        Expiration: '',
+        StorageRequirement: '',
+        ItemID:  '', 
+        Cost: '',
+        Weight: '',
+        Category:  '',
+        SupplierCost:  '',
+        Description:  ''
     });
 
 
@@ -55,7 +43,7 @@ export const ItemEdit = ({ item }) => {
         form.append('Json', JSON.stringify(formData));
 
         // PUT request with updated form data
-        axios.put('http://localhost:3301/api/inventory/update/item', form, {
+        axios.post('http://localhost:3301/api/inventory/insert/item', form, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -110,12 +98,11 @@ export const ItemEdit = ({ item }) => {
                         className="text-xl font-bold mb-3"
                         placeholder="Product Name"
                     />
-                    <p className="text-xl mb-3">Item ID: {formData.ItemID}</p>
                     <div className="flex mb-3 text-lg">
-                        <span className="mr-2">Distributed By: </span>
+                        <span className="mr-2">Distributor: </span>
                         <TextEntryBox
-                            type ="text"
-                            value={formData?.Distributor || 'Distributor'}
+                            type="text"
+                            value={formData.Distributor}
                             onChange={handleFieldChange('Distributor')}
                             placeholder="Distributor"
                         />
@@ -147,6 +134,7 @@ export const ItemEdit = ({ item }) => {
                             className="mt-1 w-48 h-8 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm"
 
                         >
+                                <option value="">Select</option>
                                 <option value="Frozen">Frozen</option>
                                 <option value="Deep Frozen">Deep Frozen</option>
                                 <option value="Cryogenic">Cryogenic</option>
@@ -176,6 +164,7 @@ export const ItemEdit = ({ item }) => {
                             className="mt-1 w-48 h-8 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm"
 
                         >
+                                <option value="">Select</option>
                                 <option value="Frozen">Fresh Food</option>
                                 <option value="Deep Frozen">Dairy and Eggs</option>
                                 <option value="Cryogenic">Meat and Seafood</option>
@@ -220,7 +209,8 @@ export const ItemEdit = ({ item }) => {
 
             <h2 className="text-2xl font-bold mb-3">Description</h2>
             <TextEntryBox
-                value={formData?.Description || 'N/A'}
+                value={formData?.Description}
+                type={"text"}
                 onChange={handleFieldChange('Description')}
                 className="w-full border border-gray-300 p-4 mb-5 text-lg"
                 placeholder="Description"
@@ -228,10 +218,9 @@ export const ItemEdit = ({ item }) => {
 
             <div className="flex gap-3">
                 <button onClick={handleSubmit} className="bg-blue-600 text-white p-4 font-semibold rounded-lg w-full max-w-[500px] hover:bg-blue-700">Confirm</button>
-                <button onClick={() => navigate(`/itemview/${formData.ItemID}`)} className="bg-red-600 text-white p-4 font-semibold rounded-lg w-full max-w-[500px] hover:bg-red-700">Cancel</button>
+                <button onClick={() => navigate(`/`)} className="bg-red-600 text-white p-4 font-semibold rounded-lg w-full max-w-[500px] hover:bg-red-700">Cancel</button>
             </div>
         </div>
     );
 };
 
-export default ItemEdit;

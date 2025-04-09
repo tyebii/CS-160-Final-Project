@@ -1,4 +1,4 @@
-import AddEmployee from "../Components/AddEmployee/AddEmployee";
+import AddEmployee from "../Components/UpdateAddEmployee/AddEmployee";
 
 export function AddEmployePage(){
     return( <AddEmployee></AddEmployee>)

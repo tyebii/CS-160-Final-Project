@@ -47,7 +47,7 @@ Create Table Inventory(
 	SupplierCost double not null,
     Expiration date not null,
     Cost double not null,
-    StorageRequirement enum('Frozen', 'Room Temperature', 'Warm', 'Hot','Refrigerated') not null,
+    StorageRequirement ENUM('Frozen','Deep Frozen','Cryogenic','Refrigerated','Cool','Room Temperature','Ambient','Warm','Hot','Dry','Moist','Airtight','Dark Storage','UV-Protected','Flammable','Hazardous','Perishable','Non-Perishable') not null,
     LastModification date not null,
     ImageLink varchar(255) not null,
     Description varchar(255) not null
@@ -65,7 +65,7 @@ Create Table ShoppingCart(
 Create Table Robot(
 	RobotID varchar(255) primary key,
     CurrentLoad double not null,
-    RobotStatus enum('En Route', 'Broken', 'Maintenance', 'Charging', 'Free') not null,
+    RobotStatus enum('En Route', 'Broken', 'Maintenance', 'Charging', 'Free', 'Retired') not null,
     Maintanence Date not null,
 	Speed double not null,
     BatteryLife double not null,

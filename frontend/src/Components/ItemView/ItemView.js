@@ -55,6 +55,11 @@ const ItemView = () => {
         }
       })
       .then((response) => {
+        if(response.data.length === 0){
+          alert("No results found")
+          navigate('/')
+          return
+        }
         setResults(response.data[0]);
       })
       .catch((error) => {
@@ -72,13 +77,6 @@ const ItemView = () => {
   const clickAdd = (e) => {
     //Stop Default Functionality
     e.preventDefault();
-
-    //If There Is No One Logged In
-    if (!auth) {
-      alert("Login!");
-      navigate('/login');
-      return;
-    }
 
     //Get The JWT Token
     const token = localStorage.getItem('accessToken');
@@ -119,16 +117,10 @@ const ItemView = () => {
       });
   };
 
+  //Handle Delete Functionality
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this item?')) {
       
-      //If There Is No One Logged In
-      if (!auth) {
-        alert("Login!");
-        navigate('/login');
-        return;
-      }
-  
       //Get The JWT Token
       const token = localStorage.getItem('accessToken');
   
@@ -139,7 +131,6 @@ const ItemView = () => {
         return;
       }
         
-
     //Post Request To The Backend
     axios
       .delete(
@@ -176,6 +167,7 @@ const ItemView = () => {
         <div className="border-2 border-gray-300 rounded-lg shadow-md bg-white p-3 w-[300px] h-[300px] flex items-center justify-center mr-5">
           {/* Need To Add Source Attribute */}
           <img
+            src={results.ImageLink}
             alt={results.ProductName}
             className="max-w-full max-h-full object-contain"
           />
@@ -238,7 +230,7 @@ const ItemView = () => {
       {auth === "Manager" ? (
             <div className="mx-auto flex gap-4">
             <button
-              onClick={() => navigate(`/manageritemedit/`, state={results})}
+              onClick={() => navigate('/itemedit', { state: results })}
               className="bg-yellow-400 text-black py-3 px-6 text-lg font-semibold rounded-lg hover:bg-yellow-500 transition duration-200 w-full max-w-xs"
             >
               Edit

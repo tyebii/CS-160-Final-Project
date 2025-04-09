@@ -34,7 +34,7 @@ app.use('/api/address', address);
 app.use('/api/employee', employee);
 app.use('/api/customer', customer);
 app.use('/api/transaction', transaction);
-
+app.use('/uploads', express.static('./uploads'));
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

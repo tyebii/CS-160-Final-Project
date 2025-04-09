@@ -34,7 +34,6 @@ function SearchResults() {
       }
       endPoint = `http://localhost:3301/api/inventory/search/${searchType}/employee/${query}`
     }
-    console.log(auth)
     //This function will require an authentication header for employees
     axios.get(endPoint,{
         headers: {
