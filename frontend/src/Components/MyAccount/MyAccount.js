@@ -27,6 +27,9 @@ export function MyAccount (){
                 },
             })
             .then((response) => {
+                if(response.data.length === 0){
+                    alert("No results found")
+                }
                 setResult(response.data[0])
             })
             .catch((error) => {

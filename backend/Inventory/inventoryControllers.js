@@ -1,35 +1,41 @@
 //Import the database connection pool
 const pool = require('../Database Pool/DBConnections')
+
+//For file upload
 const multer = require('multer');
 const path = require('path');
+
+//ID Generation
+const { v4: uuidv4 } = require('uuid');
 
 //Call back for category name queries
 const categoryQuery = (req, res) => {
     //Get the name of the category
     let {name} = req.params;
-    
+
     //Replace the delimiters with spaces
-    name = name.replace(/-/g, " ");
+    name = name.replace(/-/g, " "); 
 
     //Check if value is in set 
     if(!searchCategoryFormat(name)){
-        res.status(400).json({error:"bad request format"})
-        return;
+        return res.status(400).json({error:"bad request format"})
     }
 
+
+
     //Get the items that match the category. This is catered toward customer
-    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE category = ?', [name], (err, results) => {
-        if (err) {
-            console.error('Error executing query:', err);
-            res.status(500).json({ error: 'Internal Server Error' });
+    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE category = ?', [name], (error, results) => {
+        if (error) {
+            res.status(500).json({ error: 'Internal Server Error' + error.message });
             return;
         }
         
+        //Make Sure the Images has the correct address
         for(let i = 0; i < results.length; i++){
             results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
         }
 
-        res.status(200).json(results);
+        return res.status(200).json(results);
     });
 };
 
@@ -37,8 +43,6 @@ const categoryQuery = (req, res) => {
 const productQueryName = (req, res) => {
     //Get the name of the product
     let {name} = req.params;
-    //Replace delimitters with spaces
-    name = name.replace(/-/g, " ");
 
     //Makes sure input is proper
     if(!searchProductNameFormat(name)){
@@ -46,10 +50,12 @@ const productQueryName = (req, res) => {
         return;
     }
 
+    //Replace delimitters with spaces
+    name = name.replace(/-/g, " ");
+
     //Queries for items that have the name in it
-    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE ProductName like ?', ["%" + name + "%"], (err, results) => {
-        if (err) {
-          console.error('Error executing query:', err);
+    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE ProductName like ?', ["%" + name + "%"], (error, results) => {
+        if (error) {
           res.status(500).json({ error: 'Internal Server Error' });
           return;
         }
@@ -65,14 +71,16 @@ const categoryQueryEmployee = (req, res) => {
     //Get category name
     let {name} = req.params;
     
-    //Replace delimitters with spaces
-    name = name.replace(/-/g, " ");
-
     //Validate the input 
     if(!searchCategoryFormat(name)){
         res.status(400).json({error:"bad request format"})
         return;
     }
+
+    //Replace delimitters with spaces
+    name = name.replace(/-/g, " ");
+
+
 
     //Get all information about items in category
     pool.query('SELECT * FROM inventory WHERE category = ?', [name], (err, results) => {
@@ -345,13 +353,20 @@ const insertFormat = (Quantity, Distributor, Weight, ProductName, Category, Supp
     return true
 }
 
+const hasSpaces = (input) => /\s/.test(input);
+
 //Format for product queries
 const searchProductNameFormat = (productName) => {
-    return (productName && productName.trim() != "")
+    return (productName!=null &&  productName!="" && typeof productName == 'string' && !hasSpaces(productName))
 }
 
 //Formatting for Category Queries
 const searchCategoryFormat = (categoryName) => {
+    if(categoryName == null || categoryName == ""){
+        return false
+    }
+
+
     const categoryEnum = ['Fresh Produce','Dairy and Eggs','Meat and Seafood','Frozen Foods','Bakery and Bread','Pantry Staples','Beverages','Snacks and Sweets','Health and Wellness']
     const categorySet = new Set(categoryEnum)
     return categorySet.has(categoryName)

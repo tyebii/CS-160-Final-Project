@@ -79,7 +79,7 @@ function Robots ({logout, auth}){
         alert(`Error Status ${error.response.status}: ${error.response.data.error}`);
       }
     });
-  }, []);
+  }, [auth]);
 
   //Function To Handle The Click Of The Delete Button
   const clickDelete = (RobotID) => {

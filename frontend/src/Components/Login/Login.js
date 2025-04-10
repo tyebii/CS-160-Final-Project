@@ -5,6 +5,9 @@ import { useState } from 'react';
 //Import Auth Hook
 import {useAuth} from '../../Context/AuthHook'
 
+//Import Format
+import { formatLogin } from "../Formatting/format";
+
 //Import Axios
 import axios from 'axios'; // Make sure axios is imported
 
@@ -27,6 +30,10 @@ function Login() {
     const handleSubmit = (e) => {
         //Prevent page refresh and default sending
         e.preventDefault();
+
+        if(!formatLogin(username,password)){
+            return;
+        }
 
         //Axios request to backend
         axios.post(

@@ -4,36 +4,46 @@ const pool = require('../Database Pool/DBConnections')
 
 //Get total list of employees
 const getEmployee = (req,res) => {
-    const sqlQuery = "Select * From Employee e, Users u Where e.EmployeeID != ? and e.EmployeeID = u.EmployeeID and e.SupervisorID != '' " 
-    pool.query(sqlQuery, req.user.EmployeeID, (err,results)=>{
-        if(err){
-            res.status(500).json({err:err.message})
-            return;
+    const employeeID = req.user.EmployeeID
+
+    //Employee Id is null
+    if(employeeID==null){
+        return res.status(500).json({error:"Employee ID is Null"})
+    }
+
+    const sqlQuery = "Select * From Employee e, Users u Where e.EmployeeID != ? and e.EmployeeID = u.EmployeeID and e.SupervisorID Is Not null" 
+    pool.query(sqlQuery, employeeID, (error,results)=>{
+        if(error){
+            return res.status(500).json({error:error.message})
         }
-        res.status(200).json(results)
+        return res.status(200).json(results)
     })
 }
 
 //Get employee by their ID
 const getEmployeeID = (req,res) => {
     //Fetch employee ID
-    const EmployeeID = req.body.EmployeeID
+    const employeeID = req.body.EmployeeID
+
+    //Employee Id is null
+    if(employeeID==null){
+        return res.status(500).json({error:"Employee ID is Null"})
+    }
+
     const sqlQuery = "Select * From Employee Where EmployeeID = ?"
-    pool.query(sqlQuery, [EmployeeID], (err,results) => {
-        if(err){
-            res.status(500).json({err:err.message})
-            return;
+    pool.query(sqlQuery, [employeeID], (error,results) => {
+        if(error){
+            return res.status(500).json({error:error.message})
         }
-        res.status(200).json(results)
+        return res.status(200).json(results)
     })
 }
 
 //Update the employees information
-const updateEmployee = (req, res) => {
+const appendEmployee = (req, res) => {
     // Destructure employee information from the request body
     const { UserID, EmployeeID, UserNameFirst, UserNameLast, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, UserPhoneNumber, SupervisorID } = req.body;
-
-    console.log(req.body)
+    
     // SQL query to update both employee and user information
     const sqlQuery = `
         UPDATE employee e
@@ -56,30 +66,35 @@ const updateEmployee = (req, res) => {
         UserNameFirst, UserNameLast, UserPhoneNumber, 
         EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, 
         EmployeeDepartment, EmployeeHourly, SupervisorID, EmployeeID, UserID
-    ], (err, results) => {
-        if (err) {
-            res.status(500).json({ err: err.message });
+    ], (error, results) => {
+        if (error) {
+            res.status(500).json({ error: error.message });
             return;
         }
-        res.status(200).json({ success: "True" });
+        return res.status(200).json({ success: "True" });
     });
 };
 
 
 //Delete the employee
 const deleteEmployee = (req, res) => {
-    //Fetch EmployeeID
-    const EmployeeID = req.body.EmployeeID
+    //Fetch employee ID
+    const employeeID = req.body.EmployeeID
+
+    //Employee Id is null
+    if(employeeID==null){
+        return res.status(500).json({error:"Employee ID is Null"})
+    }
 
     //Delete from DB
     const sqlQuery = "DELETE e, u FROM Employee e JOIN Users u ON u.EmployeeID = e.EmployeeID WHERE e.EmployeeID = ?"
-    pool.query(sqlQuery, [EmployeeID], (err, results)=>{
-        if(err){
-            res.status(500).json({err:err.message})
+    pool.query(sqlQuery, [employeeID], (error, results)=>{
+        if(error){
+            res.status(500).json({error:error.message})
             return;
         }
         res.status(200).json({success:"True"})
     })
 }
 
-module.exports = {getEmployee, getEmployeeID, updateEmployee, deleteEmployee}
+module.exports = {getEmployee, getEmployeeID, appendEmployee, deleteEmployee}

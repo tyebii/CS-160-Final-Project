@@ -162,7 +162,7 @@ const ItemView = () => {
 
   //Item View HTML
   return (
-    <section className="w-[800px] mx-auto bg-gray-200 p-5 mt-12 flex flex-col">
+    <section className="w-[800px] mx-auto bg-gray-200 p-5 mt-12 mb-12 flex flex-col">
       <div className="flex mb-5">
         <div className="border-2 border-gray-300 rounded-lg shadow-md bg-white p-3 w-[300px] h-[300px] flex items-center justify-center mr-5">
           {/* Need To Add Source Attribute */}

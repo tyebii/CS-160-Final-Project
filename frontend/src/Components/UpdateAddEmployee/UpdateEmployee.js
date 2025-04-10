@@ -189,8 +189,14 @@ export function UpdateEmployee({ employee }) {
       }
 
       function isValidDate(input) {
+        const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+        if (!datePattern.test(input)) return false;
+
         const date = new Date(input);
-        return !isNaN(date.getTime());
+        const timestamp = date.getTime();
+        if (isNaN(timestamp)) return false;
+      
+        return input === date.toISOString().slice(0, 10);
       }
 
       if (!isValidDate(formData.EmployeeHireDate)) {

@@ -31,28 +31,6 @@ function Navbar() {
     setDropdownVisible(!dropdownVisible);
   };
 
-  //Format the search input
-  function formatText(text){
-    var sol = "";
-    var i = 0
-    while(i < text.length){
-        if(text[i] === " "){
-            while (i<text.length && text[i] === " "){
-                i++;
-            }
-            if (i==text.length){
-                return sol;
-            }
-            sol += "-";
-        }
-        else{
-            sol += text[i];
-            i +=1 
-        }
-    }
-    return sol;
-  }
-
   //Renders the components of the browse
   const renderDropdown = (visible) => {
     if (!visible) return null;
@@ -105,7 +83,7 @@ function Navbar() {
           {categories.map((category) => (
             <Link 
               key={category} 
-              to={`/search/category/${category.replace(/ /g, '-')}`} 
+              to={`/search/category/${category.trim().replace(/ /g, '-')}`} 
               className="block p-3 text-lg hover:bg-gray-300 rounded-lg"
             >
               {category}
@@ -130,7 +108,7 @@ function Navbar() {
     }
 
     setSearchText("")
-    navigate(`/search/item/${formatText(text.toLowerCase())}`);
+    navigate(`/search/item/${text.toLowerCase().trim().replace(/ /g, '-')}`);
   }
 
   //Click login icon

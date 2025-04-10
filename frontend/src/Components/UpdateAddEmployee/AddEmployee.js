@@ -237,9 +237,17 @@ function AddEmployee() {
       return !isNaN(date.getTime());
     }
 
-    if (!isValidDate(formData.EmployeeHireDate)) {
-        alert("Hire Date Must Be A Valid Date")
-        return false
+    function isValidDate(input) {
+      //Regex Check
+      const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+      if (!datePattern.test(input)) return false;
+
+      //See if acts as a valid date
+      const date = new Date(input);
+      const timestamp = date.getTime();
+      if (isNaN(timestamp)) return false;
+    
+      return input === date.toISOString().slice(0, 10);
     }
 
     if(new Date(formData.EmployeeHireData) > new Date()){

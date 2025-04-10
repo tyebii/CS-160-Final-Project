@@ -34,6 +34,10 @@ export function MyOrders (){
             },
         })
         .then((response) => {
+            if(response.length === 0){
+                alert("No results found")
+                return
+            }
             setResults(response.data)
         })
         .catch((error) => {

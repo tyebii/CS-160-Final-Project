@@ -1,8 +1,16 @@
+//Import Express
 const express = require('express')
+
+//Import Authentication and Authorization
 const {authenticateToken, authorizeManager, authorizeEmployee} = require('../Auth/AuthenticationController.js')
+
+//Import router for modularity
 const router = express.Router();
+
+//Controllers
 const {upload, featuredSearch, productCustomerQueryID, productQueryID, productQueryName, productQueryNameEmployee, categoryQuery, categoryQueryEmployee,  productInsert, productUpdate, deleteProduct, lowStockSearch} = require('./inventoryControllers.js')
 
+//Query A Category and Retrieve Customer Data
 router.get('/search/category/customer/:name',express.json(), categoryQuery);
 
 router.get('/search/item/customer/:name',express.json(), productQueryName);

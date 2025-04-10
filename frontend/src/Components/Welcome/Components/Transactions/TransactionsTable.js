@@ -160,7 +160,7 @@ function TransactionsTable({logout}) {
                     alert(`Error Status ${error.response.status}: ${error.response.data.error}`);
                 }
             });
-    }, []);
+    },[]);
 
     //Render The Transactions Table
     return (

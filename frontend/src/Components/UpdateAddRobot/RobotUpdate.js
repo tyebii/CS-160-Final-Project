@@ -8,6 +8,9 @@ import { useAuth } from "../../Context/AuthHook";
 //Import Axios
 import axios from "axios";
 
+//Import Format
+import { formatRobot } from "../Formatting/format";
+
 //RobotUpdate Component
 export function RobotUpdate({ robot }) {
     //Import Navigate Function
@@ -22,85 +25,14 @@ export function RobotUpdate({ robot }) {
     const [BatteryLife, setBatteryLife] = useState(robot.BatteryLife || 0);
     const [RobotStatus, setRobotStatus] = useState(robot.RobotStatus || 0); 
 
-    //Check The Format
-    const format = () =>{
 
-        //Make Sure They're Right
-        if(RobotID==""){
-            alert("Please Fill In Robot ID")
-            return false
-        }
-
-        if(RobotStatus==""){
-            alert("Please Fill In Robot Status")
-            return false
-        }
-        
-        if(Maintanence==""){
-            alert("Please Fill In Maintenance Date")
-            return false;
-        }
-
-        if(Speed==0){
-            alert("Please Fill In Speed Above 0")
-            return false;
-        } 
-        
-        if(BatteryLife==null){
-            alert("Please Fill In Battery Life")
-            return false;
-        }
-
-        if(RobotID.trim().length < 5){
-            alert("Robot ID Must Be At Least 5 Characters Long")
-            return false;
-        }
-
-        if(Speed < 0 || Speed > 100){
-            alert("Speed Must Be Between 0 and 100")
-            return false;
-        }
-
-        if(BatteryLife < 0 || BatteryLife > 100){
-            alert("Battery Life Must Be Between 0 and 100")
-            return false;
-        }
-
-        if(RobotID.trim().length < 5){
-            alert("Robot ID Must Be At Least 5 Characters Long")
-            return false;
-        }
-
-        if(Speed < 0 || Speed > 100){
-            alert("Speed Must Be Between 0 and 100")
-            return false;
-        }
-
-        if(BatteryLife < 0 || BatteryLife > 100){
-            alert("Battery Life Must Be Between 0 and 100")
-            return false;
-        }
-
-        const set = new Set(['Broken','Maintenance','Charging','Free']);
-        if(!set.has(RobotStatus)){
-            alert("Invalid Robot Status")
-            return false;
-        }
-
-        if(new Date(Maintanence) < new Date()){
-            alert("Maintenance Date Cannot Be In The Past")
-            return false;
-        }
-
-        return true;
-    }
 
     //Handle Form Submission
     const handleSubmit = (e) => {
         e.preventDefault();
 
         //Check If The Form Is Valid
-        if(!format()){
+        if(!formatRobot(RobotID, RobotStatus, Maintanence, Speed, BatteryLife)){
             return; 
         }
         
