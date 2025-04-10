@@ -5,7 +5,7 @@ const express = require('express')
 const { authenticateToken, authorizeManager} = require('../Auth/AuthenticationController')
 
 //Controllers
-const {getEmployee, getEmployeeID, deleteEmployee, appendEmployee} = require('./EmployeeController')
+const {getEmployee, getEmployeeID, deleteEmployee, appendEmployee, EmployeeFormat} = require('./EmployeeController')
 
 //Formatting
 const {signUpFormatEmployee} = require('../Auth/AuthenticationController')
@@ -23,7 +23,7 @@ router.get('/employee/supervisor', authenticateToken, authorizeManager, getEmplo
 router.get('/employee/id', authenticateToken, authorizeManager, getEmployeeID)
 
 //Update employee
-router.put('/employee', authenticateToken, authorizeManager, signUpFormatEmployee, appendEmployee)
+router.put('/employee', authenticateToken, authorizeManager, EmployeeFormat, signUpFormatEmployee, appendEmployee)
 
 //Delete Employee
 router.delete('/employee',  authenticateToken, authorizeManager, deleteEmployee)

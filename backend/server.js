@@ -7,10 +7,10 @@ const PORT = 3301;
 const shoppingcart = require('./ShoppingCart/ShoppingCart.js');
 const inventory = require('./Inventory/inventory.js');
 const authentication = require('./Auth/Authentication.js');
-const address = require('./Checkout/Address.js');
+const address = require('./Address/Address.js');
 const robot = require('./Robot/Robot.js');
 const employee = require('./Employee/Employee.js');
-const customer = require('./Customer/Customer.js');
+const customer = require('./AccountInformation/AccountInfo.js');
 const transaction = require('./Transactions/Transaction.js');
 const stripe = require('./Stripe/Stripe.js')
 

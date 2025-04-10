@@ -5,7 +5,7 @@ const express = require('express')
 const router = express.Router()
 
 //getCustomer controller
-const {getCustomer, getEmployee} = require('./CustomerController')
+const {getCustomer, getEmployee} = require('./AccountInfoController')
 
 //Apply authentication and authorization on the routes
 const { authenticateToken, authorizeCustomer, authorizeEmployee} = require('../Auth/AuthenticationController')

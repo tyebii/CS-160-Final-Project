@@ -28,7 +28,7 @@ const getEmployee = (req, res) => {
     const employeeID = req.user.EmployeeID
 
     //Employee Id is null
-    if(employeeID==null){
+    if(employeeID==null || employeeID==""){
         return res.status(500).json({error:"Employee ID is Null"})
     }
 

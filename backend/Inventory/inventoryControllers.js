@@ -13,15 +13,13 @@ const categoryQuery = (req, res) => {
     //Get the name of the category
     let {name} = req.params;
 
-    //Replace the delimiters with spaces
-    name = name.replace(/-/g, " "); 
-
-    //Check if value is in set 
+    //Check Formatting
     if(!searchCategoryFormat(name)){
         return res.status(400).json({error:"bad request format"})
     }
 
-
+    //Replace the delimiters with spaces
+    name = name.replace(/-/g, " "); 
 
     //Get the items that match the category. This is catered toward customer
     pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE category = ?', [name], (error, results) => {
@@ -59,6 +57,7 @@ const productQueryName = (req, res) => {
           res.status(500).json({ error: 'Internal Server Error' });
           return;
         }
+
         for(let i = 0; i < results.length; i++){
             results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
         }
@@ -80,12 +79,9 @@ const categoryQueryEmployee = (req, res) => {
     //Replace delimitters with spaces
     name = name.replace(/-/g, " ");
 
-
-
     //Get all information about items in category
     pool.query('SELECT * FROM inventory WHERE category = ?', [name], (err, results) => {
         if (err) {
-            console.error('Error executing query:', err);
             res.status(500).json({ error: 'Internal Server Error' });
             return;
         }
@@ -101,14 +97,14 @@ const productQueryNameEmployee = (req, res) => {
     //Get product name
     let {name} = req.params;
 
-    //Replace delimitters with spaces
-    name = name.replace(/-/g, " ");
-
     //Make sure that the input is sanitized
     if(!searchProductNameFormat(name)){
         res.status(400).json({error:"bad request format"})
         return;
     }
+
+    //Replace delimitters with spaces
+    name = name.replace(/-/g, " ");
 
     //Get all information about items with name in it
     pool.query('SELECT * FROM inventory WHERE ProductName like ?', ["%" + name + "%"], (err, results) => {
@@ -130,6 +126,10 @@ const productQueryID = (req, res) => {
     //Get item id
     let {itemid} = req.params;
 
+    if(itemid==null || itemid==""){
+        res.status(400).json({error:"bad request format"})
+        return;
+    }
     //Query for items with that ID
     pool.query('SELECT * FROM inventory WHERE ItemID = ?', [itemid], (err, results) => {
       if (err) {
@@ -194,8 +194,7 @@ const productInsert = (req, res) => {
         SupplierCost,
         Description
     } = JSON.parse(req.body.Json);
-
-    console.log({ProductName, Distributor, Quantity, Expiration, StorageRequirement, Cost, Weight, Category, SupplierCost, Description})
+    
     //Make sure all the entries are up to code
     if(!insertFormat(Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost, Expiration, StorageRequirement, fileName, Description)){
         res.status(400).json({error:"bad request format"})
@@ -219,7 +218,11 @@ const productInsert = (req, res) => {
 
 //update product in inventory
 const productUpdate = (req, res) => {
-    const fileName = req.file.filename;  
+    let fileName;
+    if(req.file){
+        fileName = req.file.filename;  
+    }
+
     const { 
         ProductName,
         Distributor,
@@ -235,20 +238,31 @@ const productUpdate = (req, res) => {
     } = JSON.parse(req.body.Json);
     
     //Check the format
-    if(!insertFormat(Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost, Expiration, StorageRequirement, fileName, Description)){
+    if(!insertFormat(Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost, Expiration, StorageRequirement, "", Description)){
         res.status(400).json({error:"bad request format"})
         return;
     }
 
-    //Update the DB
-    pool.query('update inventory set Quantity = ?, Distributor = ?, Weight = ?, ProductName = ?, Category = ?, SupplierCost = ?, Expiration = ?, StorageRequirement = ?, LastModification = curdate(), ImageLink = ?, Cost = ?, Description = ? where ItemID = ?', [Number(Quantity), Distributor, Number(Weight), ProductName, Category, Number(SupplierCost), new Date(Expiration), StorageRequirement, fileName, Number(Cost), Description, ItemID], (err, results) => {
-        if (err) {
-            console.error('Error executing query:', err);
-            res.status(500).json({ error: 'Internal Server Error' });
-            return;
-        }
-          res.status(200).json({"success":true});
-    });
+    if(fileName){
+        pool.query('update inventory set Quantity = ?, Distributor = ?, Weight = ?, ProductName = ?, Category = ?, SupplierCost = ?, Expiration = ?, StorageRequirement = ?, LastModification = curdate(), ImageLink = ?, Cost = ?, Description = ? where ItemID = ?', [Number(Quantity), Distributor, Number(Weight), ProductName, Category, Number(SupplierCost), new Date(Expiration), StorageRequirement, fileName, Number(Cost), Description, ItemID], (err, results) => {
+            if (err) {
+                console.error('Error executing query:', err);
+                res.status(500).json({ error: 'Internal Server Error' });
+                return;
+            }
+              res.status(200).json({"success":true});
+        });
+    }else{
+        pool.query('update inventory set Quantity = ?, Distributor = ?, Weight = ?, ProductName = ?, Category = ?, SupplierCost = ?, Expiration = ?, StorageRequirement = ?, LastModification = curdate(), Cost = ?, Description = ? where ItemID = ?', [Number(Quantity), Distributor, Number(Weight), ProductName, Category, Number(SupplierCost), new Date(Expiration), StorageRequirement, Number(Cost), Description, ItemID], (err, results) => {
+            if (err) {
+                console.error('Error executing query:', err);
+                res.status(500).json({ error: 'Internal Server Error' });
+                return;
+            }
+              res.status(200).json({"success":true});
+        });
+    }
+
 }
 
 //delete product 
@@ -305,7 +319,7 @@ const featuredSearch = (req,res) => {
 
 //Input Validation
 const insertFormat = (Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost, Expiration, StorageRequirement, ImageLink, Description) => {
-    if(!(Distributor && ProductName && Category && Expiration && StorageRequirement  && Description && ImageLink)){
+    if(!(Distributor && ProductName && Category && Expiration && StorageRequirement  && Description)){
         console.log("Missing required fields")
         return false
     }
@@ -357,7 +371,7 @@ const hasSpaces = (input) => /\s/.test(input);
 
 //Format for product queries
 const searchProductNameFormat = (productName) => {
-    return (productName!=null &&  productName!="" && typeof productName == 'string' && !hasSpaces(productName))
+    return (productName!=null && typeof productName == 'string' && productName.length>2 && !hasSpaces(productName) && productName.length<255)
 }
 
 //Formatting for Category Queries
@@ -366,10 +380,8 @@ const searchCategoryFormat = (categoryName) => {
         return false
     }
 
-
-    const categoryEnum = ['Fresh Produce','Dairy and Eggs','Meat and Seafood','Frozen Foods','Bakery and Bread','Pantry Staples','Beverages','Snacks and Sweets','Health and Wellness']
-    const categorySet = new Set(categoryEnum)
-    return categorySet.has(categoryName)
+    const categoryEnum = ['Fresh-Produce','Dairy-and-Eggs','Meat-and-Seafood','Frozen-Foods','Bakery-and-Bread','Pantry-Staples','Beverages','Snacks-and-Sweets','Health-and-Wellness']
+    return categoryEnum.includes(categoryName)
 }
 
 

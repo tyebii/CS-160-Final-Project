@@ -31,10 +31,7 @@ CREATE TABLE Users(
 );
 
 Create Table Address(
-	Address varchar(255) primary key,
-    City varchar(255) not null,
-    Zip char(5) not null,
-    State varchar(255) not null
+	Address varchar(255) primary key
 );
     
 Create Table Inventory(
@@ -92,6 +89,9 @@ CREATE TABLE Transactions (
     FOREIGN KEY (RobotID) REFERENCES Robot(RobotID)
 );
 
+CREATE INDEX transactions_address
+ON Transactions (TransactionAddress);
+
 
 Create Table CustomerAddress(
 	Address varchar(255) ,
@@ -99,8 +99,11 @@ Create Table CustomerAddress(
     Name varchar(255) not null,
 	Foreign Key(Address) References Address(Address) on delete cascade,
     Foreign Key(CustomerID) References Customer(CustomerID) on delete cascade,
-    Primary Key(Address,CustomerID)
+    Primary Key(CustomerID,Address)
 );
+
+CREATE INDEX customer_address
+ON CustomerAddress (Address);
 
 Create Table LowStockLog(
 	ItemID varchar(255) primary key,

@@ -30,7 +30,7 @@ export const ItemEdit = ({ item }) => {
         ProductName: item.ProductName,
         Distributor: item.Distributor,
         Quantity: isNaN(Number(item.Quantity)) ? "" : Number(item.Quantity),
-        Expiration: item.Expiration.slice(0,10),
+        Expiration: item.Expiration?.slice(0,10),
         StorageRequirement: item.StorageRequirement,
         ItemID: item.ItemID, 
         Cost: isNaN(Number(item.Cost)) ? "" : Number(item.Cost),

@@ -24,39 +24,36 @@ const addAddress = async (req, res) => {
         const customerid = req.user.CustomerID
 
         //Information associated with the address input
-        const { Address, City, Zip, State, Name } = req.body;
+        const {Address, Name} = req.body;
             
         // Get the connection from the pool
         connection = await pool.promise().getConnection(); 
 
         // Start a transaction
         await connection.beginTransaction();
+            //Insert address and ignore error if duplicate
+            const sqlQueryOne = 'INSERT INTO Address (Address) VALUES (?) ON DUPLICATE KEY UPDATE Address=Address;'
+            await connection.query(
+                sqlQueryOne, 
+                [Address]
+            );
         
-
-        //Insert address and ignore error if duplicate
-        const sqlQueryOne = 'INSERT INTO Address (Address, City, Zip, State) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE Address=Address;'
-        await connection.query(
-            sqlQueryOne, 
-            [Address, City, Zip, State]
-        );
-    
-        // Insert customer/address relationship into customeraddress
-        const sqlQueryTwo = 'Insert Into customeraddress (Address,CustomerID, Name) Values (?,?,?)'
-        await connection.query(
-            sqlQueryTwo, 
-            [Address, customerid, Name]
-        );
+            // Insert customer/address relationship into customeraddress
+            const sqlQueryTwo = 'Insert Into customeraddress (Address,CustomerID, Name) Values (?,?,?)'
+            await connection.query(
+                sqlQueryTwo, 
+                [Address, customerid, Name]
+            );
     
         // Commit the transaction
         await connection.commit();
     
         // Release the connection back to the pool
         connection.release();
-    
+
         res.status(200).json({ success: true });
 
     } catch (err) {
-        console.log(err.message)
         if (connection) {
             // Rollback if there's an error
             await connection.rollback();
@@ -93,18 +90,19 @@ const deleteAddress =  async(req,res)=>{
         // Start a transaction
         await connection.beginTransaction();
     
-        // Delete address/customer association
-        const sqlQueryOne = 'Delete From customeraddress Where customerid = ? And address = ?'
-        await connection.query(
-            sqlQueryOne, 
-            [customerid, Address]
-        );
-    
-        //Delete address if no-one is relying on it
-        const sqlQueryTwo = `DELETE FROM Address WHERE NOT EXISTS (SELECT 1 FROM customeraddress WHERE customeraddress.address = Address.address) AND NOT EXISTS (SELECT 1 FROM transactions WHERE transactions.TransactionAddress = Address.address);`;
-        await connection.query(
-            sqlQueryTwo, 
-        );
+            // Delete address/customer association
+            const sqlQueryOne = 'Delete From customeraddress Where customerid = ? And address = ?'
+            await connection.query(
+                sqlQueryOne, 
+                [customerid, Address]
+            );
+        
+            //Delete address if no-one is relying on it
+            //Expensive Query
+            const sqlQueryTwo = `DELETE FROM Address WHERE NOT EXISTS (SELECT 1 FROM customeraddress WHERE customeraddress.address = Address.address) AND NOT EXISTS (SELECT 1 FROM transactions WHERE transactions.TransactionAddress = Address.address);`;
+            await connection.query(
+                sqlQueryTwo, 
+            );
     
         // Commit the transaction
         await connection.commit();
@@ -130,48 +128,19 @@ const deleteAddress =  async(req,res)=>{
 
 //Format incoming address
 function formatAddress(req, res, next) {
-    if(!req.body.Address || !req.body.City || !req.body.State || !req.body.Zip || !req.body.Name){
-       return res.status(400).json({err: "invalid input"})
-    }
-    req.body.Name = req.body.Name.trim()
-    req.body.Address = req.body.Address.trim()
-    req.body.City = req.body.City.trim()
-    req.body.State = req.body.State.trim()
-    req.body.Zip = req.body.Zip.trim()
-    const { Address, City, Zip, State, Name } = req.body;
-    
-
-    // Validate Address
-    if (typeof Address !== 'string' || Address.trim() === '') {
-        return res.status(400).json({ error: 'Address is required and must be a non-empty string.' });
+    if (!req.body.Address || req.body.Address === "") {
+        return res.status(400).json({ error: "Address Not Found" });
     }
 
-    // Validate City
-    const cityRegex = /^[A-Za-z\s]+$/;
-    if (typeof City !== 'string' || !cityRegex.test(City.trim())) {
-        return res.status(400).json({ error: 'City must be a non-empty string containing only letters and spaces.' });
-    }
+    const regex = /^\d+\s[A-Za-z0-9\s,.'-]+(?:[A-Za-z0-9\s,.'-]+)?(?:,\sSan\sJose,\sCalifornia\s\d{5}(-\d{4})?)?$/;
 
-    // Validate Zip
-    const zipRegex = /^\d{5}$/;
-    if (typeof Zip !== 'string' || !zipRegex.test(Zip.trim())) {
-        return res.status(400).json({ error: 'Zip code must be in the format XXXXX.' });
+    if (!regex.test(req.body.Address)) {
+        return res.status(400).json({ error: "Address Not Formatted Properly" });
     }
-
-    // Validate State
-    const stateRegex = /^[A-Za-z]{2}$/;
-    if (typeof State !== 'string' || !stateRegex.test(State.trim())) {
-        return res.status(400).json({ error: 'State must be a two-letter abbreviation.' });
-    }
-
-    //Validate Name
-    if (typeof Name !== 'string' || Name=="") {
-        return res.status(400).json({ error: 'Name must be at least one character' });
-    }
-    
 
     next();
 }
+
 
 
 module.exports={deleteAddress, getAddress, addAddress, formatAddress}

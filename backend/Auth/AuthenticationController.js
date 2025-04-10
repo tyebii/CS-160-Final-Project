@@ -12,7 +12,6 @@ require('dotenv').config();
 
 //Import Database connections
 const pool = require('../Database Pool/DBConnections');
-const { response } = require('express');
 
 
 //--------------------------------Core Controllers------------------------------//
@@ -24,57 +23,19 @@ const signUpCustomer = async (req, res) => {
     
         try {
             //Deconstructing payload
-            const { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber } = req.body;
-
-            //Make sure we wait for the username to be checked
-            try{
-                const notUnique = await userNameExists(UserID);
-                if(notUnique){
-                    res.status(409).json({error:"The Username is Already Taken"})
-                }
-            }catch(error){
-                return res.status(500).json({error:"Internal Server Error While Querying For Unique Username: " + error})
-            }
-
-            // Hashed Password
-            let salt;
-            let hashedPassword;
-            try{
-                salt = await bcrypt.genSalt(10); // Generates the salt -- purpose: can't use list of precomputed hashes
-                hashedPassword = await bcrypt.hash(Password, salt); //Generates the hash based on round factor of salt
-            }catch(error){
-                return res.status(500).json({error:"Error During Storage of Password"})
-            }
-
-            // Unique ID generation
-            let CustomerID = uuidv4(); // Generates a cryptographically safe unique customer ID
-            let flag = true;
-            let count = 0
-            const limit = 5
-            while (flag) {
-                if(count === limit){
-                    return res.status(500).json({error:"Trouble Generating CustomerID"})
-                }
-                count+=1 
-                try {
-                    // Check if customer ID exists
-                    const exists = await customerIDExists(CustomerID);
-                    
-                    if (exists) {
-                        CustomerID = uuidv4(); 
-                    } else {
-                        flag = false;
-                    }
-                } catch (error) {
-                    CustomerID = uuidv4(); 
-                }
-            }
-
             //Create the database connection and promisify to enable synchronous computation
             connection = await pool.promise().getConnection(); 
-    
+
             // Start a transaction -- purpose: ensures atomicity
             await connection.beginTransaction();
+
+                let { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber } = req.body;
+
+                //Hash the password
+                let hashedPassword = await generateHash(Password);
+
+                // Unique ID generation
+                let CustomerID = await generateUniqueID(customerIDExists);
     
                 //Insert the new customer info synchronously -- purpose: needs to occur prior to user info insertion, otherwise error
                 const sqlQueryOne = 'INSERT INTO customer (CustomerID, JoinDate) VALUES (?, ?)'
@@ -97,7 +58,7 @@ const signUpCustomer = async (req, res) => {
             connection.release();
             
             //Return successful 
-            res.status(200).json({ success: true });
+            return res.status(200).json({ success: true });
         } catch (error) {
             //If error occurred prior to connection release
             if (connection) {
@@ -107,8 +68,12 @@ const signUpCustomer = async (req, res) => {
                 connection.release();
             }
             
+            if (error.code === 'ER_DUP_ENTRY') {
+                return res.status(409).json({ error: "The Username is Already Taken" });
+            }
+
             //Return error and error message
-            res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });
         }
 };
 
@@ -118,76 +83,37 @@ const signUpEmployee = async (req, res) => {
         let connection;
     
         try {
-            //Deconstructing payload
-            const { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID} = req.body;
-            
-            //Make sure we wait for the username to be checked
-            try{
-                const notUnique = await userNameExists(UserID);
-                if(notUnique){
-                    res.status(409).json({error:"The Username is Already Taken"})
-                }
-            }catch(error){
-                return res.status(500).json({error:"Internal Server Error While Querying For Unique Username: " + error})
-            }
-
-            // Hashed Password
-            let salt;
-            let hashedPassword;
-            try{
-                salt = await bcrypt.genSalt(10); // Generates the salt -- purpose: can't use list of precomputed hashes
-                hashedPassword = await bcrypt.hash(Password, salt); //Generates the hash based on round factor of salt
-            }catch(error){
-                return res.status(500).json({error:"Error During Storage of Password"})
-            }
-
-            // Unique ID generation
-            let EmployeeID = uuidv4(); // Generates a cryptographically safe unique customer ID
-            let flag = true;
-            let count = 0
-            const limit = 5
-            while (flag) {
-                //Its statistically significant to keep getting collisions so 5 is the limit
-                if(count === limit){
-                    return res.status(500).json({error:"Trouble Generating EmployeeID"})
-                }
-                count+=1 
-                try {
-                    // Check if customer ID exists
-                    const exists = await employeeIDExists(EmployeeID);
-                    
-                    if (exists) {
-                        EmployeeID = uuidv4(); 
-                    } else {
-                        flag = false;
-                    }
-                } catch (error) {
-                    EmployeeID = uuidv4(); 
-                }
-            }
-
             //Create the database connection and promisify to enable synchronous computation
             connection = await pool.promise().getConnection(); 
+
+            // Start a transaction -- purpose: ensures atomicity
+            await connection.beginTransaction();
+                //Deconstructing payload
+                let { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID} = req.body;
+
+                // Hashed Password
+                let hashedPassword = await generateHash(Password)
+
+
+                // Unique ID generation
+                let EmployeeID = await generateUniqueID(employeeIDExists)
     
-                // Start a transaction -- purpose: ensures atomicity
-                await connection.beginTransaction();
+                //Insert the new employee info synchronously -- purpose: needs to occur prior to user info insertion, otherwise error
+                const sqlQueryOne = 'INSERT INTO Employee (EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID) VALUES (?,?,?,?,?,?,?)'
+                await connection.query(
+                    sqlQueryOne, 
+                    [EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID]
+                );
+
+                //Insert user info synchronously
+                const sqlQueryTwo = 'INSERT INTO users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, ?, Null)'
+                await connection.query(
+                    sqlQueryTwo, 
+                    [UserID, hashedPassword, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID]
+                );
     
-                    //Insert the new employee info synchronously -- purpose: needs to occur prior to user info insertion, otherwise error
-                    const sqlQueryOne = 'INSERT INTO Employee (EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID) VALUES (?,?,?,?,?,?,?)'
-                    await connection.query(
-                        sqlQueryOne, 
-                        [EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID]
-                    );
-    
-                    //Insert user info synchronously
-                    const sqlQueryTwo = 'INSERT INTO users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, ?, Null)'
-                    await connection.query(
-                        sqlQueryTwo, 
-                        [UserID, hashedPassword, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID]
-                    );
-        
-                // Commit the transaction -- purpose: means the transaction is complete
-                await connection.commit();
+            // Commit the transaction -- purpose: means the transaction is complete
+            await connection.commit();
     
             // Release the connection back to the pool
             connection.release();
@@ -203,6 +129,10 @@ const signUpEmployee = async (req, res) => {
                 connection.release();
             }
             
+            if (error.code === 'ER_DUP_ENTRY') {
+                return res.status(409).json({ error: "The Username is Already Taken" });
+            }
+
             //Return error and error message
             res.status(500).json({ error: error.message });
         }
@@ -214,81 +144,40 @@ const signUpManager = async (req, res) => {
     let connection;
 
     try {
-        //Deconstructing payload
-        const { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, Secret} = req.body;
-        
-        if(Secret!=process.env.Secret){
-            return res.status(401).json({error:"Not Authorized"})
-        }
-
-        //Make sure we wait for the username to be checked
-        try{
-            const notUnique = await userNameExists(UserID);
-            if(notUnique){
-                res.status(409).json({error:"The Username is Already Taken"})
-            }
-        }catch(error){
-            return res.status(500).json({error:"Internal Server Error While Querying For Unique Username: " + error})
-        }
-
-
-        // Hashed Password
-        let salt;
-        let hashedPassword;
-        try{
-            salt = await bcrypt.genSalt(10); // Generates the salt -- purpose: can't use list of precomputed hashes
-            hashedPassword = await bcrypt.hash(Password, salt); //Generates the hash based on round factor of salt
-        }catch(error){
-            return res.status(500).json({error:"Error During Storage of Password"})
-        }
-
-        // Unique ID generation
-        let EmployeeID = uuidv4(); // Generates a cryptographically safe unique customer ID
-        let flag = true;
-        let count = 0
-        const limit = 5
-        while (flag) {
-            //Its statistically significant to keep getting collisions so 5 is the limit
-            if(count === limit){
-                return res.status(500).json({error:"Trouble Generating EmployeeID"})
-            }
-            count+=1 
-            try {
-                // Check if customer ID exists
-                const exists = await employeeIDExists(EmployeeID);
-                
-                if (exists) {
-                    EmployeeID = uuidv4(); 
-                } else {
-                    flag = false;
-                }
-            } catch (error) {
-                EmployeeID = uuidv4(); 
-            }
-        }
-
         //Create the database connection and promisify to enable synchronous computation
         connection = await pool.promise().getConnection(); 
 
-            // Start a transaction -- purpose: ensures atomicity
-            await connection.beginTransaction();
+        // Start a transaction -- purpose: ensures atomicity
+        await connection.beginTransaction();
+            //Deconstructing payload
+            let { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, Secret} = req.body;
 
-                //Insert the new employee info synchronously -- purpose: needs to occur prior to user info insertion, otherwise error
-                const sqlQueryOne = 'INSERT INTO Employee (EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID) VALUES (?,?,?,?,?,?,Null)'
-                await connection.query(
-                    sqlQueryOne, 
-                    [EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly]
-                );
+            if(Secret!=process.env.Secret){
+                return res.status(401).json({error:"Not Authorized"})
+            }
 
-                //Insert user info synchronously
-                const sqlQueryTwo = 'INSERT INTO users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, ?, Null)'
-                await connection.query(
-                    sqlQueryTwo, 
-                    [UserID, hashedPassword, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID]
-                );
+            // Hashed Password
+            let hashedPassword = await generateHash(Password)
 
-            // Commit the transaction -- purpose: means the transaction is complete
-            await connection.commit();
+            // Unique ID generation
+            let EmployeeID = await generateUniqueID(employeeIDExists)
+
+            //Insert the new employee info synchronously -- purpose: needs to occur prior to user info insertion, otherwise error
+            const sqlQueryOne = 'INSERT INTO Employee (EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID) VALUES (?,?,?,?,?,?,Null)'
+            await connection.query(
+                sqlQueryOne, 
+                [EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly]
+            );
+
+            //Insert user info synchronously
+            const sqlQueryTwo = 'INSERT INTO users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, ?, Null)'
+            await connection.query(
+                sqlQueryTwo, 
+                [UserID, hashedPassword, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID]
+            );
+
+        // Commit the transaction -- purpose: means the transaction is complete
+        await connection.commit();
 
         // Release the connection back to the pool
         connection.release();
@@ -303,6 +192,10 @@ const signUpManager = async (req, res) => {
             //Release connection
             connection.release();
         }
+
+        if (error.code === 'ER_DUP_ENTRY') {
+            return res.status(409).json({ error: "The Username is Already Taken" });
+        }
         
         //Return error and error message
         res.status(500).json({ error: error.message });
@@ -313,17 +206,14 @@ const signUpManager = async (req, res) => {
 const login = async (req, res) => {
     try {
         //Data in the payload
-        const {UserID, Password} = req.body;
+        let {UserID, Password} = req.body;
 
         //Starts  the database connection 
         const connection = await pool.promise().getConnection();
 
             //Joins the users and employees table and get the data corresponding the user -- purpose: determine if the user is a manager 
             const sqlQueryOne =  `SELECT users.password, users.employeeid, users.customerid, employee.supervisorid FROM users LEFT JOIN employee ON users.EmployeeId = employee.EmployeeID WHERE users.UserID = ?`
-            const [rows] = await connection.query(
-            sqlQueryOne, 
-                [UserID]
-            );
+            const [rows] = await connection.query(sqlQueryOne, [UserID]);
 
         //Release the DB connection
         connection.release(); 
@@ -435,20 +325,7 @@ function authorizeManager(req,res,next){
 
 }
 
-//----------------------------------------------Duplicate Checks------------------------------------//
-
-async function userNameExists(UserID) {
-    return new Promise((resolve, reject) => {
-        pool.query('SELECT * FROM users WHERE UserID = ?', [UserID], (error, results) => {
-            if (error) {
-                reject(error); 
-            } else {
-                resolve(results.length !== 0); 
-            }
-        });
-    });
-}
-
+//----------------------------------------------Duplicate Checks and Generation------------------------------------//
 
 //Check if CustomerID is taken
 async function customerIDExists(CustomerID){
@@ -477,6 +354,31 @@ async function employeeIDExists(EmployeeID){
     })
 }
 
+//Modular generation of unique ids
+const generateUniqueID = async (func, limit = 5) => {
+    let id = uuidv4();
+    let count = 0;
+    while (await func(id)) {
+        if (++count === limit) throw new Error("ID generation failed after multiple attempts");
+        id = uuidv4();
+    }
+    return id;
+};
+
+//Password hash generation
+const generateHash = async (Password) => {
+    // Hashed Password
+    let salt;
+    let hashedPassword;
+    try{
+        salt = await bcrypt.genSalt(10); // Generates the salt -- purpose: can't use list of precomputed hashes
+        return hashedPassword = await bcrypt.hash(Password, salt); //Generates the hash based on round factor of salt
+    }catch(error){
+        throw new Error("Failed to hash password");
+    }
+}
+
+
 //Checks for valid employee
 async function checkSupervisorExists(SupervisorID) {
     return new Promise((resolve, reject) => {
@@ -494,117 +396,6 @@ async function checkSupervisorExists(SupervisorID) {
 
 //---------------Formatting-------------------//
 
-//Checks Signup format
-function signUpFormat(req, res, next) {
-    req.body.UserID = req.body.UserID.toLowerCase();
-    req.body.Password = req.body.Password;
-    req.body.UserNameFirst = req.body.UserNameFirst;
-    req.body.UserNameLast = req.body.UserNameLast;
-    req.body.UserPhoneNumber = req.body.UserPhoneNumber;
-
-    const { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber } = req.body;
-
-    if (!UserID) {
-        return res.status(500).json({ error: "Please Fill In User ID" });
-    }
-
-    if (!UserNameFirst) {
-        return res.status(500).json({ error: "Please Fill In First Name" });
-    }
-
-    if (!UserNameLast) {
-        return res.status(500).json({ error: "Please Fill In Last Name" });
-    }
-
-    if (!UserPhoneNumber) {
-        return res.status(500).json({ error: "Please Fill In Phone Number" });
-    }
-
-    if (!Password) {
-        return res.status(500).json({ error: "Please Fill In Password" });
-    }
-
-    if (typeof UserID !== "string") {
-        return res.status(500).json({ error: "User ID Must Be A String" });
-    }
-
-    if (typeof Password !== "string") {
-        return res.status(500).json({ error: "Password Must Be A String" });
-    }
-
-    if (typeof UserNameFirst !== "string") {
-        return res.status(500).json({ error: "First Name Must Be A String" });
-    }
-
-    if (typeof UserNameLast !== "string") {
-        return res.status(500).json({ error: "Last Name Must Be A String" });
-    }
-
-    if (typeof UserPhoneNumber !== "string") {
-        return res.status(500).json({ error: "Phone Number Must Be A String" });
-    }
-
-    if (UserID.trim().length < 5) {
-        return res.status(500).json({ error: "User ID Must Be At Least 5 Characters Long" });
-    }
-
-    if (UserID.length > 255) {
-        return res.status(500).json({ error: "User ID Must Be Less Than or Equal To 255 Characters Long" });
-    }
-
-    if (UserNameFirst.trim().length < 2) {
-        return res.status(500).json({ error: "First Name Must Be At Least 2 Characters Long" });
-    }
-
-    if (UserNameFirst.length > 255) {
-        return res.status(500).json({ error: "First Name Must Be Less Than or Equal To 255 Characters Long" });
-    }
-
-    if (UserNameLast.trim().length < 2) {
-        return res.status(500).json({ error: "Last Name Must Be At Least 2 Characters Long" });
-    }
-
-    if (UserNameLast.length > 255) {
-        return res.status(500).json({ error: "Last Name Must Be Less Than or Equal To 255 Characters Long" });
-    }
-
-    if (hasSpaces(UserID)) {
-        return res.status(500).json({ error: "User ID Must Not Contain Spaces" });
-    }
-
-    if (hasSpaces(Password)) {
-        return res.status(500).json({ error: "Password Must Not Contain Spaces" });
-    }
-
-    if (hasSpaces(UserNameFirst)) {
-        return res.status(500).json({ error: "First Name Must Not Contain Spaces" });
-    }
-
-    if (hasSpaces(UserNameLast)) {
-        return res.status(500).json({ error: "Last Name Must Not Contain Spaces" });
-    }
-
-    if (hasSpaces(UserPhoneNumber)) {
-        return res.status(500).json({ error: "Phone Number Must Not Contain Spaces" });
-    }
-
-    const regexNumber = /^1-\d{3}-\d{3}-\d{4}$/;
-
-    if (!UserPhoneNumber.match(regexNumber)) {
-        return res.status(500).json({ error: "Phone Number Must Be In The Format 1-XXX-XXX-XXXX" });
-    }
-
-    const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
-
-    if (!Password.match(regexPassword)) {
-        return res.status(500).json({
-            error: "Password Must Be At Least 8 Characters Long, Contain At Least One Uppercase Letter, One Lowercase Letter, One Number, And One Special Character"
-        });
-    }
-    next();
-}
-
-
 // Helper function to validate date format
 function isValidDate(input) {
     const datePattern = /^\d{4}-\d{2}-\d{2}$/;
@@ -620,14 +411,132 @@ function isValidDate(input) {
 // Helper function to check spaces
 const hasSpaces = (input) => /\s/.test(input);
 
+//Checks Signup format
+
+function signUpFormat(req, res, next) {
+
+    //--------------------Precheck for Lowercase---------------//
+    if (!req.body.UserID) {
+        return res.status(400).json({ error: "Please Fill In User ID" });
+    }
+
+    if (typeof req.body.UserID  !== "string") {
+        return res.status(400).json({ error: "User ID Must Be A String" });
+    }
+
+    //Turn the userid lowercase
+    req.body.UserID = req.body.UserID.toLowerCase();
+
+    //Destructure Body
+    const { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber } = req.body;
+
+    //------------------Null Checks-------------//
+
+    if (!UserNameFirst) {
+        return res.status(400).json({ error: "Please Fill In First Name" });
+    }
+
+    if (!UserNameLast) {
+        return res.status(400).json({ error: "Please Fill In Last Name" });
+    }
+
+    if (!UserPhoneNumber) {
+        return res.status(400).json({ error: "Please Fill In Phone Number" });
+    }
+
+    if (!Password) {
+        return res.status(400).json({ error: "Please Fill In Password" });
+    }
+
+    //----------------------Type Checking-------------------//
+
+    if (typeof Password !== "string") {
+        return res.status(400).json({ error: "Password Must Be A String" });
+    }
+
+    if (typeof UserNameFirst !== "string") {
+        return res.status(400).json({ error: "First Name Must Be A String" });
+    }
+
+    if (typeof UserNameLast !== "string") {
+        return res.status(400).json({ error: "Last Name Must Be A String" });
+    }
+
+    if (typeof UserPhoneNumber !== "string") {
+        return res.status(400).json({ error: "Phone Number Must Be A String" });
+    }
+
+    //-------------------Space Format Checking--------------//
+    if (hasSpaces(UserID)) {
+        return res.status(400).json({ error: "User ID Must Not Contain Spaces" });
+    }
+
+    if (hasSpaces(Password)) {
+        return res.status(400).json({ error: "Password Must Not Contain Spaces" });
+    }
+
+    if (hasSpaces(UserNameFirst)) {
+        return res.status(400).json({ error: "First Name Must Not Contain Spaces" });
+    }
+
+    if (hasSpaces(UserNameLast)) {
+        return res.status(400).json({ error: "Last Name Must Not Contain Spaces" });
+    }
+
+    if (hasSpaces(UserPhoneNumber)) {
+        return res.status(400).json({ error: "Phone Number Must Not Contain Spaces" });
+    }
+
+    //-------------------------Length Checking-----------------//
+
+    if (UserID.length < 5) {
+        return res.status(400).json({ error: "User ID Must Be At Least 5 Characters Long" });
+    }
+
+    if (UserID.length > 255) {
+        return res.status(400).json({ error: "User ID Must Be Less Than or Equal To 255 Characters Long" });
+    }
+
+    if (UserNameFirst.length < 2) {
+        return res.status(400).json({ error: "First Name Must Be At Least 2 Characters Long" });
+    }
+
+    if (UserNameFirst.length > 255) {
+        return res.status(400).json({ error: "First Name Must Be Less Than or Equal To 255 Characters Long" });
+    }
+
+    if (UserNameLast.length < 2) {
+        return res.status(400).json({ error: "Last Name Must Be At Least 2 Characters Long" });
+    }
+
+    if (UserNameLast.length > 255) {
+        return res.status(400).json({ error: "Last Name Must Be Less Than or Equal To 255 Characters Long" });
+    }
+
+
+
+    //-----------------------------Format Checking-----------------------//
+    const regexNumber = /^1-\d{3}-\d{3}-\d{4}$/;
+
+    if (!UserPhoneNumber.match(regexNumber)) {
+        return res.status(400).json({ error: "Phone Number Must Be In The Format 1-XXX-XXX-XXXX" });
+    }
+
+    const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+
+    if (!Password.match(regexPassword)) {
+        return res.status(400).json({
+            error: "Password Must Be At Least 8 Characters Long, Contain At Least One Uppercase Letter, One Lowercase Letter, One Number, And One Special Character"
+        });
+    }
+    next();
+}
+
+
+
+
 // Checks signup format for employees
 async function signUpFormatEmployee(req, res, next) {
-    req.body.EmployeeHireDate = req.body.EmployeeHireDate;
-    req.body.EmployeeStatus = req.body.EmployeeStatus;
-    req.body.EmployeeBirthDate = req.body.EmployeeBirthDate;
-    req.body.EmployeeDepartment = req.body.EmployeeDepartment;
-    req.body.EmployeeHourly = req.body.EmployeeHourly;
-    req.body.SupervisorID = req.body.SupervisorID;
 
     const {
         EmployeeHireDate,
@@ -638,7 +547,7 @@ async function signUpFormatEmployee(req, res, next) {
         SupervisorID
     } = req.body;
 
-    // Validate required fields
+    //------------------------Null Checking-------------------//
     if (EmployeeHireDate == null || EmployeeHireDate === "") {
         return res.status(400).json({ error: "Please Fill In Hire Date" });
     }
@@ -663,18 +572,12 @@ async function signUpFormatEmployee(req, res, next) {
         return res.status(400).json({ error: "Supervisor ID Must Be Filled In" });
     }
 
+    //-------------------------Date Validation----------------------//
     // Check that Hire Date is in the past or present
     if (new Date(EmployeeHireDate) > new Date()) {
         return res.status(400).json({ error: "Hire Date Must Be In The Past or Present" });
     }
 
-    // Validate Employee Status
-    const validStatuses = ["Employed", "Absence", "Fired"];
-    if (!validStatuses.includes(EmployeeStatus)) {
-        return res.status(400).json({ error: "Invalid Employee Status" });
-    }
-
-    // Check if Birth Date is a valid date and in the past
     if (!isValidDate(EmployeeBirthDate)) {
         return res.status(400).json({ error: "Birth Date Must Be A Valid Date" });
     }
@@ -683,7 +586,17 @@ async function signUpFormatEmployee(req, res, next) {
         return res.status(400).json({ error: "Birth Date Must Be In The Past" });
     }
 
-    // Validate Department length
+
+    //-------------------------Status Evaluation--------------------------//
+    const validStatuses = ["Employed", "Absence", "Fired"];
+    if (!validStatuses.includes(EmployeeStatus)) {
+        return res.status(400).json({ error: "Invalid Employee Status" });
+    }
+
+
+
+    //--------------------------Length Validation------------------------//
+
     if (EmployeeDepartment.trim().length < 2) {
         return res.status(400).json({ error: "Department Must Be At Least 2 Characters Long" });
     }
@@ -706,28 +619,21 @@ async function signUpFormatEmployee(req, res, next) {
         return res.status(400).json({ error: "Supervisor ID Must Be Less Than or Equal To 255 Characters Long" });
     }
 
+    //-----------------------------------Spaces Format Check----------------------//
     // Check for spaces in the input fields
     if (hasSpaces(EmployeeHireDate)) {
         return res.status(400).json({ error: "Hire Date Must Not Contain Spaces" });
-    }
-
-    if (hasSpaces(EmployeeStatus)) {
-        return res.status(400).json({ error: "Employee Status Must Not Contain Spaces" });
     }
 
     if (hasSpaces(EmployeeBirthDate)) {
         return res.status(400).json({ error: "Birth Date Must Not Contain Spaces" });
     }
 
-    if (hasSpaces(EmployeeDepartment)) {
-        return res.status(400).json({ error: "Department Must Not Contain Spaces" });
-    }
-
     if (hasSpaces(SupervisorID)) {
         return res.status(400).json({ error: "Supervisor ID Must Not Contain Spaces" });
     }
 
-    // Check if Supervisor ID exists in the database
+    //-------------------------------Check For Valid Supervisor---------------------//
     try {
         const notFailed = await checkSupervisorExists(SupervisorID);
         if (!notFailed) {
@@ -751,7 +657,7 @@ async function signUpFormatManager(req, res, next) {
         Secret
     } = req.body;
 
-    // Validate required fields
+    //---------------------------Null Checks------------------------//
     if (Secret ==  null){
         return res.status(401).json({ error: "Not Authorized" });
     }
@@ -776,15 +682,9 @@ async function signUpFormatManager(req, res, next) {
         return res.status(400).json({ error: "Please Fill In Hourly Wage" });
     }
 
-    // Check that Hire Date is in the past or present
+    //------------------------------Date Validation----------------------//
     if (new Date(EmployeeHireDate) > new Date()) {
         return res.status(400).json({ error: "Hire Date Must Be In The Past or Present" });
-    }
-
-    // Validate Employee Status
-    const validStatuses = ["Employed", "Absence", "Fired"];
-    if (!validStatuses.includes(EmployeeStatus)) {
-        return res.status(400).json({ error: "Invalid Employee Status" });
     }
 
     // Check if Birth Date is a valid date and in the past
@@ -796,6 +696,16 @@ async function signUpFormatManager(req, res, next) {
         return res.status(400).json({ error: "Birth Date Must Be In The Past" });
     }
 
+
+    //---------------------------Validate Status----------------------//
+    const validStatuses = ["Employed", "Absence", "Fired"];
+    if (!validStatuses.includes(EmployeeStatus)) {
+        return res.status(400).json({ error: "Invalid Employee Status" });
+    }
+
+
+
+    //--------------------------Length Validation--------------------//
     // Validate Department length
     if (EmployeeDepartment.trim().length < 2) {
         return res.status(400).json({ error: "Department Must Be At Least 2 Characters Long" });
@@ -810,21 +720,13 @@ async function signUpFormatManager(req, res, next) {
         return res.status(400).json({ error: "Hourly Wage Must Be Greater Than 0" });
     }
 
-    // Check for spaces in the input fields
+    //-------------------------------Spaces Formatting------------------//
     if (hasSpaces(EmployeeHireDate)) {
         return res.status(400).json({ error: "Hire Date Must Not Contain Spaces" });
     }
 
-    if (hasSpaces(EmployeeStatus)) {
-        return res.status(400).json({ error: "Employee Status Must Not Contain Spaces" });
-    }
-
     if (hasSpaces(EmployeeBirthDate)) {
         return res.status(400).json({ error: "Birth Date Must Not Contain Spaces" });
-    }
-
-    if (hasSpaces(EmployeeDepartment)) {
-        return res.status(400).json({ error: "Department Must Not Contain Spaces" });
     }
 
     next();
@@ -832,13 +734,20 @@ async function signUpFormatManager(req, res, next) {
 
 //Checks login format
 function loginFormat(req,res,next){
-    if (!req.body.UserID || typeof req.body.UserID != 'string' ){
+
+    //-------------------------Precheck for user lowercase------------------//
+    if (!req.body.UserID || typeof req.body.UserID != 'string' || hasSpaces(req.body.UserID) ){
         return res.status(400).json({error:"Username Not Found"})
     }
+
+    req.body.UserID = req.body.UserID.toLowerCase()
+
+    //-----------------------Null checks-------------------------//
     if (!req.body.Password || typeof req.body.Password != 'string' ){
         return res.status(400).json({error:"Password Not Found"})
     }
 
+    //-------------------------Length Validation-----------------//
     if (req.body.UserID.length < 5){
         return res.status(400).json({error:"Username Not Found"})
     }
@@ -850,4 +759,4 @@ function loginFormat(req,res,next){
 
 
 
-module.exports = {login, signUpCustomer, userNameExists, authenticateToken, signUpFormat, loginFormat, authorizeCustomer, authorizeManager, authorizeRegularEmployee, authorizeEmployee, signUpEmployee, signUpFormatEmployee, signUpManager, signUpFormatManager}
+module.exports = {hasSpaces, login, signUpCustomer, authenticateToken, signUpFormat, loginFormat, authorizeCustomer, authorizeManager, authorizeRegularEmployee, authorizeEmployee, signUpEmployee, signUpFormatEmployee, signUpManager, signUpFormatManager}
