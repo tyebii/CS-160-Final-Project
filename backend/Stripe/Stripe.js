@@ -7,9 +7,10 @@ const {authenticateToken} = require('../Utils/Authentication')
 
 const {authorizeCustomer} = require('../Utils/Authorization')
 
-
+//Gets Information From Webhook
 router.post("/webhook", bodyParser.raw({ type: 'application/json' }), handleHook);
 
+//Creates Stripe Session
 router.post("/create-checkout-session", express.json(), authenticateToken, authorizeCustomer, addTransaction, handleStripe)
 
 

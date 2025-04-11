@@ -13,7 +13,9 @@ const categoryQuery = (req, res) => {
     let {name} = req.params;
 
     if(!validateCategory(name)){
+
         return res.status(statusCode.BAD_REQUEST).json({error:"Category Name Is Invalid"})
+        
     }
 
     name = name.replace(/-/g, " "); 

@@ -10,10 +10,13 @@ const {authenticateToken} = require('../Utils/Authentication')
 
 router.use(express.json());
 
+//Get Pending Transactions
 router.get('/transactions/pending', authenticateToken, authorizeEmployee, getCurrentTransactions)
 
+//Get Transaction By ID
 router.post('/transactions/id', authenticateToken, authorizeManager, getTransactionID)
 
+//Customer's Transactions
 router.get('/transactions/customer', authenticateToken, authorizeCustomer, getCustomerTransactions)
 
 module.exports = router
