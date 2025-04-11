@@ -1,7 +1,13 @@
 const express = require('express')
+
 const router = express.Router()
+
 const {getTransactionID, getCurrentTransactions, getCustomerTransactions} = require('./TransactionController')
-const { authenticateToken, authorizeEmployee, authorizeCustomer, authorizeManager} = require('../Auth/AuthenticationController')
+
+const {authorizeEmployee, authorizeCustomer, authorizeManager} = require('../Utils/Authorization')
+
+const {authenticateToken} = require('../Utils/Authentication')
+
 router.use(express.json());
 
 router.get('/transactions/pending', authenticateToken, authorizeEmployee, getCurrentTransactions)

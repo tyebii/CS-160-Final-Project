@@ -2,7 +2,11 @@ const express = require('express')
 const router = express.Router()
 const bodyParser = require('body-parser');
 const {handleStripe, addTransaction, handleHook} = require('./StripeController')
-const { authenticateToken, authorizeCustomer } = require('../Auth/AuthenticationController')
+
+const {authenticateToken} = require('../Utils/Authentication')
+
+const {authorizeCustomer} = require('../Utils/Authorization')
+
 
 router.post("/webhook", bodyParser.raw({ type: 'application/json' }), handleHook);
 

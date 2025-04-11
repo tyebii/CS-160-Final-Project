@@ -1,19 +1,18 @@
-//Import Express
 const express = require('express')
 
-//Import Authentication and Authorization
-const { authenticateToken, authorizeManager} = require('../Auth/AuthenticationController')
+const {authenticateToken} = require('../Utils/Authentication')
 
-//Controllers
-const {getEmployee, getEmployeeID, deleteEmployee, appendEmployee, EmployeeFormat} = require('./EmployeeController')
+const {authorizeManager} = require('../Utils/Authorization')
 
-//Formatting
-const {signUpFormatEmployee} = require('../Auth/AuthenticationController')
+const {signUpFormatEmployee} = require('../Utils/Formatting')
 
-//Router for modularity
+
+const {getEmployee, getEmployeeID, deleteEmployee, updateEmployee} = require('./EmployeeController')
+
+const {employeeFormat} = require('../Utils/Formatting')
+
 const router = express.Router()
 
-//Parsing on each route
 router.use(express.json());
 
 //Get list of employees
@@ -23,7 +22,7 @@ router.get('/employee/supervisor', authenticateToken, authorizeManager, getEmplo
 router.get('/employee/id', authenticateToken, authorizeManager, getEmployeeID)
 
 //Update employee
-router.put('/employee', authenticateToken, authorizeManager, EmployeeFormat, signUpFormatEmployee, appendEmployee)
+router.put('/employee', authenticateToken, authorizeManager, employeeFormat, signUpFormatEmployee, updateEmployee)
 
 //Delete Employee
 router.delete('/employee',  authenticateToken, authorizeManager, deleteEmployee)

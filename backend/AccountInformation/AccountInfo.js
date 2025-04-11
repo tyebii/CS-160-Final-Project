@@ -1,22 +1,19 @@
-//Import express
 const express = require('express')
 
-//Import router for modularity
 const router = express.Router()
 
-//getCustomer controller
+const {authenticateToken} = require('../Utils/Authentication')
+
+const {authorizeCustomer, authorizeEmployee} = require('../Utils/Authorization')
+
 const {getCustomer, getEmployee} = require('./AccountInfoController')
 
-//Apply authentication and authorization on the routes
-const { authenticateToken, authorizeCustomer, authorizeEmployee} = require('../Auth/AuthenticationController')
-
-//Apply json parsing on routes
 router.use(express.json());
 
-//Gets the customers information
+//Gets The Customer's Information
 router.get('/customer', authenticateToken, authorizeCustomer, getCustomer)
 
-//Gets the employees information
+//Gets The Employee's Information
 router.get('/employee', authenticateToken, authorizeEmployee, getEmployee)
 
 module.exports = router 

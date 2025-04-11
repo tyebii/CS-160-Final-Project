@@ -1,146 +1,139 @@
-//Import the database connection pool
 const pool = require('../Database Pool/DBConnections')
 
-//Gets the address associated with a customer 
-const getAddress = (req, res) => {
-    //Fetch the customerid
-    const customerid = req.user.CustomerID
+const {validateID, statusCode, validateAddress, validateName} = require('../Utils/Formatting')
 
-    //Get the address by joining the customeraddress and address relations
-    const sql = "Select * From customeraddress, address Where customeraddress.customerid = ? and customeraddress.address = address.address"
-    pool.query(sql, [customerid], (err, results)=>{
-        if(err){
-            res.status(500).json({ error: 'Internal Server Error' });
-            return;
+//Gets Customer Addresses
+const getAddress = (req, res) => {
+
+    const customerID = req.user?.CustomerID
+
+    if(!validateID(customerID)){
+        return res.status(statusCode.BAD_REQUEST).json({error:"CustomerID Is Invalid"})
+    }
+
+    const sqlQuery = "Select * From customeraddress, address Where customeraddress.customerid = ? and customeraddress.address = address.address"
+
+    pool.query(sqlQuery, [customerID], (error, results)=>{
+
+        if(error){
+
+            console.log("Error Accessing Customer Addresses: " + error.message)
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Fetching Customer Addresses'});
+
         }
-        res.status(200).json(results)
+
+        res.status(statusCode.OK).json(results)
+
     })
 }   
 
-//Enable users to add an address
+//Adding Customer-Address Relationship
 const addAddress = async (req, res) => {
     try {
-        //Fetch the user id 
-        const customerid = req.user.CustomerID
 
-        //Information associated with the address input
-        const {Address, Name} = req.body;
+        const customerID = req.user?.CustomerID
+
+        if(!validateID(customerID)){
+            return res.status(statusCode.BAD_REQUEST).json({error:"CustomerID Is Invalid"})
+        }
+
+        let {address, name} = req.body;
             
-        // Get the connection from the pool
-        connection = await pool.promise().getConnection(); 
+        if(!validateAddress(address)){
+            return res.status(statusCode.BAD_REQUEST).json({error:"Address Is Invalid"})
+        }
 
-        // Start a transaction
+        if(!validateName(name)){
+            return res.status(statusCode.BAD_REQUEST).json({error:"Name Is Invalid"})
+        }
+
+        name = name.trim()
+
+        const connection = await pool.promise().getConnection();
+
         await connection.beginTransaction();
-            //Insert address and ignore error if duplicate
+
             const sqlQueryOne = 'INSERT INTO Address (Address) VALUES (?) ON DUPLICATE KEY UPDATE Address=Address;'
             await connection.query(
                 sqlQueryOne, 
-                [Address]
+                [address]
             );
         
-            // Insert customer/address relationship into customeraddress
             const sqlQueryTwo = 'Insert Into customeraddress (Address,CustomerID, Name) Values (?,?,?)'
             await connection.query(
                 sqlQueryTwo, 
-                [Address, customerid, Name]
+                [address, customerID, name]
             );
     
-        // Commit the transaction
         await connection.commit();
     
-        // Release the connection back to the pool
         connection.release();
 
-        res.status(200).json({ success: true });
+        res.status(statusCode.OK).json({ success: true });
 
-    } catch (err) {
+    } catch (error) {
         if (connection) {
-            // Rollback if there's an error
             await connection.rollback();
             connection.release();
         }
 
-        if (err.code === 'ER_DUP_ENTRY') {
-            return res.status(409).json({ error: "This address is already linked to this customer." });
+        if (error.code === 'ER_DUP_ENTRY') {
+            return res.status(statusCode.RESOURCE_CONFLICT).json({ error: "This Address Is Already Linked To You." });
         }
-
-        return res.status(500).json({ error: err.message });
+        console.log("Error Adding An Address: " + error.message)
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error On Addition Of Address" });
     }
 };
 
-//Delete the address 
+//Delete The address Associated With A Customer
 const deleteAddress =  async(req,res)=>{
     try {
-        let connection; 
 
-        //Get the customer id
-        const customerid = req.user.CustomerID
+        const customerID = req.user?.CustomerID
 
-        //Get address primary key
-        const {Address} = req.body;
+        if(!validateID(customerID)){
+            return res.status(statusCode.BAD_REQUEST).json({error:"CustomerID Is Invalid"})
+        }
 
-        if(!Address){
-            res.status(400).json({err:"invalid address"})
-            return;
+        const {address} = req.body;
+            
+        if(!validateAddress(addAddressddress)){
+            return res.status(statusCode.BAD_REQUEST).json({error:"Address Is Invalid"})
         }
             
-        // Get the connection from the pool
-        connection = await pool.promise().getConnection(); 
+        const connection = await pool.promise().getConnection(); 
 
-        // Start a transaction
         await connection.beginTransaction();
     
-            // Delete address/customer association
             const sqlQueryOne = 'Delete From customeraddress Where customerid = ? And address = ?'
             await connection.query(
                 sqlQueryOne, 
-                [customerid, Address]
+                [customerID, address]
             );
         
-            //Delete address if no-one is relying on it
-            //Expensive Query
             const sqlQueryTwo = `DELETE FROM Address WHERE NOT EXISTS (SELECT 1 FROM customeraddress WHERE customeraddress.address = Address.address) AND NOT EXISTS (SELECT 1 FROM transactions WHERE transactions.TransactionAddress = Address.address);`;
             await connection.query(
                 sqlQueryTwo, 
             );
     
-        // Commit the transaction
         await connection.commit();
     
-        // Release the connection back to the pool
         connection.release();
     
-        res.status(200).json({ success: true });
+        res.status(statusCode.OK).json({ success: true });
 
-    } catch (err) {
-        console.error("Error:", err.message);
-    
+    } catch (error) {
         if (connection) {
-            // Rollback if there's an error
             await connection.rollback();
             connection.release();
-            return;
         }
-    
-        res.status(500).json({ error: err.message });
+
+        console.log("Error Deleting An Address: " + error.message)
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error On Deletion Of Address" });
     }
 }
 
-//Format incoming address
-function formatAddress(req, res, next) {
-    if (!req.body.Address || req.body.Address === "") {
-        return res.status(400).json({ error: "Address Not Found" });
-    }
-
-    const regex = /^\d+\s[A-Za-z0-9\s,.'-]+(?:[A-Za-z0-9\s,.'-]+)?(?:,\sSan\sJose,\sCalifornia\s\d{5}(-\d{4})?)?$/;
-
-    if (!regex.test(req.body.Address)) {
-        return res.status(400).json({ error: "Address Not Formatted Properly" });
-    }
-
-    next();
-}
 
 
-
-module.exports={deleteAddress, getAddress, addAddress, formatAddress}
+module.exports={deleteAddress, getAddress, addAddress}

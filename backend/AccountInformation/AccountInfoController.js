@@ -1,45 +1,60 @@
-//Import the database connection pool
 const pool = require('../Database Pool/DBConnections')
 
-//Gets the customer information
-const getCustomer = (req, res) => {
-    //Get the customer id
-    const customerID = req.user.CustomerID
+const {validateID, statusCode} = require('../Utils/Formatting')
 
-    //CustomerID is null
-    if(customerID==null){
-        return res.status(500).json({error:"Customer ID is Null"})
+//Gets The Customer's Information
+const getCustomer = (req, res) => {
+
+    const customerID = req.user?.CustomerID
+
+    if(!validateID(customerID)){
+        
+        return res.status(statusCode.BAD_REQUEST).json({error:"CustomerID Is Invalid"})
+
     }
 
-    //Query essential customer information
-    const sqlQuery = "SELECT UserID, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, c.CustomerID, c.JoinDate FROM customer c INNER JOIN users u ON c.CustomerID = u.CustomerID WHERE c.CustomerID = ?"
+    const sqlQuery = "SELECT UserID, UserNameFirst, UserNameLast, UserPhoneNumber, c.CustomerID, c.JoinDate FROM customer c INNER JOIN users u ON c.CustomerID = u.CustomerID WHERE c.CustomerID = ?"
+
     pool.query(sqlQuery, [customerID], (error, results)=>{
+
         if(error){
-            res.status(500).json({error: "Database Error: " + error.message})
-            return;
+
+            console.log("Error Accessing Customer Information: " + error.message)
+
+            return res.status(statusCode.SERVICE_UNAVAILABLE).json({error: "Internal Server Error Fetching Customer Information"})
+
         }
-        res.status(200).json(results)
+
+        return res.status(statusCode.OK).json(results)
+
     })
 }
 
-//Gets the employee information
+//Gets The Employees Information
 const getEmployee = (req, res) => {
-    //Get the employee id
-    const employeeID = req.user.EmployeeID
 
-    //Employee Id is null
-    if(employeeID==null || employeeID==""){
-        return res.status(500).json({error:"Employee ID is Null"})
+    const employeeID = req.user?.EmployeeID
+
+    if(!validateID(employeeID)){
+
+        return res.status(statusCode.BAD_REQUEST).json({error:"Employee ID Is Invalid"})
+
     }
 
-    //Query essential employee information
     const sqlQuery = "SELECT * FROM employee e INNER JOIN users u ON e.EmployeeID = u.EmployeeID WHERE e.EmployeeID = ?"
+
     pool.query(sqlQuery, [employeeID], (error, results)=>{
+
         if(error){
-            res.status(500).json({error: "Database Error: " + error.message})
-            return;
+
+            console.log("Error Accessing Employee Information: " + error.message)
+
+            return res.status(statusCode.SERVICE_UNAVAILABLE).json({error: "Internal Server Error Fetching Employee Information"})
+
         }
-        res.status(200).json(results)
+
+        return res.status(statusCode.OK).json(results)
+
     })
 }
 

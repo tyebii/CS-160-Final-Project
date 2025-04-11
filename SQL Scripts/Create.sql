@@ -270,11 +270,11 @@ INSERT INTO Users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumbe
 ('user004', 'hashed_password_4', 'Bob', 'Brown', '555-987-6543', 'emp002', NULL),
 ('manager001', 'hashed_password_5', 'Charlie', 'Davis', '111-222-3333', 'emp003', NULL);
 
-INSERT INTO Address (Address, City, Zip, State) VALUES
-('272 E Santa Clara St', 'San Jose', '95113', 'CA'),
-('123 Market St', 'San Francisco', '94105', 'CA'),
-('456 Sunset Blvd', 'Los Angeles', '90001', 'CA'),
-('789 Harbor Dr', 'San Diego', '92101', 'CA');
+INSERT INTO Address (Address) VALUES
+('272 E Santa Clara St'),
+('123 Market St'),
+('456 Sunset Blvd'),
+('789 Harbor Dr');
 
 INSERT INTO Inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description) VALUES
 ('item001', 50, 'FreshFarm', 2.5, 'Apples', 'Fresh Produce', 1.00, '2025-05-10', 2.50, 'Room Temperature', '2025-03-15', 'apple.jpg', 'Red delicious apples.'),

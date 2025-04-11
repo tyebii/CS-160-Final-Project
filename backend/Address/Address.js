@@ -1,29 +1,24 @@
-//Import Express
 const express = require('express')
 
-//Authentication and Authorization
-const { authenticateToken, authorizeCustomer } = require('../Auth/AuthenticationController')
+const {getAddress, addAddress, deleteAddress} = require('./AddressController')
 
-//Address Controllers
-const {getAddress, addAddress, deleteAddress, formatAddress} = require('./AddressController')
-
-//For Modularity
 const router = express.Router()
 
-//Json Parsing on all links
+const {authenticateToken} = require('../Utils/Authentication')
+
+const {authorizeCustomer} = require('../Utils/Authorization')
+
 router.use(express.json());
 
-//Apply Authentication and Authorization on each route
 router.use([authenticateToken, authorizeCustomer])
 
-//Fetch User's Addresses
+//Get The Customer's Addresses
 router.get('/address',  getAddress);
 
-//Add Address
-router.post('/address',  formatAddress, addAddress);
+//Adds An Address
+router.post('/address', addAddress);
 
-//Delete Address
+//Deletes An Address
 router.delete('/address', deleteAddress);
 
-//Export to main
 module.exports = router
