@@ -14,7 +14,7 @@ const handleStripe = async (req, res) => {
 
         if (!process.env.STRIPE_PRIVATE_KEY) {
 
-            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: `Error Creating Stripe Checkout Session` });
+           throw new Error(`Error Creating Stripe Checkout Session`);
 
         }
 
@@ -22,7 +22,7 @@ const handleStripe = async (req, res) => {
 
         let lineItems = [];
 
-        let connection = await pool.promise().getConnection();
+        let connection = req.connection;
 
             for (const item of req.body.items) {
 
@@ -30,7 +30,7 @@ const handleStripe = async (req, res) => {
 
                 if (storeItem == null || storeItem.length === 0) {
 
-                    return res.status(statusCode.BAD_REQUEST).json({ error: `Item with ID ${item.ItemID} Not Found.` });
+                    throw new Error(`Item with ID ${item.ItemID} Not Found.`);
 
                 }
 
@@ -56,6 +56,8 @@ const handleStripe = async (req, res) => {
 
                 });
             }
+
+        await connection.commit()
 
         connection.release();
 
@@ -108,6 +110,8 @@ const handleStripe = async (req, res) => {
 
         if(connection){
 
+            await connection.rollback()
+
             connection.release()
 
         }
@@ -122,6 +126,7 @@ const handleStripe = async (req, res) => {
     }
 };
 
+//Add Transaction 
 const addTransaction = async (req, res, next) => {
 
     const { TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, TransactionDate } = req.body;
@@ -131,12 +136,12 @@ const addTransaction = async (req, res, next) => {
     let transactionID;
     
     try{
-        transactionID = generateUniqueID(transactionIDExists);
+        transactionID = await generateUniqueID(transactionIDExists);
     }catch(error){
 
         console.log("Error Generating Transaction ID" + error.message)
 
-        return res.statusCode(INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Creating Unique TransactionID"})
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Creating Unique TransactionID"})
 
     }
 
@@ -150,44 +155,42 @@ const addTransaction = async (req, res, next) => {
 
             await connection.beginTransaction();
 
-            await connection.query(
+                await connection.query(
 
-                `INSERT INTO Transactions 
+                    `INSERT INTO Transactions 
 
-                 (CustomerID, TransactionID, TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, TransactionDate) 
+                    (CustomerID, TransactionID, TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, TransactionDate) 
 
-                 VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                    VALUES (?, ?, ?, ?, ?, ?, ?)`,
 
-                [customerID, transactionID, TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, formattedTransactionDate]
+                    [customerID, transactionID, TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, formattedTransactionDate]
 
-            );
-
-
-            await connection.query(
-
-                `UPDATE Inventory 
-
-                 JOIN ShoppingCart ON Inventory.ItemID = ShoppingCart.ItemID 
-
-                 SET Inventory.Quantity = Inventory.Quantity - ShoppingCart.OrderQuantity 
-
-                 WHERE ShoppingCart.CustomerID = ?`,
-
-                [customerID]
-            );
+                );
 
 
-            await connection.commit();
+                await connection.query(
 
-            connection.release();
+                    `UPDATE Inventory 
+
+                    JOIN ShoppingCart ON Inventory.ItemID = ShoppingCart.ItemID 
+
+                    SET Inventory.Quantity = Inventory.Quantity - ShoppingCart.OrderQuantity 
+
+                    WHERE ShoppingCart.CustomerID = ?`,
+
+                    [customerID]
+                );
             
             req.body.TransactionID = transactionID;
+
+            req.connection = connection
 
             next();
 
         } catch (error) {
 
             if(connection){
+
                 await connection.rollback();
 
                 connection.release();
@@ -208,9 +211,7 @@ const addTransaction = async (req, res, next) => {
     }
 };
 
-
-
-
+//Stripe Webhook
 const handleHook = async (req, res) => {
 
     const sig = req.headers['stripe-signature'];
@@ -368,13 +369,13 @@ const handleHook = async (req, res) => {
             }
         }
 
-        return res.sendStatus(statusCode.OK);
+        return res.status(statusCode.OK);
 
     } catch (error) {
 
         console.error("Error Handling Webhook Event:", error.message);
 
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).send("Internal Server Error With Webhook");
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error With Webhook"});
 
     }
 };

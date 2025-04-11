@@ -69,6 +69,9 @@ Create Table Robot(
     EstimatedDelivery double
 );
 
+CREATE INDEX robot_status
+ON Robot (RobotStatus);
+
 CREATE TABLE Transactions (
     CustomerID varchar(255) NOT NULL,
     TransactionID varchar(255) PRIMARY KEY,
@@ -92,6 +95,8 @@ CREATE TABLE Transactions (
 CREATE INDEX transactions_address
 ON Transactions (TransactionAddress);
 
+CREATE INDEX transactions_status
+ON Transactions (TransactionStatus);
 
 Create Table CustomerAddress(
 	Address varchar(255) ,
@@ -251,6 +256,26 @@ END;
 
 DELIMITER ;
 
+DELIMITER $$
+
+CREATE EVENT IF NOT EXISTS delete_expired_transactions
+ON SCHEDULE EVERY 20 MINUTE
+DO
+BEGIN
+
+    UPDATE Inventory
+    JOIN ShoppingCart ON Inventory.ItemID = ShoppingCart.ItemID
+    JOIN Transactions ON ShoppingCart.CustomerID = Transactions.CustomerID
+    SET Inventory.Quantity = Inventory.Quantity + ShoppingCart.OrderQuantity
+    WHERE Transactions.TransactionStatus = 'In Progress';
+
+    DELETE FROM Transactions
+    WHERE TransactionStatus NOT IN ('Complete', 'Out For Delivery')
+      AND TransactionDate < NOW() - INTERVAL 35 MINUTE;
+
+END $$
+
+DELIMITER ;
 
 INSERT INTO Employee (EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID) VALUES
 ('emp001', '2022-03-15', 'Employed', '1990-05-12', 'Logistics', 25.00, NULL),

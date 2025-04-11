@@ -1,5 +1,8 @@
 const {supervisorExists} = require('./ExistanceChecks')
 
+require('dotenv').config(); 
+
+
 const validateDate = (input) => {
     const datePattern = /^\d{4}-\d{2}-\d{2}$/;
     if (input == null || !datePattern.test(input) || validateBlacklist(input)) return false;
@@ -30,20 +33,39 @@ const validateRegularID = (input) => {
     return true;
 }
 
-const validateAddress = (address) => {
-    if (address == null || typeof address != "string" || address.length < 5 || address.length > 255 || validateBlacklist(address)) {
-        return false
+const validateAddress = async (address) => {
+    if (
+        address == null ||
+        typeof address !== "string" ||
+        address.length < 5 ||
+        address.length > 255 ||
+        validateBlacklist(address)
+    ) {
+        return false;
     }
 
-    //[number] [street name], San Jose, California [ZIP]
+    // Matches: [number] [street name], San Jose, California 95XXX (or ZIP+4)
     const regex = /^\d{1,5}\s[A-Za-z0-9\s.'-]+,\sSan\sJose,\sCalifornia\s95\d{3}(-\d{4})?$/;
 
     if (!regex.test(address)) {
-        return false
+        return false;
     }
 
-    return true
-}
+    const encodedAddress = encodeURIComponent(address);
+    const accessToken = process.env.MAPBOXSECRET;
+
+    try {
+        const response = await fetch(
+            `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedAddress}.json?access_token=${accessToken}`
+        );
+        const data = await response.json();
+
+        return data.features.length > 0;
+    } catch (error) {
+        console.error("Mapbox fetch error:", error);
+        return false;
+    }
+};
 
 const validateQuantity = (input) => {
     if (input == null || typeof input !== 'number' || input <= 0 || !Number.isInteger(input)) {

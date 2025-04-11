@@ -40,7 +40,7 @@ const addAddress = async (req, res) => {
 
         let {address, name} = req.body;
             
-        if(!validateAddress(address)){
+        if(! await validateAddress(address)){
             return res.status(statusCode.BAD_REQUEST).json({error:"Address Is Invalid"})
         }
 
@@ -98,7 +98,7 @@ const deleteAddress =  async(req,res)=>{
 
         const {address} = req.body;
             
-        if(!validateAddress(addAddressddress)){
+        if(! await validateAddress(addAddressddress)){
             return res.status(statusCode.BAD_REQUEST).json({error:"Address Is Invalid"})
         }
             
