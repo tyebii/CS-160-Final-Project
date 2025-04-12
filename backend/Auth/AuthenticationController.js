@@ -34,6 +34,7 @@ const signUpCustomer = async (req, res) => {
     
 
                 const sqlQueryOne = 'INSERT INTO customer (CustomerID, JoinDate) VALUES (?, ?)'
+
                 await connection.query(
                     sqlQueryOne, 
                     [CustomerID, new Date()]
@@ -41,6 +42,7 @@ const signUpCustomer = async (req, res) => {
         
 
                 const sqlQueryTwo = 'INSERT INTO users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, NULL, ?)'
+                
                 await connection.query(
                     sqlQueryTwo, 
                     [UserID, hashedPassword, UserNameFirst, UserNameLast, UserPhoneNumber, CustomerID]
@@ -54,6 +56,7 @@ const signUpCustomer = async (req, res) => {
             
 
             return res.sendStatus(statusCode.OK);
+
         } catch (error) {
 
             if (connection) {
@@ -64,11 +67,15 @@ const signUpCustomer = async (req, res) => {
             }
             
             if (error.code === 'ER_DUP_ENTRY') {
+
                 return res.status(statusCode.RESOURCE_CONFLICT).json({ error: "The Username Is Already Taken" });
+            
             }
 
             console.log("Error Signing Up A Customer: " + error.message)
+
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error Trying To Signup Customer" });
+        
         }
 };
 
@@ -95,12 +102,14 @@ const signUpEmployee = async (req, res) => {
     
 
                 const sqlQueryOne = 'INSERT INTO Employee (EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID) VALUES (?,?,?,?,?,?,?)'
+                
                 await connection.query(
                     sqlQueryOne, 
                     [EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID]
                 );
 
                 const sqlQueryTwo = 'INSERT INTO users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, ?, Null)'
+                
                 await connection.query(
                     sqlQueryTwo, 
                     [UserID, hashedPassword, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID]
@@ -113,7 +122,7 @@ const signUpEmployee = async (req, res) => {
             connection.release();
             
 
-            res.sendStatus(statusCode.OK);
+            return res.sendStatus(statusCode.OK);
 
         } catch (error) {
 
@@ -211,6 +220,7 @@ const signUpManager = async (req, res) => {
 
 //Login
 const login = async (req, res) => {
+
     try {
 
         let {UserID, Password} = req.body;
@@ -266,6 +276,7 @@ const login = async (req, res) => {
         }
 
         res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: error.message});
+
     }
 };
 

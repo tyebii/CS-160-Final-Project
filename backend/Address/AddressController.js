@@ -8,7 +8,9 @@ const getAddress = (req, res) => {
     const customerID = req.user?.CustomerID
 
     if(!validateID(customerID)){
+
         return res.status(statusCode.BAD_REQUEST).json({error:"CustomerID Is Invalid"})
+
     }
 
     const sqlQuery = "Select * From customeraddress, address Where customeraddress.customerid = ? and customeraddress.address = address.address"
@@ -23,44 +25,51 @@ const getAddress = (req, res) => {
 
         }
 
-        res.status(statusCode.OK).json(results)
+        return res.status(statusCode.OK).json(results)
 
     })
 }   
 
 //Adding Customer-Address Relationship
 const addAddress = async (req, res) => {
+
     try {
 
         const customerID = req.user?.CustomerID
 
         if(!validateID(customerID)){
+
             return res.status(statusCode.BAD_REQUEST).json({error:"CustomerID Is Invalid"})
+
         }
 
         let {address, name} = req.body;
             
         if(! await validateAddress(address)){
+
             return res.status(statusCode.BAD_REQUEST).json({error:"Address Is Invalid"})
+
         }
 
         if(!validateName(name)){
-            return res.status(statusCode.BAD_REQUEST).json({error:"Name Is Invalid"})
-        }
 
-        name = name.trim()
+            return res.status(statusCode.BAD_REQUEST).json({error:"Name Is Invalid"})
+
+        }
 
         const connection = await pool.promise().getConnection();
 
         await connection.beginTransaction();
 
             const sqlQueryOne = 'INSERT INTO Address (Address) VALUES (?) ON DUPLICATE KEY UPDATE Address=Address;'
+            
             await connection.query(
                 sqlQueryOne, 
                 [address]
             );
         
             const sqlQueryTwo = 'Insert Into customeraddress (Address,CustomerID, Name) Values (?,?,?)'
+            
             await connection.query(
                 sqlQueryTwo, 
                 [address, customerID, name]
@@ -70,36 +79,50 @@ const addAddress = async (req, res) => {
     
         connection.release();
 
-        res.status(statusCode.OK).json({ success: true });
+        return res.status(statusCode.OK).json({ success: true });
 
     } catch (error) {
+
         if (connection) {
+
             await connection.rollback();
+
             connection.release();
+
         }
 
         if (error.code === 'ER_DUP_ENTRY') {
+
             return res.status(statusCode.RESOURCE_CONFLICT).json({ error: "This Address Is Already Linked To You." });
+       
         }
+
         console.log("Error Adding An Address: " + error.message)
+
         return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error On Addition Of Address" });
+    
     }
 };
 
 //Delete The address Associated With A Customer
 const deleteAddress =  async(req,res)=>{
+
     try {
 
         const customerID = req.user?.CustomerID
 
         if(!validateID(customerID)){
+
             return res.status(statusCode.BAD_REQUEST).json({error:"CustomerID Is Invalid"})
+
         }
 
         const {address} = req.body;
             
-        if(! await validateAddress(addAddressddress)){
+        if(!await validateAddress(addAddressddress)){
+
             return res.status(statusCode.BAD_REQUEST).json({error:"Address Is Invalid"})
+
         }
             
         const connection = await pool.promise().getConnection(); 
@@ -121,16 +144,22 @@ const deleteAddress =  async(req,res)=>{
     
         connection.release();
     
-        res.status(statusCode.OK).json({ success: true });
+        return res.status(statusCode.OK).json({ success: true });
 
     } catch (error) {
+
         if (connection) {
+
             await connection.rollback();
+
             connection.release();
+
         }
 
         console.log("Error Deleting An Address: " + error.message)
+
         return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error On Deletion Of Address" });
+    
     }
 }
 

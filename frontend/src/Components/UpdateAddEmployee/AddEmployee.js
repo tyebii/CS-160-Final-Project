@@ -1,6 +1,7 @@
 //Import React Functions
 import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
+import {useAuth} from '../../Context/AuthHook'
 
 //Import Axios
 import axios from 'axios';
@@ -11,6 +12,8 @@ function AddEmployee() {
   //Import Navigate Function
   const navigate = useNavigate()
   
+  const {logout} = useAuth()
+
   //Form State
   const [formData, setFormData] = useState({
     UserID: '',
@@ -322,6 +325,7 @@ function AddEmployee() {
     if (!token) {
       alert('No token found');
       logout();
+      navigate('/login')
       return;
     }
 
@@ -354,6 +358,7 @@ function AddEmployee() {
       if (error.response?.status === 401) {
           alert("You need to login again!");
           logout();
+          navigate('/login')
       } else {
           alert(`Error Status ${error.response?.status}: ${error.response?.data?.err}`);
       }

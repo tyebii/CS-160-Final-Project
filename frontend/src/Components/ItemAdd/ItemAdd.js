@@ -78,7 +78,7 @@ export const ItemAdd = () => {
             }
         })
         .then(() => {
-            alert("Updated Item");
+            alert("Added Item");
             navigate("/");
         })
         .catch((error) => {

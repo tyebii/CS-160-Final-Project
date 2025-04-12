@@ -48,6 +48,7 @@ const getEmployeeID = (req,res) => {
         res.status(statusCode.OK).json(results)
 
         return;
+
     })
 }
 
@@ -113,9 +114,7 @@ const deleteEmployee = (req, res) => {
 
         }
 
-        res.status(statusCode.OK).json(results)
-
-        return;
+        return res.status(statusCode.OK).json(results)
         
     })
 }
