@@ -2,6 +2,8 @@ const pool = require('../Database Pool/DBConnections')
 
 const {validateCategory, validateProduct, validateID, statusCode, insertFormat} = require('../Utils/Formatting')
 
+const {itemIDExists} = require('../Utils/Generation.js')
+
 const generateUniqueID = require('../Utils/Generation.js')
 
 const path = require('path');
@@ -229,7 +231,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-const productInsert = (req, res) => {
+const productInsert = async (req, res) => {
 
     const fileName = req.file.filename;  
 
@@ -252,7 +254,14 @@ const productInsert = (req, res) => {
 
     }
 
-    let InventoryID = generateUniqueID()
+    let InventoryID;
+
+    try{
+        InventoryID = await generateUniqueID(itemIDExists)
+    }catch(error){
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Updating Item' });
+    }
+
                 
     pool.query('INSERT IGNORE INTO inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, StorageRequirement, LastModification, ImageLink, Cost, Description) Values (?,?,?,?,?,?,?,?,?,?,?,?,?)', [InventoryID, Number(Quantity), Distributor, Number(Weight), ProductName, Category, Number(SupplierCost), new Date(Expiration), StorageRequirement, new Date(), fileName, Number(Cost), Description], (error, results) => {
 
@@ -266,7 +275,7 @@ const productInsert = (req, res) => {
 
         }
 
-          res.status(statusCode.OK);
+         return res.status(statusCode.OK).json({success:true});
 
     });
 }

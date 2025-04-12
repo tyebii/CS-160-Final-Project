@@ -157,7 +157,7 @@ const validateRobot = (req, res, next) => {
 }
 
 const validateName = (input) => {
-    if (input == null || typeof input != "string" || input.trim() != "" || input.length < 2 || input.length > 255 || validateBlacklist(input)) {
+    if (input == null || typeof input != "string" || input.trim() == "" || input.length < 2 || input.length > 255 || validateBlacklist(input)) {
         return false
     }
     
@@ -349,6 +349,7 @@ const signUpFormatManager = (req, res, next) => {
 }
 
 const validateCategory = (input) => {
+    console.log(input)
     const categoryEnum = ['Fresh-Produce','Dairy-and-Eggs','Meat-and-Seafood','Frozen-Foods','Bakery-and-Bread','Pantry-Staples','Beverages','Snacks-and-Sweets','Health-and-Wellness']
     return categoryEnum.includes(input)
 }

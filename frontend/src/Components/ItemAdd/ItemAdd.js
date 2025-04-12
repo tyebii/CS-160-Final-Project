@@ -1,5 +1,6 @@
 //Import React Functions
 import { useNavigate } from 'react-router-dom';
+
 import { useState } from 'react';
 
 //Import Axios
@@ -7,17 +8,21 @@ import axios from 'axios';
 
 //Import Custom Components
 import TextEntryBox from "../ItemEdit/TextBox";
+
 import {useAuth} from "../../Context/AuthHook";
 
 //Import Formatter
-import { formatItemView } from "../Formatting/format";
+import { insertFormat } from '../Utils/Formatting'
 
 //Add Item
 export const ItemAdd = () => {
+
     //Get the logout function
     const {logout} = useAuth();
+
     //Get The navigate function
     const navigate = useNavigate();
+
     //file state variable
     const [file, setFile] = useState(null);
 
@@ -38,73 +43,101 @@ export const ItemAdd = () => {
 
     // Handle form submission
     const handleSubmit = (e) => {
+
         e.preventDefault();
 
         //Fetch The Token
         const token = localStorage.getItem('accessToken');
+
         if (!token) {
+
             alert('No token found');
+
             logout();
+
             return;
+
         }
 
-        //Check the format
-        if(!formatItemView(formData,file,false)){
+        if(!insertFormat(formData.Quantity, formData.Distributor, formData.Weight, formData.ProductName, formData.Category, formData.SupplierCost, formData.Cost, formData.Expiration, formData.StorageRequirement, formData.Description)){
+
             return false
+
         }
 
-        //Create a fromData object for image
+
         const form = new FormData();
+
         form.append('File', file);
+
         form.append('Json', JSON.stringify(formData));
 
-        // PUT request with updated form data
         axios.post('http://localhost:3301/api/inventory/insert/item', form, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         })
-        //If the request is successful
-        .then((response) => {
+        .then(() => {
             alert("Updated Item");
             navigate("/");
         })
-        //If the request is bad
         .catch((error) => {
             if (error.response?.status === 401) {
+
                 alert("You need to login again!");
+
                 logout();
+
             } else {
-                alert(`Error Status ${error.response?.status}: ${error.response?.data?.err}`);
+
+                alert(`Error Status ${error.message}:`);
+
             }
         });
         
     };
 
-    //WHen the image is uploaded
+    //When the image is uploaded
     const handleFile = (e) => {
+
         const file = e.target.files[0];
+
         if (file) {
+
             setFile(file);
+
         }else{
+
             alert("Please select a valid file");
+
         }
     }
 
     // Function to handle field changes
     const handleFieldChange = (fieldName) => (value) => {
+
         const numberFields = ['Quantity', 'Cost', 'Weight', 'SupplierCost'];
     
         setFormData(prev => {
+
             if (numberFields.includes(fieldName)) {
+
                 const parsed = Number(value);
+
                 if (isNaN(parsed)) {
+
                     alert(`${fieldName} must be a valid number`);
+
                     return prev;
+
                 }
+
                 return { ...prev, [fieldName]: parsed };
+
             } else {
+
                 return { ...prev, [fieldName]: value };
+
             }
         });
     };
@@ -203,7 +236,7 @@ export const ItemAdd = () => {
 
                         >
                                 <option value="">Select</option>
-                                <option value="Fresh Food">Fresh Food</option>
+                                <option value="Fresh Produce">Fresh Produce</option>
                                 <option value="Dairy and Eggs">Dairy and Eggs</option>
                                 <option value="Meat and Seafood">Meat and Seafood</option>
                                 <option value="Bakery and Bread">Bakery and Bread</option>

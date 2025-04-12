@@ -53,7 +53,7 @@ const signUpCustomer = async (req, res) => {
             connection.release();
             
 
-            return res.status(statusCode.OK);
+            return res.sendStatus(statusCode.OK);
         } catch (error) {
 
             if (connection) {
@@ -113,7 +113,7 @@ const signUpEmployee = async (req, res) => {
             connection.release();
             
 
-            res.status(statusCode.OK);
+            res.sendStatus(statusCode.OK);
 
         } catch (error) {
 
@@ -185,7 +185,7 @@ const signUpManager = async (req, res) => {
 
         connection.release();
         
-        res.status(statusCode.OK);
+        res.sendStatus(statusCode.OK);
 
     } catch (error) {
 
@@ -268,5 +268,8 @@ const login = async (req, res) => {
         res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: error.message});
     }
 };
+
+
+
 
 module.exports = {login, signUpCustomer, signUpEmployee, signUpManager, }

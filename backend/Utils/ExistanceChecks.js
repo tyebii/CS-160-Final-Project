@@ -79,4 +79,23 @@ async function transactionIDExists(transactionID) {
     });
 }
 
-module.exports = {customerIDExists, employeeIDExists, supervisorExists, transactionIDExists}
+async function itemIDExists(itemID) {
+
+    return new Promise((resolve, reject) => {
+
+        pool.query('SELECT * FROM Inventory WHERE ItemID = ?', [itemID], (err, results) => {
+
+            if (err) {
+
+                reject(err); 
+
+            } else {
+
+                resolve(results.length > 0); 
+                
+            }
+        });
+    });
+}
+
+module.exports = {customerIDExists, employeeIDExists, supervisorExists, transactionIDExists, itemIDExists}
