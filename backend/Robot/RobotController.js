@@ -63,9 +63,10 @@ const addRobot = (req, res) => {
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Adding Robots'});
 
         }
-            res.status(statusCode.OK)
 
-            return;
+        res.sendStatus(statusCode.OK)
+
+        return;
 
         }  
     )
@@ -87,9 +88,10 @@ const updateRobot = (req, res) => {
 
         }
 
-            res.status(statusCode.OK)
+        res.sendStatus(statusCode.OK)
 
-            return;
+        return;
+        
         }  
     )
 }
@@ -115,7 +117,7 @@ const deleteRobot = (req, res) => {
 
             }
 
-            res.status(statusCode.OK)
+            res.sendStatus(statusCode.OK)
 
             return;
         }

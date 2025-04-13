@@ -10,6 +10,9 @@ const {generateUniqueID} = require('../Utils/Generation')
 
 //This Creates A Stripe Checkout Section
 const handleStripe = async (req, res) => {
+
+    let connection 
+
     try {
 
         if (!process.env.STRIPE_PRIVATE_KEY) {
@@ -98,8 +101,6 @@ const handleStripe = async (req, res) => {
 
                 customer_id: req.user.CustomerID
             },
-
-            automatic_tax: { enabled: true },
         });
 
         //const sessionDetails = await stripe.checkout.sessions.retrieve(session.id);

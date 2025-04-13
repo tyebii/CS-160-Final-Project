@@ -9,7 +9,7 @@ import { useAuth } from "../../Context/AuthHook";
 import axios from "axios";
 
 //Import Format
-import { formatRobot } from "../Formatting/format";
+
 
 //RobotUpdate Component
 export function RobotUpdate({ robot }) {

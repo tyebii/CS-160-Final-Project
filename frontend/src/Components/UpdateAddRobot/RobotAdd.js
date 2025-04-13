@@ -75,6 +75,8 @@ export function RobotAdd() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        console.log(RobotID, typeof Maintanence, typeof Number(Speed), typeof BatteryLife)
+
         //Check If The Form Is Valid
         if(!format()){
             return; 
@@ -92,12 +94,12 @@ export function RobotAdd() {
 
         //Query The Backend For The Addition of Robot
         axios.post('http://localhost:3301/api/robot/robot', {
-            RobotID,
+            RobotID: RobotID,
             CurrentLoad: 0,
             RobotStatus: "Free",
-            Maintanence,
-            Speed,
-            BatteryLife,
+            Maintanence: Maintanence,
+            Speed: Number(Speed),
+            BatteryLife: Number(BatteryLife),
             EstimatedDelivery: 0
         }, {
             headers: {
@@ -106,6 +108,7 @@ export function RobotAdd() {
         })
         //If The Request Is Successfull
         .then((response) => {
+            alert("Robot Added")
             alert("Added");
             navigate("/");
         })
@@ -154,7 +157,7 @@ export function RobotAdd() {
                         type="date"
                         value={Maintanence}
                         required
-                        onChange={(e) => setMaintanence(e.target.value)}
+                        onChange={(e) => setMaintanence((e.target.value))}
                         className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
                     />
                 </div>

@@ -16,13 +16,14 @@ const categoryQuery = (req, res) => {
 
     let {name} = req.params;
 
+
+    name = name.replace(/-/g, " "); 
+
     if(!validateCategory(name)){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"Category Name Is Invalid"})
         
     }
-
-    name = name.replace(/-/g, " "); 
 
     pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE category = ?', [name], (error, results) => {
 
@@ -84,13 +85,13 @@ const categoryQueryEmployee = (req, res) => {
 
     let {name} = req.params;
 
+    name = name.replace(/-/g, " "); 
+
     if(!validateCategory(name)){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"Category Name Is Invalid"})
 
     }
-
-    name = name.replace(/-/g, " "); 
 
     pool.query('SELECT * FROM inventory WHERE category = ?', [name], (error, results) => {
 
@@ -187,7 +188,7 @@ const productCustomerQueryID = (req, res) => {
 
     let {itemid} = req.params;
 
-    if(validateID(itemid)){
+    if(!validateID(itemid)){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"Item ID Search Is Invalid"})
 
@@ -502,13 +503,19 @@ const deleteProduct = async (req, res) => {
 //Low Stock Search 
 const lowStockSearch = (req,res) => {
 
-    pool.query('select * from lowstocklog', (error, results) => {
+    pool.query('select * from lowstocklog, inventory where lowstocklog.itemid = inventory.itemid', (error, results) => {
 
         if (error) {
 
             console.error('Error Executing Low Stock Search:', error.message);
 
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Fetching Low Stock' });
+
+        }
+
+        for(let i = 0; i < results.length; i++){
+
+            results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
 
         }
 
@@ -520,7 +527,7 @@ const lowStockSearch = (req,res) => {
 //Featured Search
 const featuredSearch = (req,res) => {
 
-    pool.query('SELECT featureditems.ItemID, ProductName, ImageLink FROM featureditems , inventory  WHERE featureditems.ItemID = inventory.ItemID', (error, results) => {
+    pool.query('SELECT * FROM featureditems , inventory  WHERE featureditems.ItemID = inventory.ItemID', (error, results) => {
 
         if (error) {
 
@@ -541,6 +548,73 @@ const featuredSearch = (req,res) => {
     }); 
 }
 
+const expirationSearch = (req,res) => {
+    pool.query('Select * From NearExpiration, Inventory Where NearExpiration.ItemID = Inventory.ItemID', (error,results)=>{
+        if (error) {
+
+            console.error('Error Executing Fetch Of Expired Items:', error.message);
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Fetching Expired Items' });
+
+        }
+
+        for(let i = 0; i < results.length; i++){
+
+            results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
+
+        }
+
+        return res.status(statusCode.OK).json(results);
+    })
+}
+
+const featuredAdd = (req,res)=>{
+
+    const {ItemID} = req.body
+
+    if(!validateID(ItemID)){
+
+        return res.status(statusCode.BAD_REQUEST).json({ error: "Item ID Search Is Invalid" });
+
+    }
+
+    pool.query('Insert Into FeaturedItems(ItemID) Values (?)', ItemID, (error,results)=>{
+        if (error) {
+
+            console.error('Error Executing Add Of Featured Item:', error.message);
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Addomg Featured Item' });
+
+        }
+
+        return res.status(statusCode.OK).json(results);
+    })
+}
+
+const featuredDelete = (req,res) => {
+
+    const {ItemID} = req.body
+
+    if(!validateID(ItemID)){
+
+        return res.status(statusCode.BAD_REQUEST).json({ error: "Item ID Search Is Invalid" });
+
+    }
+
+    pool.query('Delete From FeaturedItems Where ItemID = ?', ItemID, (error,results)=>{
+        if (error) {
+
+            console.error('Error Executing Deletion Of Featured Item:', error.message);
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Deleting Featured Item' });
+
+        }
+
+        return res.status(statusCode.OK).json(results);
+    })
+
+}
+
 //Exporting the methods
-module.exports = {upload, featuredSearch, productQueryID, productQueryNameEmployee, productQueryName, categoryQuery, categoryQueryEmployee, productInsert, productUpdate, deleteProduct, lowStockSearch, productCustomerQueryID}
+module.exports = {upload, featuredAdd,  expirationSearch, featuredDelete, featuredSearch, productQueryID, productQueryNameEmployee, productQueryName, categoryQuery, categoryQueryEmployee, productInsert, productUpdate, deleteProduct, lowStockSearch, productCustomerQueryID}
     

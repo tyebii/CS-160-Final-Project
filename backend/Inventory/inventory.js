@@ -6,7 +6,7 @@ const {authenticateToken} = require('../Utils/Authentication.js')
 
 const {authorizeEmployee, authorizeManager} = require('../Utils/Authorization.js')
 
-const {upload, featuredSearch, productCustomerQueryID, productQueryID, productQueryName, productQueryNameEmployee, categoryQuery, categoryQueryEmployee,  productInsert, productUpdate, deleteProduct, lowStockSearch} = require('./inventoryControllers.js')
+const {upload, featuredSearch, featuredAdd, featuredDelete, productCustomerQueryID, productQueryID, productQueryName, productQueryNameEmployee, categoryQuery, categoryQueryEmployee,  productInsert, productUpdate, deleteProduct, lowStockSearch, expirationSearch} = require('./inventoryControllers.js')
 
 
 //Get Search Category Item Information As A Customer
@@ -40,6 +40,15 @@ router.delete('/delete/item/:itemid',express.json(), authenticateToken, authoriz
 router.get('/lowstock',express.json(), authenticateToken, authorizeEmployee, lowStockSearch)
 
 //Get Featured Items
-router.get('/featured',express.json(), featuredSearch)
+router.get('/featured',express.json(), authenticateToken, authorizeEmployee, featuredSearch)
+
+//Add Featured Items
+router.post('/featured',express.json(), authenticateToken, authorizeManager, featuredAdd)
+
+//Delete Featured Item
+router.delete('/featured', express.json(), authenticateToken, authorizeManager, featuredDelete)
+
+//Get Expiring Items
+router.get('/expiration', expirationSearch)
 
 module.exports = router

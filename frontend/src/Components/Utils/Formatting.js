@@ -796,6 +796,9 @@ export const loginFormat = (UserID,Password) => {
     if (!validatePassword(Password)){
         return false
     }
+
+    return true 
+    
 }
 
 export const signUpFormat = (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber ) => {

@@ -438,6 +438,8 @@ const validatePastDate = (input) => {
 
 const validateSpeed = (input) => {
 
+    console.log(typeof input)
+
     if (input == null) {
 
         console.log("Speed Not Provided");
@@ -507,33 +509,23 @@ const validateEstimatedDelivery = (input) => {
 
     if (input == null) {
 
-        console.log("Estimated Delivery Date Not Provided");
+        console.log("Estimated Delivery Not Provided");
 
         return false;
 
     }
 
-    if (!validateDate(input)) {
+    if (typeof input !== 'number') {
+
+        console.log("Estimated Delivery Must Be A Number");
 
         return false;
 
     }
 
-    const date = new Date(input);
+    if (input < 0) {
 
-    const now = new Date();
-
-    if (isNaN(date.getTime())) {
-
-        console.log("Invalid Date Value");
-
-        return false;
-
-    }
-
-    if (date <= now) {
-
-        console.log("Estimated Delivery Must Be A Future Date");
+        console.log("Estimated Delivery Must Be Greater Than 0%");
 
         return false;
 

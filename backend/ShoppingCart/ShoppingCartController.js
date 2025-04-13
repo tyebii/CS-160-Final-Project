@@ -40,13 +40,15 @@ const addToShoppingCart = (req, res) => {
 
     const {ItemID, Quantity} = req.body
 
-    if(!validateID(itemID)){
+
+
+    if(!validateID(ItemID)){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"ItemID Is Invalid"})
 
     }
 
-    if(!validateQuantity(ItemID, Quantity)){
+    if(!validateQuantity(Quantity)){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"Quantity Is Invalid"})
 
@@ -62,7 +64,7 @@ const addToShoppingCart = (req, res) => {
 
         }
 
-        res.status(statusCode.OK)
+        res.sendStatus(statusCode.OK)
 
         return;
     }
@@ -103,7 +105,7 @@ const updateShoppingCart = (req, res) => {
 
         }
 
-        res.status(statusCode.OK)
+        res.sendStatus(statusCode.OK)
 
         return;
     }
@@ -138,7 +140,7 @@ const removeFromShoppingCart = (req, res) => {
 
         }
 
-        res.status(statusCode.OK)
+        res.sendStatus(statusCode.OK)
 
         return;
     }
@@ -165,7 +167,7 @@ const clearShoppingCart = (req, res) => {
 
         }
 
-        res.status(statusCode.OK)
+        res.sendStatus(statusCode.OK)
 
         return;
     }
