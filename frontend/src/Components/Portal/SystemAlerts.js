@@ -27,7 +27,6 @@ const SystemAlerts = () => {
 
   const [featured, setFeatured] = useState([]);
 
-  //TODO: Need expiration date endpoint for triggers
   useEffect(() => {
 
       //Get The Token From The Local Storage

@@ -8,8 +8,8 @@ import { useAuth } from "../../Context/AuthHook";
 //Import Axios
 import axios from "axios";
 
-//Import Format
-
+//Import Formatter 
+import { validateRobot } from "../Utils/Formatting";
 
 //RobotUpdate Component
 export function RobotUpdate({ robot }) {
@@ -20,56 +20,63 @@ export function RobotUpdate({ robot }) {
 
     // Form states with initial values from the robot
     const [RobotID, setRobotID] = useState(robot.RobotID || "");
-    const [Maintanence, setMaintanence] = useState(robot.Maintanence.slice(0, 10) || "");  
+    const [Maintanence, setMaintanence] = useState(robot.Maintanence?.slice(0, 10) || "");  
     const [Speed, setSpeed] = useState(robot.Speed || 0);
     const [BatteryLife, setBatteryLife] = useState(robot.BatteryLife || 0);
     const [RobotStatus, setRobotStatus] = useState(robot.RobotStatus || 0); 
 
 
-
+    //May Want To Use Try Catch
     //Handle Form Submission
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        console.log("Maintenance Date before submission:", Maintanence);
+        console.log(typeof Maintanence)
         //Check If The Form Is Valid
-        if(!formatRobot(RobotID, RobotStatus, Maintanence, Speed, BatteryLife)){
+        if(!validateRobot(RobotID, 0, RobotStatus, Maintanence, Number(Speed) , Number(BatteryLife), 0)){
             return; 
         }
-        
+
         //Get The Token From The Local Storage
         const token = localStorage.getItem('accessToken');
 
-        //If The Token Is Not Found Then Alert Them And Logout The User
         if (!token) {
-        alert('No token found');
-        logout();
-        return;
-        }
+
+            alert('Login Information Not found')
+    
+            logout()
+    
+            navigate('/login')
+    
+            return;
+          }
+
 
         // PUT request with updated form data
         axios.put('http://localhost:3301/api/robot/robot', {
-            RobotID,
-            CurrentLoad: 0, 
-            RobotStatus,  // Using the state value for RobotStatus
-            Maintanence,
-            Speed,
-            BatteryLife,
-            EstimatedDelivery: 0, 
+            RobotID: RobotID,
+            CurrentLoad: 0,
+            RobotStatus: RobotStatus,
+            Maintanence: Maintanence,
+            Speed: Number(Speed),
+            BatteryLife: Number(BatteryLife),
+            EstimatedDelivery: 0
         }, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         })
         .then((response) => {
-            alert("Updated");
+            alert("Updated Robot");
             navigate("/");
         })
         .catch((error) => {
             if (error.response?.status === 401) {
                 alert("You need to login again!");
                 logout();
+                navigate('/login')
             } else {
-                alert(`Error Status ${error.response?.status}: ${error.response?.data?.err}`);
+                alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
             }
         });
     }

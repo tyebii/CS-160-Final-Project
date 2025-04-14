@@ -78,7 +78,7 @@ const updateRobot = (req, res) => {
 
     const sqlQuery = "Update robot set CurrentLoad = ?, RobotStatus = ?, Maintanence = ?, Speed = ?, BatteryLife = ?, EstimatedDelivery = ? Where RobotID = ?"
 
-    pool.query(sqlQuery, [RobotID, CurrentLoad,RobotStatus, Maintanence, Speed,BatteryLife, EstimatedDelivery], (error, results)=>{
+    pool.query(sqlQuery, [CurrentLoad,RobotStatus, Maintanence, Speed,BatteryLife, EstimatedDelivery, RobotID], (error, results)=>{
 
         if(error){
 

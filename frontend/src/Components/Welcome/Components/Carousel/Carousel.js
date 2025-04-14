@@ -23,6 +23,7 @@ export default function Carousel({auth}) {
         //Request The Featured Items From The Backend
         axios.get("http://localhost:3301/api/inventory/featured")
             .then((results) => {
+                console.log(results)
                 //Set The Featured Items To The State
                 setFeatured(results.data);
             })

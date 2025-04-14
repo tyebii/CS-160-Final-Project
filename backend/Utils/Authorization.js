@@ -4,7 +4,7 @@ function authorizeEmployee(req, res, next){
     if (req.user.EmployeeID!=null){
         next();
     }else{
-        return res.status(statusCode.FORBIDDEN).json({error:"not authorized as employee"})
+        return res.status(statusCode.FORBIDDEN).json({error:"Not Authorized As Employee"})
     }
 }
 
@@ -12,7 +12,7 @@ function authorizeRegularEmployee(req, res, next){
     if (req.user.EmployeeID!=null && req.user.SupervisorID!=null){
         next();
     }else{
-        return res.status(statusCode.FORBIDDEN).json({error:"not authorized as standard employee"})
+        return res.status(statusCode.FORBIDDEN).json({error:"Not Authorized As Standard Employee"})
     }
 }
 
@@ -20,7 +20,7 @@ function authorizeCustomer(req, res, next){
     if (req.user.CustomerID!=null){
         next();
     }else{
-        return res.status(statusCode.FORBIDDEN).json({error:"not authorized as customer"})
+        return res.status(statusCode.FORBIDDEN).json({error:"Not Authorized As Customer"})
     }
 }
 
@@ -28,7 +28,7 @@ function authorizeManager(req,res,next){
     if(req.user.EmployeeID != null && req.user.SupervisorID == null){
         next();
     }else{
-        return res.status(statusCode.FORBIDDEN).json({error:"not authorized as manager"})
+        return res.status(statusCode.FORBIDDEN).json({error:"Not Authorized As manager"})
     }
 
 }

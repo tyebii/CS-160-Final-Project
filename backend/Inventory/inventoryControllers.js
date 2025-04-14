@@ -161,8 +161,7 @@ const productQueryID = (req, res) => {
 
     }
 
-    pool.query('SELECT * FROM inventory WHERE ItemID = ?', [itemid], (error, results) => {
-
+    pool.query('SELECT inventory.ItemID, inventory.Quantity, inventory.Distributor, inventory.Weight, inventory.ProductName, inventory.Category, inventory.SupplierCost, inventory.Expiration, inventory.Cost, inventory.StorageRequirement, inventory.LastModification, inventory.ImageLink, inventory.Description, featureditems.ItemID as FeaturedID FROM inventory LEFT JOIN featureditems ON inventory.ItemID = featureditems.ItemID WHERE inventory.ItemID = ?', [itemid], (error, results) => {
         if (error) {
 
             console.log("Error While Trying To Query Product: " + error.message)
@@ -341,46 +340,45 @@ const productUpdate = async (req, res) => {
             connection = await pool.promise().getConnection();
             await connection.beginTransaction();
 
-            const [fetchImageLink] = await connection.query(
-                'SELECT ImageLink FROM Inventory WHERE ItemID = ?', 
-                [ItemID]
-            );
+                const [fetchImageLink] = await connection.query(
+                    'SELECT ImageLink FROM Inventory WHERE ItemID = ?', 
+                    [ItemID]
+                );
 
-            const oldImageName = fetchImageLink[0]?.ImageLink;
-            const oldImagePath = path.join(imageDir, oldImageName);
-            backupPath = path.join(imageDir, 'backup_' + oldImageName);
+                const oldImageName = fetchImageLink[0]?.ImageLink;
+                const oldImagePath = path.join(imageDir, oldImageName);
+                backupPath = path.join(imageDir, 'backup_' + oldImageName);
 
-            // Backup old image before deletion
-            await fs.copyFile(oldImagePath, backupPath);
-            await fs.unlink(oldImagePath);
+                // Backup old image before deletion
+                await fs.copyFile(oldImagePath, backupPath);
+                await fs.unlink(oldImagePath);
 
-            await connection.query(
-                `UPDATE inventory SET 
-                    Quantity = ?, 
-                    Distributor = ?, 
-                    Weight = ?, 
-                    ProductName = ?, 
-                    Category = ?, 
-                    SupplierCost = ?, 
-                    Expiration = ?, 
-                    StorageRequirement = ?, 
-                    LastModification = CURDATE(), 
-                    ImageLink = ?, 
-                    Cost = ?, 
-                    Description = ? 
-                 WHERE ItemID = ?`,
-                [
-                    Number(Quantity), Distributor, Number(Weight),
-                    ProductName, Category, Number(SupplierCost),
-                    new Date(Expiration), StorageRequirement,
-                    fileName, Number(Cost), Description, ItemID
-                ]
-            );
+                await connection.query(
+                    `UPDATE inventory SET 
+                        Quantity = ?, 
+                        Distributor = ?, 
+                        Weight = ?, 
+                        ProductName = ?, 
+                        Category = ?, 
+                        SupplierCost = ?, 
+                        Expiration = ?, 
+                        StorageRequirement = ?, 
+                        LastModification = CURDATE(), 
+                        ImageLink = ?, 
+                        Cost = ?, 
+                        Description = ? 
+                    WHERE ItemID = ?`,
+                    [
+                        Number(Quantity), Distributor, Number(Weight),
+                        ProductName, Category, Number(SupplierCost),
+                        new Date(Expiration), StorageRequirement,
+                        fileName, Number(Cost), Description, ItemID
+                    ]
+                );
 
             await connection.commit();
             connection.release();
 
-            // Clean up backup
             await fs.unlink(backupPath);
 
             return res.status(200).json({ success: true });
@@ -593,15 +591,15 @@ const featuredAdd = (req,res)=>{
 
 const featuredDelete = (req,res) => {
 
-    const {ItemID} = req.body
+    let { itemid } = req.params;
 
-    if(!validateID(ItemID)){
+    if(!validateID(itemid)){
 
         return res.status(statusCode.BAD_REQUEST).json({ error: "Item ID Search Is Invalid" });
 
     }
 
-    pool.query('Delete From FeaturedItems Where ItemID = ?', ItemID, (error,results)=>{
+    pool.query('Delete From FeaturedItems Where ItemID = ?', itemid, (error,results)=>{
         if (error) {
 
             console.error('Error Executing Deletion Of Featured Item:', error.message);

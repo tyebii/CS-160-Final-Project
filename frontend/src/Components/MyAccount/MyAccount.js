@@ -1,16 +1,14 @@
 //Refactored April 12
 
-//Import React Functions
 import { useEffect, useState } from "react";
+
 import { useNavigate } from "react-router-dom";
 
-//Import Custom Context
 import {useAuth} from "../../Context/AuthHook"
 
-//Import Axios
 import axios from 'axios';
 
-//My Account Area
+//Gets And Present Account Information
 export function MyAccount (){
 
     const navigate = useNavigate()
@@ -25,7 +23,7 @@ export function MyAccount (){
 
         if (!token) {
 
-            alert('Login Information Not found')
+            alert('Login Information Not Found')
 
             logout()
 
@@ -36,10 +34,13 @@ export function MyAccount (){
         }
 
         axios
+
             .get("http://localhost:3301/api/customer/customer", {
 
                 headers: {
+
                     Authorization: `Bearer ${token}`,
+
                 },
 
             })
@@ -57,19 +58,24 @@ export function MyAccount (){
                 setResult(response.data[0])
 
             })
+
             .catch((error) => {
 
                 if (error.response?.status === 401) {
 
-                    alert("You Need To login Again!");
+                    alert("You Need To Login Again!");
 
                     logout();
 
                     navigate('/login')
 
+                }else if(error.response){
+
+                    alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
+
                 }else{
 
-                    alert(`Error Status ${error.status}: ${error.response.data.error}`);
+                    alert("Contact With Backend Lost")
 
                 }
 
@@ -78,6 +84,7 @@ export function MyAccount (){
     }, []);
     
     return (
+        
         <section className="bg-white rounded-lg p-8 m-8 max-w-4xl mx-auto shadow-2xl">
 
             <h2 className="text-3xl font-semibold text-gray-800 mb-8 text-center">Account Details</h2>
@@ -95,8 +102,10 @@ export function MyAccount (){
                 <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">Customer ID:</span> {result.CustomerID}</p>
                 
                 <p className="text-lg text-gray-700">
+
                     <span className="font-semibold text-gray-800">Join Date: </span> 
                     {result.JoinDate ? result.JoinDate.slice(0, 10) : "Loading..."}
+
                 </p>
 
             </div>

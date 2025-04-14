@@ -1,5 +1,7 @@
 export const validateDate = (input) => {
 
+    console.log(input)
+    console.log(typeof input)
     const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 
     if (input == null){
@@ -357,6 +359,8 @@ export const validateRobotStatus = (input) => {
 
 export const validateFutureDate = (input) => {
 
+    
+
     if (input == null) {
 
         alert("Date Not Provided");
@@ -365,7 +369,7 @@ export const validateFutureDate = (input) => {
 
     }
 
-    if (!validateDate(input)) {
+    if (!validateDate((input))) {
 
         return false;
 
@@ -507,45 +511,36 @@ export const validateEstimatedDelivery = (input) => {
 
     if (input == null) {
 
-        alert("Estimated Delivery Date Not Provided");
+        console.log("Estimated Delivery Not Provided");
 
         return false;
 
     }
 
-    if (!validateDate(input)) {
+    if (typeof input !== 'number') {
+
+        console.log("Estimated Delivery Must Be A Number");
 
         return false;
 
     }
 
-    const date = new Date(input);
+    if (input < 0) {
 
-    const now = new Date();
-
-    if (isNaN(date.getTime())) {
-
-        alert("Invalid Date Value");
+        console.log("Estimated Delivery Must Be Greater Than 0%");
 
         return false;
 
     }
 
-    if (date <= now) {
-
-        alert("Estimated Delivery Must Be A Future Date");
-
-        return false;
-
-    }
-
-    return true;
+    return true
 
 }
 
 
 export const validateRobot = (RobotID, CurrentLoad, RobotStatus, Maintanence, Speed, BatteryLife, EstimatedDelivery) => {
-    
+
+      
     if(!validateRegularID(RobotID)){
 
         return false
@@ -568,7 +563,7 @@ export const validateRobot = (RobotID, CurrentLoad, RobotStatus, Maintanence, Sp
 
         return false
 
-    } 
+    }
     
     if(!validateSpeed(Speed)){
 

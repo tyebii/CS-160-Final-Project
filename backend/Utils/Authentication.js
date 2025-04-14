@@ -9,6 +9,8 @@ function authenticateToken(req, res, next) {
 
     const token = authHeader && authHeader.split(' ')[1];
 
+    console.log("Token Recieved: " + (token!=null))
+
     if (token == null){
         return res.status(statusCode.UNAUTHORIZED).json({ error: 'No Token' });
     } 

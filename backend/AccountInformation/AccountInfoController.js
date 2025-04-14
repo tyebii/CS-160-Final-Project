@@ -1,6 +1,8 @@
 const pool = require('../Database Pool/DBConnections')
 
-const {validateID, statusCode} = require('../Utils/Formatting')
+const {validateID, statusCode} = require('../Utils/Formatting');
+
+const logger = require('../Utils/Logger'); 
 
 //Gets The Customer's Information
 const getCustomer = (req, res) => {
@@ -8,10 +10,14 @@ const getCustomer = (req, res) => {
     const customerID = req.user?.CustomerID
 
     if(!validateID(customerID)){
+
+        logger.error("The Format For Fetching Customer Information Is Invalid")
         
         return res.status(statusCode.BAD_REQUEST).json({error:"CustomerID Is Invalid"})
 
     }
+
+    logger.info("Getting Customer Information For " + customerID)
 
     const sqlQuery = "SELECT UserID, UserNameFirst, UserNameLast, UserPhoneNumber, c.CustomerID, c.JoinDate FROM customer c INNER JOIN users u ON c.CustomerID = u.CustomerID WHERE c.CustomerID = ?"
 
@@ -19,15 +25,18 @@ const getCustomer = (req, res) => {
 
         if(error){
 
-            console.log("Error Accessing Customer Information: " + error.message)
+            logger.error("Error Accessing Customer Information: " + error.message)
 
             return res.status(statusCode.SERVICE_UNAVAILABLE).json({error: "Internal Server Error Fetching Customer Information"})
 
         }
 
+        logger.info("Information For Customer " + customerID + " Has Been Fetched")
+
         return res.status(statusCode.OK).json(results)
 
     })
+    
 }
 
 //Gets The Employees Information
@@ -37,9 +46,13 @@ const getEmployee = (req, res) => {
 
     if(!validateID(employeeID)){
 
+        logger.error("The Format For Fetching Employee Information Is Invalid")
+
         return res.status(statusCode.BAD_REQUEST).json({error:"Employee ID Is Invalid"})
 
     }
+
+    logger.info("Getting Customer Information For " + employeeID)
 
     const sqlQuery = "SELECT * FROM employee e INNER JOIN users u ON e.EmployeeID = u.EmployeeID WHERE e.EmployeeID = ?"
 
@@ -47,15 +60,18 @@ const getEmployee = (req, res) => {
 
         if(error){
 
-            console.log("Error Accessing Employee Information: " + error.message)
+            logger.error("Error Accessing Employee Information: " + error.message)
 
             return res.status(statusCode.SERVICE_UNAVAILABLE).json({error: "Internal Server Error Fetching Employee Information"})
 
         }
 
+        logger.info("Information For Employee " + employeeID + " Has Been Fetched")
+
         return res.status(statusCode.OK).json(results)
 
     })
+
 }
 
 module.exports = {getCustomer, getEmployee}

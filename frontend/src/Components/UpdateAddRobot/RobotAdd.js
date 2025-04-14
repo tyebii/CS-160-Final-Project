@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 //Import Custom Hook
 import { useAuth } from "../../Context/AuthHook";
 
+//Import Formatter 
+import { validateRobot } from "../Utils/Formatting";
+
 //Import Axios
 import axios from "axios";
 
@@ -22,75 +25,29 @@ export function RobotAdd() {
     const [Speed, setSpeed] = useState(0);
     const [BatteryLife, setBatteryLife] = useState(0);
 
-    //Check The Format
-    const format = () =>{
-        if(RobotID==""){
-            alert("Please Fill In Robot ID")
-            return false
-        }
-        if(Maintanence==""){
-            alert("Please Fill In Maintenance Date")
-            return false;
-        }
-
-        if(Speed==0){
-            alert("Please Fill In Speed Above 0")
-            return false;
-        } 
-        
-        if(BatteryLife==null){
-            alert("Please Fill In Battery Life")
-            return false;
-        }
-
-        if(RobotID.trim().length < 5){
-            alert("Robot ID Must Be At Least 5 Characters Long")
-            return false;
-        }
-
-        if(Speed < 0 || Speed > 100){
-            alert("Speed Must Be Between 0 and 100")
-            return false;
-        }
-
-        if(BatteryLife < 0 || BatteryLife > 100){
-            alert("Battery Life Must Be Between 0 and 100")
-            return false;
-        }
-
-        if(new Date(Maintanence) < new Date()){
-            alert("Maintenance Date Cannot Be In The Past")
-            return false;
-        }
-
-        if(RobotID.length > 255){
-            alert("Robot ID Cannot Be More Than 255 Characters Long")
-            return false;
-        }
-
-        return true;
-    }
-
+    //Maybe Try Catch on Type Conversion
     //Submit The Form 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        console.log(RobotID, typeof Maintanence, typeof Number(Speed), typeof BatteryLife)
-
         //Check If The Form Is Valid
-        if(!format()){
+        if(!validateRobot(RobotID, 0, "Free", Maintanence, Number(Speed) , Number(BatteryLife), 0)){
             return; 
         }
 
         //Get The Token From The Local Storage
         const token = localStorage.getItem('accessToken');
 
-        //If The Token Is Not Found Then Alert Them And Logout The User
         if (!token) {
-            alert('No token found');
-            logout();
+
+            alert('Login Information Not found')
+    
+            logout()
+    
+            navigate('/login')
+    
             return;
-        }
+          }
 
         //Query The Backend For The Addition of Robot
         axios.post('http://localhost:3301/api/robot/robot', {
@@ -109,7 +66,6 @@ export function RobotAdd() {
         //If The Request Is Successfull
         .then((response) => {
             alert("Robot Added")
-            alert("Added");
             navigate("/");
         })
         //If The Request Fails
@@ -117,8 +73,9 @@ export function RobotAdd() {
             if (error.response?.status === 401) {
                 alert("You need to login again!");
                 logout();
+                navigate('/login')
             } else {
-                alert(`Error Status ${error.response?.status}: ${error.response?.data?.err}`);
+                alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
             }
         });
     }

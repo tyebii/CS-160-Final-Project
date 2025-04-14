@@ -5,134 +5,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
+import { signUpFormat } from "../Utils/Formatting";
+
 // Signup Component
 export function Signup() {
     // Use navigate hook
     const navigate = useNavigate();
-
-    const format = ()=> {
-        if(formData.UserID==null){
-            alert("Please Fill In User ID")
-            return false
-          } 
-          
-        if(formData.UserNameFirst==null){
-              alert("Please Fill In First Name")
-              return false
-          } 
-          
-        if(formData.UserNameLast==null){
-              alert("Please Fill In Last Name")
-              return false
-          } 
-          
-        if(formData.UserPhoneNumber==null){
-              alert("Please Fill In Phone Number")
-              return false
-          } 
-
-        if(formData.Password==null){
-              alert("Please Fill In Password")
-              return false
-          }
-
-        if(typeof formData.UserID !== "string"){
-            alert("User ID Must Be A String")
-            return false
-        }
-    
-        if(typeof formData.Password !== "string"){
-            alert("Password Must Be A String")
-            return false
-        }
-        
-        if (typeof formData.UserNameFirst !== "string"){
-            alert("First Name Must Be A String")
-            return false
-        }
-    
-        if (typeof formData.UserNameLast !== "string"){
-            alert("Last Name Must Be A String")
-            return false
-        }
-    
-        if (typeof formData.UserPhoneNumber !== "string"){
-            alert("Phone Number Must Be A String")
-            return false
-        }
-
-        if(formData.UserID.trim().length < 5){
-            alert("User ID Must Be At Least 5 Characters Long")
-            return false
-        }
-    
-        if(formData.UserID.length > 255){
-            alert("User ID Must Be Less Than or Equal To 255 Characters Long")
-            return false
-        }
-    
-        if(formData.UserNameFirst.trim().length < 2){
-            alert("First Name Must Be At Least 2 Characters Long")
-            return false
-        }
-    
-        if(formData.UserNameFirst.length > 255){
-            alert("First Name Must Be Less Than or Equal To 255 Characters Long")
-            return false
-        }
-    
-        if(formData.UserNameLast.trim().length < 2){
-            alert("Last Name Must Be At Least 2 Characters Long")
-            return false
-        }
-    
-        if(formData.UserNameLast.length > 255){
-            alert("Last Name Must Be Less Than or Equal To 255 Characters Long")
-            return false
-        }
-
-        const hasSpaces = (input) => /\s/.test(input);
-
-        if(hasSpaces(formData.UserID)){
-            alert("User ID Must Not Contain Spaces")
-            return false
-        }
-
-        if(hasSpaces(formData.Password)){
-            alert("Password Must Not Contain Spaces")
-            return false
-        }
-
-        if(hasSpaces(formData.UserNameFirst)){
-            alert("First Name Must Not Contain Spaces")
-            return false
-        }
-
-        if(hasSpaces(formData.UserNameLast)){
-            alert("Last Name Must Not Contain Spaces")
-            return false
-        }
-
-        if(hasSpaces(formData.UserPhoneNumber)){
-            alert("Phone Number Must Not Contain Spaces")
-            return false
-        }
-    
-        const regexNumber = /^1-\d{3}-\d{3}-\d{4}$/;
-    
-        if(!formData.UserPhoneNumber.match(regexNumber)){
-            alert("Phone Number Must Be In The Format 1-XXX-XXX-XXXX")
-            return false
-        }
-
-        const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
-        if(!formData.Password.match(regexPassword)){
-            alert("Password Must Be At Least 8 Characters Long, Contain At Least One Uppercase Letter, One Lowercase Letter, One Number, And One Special Character")
-            return false
-        }
-
-        return true
-    }
 
     // State for the form data
     const [formData, setFormData] = useState({
@@ -158,7 +36,7 @@ export function Signup() {
         e.preventDefault();
 
         //Check Format
-        if(format() === false){
+        if(signUpFormat(formData.UserID, formData.Password, formData.UserNameFirst, formData.UserNameLast, formData.UserPhoneNumber ) === false){
             return
         }
 
@@ -173,7 +51,7 @@ export function Signup() {
             navigate("/");
         })
         .catch((error) => {
-            alert(`Error Status ${error.response.status}: ${error.response.data.error}`);
+            alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
         });
     };
 

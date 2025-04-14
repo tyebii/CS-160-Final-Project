@@ -40,13 +40,13 @@ router.delete('/delete/item/:itemid',express.json(), authenticateToken, authoriz
 router.get('/lowstock',express.json(), authenticateToken, authorizeEmployee, lowStockSearch)
 
 //Get Featured Items
-router.get('/featured',express.json(), authenticateToken, authorizeEmployee, featuredSearch)
+router.get('/featured',express.json(), featuredSearch)
 
 //Add Featured Items
 router.post('/featured',express.json(), authenticateToken, authorizeManager, featuredAdd)
 
 //Delete Featured Item
-router.delete('/featured', express.json(), authenticateToken, authorizeManager, featuredDelete)
+router.delete('/featured/:itemid', express.json(), authenticateToken, authorizeManager, featuredDelete)
 
 //Get Expiring Items
 router.get('/expiration', expirationSearch)

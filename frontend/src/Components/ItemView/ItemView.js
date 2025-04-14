@@ -29,6 +29,8 @@ const ItemView = () => {
 
   const [results, setResults] = useState({});
 
+  const [featured, setFeatured] = useState(false)
+
 
   const navigate = useNavigate();
 
@@ -93,6 +95,8 @@ const ItemView = () => {
         }
 
         setResults(response.data[0]);
+
+        setFeatured(response.data[0].FeaturedID != null)
 
       })
       .catch((error) => {
@@ -205,7 +209,9 @@ const ItemView = () => {
 
       const token = localStorage.getItem('accessToken');
 
-
+      if(!validateID(itemid)){
+        return
+      }
 
       if (!token) {
 
@@ -222,7 +228,7 @@ const ItemView = () => {
 
       axios
         .delete(
-          `http://localhost:3301/api/inventory/delete/item/${results.ItemID}`,
+          `http://localhost:3301/api/inventory/delete/item/${itemid}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -257,6 +263,87 @@ const ItemView = () => {
     }
 
   };
+
+  const handleAddFeatured = ()=>{
+
+    if (!validateID(itemid)) {
+      return;
+    }
+  
+    const token = localStorage.getItem('accessToken');
+  
+    if (!token) {
+      alert('Login Information Not Found');
+      logout();
+      navigate('/login');
+      return;
+    }
+  
+    axios
+      .post(`http://localhost:3301/api/inventory/featured`,         {
+        ItemID: itemid,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        alert('Item Added To Featured');
+        setFeatured(true);
+      })
+      .catch((error) => {
+        if (error.response?.status === 401) {
+          alert('Login Again!');
+          logout();
+          navigate('/login');
+        } else {
+          alert(
+            `Error Status ${error.response?.status}: ${error.response?.data?.error || 'Unknown Error'}`
+          );
+        }
+      });
+  };   
+
+  const handleDeleteFeatured = () => {
+    if (!validateID(itemid)) {
+      return;
+    }
+  
+    const token = localStorage.getItem('accessToken');
+  
+    if (!token) {
+      alert('Login Information Not Found');
+      logout();
+      navigate('/login');
+      return;
+    }
+  
+    axios
+      .delete(`http://localhost:3301/api/inventory/featured/${itemid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        alert('Item Deleted From Featured');
+        setFeatured(false);
+      })
+      .catch((error) => {
+        if (error.response?.status === 401) {
+          alert('Login Again!');
+          logout();
+          navigate('/login');
+        } else {
+          alert(
+            `Error Status ${error.response?.status}: ${error.response?.data?.error || 'Unknown Error'}`
+          );
+        }
+      });
+  };
+   
+
 
 
 
@@ -379,6 +466,14 @@ const ItemView = () => {
           >
             Delete
           </button>
+
+          <button
+            onClick={featured?handleDeleteFeatured:handleAddFeatured}
+            className="bg-blue-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-lg shadow transition"
+          >
+            {featured?"Remove From Featured":"Add To Featured"}
+          </button>
+
 
         </div>
 
