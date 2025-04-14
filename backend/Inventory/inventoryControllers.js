@@ -1,290 +1,618 @@
-//Import the database connection pool
 const pool = require('../Database Pool/DBConnections')
 
+const {validateCategory, validateProduct, validateID, statusCode, insertFormat} = require('../Utils/Formatting')
 
-//Call back for category name queries
+const {itemIDExists} = require('../Utils/ExistanceChecks.js')
+
+const {generateUniqueID} = require('../Utils/Generation.js')
+
+const path = require('path');
+
+const multer = require('multer');
+
+const fs = require('fs/promises');
+
 const categoryQuery = (req, res) => {
-    //Get the name of the category
-    let {name} = req.params;
-    
-    //Replace the delimiters with spaces
-    name = name.replace(/-/g, " ");
 
-    //Check if value is in set 
-    if(!searchCategoryFormat(name)){
-        res.status(400).json({error:"bad request format"})
-        return;
+    let {name} = req.params;
+
+
+    name = name.replace(/-/g, " "); 
+
+    if(!validateCategory(name)){
+
+        return res.status(statusCode.BAD_REQUEST).json({error:"Category Name Is Invalid"})
+        
     }
 
-    //Get the items that match the category. This is catered toward customer
-    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE category = ?', [name], (err, results) => {
-        if (err) {
-            console.error('Error executing query:', err);
-            res.status(500).json({ error: 'Internal Server Error' });
+    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE category = ?', [name], (error, results) => {
+
+        if (error) {
+
+            console.log("Error While Trying To Query Category As A Customer: " + error.message)
+
+            res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error While Searching Category'});
+
             return;
         }
-        res.status(200).json(results);
+        
+        for(let i = 0; i < results.length; i++){
+
+            results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
+
+        }
+
+        return res.status(statusCode.OK).json(results);
+
     });
 };
 
-//Call back for product name queries
 const productQueryName = (req, res) => {
-    //Get the name of the product
+    
     let {name} = req.params;
-    //Replace delimitters with spaces
-    name = name.replace(/-/g, " ");
 
-    //Makes sure input is proper
-    if(!searchProductNameFormat(name)){
-        res.status(400).json({error:"bad request format"})
-        return;
+    if(!validateProduct(name)){
+
+        return res.status(statusCode.BAD_REQUEST).json({error:"Product Search Is Invalid"})
+
     }
 
-    //Queries for items that have the name in it
-    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE ProductName like ?', ["%" + name + "%"], (err, results) => {
-        if (err) {
-          console.error('Error executing query:', err);
-          res.status(500).json({ error: 'Internal Server Error' });
-          return;
+    name = name.replace(/-/g, " "); 
+
+    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE ProductName like ?', ["%" + name + "%"], (error, results) => {
+
+        if (error) {
+
+            console.log("Error While Trying To Query Product: " + error.message)
+
+            res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error While Searching Product'});
+
+            return;
         }
-        res.status(200).json(results);
+
+        for(let i = 0; i < results.length; i++){
+
+            results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
+
+        }
+
+        res.status(statusCode.OK).json(results);
+
     });
 }
 
-//Call back for category name queries
 const categoryQueryEmployee = (req, res) => {
-    //Get category name
-    let {name} = req.params;
-    
-    //Replace delimitters with spaces
-    name = name.replace(/-/g, " ");
 
-    //Validate the input 
-    if(!searchCategoryFormat(name)){
-        res.status(400).json({error:"bad request format"})
-        return;
+    let {name} = req.params;
+
+    name = name.replace(/-/g, " "); 
+
+    if(!validateCategory(name)){
+
+        return res.status(statusCode.BAD_REQUEST).json({error:"Category Name Is Invalid"})
+
     }
 
-    //Get all information about items in category
-    pool.query('SELECT * FROM inventory WHERE category = ?', [name], (err, results) => {
-        if (err) {
-            console.error('Error executing query:', err);
-            res.status(500).json({ error: 'Internal Server Error' });
+    pool.query('SELECT * FROM inventory WHERE category = ?', [name], (error, results) => {
+
+        if (error) {
+
+            console.log("Error While Trying To Query Category As An Employee: " + error.message)
+
+            res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error While Searching Category'});
+
             return;
+
         }
-        res.status(200).json(results);
+        
+        for(let i = 0; i < results.length; i++){
+
+            results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
+
+        }
+
+        return res.status(statusCode.OK).json(results);
+
     });
 };
 
-//Call back for product name queries
 const productQueryNameEmployee = (req, res) => {
-    //Get product name
+
     let {name} = req.params;
 
-    //Replace delimitters with spaces
-    name = name.replace(/-/g, " ");
+    if(!validateProduct(name)){
 
-    //Make sure that the input is sanitized
-    if(!searchProductNameFormat(name)){
-        res.status(400).json({error:"bad request format"})
-        return;
+        return res.status(statusCode.BAD_REQUEST).json({error:"Product Search Is Invalid"})
+
     }
 
-    //Get all information about items with name in it
-    pool.query('SELECT * FROM inventory WHERE ProductName like ?', ["%" + name + "%"], (err, results) => {
-        if (err) {
-          console.error('Error executing query:', err);
-          res.status(500).json({ error: 'Internal Server Error' });
+    name = name.replace(/-/g, " "); 
+
+    pool.query('SELECT * FROM inventory WHERE ProductName like ?', ["%" + name + "%"], (error, results) => {
+
+        if (error) {
+
+            console.log("Error While Trying To Query Product: " + error.message)
+
+            res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error While Searching Product'});
+
           return;
+
         }
-        res.status(200).json(results);
+
+        for(let i = 0; i < results.length; i++){
+
+            results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
+
+        }
+
+        res.status(statusCode.OK).json(results);
+
     });
 }
 
-//Call back for product id queries
 const productQueryID = (req, res) => {
-    //Get item id
+
     let {itemid} = req.params;
 
-    //Query for items with that ID
-    pool.query('SELECT * FROM inventory WHERE ItemID = ?', [itemid], (err, results) => {
-      if (err) {
-          console.error('Error executing query:', err);
-          res.status(500).json({ error: 'Internal Server Error' });
-          return;
-      }
-        res.status(200).json(results);
-    });
-}
+    if(!validateID(itemid)){
 
-//Call back for product id queries
-const productCustomerQueryID = (req, res) => {
-    //Get item id
-    let {itemid} = req.params;
+        return res.status(statusCode.BAD_REQUEST).json({error:"Item ID Search Is Invalid"})
 
-    //Query for items with that ID
-    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE ItemID = ?', [itemid], (err, results) => {
-      if (err) {
-          console.error('Error executing query:', err);
-          res.status(500).json({ error: 'Internal Server Error' });
-          return;
-      }
-        res.status(200).json(results);
-    });
-}
-
-//Insert product into inventory
-const productInsert = (req, res) => {
-    //Items description to insert
-    const {Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost,  Expiration, StorageRequirement, ImageLink, Description} = req.body;
-    
-    //Make sure all the entries are up to code
-    if(!insertFormat(Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost, Expiration, StorageRequirement, ImageLink, Description)){
-        res.status(400).json({error:"bad request format"})
-        return;
     }
 
-    //Unique ID
-    let InventoryID = uuidv4(); // Generates a cryptographically safe unique customer ID'
-                
-    //Insert into the inventory
-    pool.query('INSERT IGNORE INTO inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, StorageRequirement, LastModification, ImageLink, Cost, Description) Values (?,?,?,?,?,?,?,?,?,?,?,?,?)', [InventoryID, Number(Quantity), Distributor, Number(Weight), ProductName, Category, Number(SupplierCost), new Date(Expiration), StorageRequirement, new Date(), ImageLink, Number(Cost), Description], (err, results) => {
-        if (err) {
-            console.error('Error executing query:', err.message);
-            res.status(500).json({ error: 'Internal Server Error' });
-            return;
+    pool.query('SELECT inventory.ItemID, inventory.Quantity, inventory.Distributor, inventory.Weight, inventory.ProductName, inventory.Category, inventory.SupplierCost, inventory.Expiration, inventory.Cost, inventory.StorageRequirement, inventory.LastModification, inventory.ImageLink, inventory.Description, featureditems.ItemID as FeaturedID FROM inventory LEFT JOIN featureditems ON inventory.ItemID = featureditems.ItemID WHERE inventory.ItemID = ?', [itemid], (error, results) => {
+        if (error) {
+
+            console.log("Error While Trying To Query Product: " + error.message)
+
+            res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error While Searching Product'});
+
+          return;
+
         }
-          res.status(200).json({"success":true});
+
+        for(let i = 0; i < results.length; i++){
+
+            results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
+
+        }
+
+        res.status(statusCode.OK).json(results);
+
     });
+}
+
+const productCustomerQueryID = (req, res) => {
+
+    let {itemid} = req.params;
+
+    if(!validateID(itemid)){
+
+        return res.status(statusCode.BAD_REQUEST).json({error:"Item ID Search Is Invalid"})
+
+    }
+
+    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE ItemID = ?', [itemid], (error, results) => {
+
+        if (error) {
+
+            console.log("Error While Trying To Query Product: " + error.message)
+
+            res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error While Searching Product'});
+
+            return;
+
+        }
+
+        for(let i = 0; i < results.length; i++){
+
+            results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
+
+        }
+
+        res.status(statusCode.OK).json(results);
+
+    });
+}
+
+const storage = multer.diskStorage({
+
+    destination: function (req, file, cb) {
+
+        cb(null, './uploads/'); 
+
+    },
+
+    filename: function (req, file, cb) {
+        
+        cb(null, Date.now() + path.extname(file.originalname));  
+
+    }
+});
+
+const upload = multer({ storage: storage });
+
+const productInsert = async (req, res) => {
+
+    let fileName;
+
+    try{
+
+        fileName = req.file?.filename;  
+
+        if(!fileName){
+
+            throw new Error("No File Detected")
+
+        }
+
+        const { 
+            ProductName,
+            Distributor,
+            Quantity,
+            Expiration,
+            StorageRequirement,
+            Cost,
+            Weight,
+            Category,
+            SupplierCost,
+            Description
+        } = JSON.parse(req.body.Json);
+        
+        if(!insertFormat(Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost, Expiration, StorageRequirement, Description)){
+    
+            throw new Error("Invalid Format On Item Update")
+    
+        }
+    
+        let InventoryID;
+    
+        try{
+    
+            InventoryID = await generateUniqueID(itemIDExists)
+    
+        }catch(error){
+    
+            throw new Error("Internal Server Error While Generating Unique ID")
+        
+        }
+    
+                    
+        pool.query('INSERT IGNORE INTO inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, StorageRequirement, LastModification, ImageLink, Cost, Description) Values (?,?,?,?,?,?,?,?,?,?,?,?,?)', [InventoryID, Number(Quantity), Distributor, Number(Weight), ProductName, Category, Number(SupplierCost), new Date(Expiration), StorageRequirement, new Date(), fileName, Number(Cost), Description], (error, results) => {
+    
+            if (error) {
+    
+                console.error('Error Executing Item Update:', error);
+    
+                throw new Error("Internal Server Inserting Into Inventory")
+    
+            }
+    
+             return res.status(statusCode.OK).json({success:true});
+    
+        });
+
+    }catch(error){
+
+        if(fileName){
+            
+            const imagePath = path.join(__dirname, '../uploads', fileName);
+
+            await fs.unlink(imagePath); 
+
+        }
+
+        console.log("Error Inserting Product: " + error.message)
+
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Inserting Item"});
+
+    }
 }
 
 //update product in inventory
-const productUpdate = (req, res) => {
-    //Updated product
-    const {ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost,  Expiration, StorageRequirement, ImageLink, Description} = req.body;
-    
-    //Check the format
-    if(!insertFormat(Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost, Expiration, StorageRequirement, ImageLink, Description)){
-        res.status(400).json({error:"bad request format"})
-        return;
-    }
+const productUpdate = async (req, res) => {
+    let connection;
+    let fileName = req.file?.filename;
+    const imageDir = path.join(__dirname, '../uploads');
+    let backupPath;
 
-    //Update the DB
-    pool.query('update inventory set Quantity = ?, Distributor = ?, Weight = ?, ProductName = ?, Category = ?, SupplierCost = ?, Expiration = ?, StorageRequirement = ?, LastModification = curdate(), ImageLink = ?, Cost = ?, Description = ? where ItemID = ?', [Number(Quantity), Distributor, Number(Weight), ProductName, Category, Number(SupplierCost), new Date(Expiration), StorageRequirement, ImageLink, Number(Cost), Description, ItemID], (err, results) => {
-        if (err) {
-            console.error('Error executing query:', err);
-            res.status(500).json({ error: 'Internal Server Error' });
-            return;
+    try {
+        const {
+            ProductName,
+            Distributor,
+            Quantity,
+            Expiration,
+            StorageRequirement,
+            ItemID, 
+            Cost,
+            Weight,
+            Category,
+            SupplierCost,
+            Description
+        } = JSON.parse(req.body.Json);
+
+        if (!insertFormat(Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost, Expiration, StorageRequirement, Description)) {
+            throw new Error("Invalid Format On Item Update");
         }
-          res.status(200).json({"success":true});
-    });
-}
+
+        if (fileName) {
+            connection = await pool.promise().getConnection();
+            await connection.beginTransaction();
+
+                const [fetchImageLink] = await connection.query(
+                    'SELECT ImageLink FROM Inventory WHERE ItemID = ?', 
+                    [ItemID]
+                );
+
+                const oldImageName = fetchImageLink[0]?.ImageLink;
+                const oldImagePath = path.join(imageDir, oldImageName);
+                backupPath = path.join(imageDir, 'backup_' + oldImageName);
+
+                // Backup old image before deletion
+                await fs.copyFile(oldImagePath, backupPath);
+                await fs.unlink(oldImagePath);
+
+                await connection.query(
+                    `UPDATE inventory SET 
+                        Quantity = ?, 
+                        Distributor = ?, 
+                        Weight = ?, 
+                        ProductName = ?, 
+                        Category = ?, 
+                        SupplierCost = ?, 
+                        Expiration = ?, 
+                        StorageRequirement = ?, 
+                        LastModification = CURDATE(), 
+                        ImageLink = ?, 
+                        Cost = ?, 
+                        Description = ? 
+                    WHERE ItemID = ?`,
+                    [
+                        Number(Quantity), Distributor, Number(Weight),
+                        ProductName, Category, Number(SupplierCost),
+                        new Date(Expiration), StorageRequirement,
+                        fileName, Number(Cost), Description, ItemID
+                    ]
+                );
+
+            await connection.commit();
+            connection.release();
+
+            await fs.unlink(backupPath);
+
+            return res.status(200).json({ success: true });
+
+        } else {
+            pool.query(
+                `UPDATE inventory SET 
+                    Quantity = ?, Distributor = ?, Weight = ?, ProductName = ?, 
+                    Category = ?, SupplierCost = ?, Expiration = ?, 
+                    StorageRequirement = ?, LastModification = CURDATE(), 
+                    Cost = ?, Description = ? 
+                 WHERE ItemID = ?`,
+                [
+                    Number(Quantity), Distributor, Number(Weight), ProductName, 
+                    Category, Number(SupplierCost), new Date(Expiration), 
+                    StorageRequirement, Number(Cost), Description, ItemID
+                ],
+                (error, results) => {
+                    if (error) {
+                        console.error('Error Executing Item Update:', error);
+                        return res.status(500).json({ error: 'Internal Server Error Updating Item' });
+                    }
+                    return res.status(200).json({ success: true });
+                }
+            );
+        }
+
+    } catch (error) {
+        if (connection) {
+            await connection.rollback();
+            connection.release();
+        }
+
+        // Restore old image from backup if present
+        if (backupPath) {
+            const oldImagePath = path.join(imageDir, path.basename(backupPath).replace('backup_', ''));
+            try {
+                await fs.copyFile(backupPath, oldImagePath);
+                await fs.unlink(backupPath); // clean up backup after restore
+            } catch (restoreErr) {
+                console.error('Failed to restore image:', restoreErr.message);
+            }
+        }
+
+        // Remove new image if uploaded
+        if (fileName) {
+            const newImagePath = path.join(imageDir, fileName);
+            try {
+                await fs.unlink(newImagePath);
+            } catch (deleteErr) {
+                console.error('Failed to remove new image:', deleteErr.message);
+            }
+        }
+
+        console.log("Error Updating Product:", error.message);
+        return res.status(500).json({ error: "Internal Server Error Updating Item" });
+    }
+};
 
 //delete product 
-const deleteProduct = (req, res) => {
-    //Get the itemid
-    let {itemid} = req.params;
+const deleteProduct = async (req, res) => {
 
-    //Format the ID
-    if(!itemid){
-        res.status(400).json({error:"No ItemID"})
-        return;
+    let { itemid } = req.params;
+
+    if (!validateID(itemid)) {
+
+        return res.status(statusCode.BAD_REQUEST).json({ error: "Item ID Search Is Invalid" });
+
     }
 
-    //Delete from the inventory
-    pool.query('delete from inventory where ItemID = ?', [itemid], (err, results) => {
-        if (err) {
-            console.error('Error executing query:', err);
-            res.status(500).json({ error: 'Internal Server Error' });
-            return;
+    let connection;
+
+    try {
+
+        connection = await pool.promise().getConnection();
+
+        await connection.beginTransaction();
+
+            const [rows] = await connection.query('SELECT ImageLink FROM inventory WHERE ItemID = ?', [itemid]);
+
+            if (rows.length === 0) {
+
+                connection.release();
+
+                return res.status(statusCode.NOT_FOUND).json({ error: "Item not found" });
+
+            }
+
+            const imageFileName = rows[0].ImageLink;
+
+            await connection.query('DELETE FROM inventory WHERE ItemID = ?', [itemid]);
+
+        await connection.commit();
+
+        connection.release();
+
+        const imagePath = path.join(__dirname, '../uploads', imageFileName);
+
+        await fs.unlink(imagePath);
+
+        return res.status(statusCode.OK).json({ success: true });
+
+    } catch (error) {
+
+        if (connection) {
+
+            await connection.rollback();
+
+            connection.release();
+
         }
-        res.status(200).json({"success":true});
-    });
-}
+
+        console.error('Error While Deleting Product:', error);
+
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Deleting Product' });
+
+    }
+};
 
 //Low Stock Search 
 const lowStockSearch = (req,res) => {
-    //Get the lowstock
-    pool.query('select * from lowstocklog', (err, results) => {
-        if (err) {
-            console.error('Error executing query:', err);
-            res.status(500).json({ error: 'Internal Server Error' });
-            return;
+
+    pool.query('select * from lowstocklog, inventory where lowstocklog.itemid = inventory.itemid', (error, results) => {
+
+        if (error) {
+
+            console.error('Error Executing Low Stock Search:', error.message);
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Fetching Low Stock' });
+
         }
-        res.status(200).json(results);
+
+        for(let i = 0; i < results.length; i++){
+
+            results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
+
+        }
+
+        return res.status(statusCode.OK).json(results);
+
     });
 }
 
 //Featured Search
 const featuredSearch = (req,res) => {
-    //Get the featured
-    pool.query('SELECT featureditems.ItemID, ProductName, ImageLink FROM featureditems , inventory  WHERE featureditems.ItemID = inventory.ItemID', (err, results) => {
-        if (err) {
-            console.error('Error executing query:', err);
-            res.status(500).json({ error: 'Internal Server Error' });
-            return;
+
+    pool.query('SELECT * FROM featureditems , inventory  WHERE featureditems.ItemID = inventory.ItemID', (error, results) => {
+
+        if (error) {
+
+            console.error('Error Executing Fetch Of Featured Items:', error.message);
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Fetching Featured Items' });
+
         }
-        res.status(200).json(results);
+
+        for(let i = 0; i < results.length; i++){
+
+            results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
+
+        }
+
+        return res.status(statusCode.OK).json(results);
+
     }); 
 }
 
+const expirationSearch = (req,res) => {
+    pool.query('Select * From NearExpiration, Inventory Where NearExpiration.ItemID = Inventory.ItemID', (error,results)=>{
+        if (error) {
 
-//Input Validation
-const insertFormat = (Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost, Expiration, StorageRequirement, ImageLink, Description) => {
-    if(!(Distributor && ProductName && Category && Expiration && StorageRequirement && ImageLink && Description)){
-        return false
-    }
+            console.error('Error Executing Fetch Of Expired Items:', error.message);
 
-    if (isNaN(Quantity) || isNaN(Weight) || isNaN(SupplierCost) || isNaN(Cost) || Cost < 0 ||  Quantity < 0 || Weight < 0 || SupplierCost < 0){
-        return false
-    }
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Fetching Expired Items' });
 
-    if(Distributor.trim() == "" || ProductName.trim() == "" || ImageLink.trim() == "" || Description.trim() == ""){
-        return false
-    }
+        }
 
-    const categoryEnum = ['Fresh Produce','Dairy and Eggs','Meat and Seafood','Frozen Foods','Bakery and Bread','Pantry Staples','Beverages','Snacks and Sweets','Health and Wellness']
-    const categorySet = new Set(categoryEnum)
+        for(let i = 0; i < results.length; i++){
 
-    if (!categorySet.has(Category)){
-        return false
-    }
+            results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
 
-    const storageEnum = ['Frozen','Room Temperature','Warm','Hot']
-    const storageSet = new Set(storageEnum)
+        }
 
-    if (!storageSet.has(StorageRequirement)){
-        return false
-    }
-
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!dateRegex.test(Expiration)){
-        return false
-    }
-    
-
-
-    const expirationDate = new Date(Expiration);
-
-    if (isNaN(expirationDate.getTime())) {
-        return false;
-    }
-    return true
+        return res.status(statusCode.OK).json(results);
+    })
 }
 
-//Format for product queries
-const searchProductNameFormat = (productName) => {
-    return (productName && productName.trim() != "")
+const featuredAdd = (req,res)=>{
+
+    const {ItemID} = req.body
+
+    if(!validateID(ItemID)){
+
+        return res.status(statusCode.BAD_REQUEST).json({ error: "Item ID Search Is Invalid" });
+
+    }
+
+    pool.query('Insert Into FeaturedItems(ItemID) Values (?)', ItemID, (error,results)=>{
+        if (error) {
+
+            console.error('Error Executing Add Of Featured Item:', error.message);
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Addomg Featured Item' });
+
+        }
+
+        return res.status(statusCode.OK).json(results);
+    })
 }
 
-//Formatting for Category Queries
-const searchCategoryFormat = (categoryName) => {
-    const categoryEnum = ['Fresh Produce','Dairy and Eggs','Meat and Seafood','Frozen Foods','Bakery and Bread','Pantry Staples','Beverages','Snacks and Sweets','Health and Wellness']
-    const categorySet = new Set(categoryEnum)
-    return categorySet.has(categoryName)
-}
+const featuredDelete = (req,res) => {
 
+    let { itemid } = req.params;
+
+    if(!validateID(itemid)){
+
+        return res.status(statusCode.BAD_REQUEST).json({ error: "Item ID Search Is Invalid" });
+
+    }
+
+    pool.query('Delete From FeaturedItems Where ItemID = ?', itemid, (error,results)=>{
+        if (error) {
+
+            console.error('Error Executing Deletion Of Featured Item:', error.message);
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Deleting Featured Item' });
+
+        }
+
+        return res.status(statusCode.OK).json(results);
+    })
+
+}
 
 //Exporting the methods
-module.exports = {featuredSearch, productQueryID, productQueryNameEmployee, productQueryName, categoryQuery, categoryQueryEmployee, productInsert, productUpdate, deleteProduct, lowStockSearch, productCustomerQueryID}
+module.exports = {upload, featuredAdd,  expirationSearch, featuredDelete, featuredSearch, productQueryID, productQueryNameEmployee, productQueryName, categoryQuery, categoryQueryEmployee, productInsert, productUpdate, deleteProduct, lowStockSearch, productCustomerQueryID}
     

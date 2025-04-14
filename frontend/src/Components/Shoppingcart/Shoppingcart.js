@@ -238,10 +238,6 @@ function ShoppingCart() {
   const handleAddAddress = (e) => {
     //Gets The Address Values
     const newAddress = {Address: document.getElementById("address").value,
-                        City: document.getElementById("city").value,
-                        Zip: document.getElementById("zip").value,
-                        State: document.getElementById("state").value,
-                        Name: document.getElementById("name").value 
     }
 
     //Get The Token From The Local Storage

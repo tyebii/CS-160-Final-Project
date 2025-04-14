@@ -1,16 +1,30 @@
 const express = require('express')
-const { authenticateToken, authorizeManager} = require('../Auth/AuthenticationController')
+
+const {authenticateToken} = require('../Utils/Authentication')
+
+const {authorizeManager} = require('../Utils/Authorization')
+
+const {signUpFormatEmployee} = require('../Utils/Formatting')
+
+
 const {getEmployee, getEmployeeID, deleteEmployee, updateEmployee} = require('./EmployeeController')
-const {signUpFormatEmployee} = require('../Auth/AuthenticationController')
+
+const {employeeFormat} = require('../Utils/Formatting')
+
 const router = express.Router()
+
 router.use(express.json());
 
+//Get list of employees
 router.get('/employee/supervisor', authenticateToken, authorizeManager, getEmployee)
 
+//Get employee by their id 
 router.get('/employee/id', authenticateToken, authorizeManager, getEmployeeID)
 
-router.put('/employee', authenticateToken, authorizeManager, signUpFormatEmployee, updateEmployee)
+//Update employee
+router.put('/employee', authenticateToken, authorizeManager, employeeFormat, signUpFormatEmployee, updateEmployee)
 
+//Delete Employee
 router.delete('/employee',  authenticateToken, authorizeManager, deleteEmployee)
 
 module.exports = router

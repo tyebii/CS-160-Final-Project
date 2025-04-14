@@ -1,29 +1,54 @@
 const express = require('express')
-const {authenticateToken, authorizeManager, authorizeEmployee} = require('../Auth/AuthenticationController.js')
+
 const router = express.Router();
-const {featuredSearch, productCustomerQueryID, productQueryID, productQueryName, productQueryNameEmployee, categoryQuery, categoryQueryEmployee,  productInsert, productUpdate, deleteProduct, lowStockSearch} = require('./inventoryControllers.js')
-router.use([express.json()]);
 
-router.get('/search/category/customer/:name', categoryQuery);
+const {authenticateToken} = require('../Utils/Authentication.js')
 
-router.get('/search/item/customer/:name', productQueryName);
-  
-router.get('/search/category/employee/:name', authenticateToken, authorizeEmployee, categoryQueryEmployee);
+const {authorizeEmployee, authorizeManager} = require('../Utils/Authorization.js')
 
-router.get('/search/item/employee/:name', authenticateToken, authorizeEmployee, productQueryNameEmployee);
-  
-router.get('/search/itemID/customer/:itemid', productCustomerQueryID);
+const {upload, featuredSearch, featuredAdd, featuredDelete, productCustomerQueryID, productQueryID, productQueryName, productQueryNameEmployee, categoryQuery, categoryQueryEmployee,  productInsert, productUpdate, deleteProduct, lowStockSearch, expirationSearch} = require('./inventoryControllers.js')
 
-router.get('/search/itemID/employee/:itemid', authenticateToken, authorizeEmployee, productQueryID);
 
-router.post('/insert/item', authenticateToken, authorizeManager, productInsert);
+//Get Search Category Item Information As A Customer
+router.get('/search/category/customer/:name',express.json(), categoryQuery);
 
-router.put('/update/item', authenticateToken, authorizeManager, productUpdate);
+//Get Search Product Information As A Customer
+router.get('/search/item/customer/:name',express.json(), productQueryName);
 
-router.delete('/delete/item/:itemid', authenticateToken, authorizeManager, deleteProduct)
+//Get Search Category Item Information As An Employee
+router.get('/search/category/employee/:name',express.json(), authenticateToken, authorizeEmployee, categoryQueryEmployee);
 
-router.get('/lowstock', authenticateToken, authorizeEmployee, lowStockSearch)
+//Get Search Product Information As An Employee
+router.get('/search/item/employee/:name',express.json(), authenticateToken, authorizeEmployee, productQueryNameEmployee);
 
-router.get('/featured', featuredSearch)
+//Get The Item Information As A Customer
+router.get('/search/itemID/customer/:itemid',express.json(), productCustomerQueryID);
+
+//Get The Item Information As An Employee
+router.get('/search/itemID/employee/:itemid',express.json(), authenticateToken, authorizeEmployee, productQueryID);
+
+//Insert An Item
+router.post('/insert/item', authenticateToken, authorizeManager,upload.single('File'), productInsert);
+
+//Update An Item
+router.put('/update/item', authenticateToken, authorizeManager, upload.single('File'), productUpdate);
+
+//Delete An Item
+router.delete('/delete/item/:itemid',express.json(), authenticateToken, authorizeManager, deleteProduct)
+
+//Get Lowstock Items
+router.get('/lowstock',express.json(), authenticateToken, authorizeEmployee, lowStockSearch)
+
+//Get Featured Items
+router.get('/featured',express.json(), featuredSearch)
+
+//Add Featured Items
+router.post('/featured',express.json(), authenticateToken, authorizeManager, featuredAdd)
+
+//Delete Featured Item
+router.delete('/featured/:itemid', express.json(), authenticateToken, authorizeManager, featuredDelete)
+
+//Get Expiring Items
+router.get('/expiration', expirationSearch)
 
 module.exports = router

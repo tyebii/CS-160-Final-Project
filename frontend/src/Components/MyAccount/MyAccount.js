@@ -1,54 +1,116 @@
-//Import React Functions
+//Refactored April 12
+
 import { useEffect, useState } from "react";
+
+import { useNavigate } from "react-router-dom";
 
 import {useAuth} from "../../Context/AuthHook"
 
-//Import axios
 import axios from 'axios';
 
+//Gets And Present Account Information
 export function MyAccount (){
+
+    const navigate = useNavigate()
+
     const {logout} = useAuth()
+
     const [result, setResult] = useState({})
+
     useEffect(() => {
-        //Get The Token From The Local Storage
+
         const token = localStorage.getItem('accessToken');
 
-        //If There Is No Token Alert The User and Log Them Out
         if (!token) {
-        alert('No token found');
-        logout()
-        return;
+
+            alert('Login Information Not Found')
+
+            logout()
+
+            navigate('/login')
+
+            return;
+
         }
 
         axios
+
             .get("http://localhost:3301/api/customer/customer", {
+
                 headers: {
+
                     Authorization: `Bearer ${token}`,
+
                 },
+
             })
+
             .then((response) => {
-                setResult(response.data[0])
-            })
-            .catch((error) => {
-                //If Unauthorized Response
-                if (error.response?.status === 401) {
-                    alert("You need to login again!");
-                    logout();
-                }else{
-                    alert(`Error Status ${error.status}: ${error.response.data.error}`);
+
+                if(response.data.length === 0){
+
+                    alert("No Results Found")
+
+                    navigate('/')
+
                 }
+
+                setResult(response.data[0])
+
+            })
+
+            .catch((error) => {
+
+                if (error.response?.status === 401) {
+
+                    alert("You Need To Login Again!");
+
+                    logout();
+
+                    navigate('/login')
+
+                }else if(error.response){
+
+                    alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
+
+                }else{
+
+                    alert("Contact With Backend Lost")
+
+                }
+
             });
+
     }, []);
     
     return (
-        <section className="bg-gray-50 rounded-lg p-6 m-6 max-w-4xl mx-auto shadow-lg">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Account Details</h2>
-            <p className="text-lg text-gray-700 mb-3"><span className="font-bold text-gray-800">UserID:</span> {result.UserID}</p>
-            <p className="text-lg text-gray-700 mb-3"><span className="font-bold text-gray-800">First Name:</span> {result.UserNameFirst}</p>
-            <p className="text-lg text-gray-700 mb-3"><span className="font-bold text-gray-800">Last Name:</span> {result.UserNameLast}</p>
-            <p className="text-lg text-gray-700 mb-3"><span className="font-bold text-gray-800">Phone Number:</span> {result.UserPhoneNumber}</p>
-            <p className="text-lg text-gray-700 mb-3"><span className="font-bold text-gray-800">Customer ID:</span> {result.CustomerID}</p>
-            <p className="text-lg text-gray-700"><span className="font-bold text-gray-800">Join Date:</span> {result.JoinDate}</p>
+        
+        <section className="bg-white rounded-lg p-8 m-8 max-w-4xl mx-auto shadow-2xl">
+
+            <h2 className="text-3xl font-semibold text-gray-800 mb-8 text-center">Account Details</h2>
+
+            <div className="space-y-4">
+
+                <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">UserID:</span> {result.UserID}</p>
+                
+                <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">First Name:</span> {result.UserNameFirst}</p>
+                
+                <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">Last Name:</span> {result.UserNameLast}</p>
+                
+                <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">Phone Number:</span> {result.UserPhoneNumber}</p>
+                
+                <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">Customer ID:</span> {result.CustomerID}</p>
+                
+                <p className="text-lg text-gray-700">
+
+                    <span className="font-semibold text-gray-800">Join Date: </span> 
+                    {result.JoinDate ? result.JoinDate.slice(0, 10) : "Loading..."}
+
+                </p>
+
+            </div>
+
         </section>
+
     )
 }

@@ -28,13 +28,17 @@ function SearchResults() {
       endPoint = `http://localhost:3301/api/inventory/search/${searchType}/customer/${query}`
     }else{
       if (!token) {
-          alert('No token found');
-          logout();
-          return;
+
+        alert('Login Information Not found')
+
+        logout()
+
+        navigate('/login')
+
+        return;
       }
       endPoint = `http://localhost:3301/api/inventory/search/${searchType}/employee/${query}`
     }
-    console.log(auth)
     //This function will require an authentication header for employees
     axios.get(endPoint,{
         headers: {
@@ -47,10 +51,15 @@ function SearchResults() {
       .catch((error) => {
         //If Unauthorized Response
         if (error.response?.status === 401) {
-          alert("Login Again!")
+
+          alert("You need to login again!");
+
           logout();
+
+          navigate('/login')
+
         }else{
-          alert(`Error Status ${error.status}: ${error.response.data.error}`);
+          alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
         }
       });
     
