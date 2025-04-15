@@ -46,7 +46,7 @@ export function Signup() {
             formData
         )
         .then((results) => {
-            console.log("Success");
+            alert("Successful Signup");
             // Navigate home
             navigate("/");
         })

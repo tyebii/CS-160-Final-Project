@@ -218,40 +218,7 @@ export const validateAddress = async (address) => {
         return false;
 
     }
-
-    const encodedAddress = encodeURIComponent(address);
-
-    const accessToken = process.env.MAPBOXSECRET;
-
-    try {
-
-        const response = await fetch(
-
-            `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedAddress}.json?access_token=${accessToken}`
-        
-        );
-
-        const data = await response.json();
-
-        if (data.features.length === 0) {
-            
-            alert("Address Not Found On Map");
-
-            return false;
-
-        }
-
-        return true;
-
-    } catch (error) {
-
-        console.error("Mapbox fetch error:", error);
-
-        alert("Error Validating Address With Mapbox");
-
-        return false;
-
-    }
+    
 };
 
 

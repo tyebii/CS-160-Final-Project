@@ -8,6 +8,8 @@ import { useAuth } from "../../Context/AuthHook";
 //Import Axios
 import axios from "axios";
 
+import { signUpFormat, signUpFormatEmployee } from '../Utils/Formatting';
+
 //UpdateEmployee Component
 export function UpdateEmployee({ employee }) {
 
@@ -31,227 +33,6 @@ export function UpdateEmployee({ employee }) {
           EmployeeHourly: employee.EmployeeHourly || 0,
           SupervisorID: employee.SupervisorID
       });
-
-    const format = () => {
-      if(formData.UserID==null || formData.EmployeeID==null || formData.UserNameFirst==null || formData.UserNameLast==null || formData.UserPhoneNumber==null || formData.EmployeeHireDate==null || formData.EmployeeStatus==null || formData.EmployeeBirthDate==null || formData.EmployeeDepartment==null || formData.EmployeeHourly==0 || formData.SupervisorID==null){
-          alert("Please Fill In All The Fields")
-          return false
-      }
-
-      if(typeof formData.EmployeeHourly !== "number"){
-          alert("Hourly Wage Must Be A Number")
-          return false
-      }
-
-      if(typeof formData.UserID !== "string"){
-          alert("User ID Must Be A String")
-          return false
-      }
-
-      if(typeof formData.EmployeeID !== "string"){
-          alert("Employee ID Must Be A String")
-          return false
-      }
-
-      if (typeof formData.UserNameFirst !== "string"){
-          alert("First Name Must Be A String")
-          return false
-      }
-
-      if (typeof formData.UserNameLast !== "string"){
-          alert("Last Name Must Be A String")
-          return false
-      }
-
-      if (typeof formData.UserPhoneNumber !== "string"){
-          alert("Phone Number Must Be A String")
-          return false
-      }
-
-      if (typeof formData.EmployeeHireDate !== "string"){
-          alert("Hire Date Must Be A String")
-          return false
-      }
-
-      if (typeof formData.EmployeeStatus !== "string"){
-          alert("Employee Status Must Be A String")
-          return false
-      }
-
-      if (typeof formData.EmployeeBirthDate !== "string"){
-          alert("Birth Date Must Be A String")
-          return false
-      }
-
-      if (typeof formData.EmployeeDepartment !== "string"){
-          alert("Department Must Be A String")
-          return false
-      }
-
-      if (typeof formData.SupervisorID !== "string"){
-          alert("Supervisor ID Must Be A String")
-          return false
-      }
-
-      const hasSpaces = (input) => /\s/.test(input);
-
-      if(hasSpaces(formData.UserID)){
-          alert("User ID Must Not Contain Spaces")
-          return false
-      }
-  
-      if(hasSpaces(formData.UserNameFirst)){
-          alert("First Name Must Not Contain Spaces")
-          return false
-      }
-  
-      if(hasSpaces(formData.UserNameLast)){
-          alert("Last Name Must Not Contain Spaces")
-          return false
-      }
-  
-      if(hasSpaces(formData.UserPhoneNumber)){
-          alert("Phone Number Must Not Contain Spaces")
-          return false
-      }
-  
-      if(hasSpaces(formData.EmployeeHireDate)){
-          alert("Hire Date Must Not Contain Spaces")
-          return false
-      }
-  
-      if(hasSpaces(formData.EmployeeStatus)){
-          alert("Employee Status Must Not Contain Spaces")
-          return false
-      }
-  
-      if(hasSpaces(formData.EmployeeBirthDate)){
-          alert("Birth Date Must Not Contain Spaces")
-          return false
-      }
-  
-  
-      if(hasSpaces(formData.SupervisorID)){
-          alert("Supervisor ID Must Not Contain Spaces")
-          return false
-      }
-
-      if(formData.UserID.length < 5){
-          alert("User ID Must Be At Least 5 Characters Long")
-          return false
-      }
-
-      if(formData.UserID.length > 255){
-          alert("User ID Must Be Less Than or Equal To 255 Characters Long")
-          return false
-      }
-
-      if(formData.EmployeeID.length > 255){
-          alert("Employee ID Must Be Less Than or Equal To 255 Characters Long")
-          return false
-      }
-
-      if(formData.EmployeeID.length < 5){
-          alert("Employee ID Must Be At Least 5 Characters Long")
-          return false
-      }
-
-      if(formData.EmployeeID.lenght>255){
-          alert("Employee ID Must Be Less Than or Equal To 255 Characters Long")
-          return false
-      }
-
-      if(formData.UserNameFirst.length < 2){
-          alert("First Name Must Be At Least 2 Characters Long")
-          return false
-      }
-
-      if(formData.UserNameFirst.length > 255){
-          alert("First Name Must Be Less Than or Equal To 255 Characters Long")
-          return false
-      }
-
-      if(formData.UserNameLast.length < 2){
-          alert("Last Name Must Be At Least 2 Characters Long")
-          return false
-      }
-
-      if(formData.UserNameLast.length > 255){
-          alert("Last Name Must Be Less Than or Equal To 255 Characters Long")
-          return false
-      }
-
-      const regex = /^1-\d{3}-\d{3}-\d{4}$/;
-
-      if(!formData.UserPhoneNumber.match(regex)){
-          alert("Phone Number Must Be In The Format 1-XXX-XXX-XXXX")
-          return false
-      }
-
-      function isValidDate(input) {
-        const datePattern = /^\d{4}-\d{2}-\d{2}$/;
-        if (!datePattern.test(input)) return false;
-
-        const date = new Date(input);
-        const timestamp = date.getTime();
-        if (isNaN(timestamp)) return false;
-      
-        return input === date.toISOString().slice(0, 10);
-      }
-
-      if (!isValidDate(formData.EmployeeHireDate)) {
-          alert("Hire Date Must Be A Valid Date")
-          return false
-      }
-
-      if(new Date(formData.EmployeeHireData) > new Date()){
-          alert("Hire Date Must Be In The Past or Present")
-          return false
-      }
-
-      const set = new Set(["Employed", "Absence", "Fired"]);
-
-      if(!set.has(formData.EmployeeStatus)){
-          alert("Invalid Employee Status")
-          return false
-      }
-
-      if (!isValidDate(formData.EmployeeBirthDate)) {
-          alert("Birth Date Must Be A Valid Date")
-          return false
-      }
-
-      if(new Date(formData.EmployeeBirthDate) > new Date()){
-          alert("Birth Date Must Be In The Past")
-          return false
-      }
-
-      if(formData.EmployeeDepartment.trim().length < 2){
-          alert("Department Must Be At Least 2 Characters Long")
-          return false
-      }
-
-      if(formData.EmployeeDepartment.trim().length > 255){
-          alert("Department Must Be Less Than or Equal To 255 Characters Long")
-          return false
-      }
-
-      if(formData.EmployeeHourly <= 0){
-          alert("Hourly Wage Must Be Greater Than 0")
-          return false
-      }
-
-      if(formData.SupervisorID.length < 5){  
-          alert("Supervisor ID Must Be At Least 5 Characters Long")
-          return false
-      }
-
-      if(formData.SupervisorID.length > 255){
-          alert("Supervisor ID Must Be Less Than or Equal To 255 Characters Long")
-          return false
-      }
-      return true
-    }
 
     //Handle Change Function
     const handleChange = (e) => {
@@ -278,6 +59,10 @@ export function UpdateEmployee({ employee }) {
           alert('No token found');
           logout();
           return;
+        }
+
+        if(!signUpFormat(formData.UserID, formData.Password, formData.UserNameFirst, formData.UserNameLast, formData.UserPhoneNumber) && !signUpFormatEmployee(formData.EmployeeHireDate, formData.EmployeeStatus,formData.EmployeeBirthDate,formData.EmployeeDepartment,formData.EmployeeHourly, formData.SupervisorID)){
+            return; 
         }
 
         axios.put('http://localhost:3301/api/employee/employee', {

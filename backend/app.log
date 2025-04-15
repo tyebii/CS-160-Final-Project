@@ -16,3 +16,308 @@
 2025-04-14T19:28:00.164Z [info]: Information For Customer 8cd48284-22f4-477e-93a2-4a4702be4fad Has Been Fetched
 2025-04-14T19:28:39.162Z [info]: Getting Customer Information For 8cd48284-22f4-477e-93a2-4a4702be4fad
 2025-04-14T19:28:39.163Z [info]: Information For Customer 8cd48284-22f4-477e-93a2-4a4702be4fad Has Been Fetched
+2025-04-14T21:31:47.132Z [info]: Starting Featured Search
+2025-04-14T21:31:47.145Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T21:31:47.146Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-14T21:31:50.342Z [info]: Starting Customer Category Query
+2025-04-14T21:31:50.343Z [info]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-14T21:31:50.350Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T21:31:50.351Z [info]: Fetched The Items And Their Associated Images
+2025-04-14T21:31:51.073Z [info]: Starting Customer ID Query
+2025-04-14T21:31:51.074Z [info]: Querying Item With ItemID As A Customer: 80722652-9b01-4e46-84be-35a3e3863884
+2025-04-14T21:31:51.075Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T21:31:51.076Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-14T21:41:21.115Z [info]: Starting Featured Search
+2025-04-14T21:41:21.139Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T21:41:21.139Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-14T21:41:21.890Z [info]: Starting Customer Category Query
+2025-04-14T21:41:21.891Z [info]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-14T21:41:21.896Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T21:41:21.897Z [info]: Fetched The Items And Their Associated Images
+2025-04-14T21:41:22.893Z [info]: Starting Customer ID Query
+2025-04-14T21:41:22.893Z [info]: Querying Item With ItemID As A Customer: 80722652-9b01-4e46-84be-35a3e3863884
+2025-04-14T21:41:22.895Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T21:41:22.895Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-14T21:41:31.146Z [info]: Starting Featured Search
+2025-04-14T21:41:31.148Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T21:41:31.148Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-14T21:41:35.371Z [info]: Starting Customer Category Query
+2025-04-14T21:41:35.371Z [info]: Fetching The Items Associated With The Category: Pantry Staples
+2025-04-14T21:41:35.373Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T21:41:35.374Z [info]: Fetched The Items And Their Associated Images
+2025-04-14T21:41:36.950Z [info]: Starting Featured Search
+2025-04-14T21:41:36.951Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T21:41:36.951Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-14T21:41:39.104Z [info]: Starting Customer Category Query
+2025-04-14T21:41:39.104Z [info]: Fetching The Items Associated With The Category: Bakery and Bread
+2025-04-14T21:41:39.106Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T21:41:39.106Z [info]: Fetched The Items And Their Associated Images
+2025-04-14T21:41:40.113Z [info]: Starting Featured Search
+2025-04-14T21:41:40.114Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T21:41:40.115Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-14T21:41:41.238Z [info]: Starting Customer Category Query
+2025-04-14T21:41:41.238Z [info]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-14T21:41:41.240Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T21:41:41.240Z [info]: Fetched The Items And Their Associated Images
+2025-04-14T21:41:42.135Z [info]: Starting Customer ID Query
+2025-04-14T21:41:42.135Z [info]: Querying Item With ItemID As A Customer: 80722652-9b01-4e46-84be-35a3e3863884
+2025-04-14T21:41:42.137Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T21:41:42.137Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-14T21:41:44.600Z [info]: Starting Featured Search
+2025-04-14T21:41:44.601Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T21:41:44.602Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-14T23:43:05.385Z [info]: Starting Featured Search
+2025-04-14T23:43:05.424Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T23:43:05.424Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-14T23:43:06.150Z [info]: Starting Customer Category Query
+2025-04-14T23:43:06.151Z [info]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-14T23:43:06.159Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T23:43:06.159Z [info]: Fetched The Items And Their Associated Images
+2025-04-14T23:43:07.411Z [info]: Starting Customer ID Query
+2025-04-14T23:43:07.412Z [info]: Querying Item With ItemID As A Customer: 80722652-9b01-4e46-84be-35a3e3863884
+2025-04-14T23:43:07.415Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T23:43:07.415Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-14T23:43:12.896Z [info]: Starting Featured Search
+2025-04-14T23:43:12.897Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T23:43:12.897Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-14T23:43:13.937Z [info]: Starting Customer Category Query
+2025-04-14T23:43:13.937Z [info]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-14T23:43:13.938Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T23:43:13.939Z [info]: Fetched The Items And Their Associated Images
+2025-04-14T23:43:14.674Z [info]: Starting Customer ID Query
+2025-04-14T23:43:14.674Z [info]: Querying Item With ItemID As A Customer: 80722652-9b01-4e46-84be-35a3e3863884
+2025-04-14T23:43:14.676Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T23:43:14.676Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-14T23:43:17.220Z [info]: Starting Featured Search
+2025-04-14T23:43:17.222Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T23:43:17.222Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-14T23:43:20.896Z [info]: Fetching Addresses Associated With Customer
+2025-04-14T23:43:20.901Z [info]: Addresses Fetched For Customer
+2025-04-14T23:45:34.477Z [info]: Starting Featured Search
+2025-04-14T23:45:34.482Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T23:45:34.482Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-14T23:45:35.486Z [info]: Starting Customer Category Query
+2025-04-14T23:45:35.486Z [info]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-14T23:45:35.489Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T23:45:35.489Z [info]: Fetched The Items And Their Associated Images
+2025-04-14T23:45:36.055Z [info]: Starting Customer ID Query
+2025-04-14T23:45:36.055Z [info]: Querying Item With ItemID As A Customer: 80722652-9b01-4e46-84be-35a3e3863884
+2025-04-14T23:45:36.057Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T23:45:36.057Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-14T23:45:38.630Z [info]: Starting Featured Search
+2025-04-14T23:45:38.636Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-14T23:45:38.636Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-14T23:45:39.670Z [info]: Fetching Addresses Associated With Customer
+2025-04-14T23:45:39.672Z [info]: Addresses Fetched For Customer
+2025-04-14T23:56:39.726Z [info]: Fetching Addresses Associated With Customer
+2025-04-14T23:56:39.750Z [info]: Addresses Fetched For Customer
+2025-04-15T00:16:09.543Z [info]: Adding Address To Database
+2025-04-15T00:16:09.544Z [error]: Address Is Invalid
+2025-04-15T00:16:11.671Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T00:16:11.702Z [info]: Addresses Fetched For Customer
+2025-04-15T00:16:11.728Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T00:16:11.729Z [info]: Addresses Fetched For Customer
+2025-04-15T00:16:11.769Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T00:16:11.769Z [info]: Addresses Fetched For Customer
+2025-04-15T00:16:11.807Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T00:16:11.808Z [info]: Addresses Fetched For Customer
+2025-04-15T00:16:11.845Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T00:16:11.846Z [info]: Addresses Fetched For Customer
+2025-04-15T00:16:42.135Z [info]: Delete Address From Database
+2025-04-15T00:36:35.815Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T00:36:35.827Z [info]: Addresses Fetched For Customer
+2025-04-15T00:48:08.563Z [info]: Starting Featured Search
+2025-04-15T00:48:08.565Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T00:48:08.566Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-15T00:48:09.987Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T00:48:09.989Z [info]: Addresses Fetched For Customer
+2025-04-15T00:48:17.736Z [info]: Starting Customer Category Query
+2025-04-15T00:48:17.736Z [info]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-15T00:48:17.739Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T00:48:17.739Z [info]: Fetched The Items And Their Associated Images
+2025-04-15T00:48:18.378Z [info]: Starting Customer ID Query
+2025-04-15T00:48:18.379Z [info]: Querying Item With ItemID As A Customer: 80722652-9b01-4e46-84be-35a3e3863884
+2025-04-15T00:48:18.380Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T00:48:18.380Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-15T00:48:21.333Z [info]: Starting Featured Search
+2025-04-15T00:48:21.334Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T00:48:21.334Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-15T00:48:22.985Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T00:48:22.986Z [info]: Addresses Fetched For Customer
+2025-04-15T00:48:28.447Z [info]: Starting Customer Category Query
+2025-04-15T00:48:28.448Z [info]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-15T00:48:28.449Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T00:48:28.449Z [info]: Fetched The Items And Their Associated Images
+2025-04-15T00:48:29.112Z [info]: Starting Customer ID Query
+2025-04-15T00:48:29.113Z [info]: Querying Item With ItemID As A Customer: 80722652-9b01-4e46-84be-35a3e3863884
+2025-04-15T00:48:29.113Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T00:48:29.114Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-15T00:48:32.364Z [info]: Starting Featured Search
+2025-04-15T00:48:32.365Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T00:48:32.365Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-15T00:48:37.234Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T00:48:37.237Z [info]: Addresses Fetched For Customer
+2025-04-15T00:48:44.533Z [info]: Starting Customer Category Query
+2025-04-15T00:48:44.533Z [info]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-15T00:48:44.534Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T00:48:44.535Z [info]: Fetched The Items And Their Associated Images
+2025-04-15T00:48:45.245Z [info]: Starting Customer ID Query
+2025-04-15T00:48:45.245Z [info]: Querying Item With ItemID As A Customer: 80722652-9b01-4e46-84be-35a3e3863884
+2025-04-15T00:48:45.246Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T00:48:45.246Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-15T00:48:48.263Z [info]: Starting Featured Search
+2025-04-15T00:48:48.266Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T00:48:48.266Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-15T00:48:49.016Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T00:48:49.017Z [info]: Addresses Fetched For Customer
+2025-04-15T00:48:53.748Z [info]: Starting Customer Category Query
+2025-04-15T00:48:53.748Z [info]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-15T00:48:53.750Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T00:48:53.750Z [info]: Fetched The Items And Their Associated Images
+2025-04-15T00:48:54.399Z [info]: Starting Customer ID Query
+2025-04-15T00:48:54.399Z [info]: Querying Item With ItemID As A Customer: 80722652-9b01-4e46-84be-35a3e3863884
+2025-04-15T00:48:54.400Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T00:48:54.400Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-15T00:48:58.694Z [info]: Starting Featured Search
+2025-04-15T00:48:58.696Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T00:48:58.696Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-15T00:49:00.207Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T00:49:00.208Z [info]: Addresses Fetched For Customer
+2025-04-15T00:51:49.324Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T00:51:49.337Z [info]: Addresses Fetched For Customer
+2025-04-15T00:51:52.720Z [info]: Starting Featured Search
+2025-04-15T00:51:52.736Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T00:51:52.736Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-15T00:51:53.493Z [info]: Starting Customer Category Query
+2025-04-15T00:51:53.494Z [info]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-15T00:51:53.495Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T00:51:53.495Z [info]: Fetched The Items And Their Associated Images
+2025-04-15T00:55:04.825Z [info]: Uploading file to: ./uploads/
+2025-04-15T00:55:04.826Z [info]: Saving file as: 1744678504826.png
+2025-04-15T00:55:04.835Z [info]: Starting Product Insert
+2025-04-15T00:55:14.487Z [info]: Starting Employee Name Query
+2025-04-15T00:55:14.488Z [info]: Fetching The Items Associated With The Product: Chia
+2025-04-15T00:55:14.490Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T00:55:14.491Z [info]: Fetched The Items And Their Associated Images
+2025-04-15T00:55:15.340Z [info]: Starting Employee ID Query
+2025-04-15T00:55:15.340Z [info]: Querying Item With ItemID As An Employee: fd025a6b-6ea6-4408-b82f-2f25861d62f6
+2025-04-15T00:55:15.343Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T00:55:15.343Z [info]: Fetched The Items And Their Associated Images As An Employee
+2025-04-15T02:14:31.260Z [info]: Starting Featured Search
+2025-04-15T02:14:31.292Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T02:14:31.293Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-15T02:14:52.306Z [info]: Starting Featured Search
+2025-04-15T02:14:52.307Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T02:14:52.307Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-15T02:14:59.140Z [info]: Starting Customer Name Query
+2025-04-15T02:14:59.141Z [info]: Fetching The Items Associated With The Product: Chia
+2025-04-15T02:14:59.144Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T02:14:59.145Z [info]: Fetched The Items And Their Associated Images
+2025-04-15T02:14:59.940Z [info]: Starting Customer ID Query
+2025-04-15T02:14:59.941Z [info]: Querying Item With ItemID As A Customer: fd025a6b-6ea6-4408-b82f-2f25861d62f6
+2025-04-15T02:14:59.947Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T02:14:59.948Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-15T02:15:15.595Z [info]: Starting Featured Search
+2025-04-15T02:15:15.597Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T02:15:15.597Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-15T02:15:19.256Z [info]: Starting Customer Name Query
+2025-04-15T02:15:19.257Z [info]: Fetching The Items Associated With The Product: chia
+2025-04-15T02:15:19.258Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T02:15:19.258Z [info]: Fetched The Items And Their Associated Images
+2025-04-15T02:15:20.157Z [info]: Starting Customer ID Query
+2025-04-15T02:15:20.158Z [info]: Querying Item With ItemID As A Customer: fd025a6b-6ea6-4408-b82f-2f25861d62f6
+2025-04-15T02:15:20.162Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T02:15:20.165Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-15T02:15:22.862Z [info]: Starting Featured Search
+2025-04-15T02:15:22.864Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T02:15:22.864Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-15T02:15:23.678Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T02:15:23.679Z [info]: Addresses Fetched For Customer
+2025-04-15T03:05:42.555Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:05:42.732Z [info]: Addresses Fetched For Customer
+2025-04-15T03:07:18.621Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:07:18.662Z [info]: Addresses Fetched For Customer
+2025-04-15T03:09:10.031Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:09:10.032Z [info]: Addresses Fetched For Customer
+2025-04-15T03:14:35.276Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:14:35.281Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:14:35.284Z [info]: Addresses Fetched For Customer
+2025-04-15T03:14:35.289Z [info]: Addresses Fetched For Customer
+2025-04-15T03:16:35.995Z [info]: Starting Customer ID Query
+2025-04-15T03:16:35.996Z [info]: Querying Item With ItemID As A Customer: fd025a6b-6ea6-4408-b82f-2f25861d62f6
+2025-04-15T03:16:36.000Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T03:16:36.000Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-15T03:17:52.024Z [info]: Starting Featured Search
+2025-04-15T03:17:52.026Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T03:17:52.026Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-15T03:17:55.402Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:17:55.405Z [info]: Addresses Fetched For Customer
+2025-04-15T03:20:51.227Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:20:51.228Z [info]: Addresses Fetched For Customer
+2025-04-15T03:23:17.425Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:23:17.427Z [info]: Addresses Fetched For Customer
+2025-04-15T03:24:14.149Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:24:14.150Z [info]: Addresses Fetched For Customer
+2025-04-15T03:24:27.512Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:24:27.513Z [info]: Addresses Fetched For Customer
+2025-04-15T03:32:49.311Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:32:49.313Z [info]: Addresses Fetched For Customer
+2025-04-15T03:34:08.254Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:34:08.255Z [info]: Addresses Fetched For Customer
+2025-04-15T03:36:39.297Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:36:39.299Z [info]: Addresses Fetched For Customer
+2025-04-15T03:47:27.716Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:47:27.778Z [info]: Addresses Fetched For Customer
+2025-04-15T03:47:27.824Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:47:27.825Z [info]: Addresses Fetched For Customer
+2025-04-15T03:52:19.430Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:52:19.435Z [info]: Addresses Fetched For Customer
+2025-04-15T03:58:00.729Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:58:00.761Z [info]: Addresses Fetched For Customer
+2025-04-15T03:58:19.660Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T03:58:19.662Z [info]: Addresses Fetched For Customer
+2025-04-15T04:00:27.371Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T04:00:27.373Z [info]: Addresses Fetched For Customer
+2025-04-15T04:00:53.464Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T04:00:53.465Z [info]: Addresses Fetched For Customer
+2025-04-15T04:03:27.822Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T04:03:27.824Z [info]: Addresses Fetched For Customer
+2025-04-15T04:03:35.460Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T04:03:35.461Z [info]: Addresses Fetched For Customer
+2025-04-15T04:03:41.266Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T04:03:41.266Z [info]: Addresses Fetched For Customer
+2025-04-15T04:03:52.875Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T04:03:52.876Z [info]: Addresses Fetched For Customer
+2025-04-15T04:04:22.345Z [info]: Adding Address To Database
+2025-04-15T04:04:22.347Z [error]: Address Is Invalid
+2025-04-15T04:05:23.467Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T04:05:23.468Z [info]: Addresses Fetched For Customer
+2025-04-15T04:06:43.216Z [info]: Adding Address To Database
+2025-04-15T04:06:43.217Z [error]: Address Is Invalid
+2025-04-15T04:09:41.483Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T04:09:41.485Z [info]: Addresses Fetched For Customer
+2025-04-15T04:10:07.791Z [info]: Adding Address To Database
+2025-04-15T04:10:07.791Z [error]: Address Is Invalid
+2025-04-15T04:10:11.128Z [info]: Starting Customer Category Query
+2025-04-15T04:10:11.128Z [info]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-15T04:10:11.132Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T04:10:11.133Z [info]: Fetched The Items And Their Associated Images
+2025-04-15T04:10:12.661Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T04:10:12.662Z [info]: Addresses Fetched For Customer
+2025-04-15T04:14:51.566Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T04:14:51.568Z [info]: Addresses Fetched For Customer
+2025-04-15T04:15:02.872Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T04:15:02.877Z [info]: Addresses Fetched For Customer
+2025-04-15T04:15:02.880Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T04:15:02.881Z [info]: Addresses Fetched For Customer
+2025-04-15T04:17:00.122Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T04:17:00.123Z [info]: Addresses Fetched For Customer
+2025-04-15T04:17:28.420Z [info]: Adding Address To Database
+2025-04-15T04:17:28.421Z [error]: Address Is Invalid
+2025-04-15T04:21:03.381Z [info]: Starting Featured Search
+2025-04-15T04:21:03.384Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-15T04:21:03.384Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-15T04:21:06.061Z [info]: Fetching Addresses Associated With Customer
+2025-04-15T04:21:06.068Z [info]: Addresses Fetched For Customer
+2025-04-15T04:21:27.920Z [info]: Adding Address To Database
+2025-04-15T04:21:27.920Z [error]: Address Is Invalid

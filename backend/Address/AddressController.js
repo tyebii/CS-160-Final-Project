@@ -2,12 +2,18 @@ const pool = require('../Database Pool/DBConnections')
 
 const {validateID, statusCode, validateAddress, validateName} = require('../Utils/Formatting')
 
+const logger = require('../Utils/Logger'); 
+
 //Gets Customer Addresses
 const getAddress = (req, res) => {
+
+    logger.info("Fetching Addresses Associated With Customer")
 
     const customerID = req.user?.CustomerID
 
     if(!validateID(customerID)){
+
+        logger.error("CustomerID Is Invalid")
 
         return res.status(statusCode.BAD_REQUEST).json({error:"CustomerID Is Invalid"})
 
@@ -19,11 +25,13 @@ const getAddress = (req, res) => {
 
         if(error){
 
-            console.log("Error Accessing Customer Addresses: " + error.message)
+            logger.error("Error Accessing Customer Addresses: " + error.message)
 
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Fetching Customer Addresses'});
 
         }
+
+        logger.info("Addresses Fetched For Customer")
 
         return res.status(statusCode.OK).json(results)
 
@@ -33,11 +41,17 @@ const getAddress = (req, res) => {
 //Adding Customer-Address Relationship
 const addAddress = async (req, res) => {
 
+    logger.info("Adding Address To Database")
+
+    let connection;
+
     try {
 
         const customerID = req.user?.CustomerID
 
         if(!validateID(customerID)){
+
+            logger.error("CustomerID Is Invalid")
 
             return res.status(statusCode.BAD_REQUEST).json({error:"CustomerID Is Invalid"})
 
@@ -47,17 +61,21 @@ const addAddress = async (req, res) => {
             
         if(! await validateAddress(address)){
 
+            logger.error("Address Is Invalid")
+
             return res.status(statusCode.BAD_REQUEST).json({error:"Address Is Invalid"})
 
         }
 
         if(!validateName(name)){
 
+            logger.error("Name Is Invalid")
+
             return res.status(statusCode.BAD_REQUEST).json({error:"Name Is Invalid"})
 
         }
 
-        const connection = await pool.promise().getConnection();
+        connection = await pool.promise().getConnection();
 
         await connection.beginTransaction();
 
@@ -79,39 +97,62 @@ const addAddress = async (req, res) => {
     
         connection.release();
 
+        logger.info("Completed The Addition Of The Address")
+
         return res.status(statusCode.OK).json({ success: true });
 
     } catch (error) {
 
+        logger.error("Error While Adding Address: " + error.message)
+
         if (connection) {
 
-            await connection.rollback();
+            try {
 
-            connection.release();
+                logger.info("Rolling Back Connection");
 
+                await connection.rollback();
+
+            } catch (rollbackError) {
+
+                logger.error("Error During Rollback: " + rollbackError.message);
+
+            }
+        
+            try {
+
+                logger.info("Releasing Connection");
+
+                connection.release();
+
+            } catch (releaseError) {
+
+                logger.error("Error Releasing Connection: " + releaseError.message);
+
+            }
+            
         }
-
-        if (error.code === 'ER_DUP_ENTRY') {
-
-            return res.status(statusCode.RESOURCE_CONFLICT).json({ error: "This Address Is Already Linked To You." });
-       
-        }
-
-        console.log("Error Adding An Address: " + error.message)
 
         return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error On Addition Of Address" });
     
     }
+
 };
 
 //Delete The address Associated With A Customer
-const deleteAddress =  async(req,res)=>{
+const deleteAddress =  async (req,res)=>{
+
+    logger.info("Delete Address From Database")
+
+    let connection;
 
     try {
 
         const customerID = req.user?.CustomerID
 
         if(!validateID(customerID)){
+
+            logger.error("CustomerID Is Invalid")
 
             return res.status(statusCode.BAD_REQUEST).json({error:"CustomerID Is Invalid"})
 
@@ -121,11 +162,13 @@ const deleteAddress =  async(req,res)=>{
             
         if(!await validateAddress(addAddressddress)){
 
+            logger.error("Address Is Invalid")
+
             return res.status(statusCode.BAD_REQUEST).json({error:"Address Is Invalid"})
 
         }
             
-        const connection = await pool.promise().getConnection(); 
+        connection = await pool.promise().getConnection(); 
 
         await connection.beginTransaction();
     
@@ -143,6 +186,8 @@ const deleteAddress =  async(req,res)=>{
         await connection.commit();
     
         connection.release();
+
+        logger.info("Completed The Deletion Of The Address")
     
         return res.status(statusCode.OK).json({ success: true });
 
@@ -150,13 +195,33 @@ const deleteAddress =  async(req,res)=>{
 
         if (connection) {
 
-            await connection.rollback();
+            try {
 
-            connection.release();
+                logger.info("Rolling Back Connection");
 
+                await connection.rollback();
+
+            } catch (rollbackError) {
+
+                logger.error("Error during rollback: " + rollbackError.message);
+
+            }
+        
+            try {
+
+                logger.info("Releasing Connection");
+
+                connection.release();
+
+            } catch (releaseError) {
+
+                logger.error("Error releasing connection: " + releaseError.message);
+
+            }
+            
         }
 
-        console.log("Error Deleting An Address: " + error.message)
+        logger.error("Error Deleting An Address: " + error.message)
 
         return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error On Deletion Of Address" });
     

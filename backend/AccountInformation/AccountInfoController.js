@@ -1,3 +1,5 @@
+//Ready For Testing
+
 const pool = require('../Database Pool/DBConnections')
 
 const {validateID, statusCode} = require('../Utils/Formatting');
@@ -6,6 +8,8 @@ const logger = require('../Utils/Logger');
 
 //Gets The Customer's Information
 const getCustomer = (req, res) => {
+
+    logger.info("Fetching The Customer's Information")
 
     const customerID = req.user?.CustomerID
 
@@ -41,6 +45,8 @@ const getCustomer = (req, res) => {
 
 //Gets The Employees Information
 const getEmployee = (req, res) => {
+
+    logger.info("Fetching The Employee's Information")
 
     const employeeID = req.user?.EmployeeID
 
