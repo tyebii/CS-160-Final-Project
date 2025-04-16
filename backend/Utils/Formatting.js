@@ -1,5 +1,7 @@
 const {supervisorExists} = require('./ExistanceChecks')
 
+const logger = require('../Utils/Logger'); 
+
 require('dotenv').config(); 
 
 const validateDate = (input) => {
@@ -8,7 +10,7 @@ const validateDate = (input) => {
 
     if (input == null){
 
-        console.log("No Date Found")
+        logger.error("No Date Found")
 
         return false
 
@@ -16,7 +18,7 @@ const validateDate = (input) => {
 
     if(!datePattern.test(input)){
 
-        console.log("Date Fails The Pattern xxxx-xx-xx")
+        logger.error("Date Fails The Pattern xxxx-xx-xx")
 
         return false
 
@@ -24,7 +26,7 @@ const validateDate = (input) => {
     
     if(validateBlacklist(input)){
 
-        console.log("Blacklisted Characters Found")
+        logger.error("Blacklisted Characters Found")
 
         return false;
 
@@ -36,7 +38,7 @@ const validateDate = (input) => {
 
     if (isNaN(timestamp)){
 
-        console.log("Not A Valid Date")
+        logger.error("Not A Valid Date")
 
         return false;
 
@@ -50,7 +52,7 @@ const validateSpaces = (input) => {
 
     if(/\s/.test(input)){
 
-        console.log("Spaces Detected")
+        logger.error("Spaces Detected")
 
         return true 
     }
@@ -63,7 +65,7 @@ const validateBlacklist = (input) => {
 
     if(/[<>;]/.test(input)){
 
-        console.log("Blacklisted Characters Detected")
+        logger.error("Blacklisted Characters Detected")
 
         return true
 
@@ -79,7 +81,7 @@ const validateID = (input) => {
 
     if (input == null){
 
-        console.log("Input Not Found")
+        logger.error("Input Not Found")
 
         return false
 
@@ -87,7 +89,7 @@ const validateID = (input) => {
     
     if(typeof input !== 'string'){
 
-        console.log("Must Be A String")
+        logger.error("Must Be A String")
 
         return false
 
@@ -95,7 +97,7 @@ const validateID = (input) => {
     
     if(validateBlacklist(input)){
 
-        console.log("Has Blacklisted Characters")
+        logger.error("Has Blacklisted Characters")
 
         return false
 
@@ -103,7 +105,7 @@ const validateID = (input) => {
     
     if(!uuidRegex.test(input)) {
 
-        console.log("Improper Format On ID")
+        logger.error("Improper Format On ID")
 
         return false;
 
@@ -117,7 +119,7 @@ const validateRegularID = (input) => {
 
     if (input == null) {
 
-         console.log("Input Not Found");
+         logger.error("Input Not Found");
 
         return false;
 
@@ -125,7 +127,7 @@ const validateRegularID = (input) => {
 
     if (typeof input !== 'string') {
 
-        console.log("Must Be A String");
+        logger.error("Must Be A String");
 
         return false;
 
@@ -133,7 +135,7 @@ const validateRegularID = (input) => {
 
     if (input.length < 5) {
 
-        console.log("Input Too Short (Minimum 5 Characters)");
+        logger.error("Input Too Short (Minimum 5 Characters)");
 
         return false;
 
@@ -141,7 +143,7 @@ const validateRegularID = (input) => {
 
     if (input.length > 255) {
         
-        console.log("Input Too Long (Maximum 255 Characters)");
+        logger.error("Input Too Long (Maximum 255 Characters)");
 
         return false;
 
@@ -149,7 +151,7 @@ const validateRegularID = (input) => {
 
     if (validateSpaces(input)) {
 
-        console.log("Contains Spaces");
+        logger.error("Contains Spaces");
 
         return false;
 
@@ -157,7 +159,7 @@ const validateRegularID = (input) => {
 
     if (validateBlacklist(input)) {
 
-        console.log("Has Blacklisted Characters");
+        logger.error("Has Blacklisted Characters");
 
         return false;
 
@@ -171,7 +173,7 @@ const validateAddress = async (address) => {
 
     if (address == null) {
 
-        console.log("Address Not Found");
+        logger.error("Address Not Found");
 
         return false;
 
@@ -179,7 +181,7 @@ const validateAddress = async (address) => {
 
     if (typeof address !== "string") {
 
-        console.log("Address Must Be A String");
+        logger.error("Address Must Be A String");
 
         return false;
 
@@ -187,7 +189,7 @@ const validateAddress = async (address) => {
 
     if (address.length < 5) {
 
-        console.log("Address Too Short (Minimum 5 Characters)");
+        logger.error("Address Too Short (Minimum 5 Characters)");
 
         return false;
 
@@ -195,7 +197,7 @@ const validateAddress = async (address) => {
 
     if (address.length > 255) {
 
-        console.log("Address Too Long (Maximum 255 Characters)");
+        logger.error("Address Too Long (Maximum 255 Characters)");
 
         return false;
 
@@ -203,17 +205,17 @@ const validateAddress = async (address) => {
 
     if (validateBlacklist(address)) {
 
-        console.log("Address Has Blacklisted Characters");
+        logger.error("Address Has Blacklisted Characters");
 
         return false;
 
     }
 
-    const regex = /^\d{1,5}\s[A-Za-z0-9\s.'-]+,\sSan\sJose,\sCalifornia\s95\d{3}(-\d{4})?$/;
+    const regex = /^\d{1,5}\s[A-Za-z0-9\s.'-]+,\sSan\sJose,\sCA\s95\d{3}(-\d{4})?$/;
 
     if (!regex.test(address)) {
 
-        console.log("Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX");
+        logger.error("Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX");
         
         return false;
 
@@ -235,19 +237,21 @@ const validateAddress = async (address) => {
 
         if (data.features.length === 0) {
             
-            console.log("Address Not Found On Map");
+            logger.error("Address Not Found On Map");
 
             return false;
 
         }
 
+        logger.info("Address Found On Map");
+
         return true;
 
     } catch (error) {
 
-        console.error("Mapbox fetch error:", error);
+        console.error("Mapbox fetch error: ", error);
 
-        console.log("Error Validating Address With Mapbox");
+        logger.error("Error Validating Address With Mapbox");
 
         return false;
         
@@ -258,7 +262,7 @@ const validateQuantity = (input) => {
 
     if (input == null) {
 
-        console.log("Quantity Not Provided");
+        logger.error("Quantity Not Provided");
 
         return false;
 
@@ -266,7 +270,7 @@ const validateQuantity = (input) => {
 
     if (typeof input !== 'number') {
 
-        console.log("Quantity Must Be A Number");
+        logger.error("Quantity Must Be A Number");
 
         return false;
 
@@ -274,7 +278,7 @@ const validateQuantity = (input) => {
 
     if (input <= 0) {
 
-        console.log("Quantity Must Be Greater Than Zero");
+        logger.error("Quantity Must Be Greater Than Zero");
 
         return false;
 
@@ -282,7 +286,7 @@ const validateQuantity = (input) => {
 
     if (!Number.isInteger(input)) {
 
-        console.log("Quantity Must Be An Integer");
+        logger.error("Quantity Must Be An Integer");
 
         return false;
 
@@ -296,7 +300,7 @@ const validateRobotLoad = (input) => {
 
     if (input == null) {
 
-        console.log("Robot Load Not Provided");
+        logger.error("Robot Load Not Provided");
 
         return false;
 
@@ -304,7 +308,7 @@ const validateRobotLoad = (input) => {
 
     if (typeof input !== 'number') {
 
-        console.log("Robot Load Must Be A Number");
+        logger.error("Robot Load Must Be A Number");
 
         return false;
 
@@ -312,7 +316,7 @@ const validateRobotLoad = (input) => {
 
     if (input < 0) {
 
-        console.log("Robot Load Cannot Be Negative");
+        logger.error("Robot Load Cannot Be Negative");
 
         return false;
 
@@ -328,7 +332,7 @@ const validateRobotStatus = (input) => {
 
     if (input == null) {
 
-        console.log("Robot Status Not Provided");
+        logger.error("Robot Status Not Provided");
 
         return false;
 
@@ -336,7 +340,7 @@ const validateRobotStatus = (input) => {
 
     if (typeof input !== 'string') {
 
-        console.log("Robot Status Must Be A String");
+        logger.error("Robot Status Must Be A String");
 
         return false;
 
@@ -344,7 +348,7 @@ const validateRobotStatus = (input) => {
 
     if (!statusList.includes(input)) {
 
-        console.log(`Invalid Robot Status. Must be one of: ${statusList.join(', ')}`);
+        logger.error(`Invalid Robot Status. Must be one of: ${statusList.join(', ')}`);
 
         return false;
 
@@ -358,7 +362,7 @@ const validateFutureDate = (input) => {
 
     if (input == null) {
 
-        console.log("Date Not Provided");
+        logger.error("Date Not Provided");
 
         return false;
 
@@ -376,7 +380,7 @@ const validateFutureDate = (input) => {
 
     if (isNaN(date.getTime())) {
 
-        console.log("Invalid Date Value");
+        logger.error("Invalid Date Value");
 
         return false;
 
@@ -384,7 +388,7 @@ const validateFutureDate = (input) => {
 
     if (date <= now) {
 
-        console.log("Date Must Be In The Future");
+        logger.error("Date Must Be In The Future");
 
         return false;
 
@@ -398,7 +402,7 @@ const validatePastDate = (input) => {
 
     if (input == null) {
 
-        console.log("Date Not Provided");
+        logger.error("Date Not Provided");
 
         return false;
 
@@ -406,7 +410,7 @@ const validatePastDate = (input) => {
 
     if (!validateDate(input)) {
 
-        console.log("Invalid Date Format");
+        logger.error("Invalid Date Format");
 
         return false;
 
@@ -418,7 +422,7 @@ const validatePastDate = (input) => {
 
     if (isNaN(date.getTime())) {
 
-        console.log("Invalid Date Value");
+        logger.error("Invalid Date Value");
 
         return false;
 
@@ -426,7 +430,7 @@ const validatePastDate = (input) => {
 
     if (date > now) {
 
-        console.log("Date Must Be In The Past");
+        logger.error("Date Must Be In The Past");
 
         return false;
         
@@ -438,11 +442,11 @@ const validatePastDate = (input) => {
 
 const validateSpeed = (input) => {
 
-    console.log(typeof input)
+    logger.error(typeof input)
 
     if (input == null) {
 
-        console.log("Speed Not Provided");
+        logger.error("Speed Not Provided");
 
         return false;
 
@@ -450,7 +454,7 @@ const validateSpeed = (input) => {
 
     if (typeof input !== 'number') {
 
-        console.log("Speed Must Be A Number");
+        logger.error("Speed Must Be A Number");
 
         return false;
 
@@ -458,7 +462,7 @@ const validateSpeed = (input) => {
 
     if (input < 0) {
 
-        console.log("Speed Cannot Be Negative");
+        logger.error("Speed Cannot Be Negative");
 
         return false;
         
@@ -471,7 +475,7 @@ const validateBatteryLife = (input) => {
 
     if (input == null) {
 
-        console.log("Battery Life Not Provided");
+        logger.error("Battery Life Not Provided");
 
         return false;
 
@@ -479,7 +483,7 @@ const validateBatteryLife = (input) => {
 
     if (typeof input !== 'number') {
 
-        console.log("Battery Life Must Be A Number");
+        logger.error("Battery Life Must Be A Number");
 
         return false;
 
@@ -487,7 +491,7 @@ const validateBatteryLife = (input) => {
 
     if (input <= 0) {
 
-        console.log("Battery Life Must Be Greater Than 0%");
+        logger.error("Battery Life Must Be Greater Than 0%");
 
         return false;
 
@@ -495,7 +499,7 @@ const validateBatteryLife = (input) => {
 
     if (input > 100) {
 
-        console.log("Battery Life Cannot Exceed 100%");
+        logger.error("Battery Life Cannot Exceed 100%");
 
         return false;
 
@@ -509,7 +513,7 @@ const validateEstimatedDelivery = (input) => {
 
     if (input == null) {
 
-        console.log("Estimated Delivery Not Provided");
+        logger.error("Estimated Delivery Not Provided");
 
         return false;
 
@@ -517,7 +521,7 @@ const validateEstimatedDelivery = (input) => {
 
     if (typeof input !== 'number') {
 
-        console.log("Estimated Delivery Must Be A Number");
+        logger.error("Estimated Delivery Must Be A Number");
 
         return false;
 
@@ -525,7 +529,7 @@ const validateEstimatedDelivery = (input) => {
 
     if (input < 0) {
 
-        console.log("Estimated Delivery Must Be Greater Than 0%");
+        logger.error("Estimated Delivery Must Be Greater Than 0%");
 
         return false;
 
@@ -587,7 +591,7 @@ const validateName = (input) => {
 
     if (input == null) {
 
-        console.log("Name Not Provided");
+        logger.error("Name Not Provided");
 
         return false;
 
@@ -595,7 +599,7 @@ const validateName = (input) => {
 
     if (typeof input !== "string") {
 
-        console.log("Name Must Be A String");
+        logger.error("Name Must Be A String");
 
         return false;
 
@@ -603,7 +607,7 @@ const validateName = (input) => {
 
     if (input.trim() === "") {
 
-        console.log("Name Cannot Be Empty or Whitespace");
+        logger.error("Name Cannot Be Empty or Whitespace");
 
         return false;
 
@@ -611,7 +615,7 @@ const validateName = (input) => {
 
     if (input.length < 2) {
 
-        console.log("Name Too Short (Minimum 2 Characters)");
+        logger.error("Name Too Short (Minimum 2 Characters)");
 
         return false;
 
@@ -619,7 +623,7 @@ const validateName = (input) => {
 
     if (input.length > 255) {
 
-        console.log("Name Too Long (Maximum 255 Characters)");
+        logger.error("Name Too Long (Maximum 255 Characters)");
 
         return false;
 
@@ -627,7 +631,7 @@ const validateName = (input) => {
 
     if (validateBlacklist(input)) {
 
-        console.log("Name Contains Blacklisted Characters");
+        logger.error("Name Contains Blacklisted Characters");
 
         return false;
 
@@ -643,7 +647,7 @@ const validatePhoneNumber = (input) => {
 
     if (input == null) {
 
-        console.log("Phone Number Not Provided");
+        logger.error("Phone Number Not Provided");
 
         return false;
 
@@ -651,7 +655,7 @@ const validatePhoneNumber = (input) => {
 
     if (typeof input !== "string") {
 
-        console.log("Phone Number Must Be A String");
+        logger.error("Phone Number Must Be A String");
 
         return false;
 
@@ -659,7 +663,7 @@ const validatePhoneNumber = (input) => {
 
     if (validateSpaces(input)) {
 
-        console.log("Phone Number Cannot Contain Spaces");
+        logger.error("Phone Number Cannot Contain Spaces");
 
         return false;
 
@@ -667,7 +671,7 @@ const validatePhoneNumber = (input) => {
 
     if (validateBlacklist(input)) {
 
-        console.log("Phone Number Contains Blacklisted Characters");
+        logger.error("Phone Number Contains Blacklisted Characters");
 
         return false;
 
@@ -675,7 +679,7 @@ const validatePhoneNumber = (input) => {
 
     if (!input.match(regexNumber)) {
 
-        console.log("Invalid Phone Number Format. Must be in the format: 1-XXX-XXX-XXXX");
+        logger.error("Invalid Phone Number Format. Must be in the format: 1-XXX-XXX-XXXX");
 
         return false;
 
@@ -722,7 +726,7 @@ const validatePassword = (input) => {
 
     if (input == null) {
 
-        console.log("Password Not Provided");
+        logger.error("Password Not Provided");
 
         return false;
 
@@ -730,7 +734,7 @@ const validatePassword = (input) => {
 
     if (typeof input !== 'string') {
 
-        console.log("Password Must Be A String");
+        logger.error("Password Must Be A String");
 
         return false;
 
@@ -738,7 +742,7 @@ const validatePassword = (input) => {
 
     if (input.length < 7) {
 
-        console.log("Password Too Short (Minimum 7 Characters)");
+        logger.error("Password Too Short (Minimum 7 Characters)");
 
         return false;
 
@@ -746,7 +750,7 @@ const validatePassword = (input) => {
 
     if (input.length > 255) {
 
-        console.log("Password Too Long (Maximum 255 Characters)");
+        logger.error("Password Too Long (Maximum 255 Characters)");
 
         return false;
 
@@ -754,7 +758,7 @@ const validatePassword = (input) => {
 
     if (validateSpaces(input)) {
 
-        console.log("Password Cannot Contain Spaces");
+        logger.error("Password Cannot Contain Spaces");
 
         return false;
 
@@ -762,7 +766,7 @@ const validatePassword = (input) => {
 
     if (validateBlacklist(input)) {
 
-        console.log("Password Contains Blacklisted Characters");
+        logger.error("Password Contains Blacklisted Characters");
 
         return false;
 
@@ -772,7 +776,7 @@ const validatePassword = (input) => {
 
     if (!input.match(regexPassword)) {
 
-        console.log("Password Must Contain At Least One Lowercase Letter, One Uppercase Letter, One Number, and One Special Character");
+        logger.error("Password Must Contain At Least One Lowercase Letter, One Uppercase Letter, One Number, and One Special Character");
 
         return false;
 
@@ -848,7 +852,7 @@ const validateEmployeeStatus = (input) => {
 
     if (input == null) {
 
-        console.log("Employee Status Not Provided");
+        logger.error("Employee Status Not Provided");
 
         return false;
 
@@ -856,7 +860,7 @@ const validateEmployeeStatus = (input) => {
 
     if (typeof input !== "string") {
 
-        console.log("Employee Status Must Be A String");
+        logger.error("Employee Status Must Be A String");
 
         return false;
 
@@ -864,7 +868,7 @@ const validateEmployeeStatus = (input) => {
 
     if (!validStatuses.includes(input)) {
 
-        console.log(`Invalid Employee Status. Must be one of: ${validStatuses.join(", ")}`);
+        logger.error(`Invalid Employee Status. Must be one of: ${validStatuses.join(", ")}`);
 
         return false;
 
@@ -1013,7 +1017,7 @@ const validateCategory = (input) => {
 
     if (input == null) {
 
-        console.log("Category Not Provided");
+        logger.error("Category Not Provided");
 
         return false;
 
@@ -1021,7 +1025,7 @@ const validateCategory = (input) => {
 
     if (typeof input !== "string") {
 
-        console.log("Category Must Be A String");
+        logger.error("Category Must Be A String");
 
         return false;
 
@@ -1029,7 +1033,7 @@ const validateCategory = (input) => {
 
     if (!categoryEnum.includes(input)) {
 
-        console.log(`Invalid Category. Must be one of: ${categoryEnum.join(", ")}`);
+        logger.error(`Invalid Category. Must be one of: ${categoryEnum.join(", ")}`);
 
         return false;
 
@@ -1043,7 +1047,7 @@ const validateProduct = (input) => {
 
     if (input == null) {
 
-        console.log("Product Name Not Provided");
+        logger.error("Product Name Not Provided");
 
         return false;
 
@@ -1051,7 +1055,7 @@ const validateProduct = (input) => {
 
     if (typeof input !== "string") {
 
-        console.log("Product Name Must Be A String");
+        logger.error("Product Name Must Be A String");
 
         return false;
 
@@ -1059,7 +1063,7 @@ const validateProduct = (input) => {
 
     if (input.length == 0) {
 
-        console.log("Product Name Cannot Be Empty");
+        logger.error("Product Name Cannot Be Empty");
 
         return false;
 
@@ -1067,7 +1071,7 @@ const validateProduct = (input) => {
 
     if (input.length > 255) {
 
-        console.log("Product Name Too Long (Maximum 255 Characters)");
+        logger.error("Product Name Too Long (Maximum 255 Characters)");
 
         return false;
 
@@ -1075,7 +1079,7 @@ const validateProduct = (input) => {
 
     if (validateSpaces(input)) {
 
-        console.log("Product Name Cannot Contain Spaces");
+        logger.error("Product Name Cannot Contain Spaces");
 
         return false;
 
@@ -1083,7 +1087,7 @@ const validateProduct = (input) => {
 
     if (validateBlacklist(input)) {
 
-        console.log("Product Name Contains Blacklisted Characters");
+        logger.error("Product Name Contains Blacklisted Characters");
 
         return false;
 
@@ -1097,7 +1101,7 @@ const validateWeight = (input) => {
 
     if (input == null) {
 
-        console.log("Weight Not Provided");
+        logger.error("Weight Not Provided");
 
         return false;
 
@@ -1105,7 +1109,7 @@ const validateWeight = (input) => {
 
     if (typeof input !== 'number') {
 
-        console.log("Weight Must Be A Number");
+        logger.error("Weight Must Be A Number");
 
         return false;
 
@@ -1113,7 +1117,7 @@ const validateWeight = (input) => {
 
     if (input <= 0) {
 
-        console.log("Weight Must Be Greater Than Zero");
+        logger.error("Weight Must Be Greater Than Zero");
 
         return false;
 
@@ -1128,7 +1132,7 @@ const validateCost = (input) => {
 
     if (input == null) {
 
-        console.log("Cost Not Provided");
+        logger.error("Cost Not Provided");
 
         return false;
 
@@ -1136,7 +1140,7 @@ const validateCost = (input) => {
 
     if (typeof input !== 'number') {
 
-        console.log("Cost Must Be A Number");
+        logger.error("Cost Must Be A Number");
 
         return false;
 
@@ -1144,7 +1148,7 @@ const validateCost = (input) => {
 
     if (input <= 0) {
 
-        console.log("Cost Must Be Greater Than Zero");
+        logger.error("Cost Must Be Greater Than Zero");
 
         return false;
 
@@ -1153,6 +1157,66 @@ const validateCost = (input) => {
     return true;
 
 }
+
+const validateDateTime = (input) => {
+
+    const dateTimePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?$/;
+
+    if (input == null) {
+
+        logger.error("No DateTime Found");
+
+        return false;
+
+    }
+
+    if (!dateTimePattern.test(input)) {
+
+        logger.error("DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)");
+
+        return false;
+
+    }
+
+    if (validateBlacklist(input)) {
+
+        logger.error("Blacklisted Characters Found");
+
+        return false;
+
+    }
+
+    const date = new Date(input);
+
+    if(date > new Date()){
+
+        logger.error("No Future Dates");
+
+        return false
+        
+    }
+
+    const timestamp = date.getTime();
+
+    if (isNaN(timestamp)) {
+
+        logger.error("Not A Valid DateTime");
+
+        return false;
+
+    }
+
+    const isoInput = input.length === 16
+
+        ? input + ":00"  
+
+        : input;
+
+    const normalized = new Date(isoInput).toISOString().slice(0, isoInput.length);
+
+    return input === normalized;
+
+};
 
 const validateStorageRequirement = (input) => {
 
@@ -1165,7 +1229,7 @@ const validateStorageRequirement = (input) => {
 
     if (input == null) {
 
-        console.log("Storage Requirement Not Provided");
+        logger.error("Storage Requirement Not Provided");
 
         return false;
 
@@ -1173,7 +1237,7 @@ const validateStorageRequirement = (input) => {
 
     if (typeof input !== "string") {
 
-        console.log("Storage Requirement Must Be A String");
+        logger.error("Storage Requirement Must Be A String");
 
         return false;
 
@@ -1181,7 +1245,39 @@ const validateStorageRequirement = (input) => {
 
     if (!validStorage.includes(input)) {
 
-        console.log(`Invalid Storage Requirement. Must be one of: ${validStorage.join(", ")}`);
+        logger.error(`Invalid Storage Requirement. Must be one of: ${validStorage.join(", ")}`);
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
+const validateTransactionStatus = (input) => {
+
+    const validStorage = ['In progress','Complete','Failed','Out For Delivery'];
+
+    if (input == null) {
+
+        logger.error("Transaction Status Not Provided");
+
+        return false;
+
+    }
+
+    if (typeof input !== "string") {
+
+        logger.error("Transaction Status Must Be A String");
+
+        return false;
+
+    }
+
+    if (!validStorage.includes(input)) {
+
+        logger.error(`Invalid Transaction Status. Must be one of: ${validStorage.join(", ")}`);
 
         return false;
 
@@ -1283,5 +1379,11 @@ module.exports = {
     signUpFormatManager,
     validateCategory,
     validateProduct,
-    insertFormat
+    insertFormat,
+    validateTransactionStatus,
+    validateCost,
+    validateWeight,
+    validateFutureDate,
+    validateDateTime,
+    validatePastDate
 }

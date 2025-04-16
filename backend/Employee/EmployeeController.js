@@ -2,7 +2,12 @@ const pool = require('../Database Pool/DBConnections')
 
 const {validateID, statusCode} = require('../Utils/Formatting')
 
+const logger = require('../Utils/Logger'); 
+
+//Gets The Employees
 const getEmployee = (req,res) => {
+
+    logger.info("Getting Employees...")
 
     const sqlQuery = "Select * From Employee e, Users u Where e.EmployeeID = u.EmployeeID and e.SupervisorID Is Not null" 
 
@@ -10,21 +15,24 @@ const getEmployee = (req,res) => {
 
             if(error){
 
-                console.log("Error Getting Employees: " + error.message)
+                logger.error("Error Getting Employees: " + error.message)
 
                 return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Getting Employees'});
 
             }
 
-            res.status(statusCode.OK).json(results)
+            logger.info("Employees Fetched Successfully")
 
-            return;
+            return res.status(statusCode.OK).json(results)
 
         }  
     )
 }
 
+//Gets The Employee Information By ID
 const getEmployeeID = (req,res) => {
+
+    logger.info("Get Employee Information By Their ID")
 
     const employeeID = req.body.EmployeeID
 
@@ -40,59 +48,86 @@ const getEmployeeID = (req,res) => {
 
         if(error){
 
-            console.log("Error Getting Employee: " + error.message)
+            logger.error("Error Getting Employee: " + error.message)
 
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Getting Employee'});
         }
 
-        res.status(statusCode.OK).json(results)
+        logger.info("Employee Information Fetched By Their ID")
 
-        return;
+        return res.status(statusCode.OK).json(results)
 
     })
+
 }
 
+//Updates The Employee
 const updateEmployee = (req, res) => {
+
+    logger.info("Updating The Employee")
 
     let { UserID, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID,  EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID} = req.body;
     
     const sqlQuery = `
+
         UPDATE employee e
+
         JOIN users u ON e.EmployeeID = u.EmployeeID
+
         SET 
+
             u.UserNameFirst = ?, 
+
             u.UserNameLast = ?, 
+
             u.UserPhoneNumber = ?, 
-            e.EmployeeHireDate = ?, 
+
+            e.EmployeeHireDate = ?,
+
             e.EmployeeStatus = ?, 
+
             e.EmployeeBirthDate = ?, 
+
             e.EmployeeDepartment = ?, 
+
             e.EmployeeHourly = ?, 
+
             e.SupervisorID = ?
+
         WHERE e.EmployeeID = ? and u.UserID=?;
+
     `;
 
     pool.query(sqlQuery, [
+
         UserNameFirst, UserNameLast, UserPhoneNumber, 
+
         EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, 
+
         EmployeeDepartment, EmployeeHourly, SupervisorID, EmployeeID, UserID
+
     ], (error, results) => {
 
         if(error){
 
-            console.log("Error Adding Employee: " + error.message)
+            logger.error("Error Update Employee: " + error.message)
 
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Adding Employee'});
 
         }
 
-        res.status(statusCode.OK).json(results)
+        logger.info("Successfully Updated Employee")
 
-        return;
+        return res.status(statusCode.OK).json(results)
+
     });
+
 };
 
+//Delete The Employee
 const deleteEmployee = (req, res) => {
+    
+    logger.info("Deleting The Employee")
 
     const employeeID = req.body.EmployeeID
 
@@ -108,15 +143,18 @@ const deleteEmployee = (req, res) => {
 
         if(error){
 
-            console.log("Error Adding Employee: " + error.message)
+            logger.error("Error Deleting Employee: " + error.message)
 
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Adding Employee'});
 
         }
 
+        logger.info("Successfully Deleted Employee")
+
         return res.status(statusCode.OK).json(results)
         
     })
+
 }
 
 module.exports = {getEmployee, getEmployeeID, updateEmployee, deleteEmployee}

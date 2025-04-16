@@ -15,17 +15,13 @@ function AddressComponent({address,setAddress,}){
 
     const clickAddressRemove = () => {
         
-        const composedAddress = `${address.Address}, San Jose, California ${address.Zip}`;
-
-        console.log(composedAddress)
-        
         if(address.Name=="In Store Pickup"){
 
           alert("Can't delete store")
 
           return; 
 
-      }
+        }
 
         if(!validateName(address.Name)){
 
@@ -49,33 +45,29 @@ function AddressComponent({address,setAddress,}){
     
         }
 
-        if(!validateAddress(composedAddress)){
+        if(!validateAddress(address.Address)){
           
           alert("Invalid Address")
           
           return
 
         }
-        
-        axios
 
-          .delete(
+        axios.delete(
 
-            `http://localhost:3301/api/address/address`,
+          `http://localhost:3301/api/address/address/${address.Address}`,
 
-            {
+          {
 
-              data: { Address: composedAddress },
+            headers: {
 
-              headers: {
+              Authorization: `Bearer ${token}`
 
-                Authorization: `Bearer ${token}`,
-
-              },
-              
             }
 
-          )
+          }
+
+        )
 
           .then((response) => {
 
@@ -125,8 +117,6 @@ function AddressComponent({address,setAddress,}){
                 <div class="text-gray-600 font-thin ">
 
                     <p>{address.Address}</p>
-
-                    <p>{address.City}, {address.State} {address.Zip}</p>
 
                 </div>
 

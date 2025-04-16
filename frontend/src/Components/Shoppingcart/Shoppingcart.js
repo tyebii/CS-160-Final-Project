@@ -14,7 +14,7 @@ import ProductComponent from './Components/ProductComponent';
 
 import axios from 'axios';
 
-import { validateAddress, validateCost, validateDate, validateID, validateName, validateQuantity, validateWeight } from '../Utils/Formatting';
+import { validateAddress, validateCost, validateTransactionStatus, validateID, validateName, validateWeight } from '../Utils/Formatting';
 
 //Shopping Cart Component
 function ShoppingCart() {
@@ -35,7 +35,7 @@ function ShoppingCart() {
 
   const [addressModalOpen, setAddressModalOpen] = useState(false);
 
-  const [addresses, setAddresses] = useState([{Name: "In Store Pickup", Address: "272 E Santa Clara St", City: "San Jose", State:"CA", Zip:"95113"}]);
+  const [addresses, setAddresses] = useState([{Name: "In Store Pickup", Address: "272 E Santa Clara St, San Jose, CA 95112"}]);
 
   useEffect(() => {
 
@@ -103,8 +103,16 @@ function ShoppingCart() {
 
       .then((response) => {
 
-        setAddresses((prevAddresses) => [...prevAddresses, ...response.data]);
+        setAddresses(prev => {
 
+          const existingAddresses = new Set(prev.map(addr => addr.Address));
+          
+          const newUniqueAddresses = response.data.filter(addr => !existingAddresses.has(addr.Address));
+
+          return [...prev, ...newUniqueAddresses];
+        
+        });
+        
       })
 
       .catch((error) => {
@@ -275,29 +283,11 @@ function ShoppingCart() {
 
     }
 
-    const composedAddress = `${selectedAddress.Address}, San Jose, California ${selectedAddress.Zip}`;
-
-    if(!validateAddress(composedAddress)){
+    if(!validateAddress(selectedAddress.Address)){
 
       alert("Select Address!")
 
       return
-
-    }
-
-    for (const item of results) {
-
-      if (!validateID(item.ItemID)) {
-
-        return
-
-      }
-
-      if (!validateQuantity(item.OrderQuantity)) {
-
-        return 
-
-      }
 
     }
 
@@ -307,20 +297,8 @@ function ShoppingCart() {
 
     }
 
-    if(!validateWeight(TransactionWeight)){
+    if(!validateWeight(weight)){
       
-      return
-
-    }
-
-    if(!validateDate(TransactionWeight)){
-
-      return 
-
-    }
-  
-    if(typeof InStore != "boolean"){
-
       return
 
     }
@@ -328,23 +306,15 @@ function ShoppingCart() {
     axios
         .post('http://localhost:3301/api/stripe/create-checkout-session', {
 
-            items: results.map((item) => ({
-
-                ItemID: item.ItemID,
-
-                Quantity: item.OrderQuantity,
-
-            })),
-
             TransactionCost: cost + deliveryFee, 
 
             TransactionWeight: weight,
 
             TransactionAddress: selectedAddress.Address,
 
-            TransactionStatus: "In Progress",
+            TransactionStatus: 'In progress',
 
-            TransactionDate: new Date(),
+            TransactionDate: new Date().toISOString().slice(0, 10),
 
             InStore: selectedAddress === addresses[0]? true:false
 
@@ -382,24 +352,22 @@ function ShoppingCart() {
 
   const handleAddAddress = (e) => {
 
-    console.log("here")
-
     e.preventDefault();
-
+  
     const token = localStorage.getItem('accessToken');
-
+  
     if (!token) {
 
       alert('Login Information Not Found');
 
-      logout()
+      logout();
 
-      navigate('/login')
+      navigate('/login');
 
       return;
 
     }
-    
+  
     const formData = new FormData(e.target);
 
     const name = formData.get("Name");
@@ -407,39 +375,38 @@ function ShoppingCart() {
     const address = formData.get("Address");
 
     const zip = formData.get("Zip");
-
-    console.log(name, address, zip)
-  
   
     const composedAddress = `${address}, San Jose, CA ${zip}`;
 
-    if(!validateAddress(composedAddress)){
+    if (!validateAddress(composedAddress)) {
 
-      return
-
-    }
-
-    if(!validateName(name)){
-
-      return
+      return;
 
     }
-    
+  
+    if (!validateName(name)) {
+
+      return;
+
+    }
+  
     axios.post(
 
-      `http://localhost:3301/api/address/address`, 
-        {
-          
-          address: composedAddress, 
+      `http://localhost:3301/api/address/address`,
 
-          name: name
+      {
 
-        },
+        address: composedAddress,
+
+        name: name
+
+      },
+
       {
 
         headers: {
 
-          Authorization: `Bearer ${token}`,  
+          Authorization: `Bearer ${token}`,
 
         },
 
@@ -451,7 +418,13 @@ function ShoppingCart() {
 
       alert("Address Added!");
 
-      setAddresses((prevAddresses) => [...prevAddresses, {Name: name , Address: address, City: "San Jose", State:"CA", Zip:zip}]);
+      setAddresses((prevAddresses) => [...prevAddresses, {
+
+        Address: composedAddress,
+
+        Name: name
+
+      }]);
 
       setAddressModalOpen(false);
 
@@ -465,11 +438,11 @@ function ShoppingCart() {
 
         logout();
 
-        navigate('/login')
+        navigate('/login');
 
-      }else{
+      } else {
 
-          alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
+        alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
 
       }
 
@@ -478,6 +451,7 @@ function ShoppingCart() {
     });
 
   };
+  
 
   return (
     <section className="w-full max-w-4xl mx-auto my-10 p-8 bg-gray-100 rounded-lg shadow-lg">

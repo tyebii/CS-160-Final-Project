@@ -82,15 +82,21 @@ const addAddress = async (req, res) => {
             const sqlQueryOne = 'INSERT INTO Address (Address) VALUES (?) ON DUPLICATE KEY UPDATE Address=Address;'
             
             await connection.query(
+
                 sqlQueryOne, 
+
                 [address]
+                
             );
         
             const sqlQueryTwo = 'Insert Into customeraddress (Address,CustomerID, Name) Values (?,?,?)'
             
             await connection.query(
+
                 sqlQueryTwo, 
+
                 [address, customerID, name]
+
             );
     
         await connection.commit();
@@ -142,6 +148,8 @@ const addAddress = async (req, res) => {
 //Delete The address Associated With A Customer
 const deleteAddress =  async (req,res)=>{
 
+    const {address} = req.params
+
     logger.info("Delete Address From Database")
 
     let connection;
@@ -157,10 +165,8 @@ const deleteAddress =  async (req,res)=>{
             return res.status(statusCode.BAD_REQUEST).json({error:"CustomerID Is Invalid"})
 
         }
-
-        const {address} = req.body;
             
-        if(!await validateAddress(addAddressddress)){
+        if(!await validateAddress(address)){
 
             logger.error("Address Is Invalid")
 
@@ -173,14 +179,21 @@ const deleteAddress =  async (req,res)=>{
         await connection.beginTransaction();
     
             const sqlQueryOne = 'Delete From customeraddress Where customerid = ? And address = ?'
+
             await connection.query(
+
                 sqlQueryOne, 
+
                 [customerID, address]
+
             );
         
             const sqlQueryTwo = `DELETE FROM Address WHERE NOT EXISTS (SELECT 1 FROM customeraddress WHERE customeraddress.address = Address.address) AND NOT EXISTS (SELECT 1 FROM transactions WHERE transactions.TransactionAddress = Address.address);`;
+            
             await connection.query(
+
                 sqlQueryTwo, 
+
             );
     
         await connection.commit();

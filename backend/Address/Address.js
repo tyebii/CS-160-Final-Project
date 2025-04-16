@@ -13,12 +13,12 @@ router.use(express.json());
 router.use([authenticateToken, authorizeCustomer])
 
 //Get The Customer's Addresses
-router.get('/address',  getAddress);
+router.get('/address', getAddress);
 
 //Adds An Address
 router.post('/address', addAddress);
 
 //Deletes An Address
-router.delete('/address', deleteAddress);
+router.delete('/address/:address', deleteAddress);
 
 module.exports = router
