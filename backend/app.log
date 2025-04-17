@@ -2294,3 +2294,4 @@
 2025-04-17T01:33:33.715Z [info]: Starting Featured Search
 2025-04-17T01:33:33.716Z [info]: Fetched The Items... Creating Static Image Links
 2025-04-17T01:33:33.716Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T02:36:14.591Z [error]: Error While Delivering: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Is NULL WHERE TransactionID IN ('0e02db6c-4b5f-42bd-9b6b-c35101f7688b', 'deb32f4' at line 1
