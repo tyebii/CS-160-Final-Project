@@ -1,7 +1,5 @@
 export const validateDate = (input) => {
 
-    console.log(input)
-    console.log(typeof input)
     const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 
     if (input == null){
@@ -209,49 +207,20 @@ export const validateAddress = async (address) => {
 
     }
 
-    const regex = /^\d{1,5}\s[A-Za-z0-9\s.'-]+,\sSan\sJose,\sCalifornia\s95\d{3}(-\d{4})?$/;
+    console.log(address)
+    
+    const regex = /^\d{1,5}\s[A-Za-z0-9\s.'-]+,\sSan\sJose,\sCA\s95\d{3}(-\d{4})?$/;
 
     if (!regex.test(address)) {
 
-        alert("Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX");
+        alert("Improper Address Format. Expected format: [number] [street name], San Jose, CA 95XXX");
         
         return false;
 
     }
 
-    const encodedAddress = encodeURIComponent(address);
-
-    const accessToken = process.env.MAPBOXSECRET;
-
-    try {
-
-        const response = await fetch(
-
-            `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedAddress}.json?access_token=${accessToken}`
-        
-        );
-
-        const data = await response.json();
-
-        if (data.features.length === 0) {
-            
-            alert("Address Not Found On Map");
-
-            return false;
-
-        }
-
-        return true;
-
-    } catch (error) {
-
-        console.error("Mapbox fetch error:", error);
-
-        alert("Error Validating Address With Mapbox");
-
-        return false;
-
-    }
+    return true
+    
 };
 
 
@@ -819,6 +788,32 @@ export const signUpFormat = (UserID, Password, UserNameFirst, UserNameLast, User
     }
 
 }
+
+export const validateTransactionStatus = (input) => {
+
+    const validStorage = ['In progress','Complete','Failed','Out For Delivery'];
+
+    if (input == null) {
+
+        return false;
+
+    }
+
+    if (typeof input !== "string") {
+
+        return false;
+
+    }
+
+    if (!validStorage.includes(input)) {
+
+        return false;
+
+    }
+
+    return true;
+}
+
 
 export const validateEmployeeStatus = (input) => {
 

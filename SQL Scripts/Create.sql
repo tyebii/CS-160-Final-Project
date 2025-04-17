@@ -278,7 +278,7 @@ END $$
 DELIMITER ;
 
 INSERT INTO Address (Address) VALUES
-('272 E Santa Clara St');
+('272 E Santa Clara St, San Jose, CA 95112');
 
 INSERT INTO Robot (RobotID, CurrentLoad, RobotStatus, Maintanence, Speed, BatteryLife, EstimatedDelivery) VALUES
 ('robot001', 5.0,  'En Route', '2025-03-01', 10.0, 80.0, 15.0),

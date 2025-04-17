@@ -2,7 +2,12 @@ const pool = require('../Database Pool/DBConnections')
 
 const {validateID, statusCode, validateQuantity} = require('../Utils/Formatting')
 
+const logger = require('../Utils/Logger'); 
+
+//Getting Customer Shoppingcart
 const getShoppingCart = (req, res) => {
+
+    logger.info("Getting Shopping Cart...")
 
     const customerID = req.user?.CustomerID
 
@@ -16,19 +21,24 @@ const getShoppingCart = (req, res) => {
 
         if(error){
 
-            console.log("Error Fetching Customer Shopping Cart: " + error.message)
+            logger.error("Error Fetching Customer Shopping Cart: " + error.message)
 
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Fetching Customer Shoppingcart'});
 
         }
 
-        res.status(statusCode.OK).json(result)
+        logger.info("Successfully Fetched Shopping Cart")
 
-        return;
+        return res.status(statusCode.OK).json(result)
+
     })
+    
 }
 
+//Add To Customer Shoppingcart
 const addToShoppingCart = (req, res) => {
+
+    logger.info("Adding To Shopping Cart...")
 
     const customerID = req.user?.CustomerID
 
@@ -39,8 +49,6 @@ const addToShoppingCart = (req, res) => {
     }
 
     const {ItemID, Quantity} = req.body
-
-
 
     if(!validateID(ItemID)){
 
@@ -58,20 +66,26 @@ const addToShoppingCart = (req, res) => {
 
         if(error){
 
-            console.log("Error Adding To Customer Shopping Cart: " + error.message)
+            logger.error("Error Adding To Customer Shopping Cart: " + error.message)
 
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Adding To Customer Shoppingcart'});
 
         }
 
-        res.sendStatus(statusCode.OK)
+        logger.info("Successfully Added To Shopping Cart")
 
-        return;
+        return res.sendStatus(statusCode.OK)
+
     }
+
     )
+
 }
 
+//Updating The Shoppingcart
 const updateShoppingCart = (req, res) => {
+
+    logger.info("Updating Shopping Cart...")
 
     const customerID = req.user?.CustomerID
 
@@ -99,20 +113,26 @@ const updateShoppingCart = (req, res) => {
 
         if(error){
 
-            console.log("Error Updating Customer Shopping Cart: " + error.message)
+            logger.error("Error Updating Customer Shopping Cart: " + error.message)
 
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Updating Customer Shoppingcart'});
 
         }
 
-        res.sendStatus(statusCode.OK)
+        logger.info("Successfully Updated Shopping Cart")
 
-        return;
+        return res.sendStatus(statusCode.OK)
+
     }
+
     )
+
 }
 
+//Remove From Customer Shoppingcart
 const removeFromShoppingCart = (req, res) => {
+
+    logger.info("Removing From Shoppingcart...")
 
     const customerID = req.user?.CustomerID
 
@@ -134,20 +154,26 @@ const removeFromShoppingCart = (req, res) => {
 
         if(error){
 
-            console.log("Error Removing From Customer Shopping Cart: " + error.message)
+            logger.error("Error Removing From Customer Shopping Cart: " + error.message)
 
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Removing From Customer Shoppingcart'});
 
         }
 
-        res.sendStatus(statusCode.OK)
+        logger.info("Successfully Removed From Shoppingcart")
 
-        return;
+        return res.sendStatus(statusCode.OK)
+
     }
+
     )
+
 }
 
+//Clearing Shoppingcart Of Customer
 const clearShoppingCart = (req, res) => {
+
+    logger.info("Clearing Shoppingcart...")
 
     const customerID = req.user?.CustomerID
 
@@ -161,17 +187,20 @@ const clearShoppingCart = (req, res) => {
 
         if(error){
 
-            console.log("Error Clearing Customer Shopping Cart: " + error.message)
+            logger.error("Error Clearing Customer Shopping Cart: " + error.message)
 
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Clearing Customer Shoppingcart'});
 
         }
 
-        res.sendStatus(statusCode.OK)
+        logger.error("Successfully Cleared Shoppingcart")
 
-        return;
+        return res.sendStatus(statusCode.OK)
+
     }
+
     )
+
 }
 
 module.exports = {removeFromShoppingCart, clearShoppingCart, updateShoppingCart, addToShoppingCart, getShoppingCart}

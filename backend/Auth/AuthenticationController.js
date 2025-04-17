@@ -12,9 +12,12 @@ const {customerIDExists, employeeIDExists} = require('../Utils/ExistanceChecks')
 
 const {statusCode} = require('../Utils/Formatting')
 
+const logger = require('../Utils/Logger'); 
+
 //Signup Customer
 const signUpCustomer = async (req, res) => {
 
+        logger.info("Signing Up Customer...")
 
         let connection;
     
@@ -26,44 +29,70 @@ const signUpCustomer = async (req, res) => {
 
                 let { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber } = req.body;
 
-
                 let hashedPassword = await generateHash(Password);
-
 
                 let CustomerID = await generateUniqueID(customerIDExists);
     
-
                 const sqlQueryOne = 'INSERT INTO customer (CustomerID, JoinDate) VALUES (?, ?)'
 
                 await connection.query(
+
                     sqlQueryOne, 
+
                     [CustomerID, new Date()]
+
                 );
         
 
                 const sqlQueryTwo = 'INSERT INTO users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, NULL, ?)'
                 
                 await connection.query(
+
                     sqlQueryTwo, 
+
                     [UserID, hashedPassword, UserNameFirst, UserNameLast, UserPhoneNumber, CustomerID]
+
                 );
         
 
             await connection.commit();
     
-
             connection.release();
-            
 
+            logger.info("Successfully Signed Up")
+            
             return res.sendStatus(statusCode.OK);
 
         } catch (error) {
 
+            logger.error("Error Signing Customer Up: " + error.message)
+
             if (connection) {
 
-                await connection.rollback();
-
-                connection.release();
+                try {
+    
+                    logger.info("Rolling Back Connection");
+    
+                    await connection.rollback();
+    
+                } catch (rollbackError) {
+    
+                    logger.error("Error During Rollback: " + rollbackError.message);
+    
+                }
+            
+                try {
+    
+                    logger.info("Releasing Connection");
+    
+                    connection.release();
+    
+                } catch (releaseError) {
+    
+                    logger.error("Error Releasing Connection: " + releaseError.message);
+    
+                }
+                
             }
             
             if (error.code === 'ER_DUP_ENTRY') {
@@ -72,22 +101,22 @@ const signUpCustomer = async (req, res) => {
             
             }
 
-            console.log("Error Signing Up A Customer: " + error.message)
-
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error Trying To Signup Customer" });
         
         }
+
 };
 
 //Signup Employee
 const signUpEmployee = async (req, res) => {
+
+        logger.info("Signing Up Employee")
 
         let connection;
     
         try {
 
             connection = await pool.promise().getConnection(); 
-
 
             await connection.beginTransaction();
 
@@ -121,16 +150,40 @@ const signUpEmployee = async (req, res) => {
 
             connection.release();
             
+            logger.info("Successfully Signed Up Employee")
 
             return res.sendStatus(statusCode.OK);
 
         } catch (error) {
 
+            logger.error("Error Signing Employee Up: " + error.message)
+
             if (connection) {
 
-                await connection.rollback();
-
-                connection.release();
+                try {
+    
+                    logger.info("Rolling Back Connection");
+    
+                    await connection.rollback();
+    
+                } catch (rollbackError) {
+    
+                    logger.error("Error During Rollback: " + rollbackError.message);
+    
+                }
+            
+                try {
+    
+                    logger.info("Releasing Connection");
+    
+                    connection.release();
+    
+                } catch (releaseError) {
+    
+                    logger.error("Error Releasing Connection: " + releaseError.message);
+    
+                }
+                
             }
             
             if (error.code === 'ER_DUP_ENTRY') {
@@ -139,22 +192,22 @@ const signUpEmployee = async (req, res) => {
 
             }
 
-            console.log("Error Signing Up An Employee: " + error.message)
-
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error Trying To Signup" });
 
         }
+
 }
 
 //Sign Up Manager
 const signUpManager = async (req, res) => {
+
+    logger.info("Signing Up Manager...")
 
     let connection;
 
     try {
 
         connection = await pool.promise().getConnection(); 
-
 
         await connection.beginTransaction();
 
@@ -193,16 +246,41 @@ const signUpManager = async (req, res) => {
         await connection.commit();
 
         connection.release();
+
+        logger.info("Successfully Signingup Manager")
         
-        res.sendStatus(statusCode.OK);
+        return res.sendStatus(statusCode.OK);
 
     } catch (error) {
 
+        logger.error("Error Signing Manager Up: " + error.message)
+
         if (connection) {
 
-            await connection.rollback();
+            try {
 
-            connection.release();
+                logger.info("Rolling Back Connection");
+
+                await connection.rollback();
+
+            } catch (rollbackError) {
+
+                logger.error("Error During Rollback: " + rollbackError.message);
+
+            }
+        
+            try {
+
+                logger.info("Releasing Connection");
+
+                connection.release();
+
+            } catch (releaseError) {
+
+                logger.error("Error Releasing Connection: " + releaseError.message);
+
+            }
+            
         }
 
         if (error.code === 'ER_DUP_ENTRY') {
@@ -211,9 +289,7 @@ const signUpManager = async (req, res) => {
 
         }
 
-        console.log("Error Signing Up A Manager: " + error.message)
-
-        res.status(statusCode.BAD_REQUEST).json({ error: error.message });
+        return res.status(statusCode.BAD_REQUEST).json({ error: error.message });
 
     }
 }
@@ -221,10 +297,11 @@ const signUpManager = async (req, res) => {
 //Login
 const login = async (req, res) => {
 
+    logger.info("Login Starting...")
+
     try {
 
         let {UserID, Password} = req.body;
-
 
         const connection = await pool.promise().getConnection();
 
@@ -236,6 +313,8 @@ const login = async (req, res) => {
 
         if (rows.length === 0) {
 
+            logger.error("Wrong Credentials")
+
             return res.status(statusCode.UNAUTHORIZED).json({ error: "Wrong Credentials" });
 
         }
@@ -244,11 +323,15 @@ const login = async (req, res) => {
 
             if (!(await bcrypt.compare(Password, rows[0].password))) {
 
+                logger.error("Wrong Credentials")
+
                 return res.status(statusCode.UNAUTHORIZED).json({ error: "Wrong Credentials" });
 
             }
 
         }catch(error){
+
+            logger.error("Error With Bcrypt: " + error.message)
 
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:"Issue With Bcrypt Compare"})
 
@@ -264,23 +347,46 @@ const login = async (req, res) => {
 
         const accessToken = jwt.sign(user, process.env.Secret_Key, { expiresIn: '1h' });
 
+        logger.info("Successfully Logged In")
+
         return res.status(statusCode.OK).json({ accessToken });
 
     } catch (error) {
 
+        logger.error("Error Signing Manager Up: " + error.message)
+
         if (connection) {
 
-            await connection.rollback();
+            try {
 
-            connection.release();
+                logger.info("Rolling Back Connection");
+
+                await connection.rollback();
+
+            } catch (rollbackError) {
+
+                logger.error("Error During Rollback: " + rollbackError.message);
+
+            }
+        
+            try {
+
+                logger.info("Releasing Connection");
+
+                connection.release();
+
+            } catch (releaseError) {
+
+                logger.error("Error Releasing Connection: " + releaseError.message);
+
+            }
+            
         }
 
-        res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: error.message});
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: error.message});
 
     }
+
 };
-
-
-
 
 module.exports = {login, signUpCustomer, signUpEmployee, signUpManager, }

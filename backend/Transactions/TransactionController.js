@@ -2,7 +2,12 @@ const pool = require('../Database Pool/DBConnections')
 
 const {validateID, statusCode} = require('../Utils/Formatting')
 
+const logger = require('../Utils/Logger'); 
+
+//Getting Customer Transactions
 const getCurrentTransactions = (req, res) => {
+
+    logger.info("Getting Current Transactions")
 
     const sqlQuery = "Select Distinct * From Transactions, Users  Where (TransactionStatus = \"Out For Delivery\" or TransactionStatus = \"In Progress\"  or TransactionStatus = \"Complete\")  and Transactions.CustomerID = Users.CustomerID Order By TransactionDate Desc"
     
@@ -10,18 +15,24 @@ const getCurrentTransactions = (req, res) => {
 
         if(error){
 
-            console.log("Error Fetching Current Transactions: " + error.message)
+            logger.error("Error Fetching Current Transactions: " + error.message)
 
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Getting Current Transactions"})
 
         }
 
-        res.status(statusCode.OK).json(results)
+        logger.info("Successfully Retrieved Current Transactions")
+
+        return res.status(statusCode.OK).json(results)
 
     })
+    
 }
 
+//Getting Transaction By ID
 const getTransactionID = (req, res) => {
+
+    logger.info("Getting Transaction By ID")
 
     const {TransactionID} = req.body
     
@@ -37,18 +48,24 @@ const getTransactionID = (req, res) => {
 
         if(error){
 
-            console.log("Error Fetching Transaction By ID: " + error.message)
+            logger.error("Error Fetching Transaction By ID: " + error.message)
 
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Getting Transaction"})
 
         }
 
-        res.status(statusCode.OK).json(results)
+        logger.info("Successfully Retrieved Transaction By ID")
+
+        return res.status(statusCode.OK).json(results)
 
     })
+
 }
 
+//Getting All Customer Transactions
 const getCustomerTransactions = (req, res) => {
+
+    logger.info("Getting Customer's Transactions")
 
     const customerID = req.user?.CustomerID
 
@@ -64,15 +81,18 @@ const getCustomerTransactions = (req, res) => {
 
         if(error){
 
-            console.log("Error Fetching Customer's Transactions: " + error.message)
+            logger.error("Error Fetching Customer's Transactions: " + error.message)
 
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Getting Customer's Transactions"})
 
         }
 
-        res.status(statusCode.OK).json(results)
+        logger.info("Successfully Got Customer Transactions")
+
+        return res.status(statusCode.OK).json(results)
 
     })
+
 }
 
 module.exports = {getCurrentTransactions, getTransactionID, getCustomerTransactions}

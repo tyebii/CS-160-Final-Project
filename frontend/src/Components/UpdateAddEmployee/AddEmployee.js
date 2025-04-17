@@ -61,7 +61,6 @@ function AddEmployee() {
     }
 
     //PUT request with updated form data
-    console.log(formData.EmployeeStatus)
     axios.post('http://localhost:3301/api/authentication/signup/employee', {
         "UserID": formData.UserID,
         "Password": formData.Password,

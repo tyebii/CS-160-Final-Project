@@ -2,14 +2,18 @@ const pool = require('../Database Pool/DBConnections');
 
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
-const {statusCode} = require("../Utils/Formatting")
+const {statusCode, validateAddress, validateTransactionStatus, validateID, validateCost, validateWeight, validatePastDate } = require("../Utils/Formatting")
 
 const {transactionIDExists} = require('../Utils/ExistanceChecks')
 
 const {generateUniqueID} = require('../Utils/Generation')
 
+const logger = require('../Utils/Logger'); 
+
 //This Creates A Stripe Checkout Section
 const handleStripe = async (req, res) => {
+
+    logger.info("Handling Stripe...")
 
     let connection 
 
@@ -17,47 +21,54 @@ const handleStripe = async (req, res) => {
 
         if (!process.env.STRIPE_PRIVATE_KEY) {
 
-           throw new Error(`Error Creating Stripe Checkout Session`);
+            logger.error("Error Stripe Private Key")
+
+            throw new Error(`Error Creating Stripe Checkout Session`);
 
         }
 
         let weight = 0;
 
         let lineItems = [];
+        
+        const connection = req.connection;
+        
+            logger.info("Populating Stripe Cart")
+        
+            const [items] = await connection.query(
 
-        let connection = req.connection;
+            "SELECT * FROM Inventory JOIN Shoppingcart ON Inventory.ItemID = Shoppingcart.ItemID WHERE Shoppingcart.CustomerID = ?",
 
-            for (const item of req.body.items) {
+            [req.user.CustomerID]
 
-                const [storeItem] = await connection.query('SELECT * FROM inventory WHERE ItemID = ?', [item.ItemID]);
+            );
+            
+            for (let i = 0; i < items.length; i++) {
 
-                if (storeItem == null || storeItem.length === 0) {
+            const item = items[i];
+            
+            weight += item.Weight * item.OrderQuantity;
+            
+            lineItems.push({
 
-                    throw new Error(`Item with ID ${item.ItemID} Not Found.`);
+                price_data: {
 
-                }
+                currency: 'usd',
 
-                weight += storeItem[0].Cost * item.Quantity;
+                product_data: {
 
-                lineItems.push({
+                    name: `${item.ProductName}: ${item.ItemID}`
 
-                    price_data: {
+                },
 
-                        currency: 'usd',
+                unit_amount: Math.round(item.Cost * 100),
 
-                        product_data: {
+                },
 
-                            name: (storeItem[0].ProductName + ": " + storeItem[0].ItemID),
+                quantity: item.OrderQuantity,
 
-                        },
+            });
 
-                        unit_amount: storeItem[0].Cost * 100, 
-
-                    },
-
-                    quantity: item.Quantity,
-
-                });
             }
 
         await connection.commit()
@@ -78,6 +89,8 @@ const handleStripe = async (req, res) => {
             quantity: 1
 
         });
+
+        logger.info("Successfully Loaded Stripe Order")
 
         const session = await stripe.checkout.sessions.create({
 
@@ -103,44 +116,108 @@ const handleStripe = async (req, res) => {
             },
         });
 
-        //const sessionDetails = await stripe.checkout.sessions.retrieve(session.id);
+        logger.info("Sessiong Created")
 
         return res.json({ url: session.url });
     
     } catch (error) {
 
-        if(connection){
+        logger.error("Error While Handling Stripe: " + error.message)
 
-            await connection.rollback()
+        if (connection) {
 
-            connection.release()
+            try {
 
+                logger.info("Rolling Back Connection");
+
+                await connection.rollback();
+
+            } catch (rollbackError) {
+
+                logger.error("Error During Rollback: " + rollbackError.message);
+
+            }
+        
+            try {
+
+                logger.info("Releasing Connection");
+
+                connection.release();
+
+            } catch (releaseError) {
+
+                logger.error("Error Releasing Connection: " + releaseError.message);
+
+            }
+            
         }
-
-        console.error("Error During Stripe Checkout Creation: " + error.message);
 
         if (!res.headersSent) { 
 
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error Creating Checkout Session" });
 
         }
+
     }
+
 };
 
 //Add Transaction 
 const addTransaction = async (req, res, next) => {
 
+    logger.info("Adding Transaction")
+
     const { TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, TransactionDate } = req.body;
 
+    if(!validateCost(TransactionCost)){
+
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Invalid Transaction Cost"})
+
+    }
+
+    if(!validateWeight(TransactionWeight)){
+
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Invalid Transaction Weight"})
+
+    }
+
+    if(!validateTransactionStatus(TransactionStatus)){
+
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Invalid Transaction Status"})
+
+    }
+
+    if(!validatePastDate(TransactionDate)){
+
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Invalid Transaction Date"})
+
+    }
+
     let customerID = req.user.CustomerID;
+
+    if(!validateID(customerID)){
+
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Invalid Customer ID"})
+
+    }
+
+    if(!validateAddress(TransactionAddress)){
+
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Invalid Transaction Address"})
+
+    }
+
+    console.log(TransactionAddress)
     
     let transactionID;
     
     try{
+
         transactionID = await generateUniqueID(transactionIDExists);
+
     }catch(error){
 
-        console.log("Error Generating Transaction ID" + error.message)
+        logger.error("Error Generating Transaction ID" + error.message)
 
         return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Creating Unique TransactionID"})
 
@@ -186,34 +263,60 @@ const addTransaction = async (req, res, next) => {
 
             req.connection = connection
 
+            logger.info("Inventory Update And Transaction Addition Successful")
+
             next();
 
         } catch (error) {
 
-            if(connection){
+            logger.error("Error While Adding Transaction And Updating Inventory: " + error.message)
 
-                await connection.rollback();
-
-                connection.release();
+            if (connection) {
+    
+                try {
+    
+                    logger.info("Rolling Back Connection");
+    
+                    await connection.rollback();
+    
+                } catch (rollbackError) {
+    
+                    logger.error("Error During Rollback: " + rollbackError.message);
+    
+                }
+            
+                try {
+    
+                    logger.info("Releasing Connection");
+    
+                    connection.release();
+    
+                } catch (releaseError) {
+    
+                    logger.error("Error Releasing Connection: " + releaseError.message);
+    
+                }
+                
             }
 
-            console.error("Update And Addition Of Transaction Failed: ", error.message);
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Adding Transaction And Updating Inventory"});
 
-            res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Adding Transaction"});
-
-            return;
         } 
+
     } catch (error) {
-        console.error("Database Connection Failed:", error.message);
 
-        res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Adding Transaction"});
+        logger.error("Database Connection Failed:" + error.message);
 
-        return;
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Adding Transaction"});
+
     }
+
 };
 
 //Stripe Webhook
 const handleHook = async (req, res) => {
+
+    logger.info("Handling Webhook Response")
 
     const sig = req.headers['stripe-signature'];
 
@@ -225,7 +328,7 @@ const handleHook = async (req, res) => {
 
     } catch (error) {
 
-        console.error(`Webhook Signature Verification Failed: ${error.message}`);
+        logger.error(`Webhook Signature Verification Failed: ${error.message}`);
 
         return res.status(statusCode.BAD_REQUEST).json({error:"Internal Server Error On Stripe Webhook"})
     }
@@ -238,6 +341,8 @@ const handleHook = async (req, res) => {
 
             case 'checkout.session.completed': {
 
+                logger.info("Transaction Was Completed")
+
                 let connection;
 
                 try {
@@ -249,7 +354,9 @@ const handleHook = async (req, res) => {
                         const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent);
 
                         const transactionStatus = paymentIntent.status === 'succeeded'
+
                             ? (session.metadata.in_store === 'true' ? 'Complete' : 'Out For Delivery')
+
                             : 'Failed';
 
                         const charges = await stripe.charges.list({ payment_intent: paymentIntent.id });
@@ -257,43 +364,74 @@ const handleHook = async (req, res) => {
                         const charge = charges.data.length > 0 ? charges.data[0] : {};
 
                         const sqlQuery = `
+
                             UPDATE Transactions 
+
                             SET 
+
                                 StripeTransactionID = ?, 
-                                PaymentMethod = ?, 
+
+                                PaymentMethod = ?,
+
                                 ChargeStatus = ?, 
+
                                 ReceiptURL = ?, 
+
                                 Currency = ?, 
+
                                 AmountPaid = ?, 
+
                                 TransactionStatus = ? 
+
                             WHERE 
+
                                 TransactionID = ?;
+
                         `;
 
                         const values = [
+
                             paymentIntent.id,
+
                             paymentIntent.payment_method,
+
                             paymentIntent.status,
+
                             charge.receipt_url || null,
+
                             session.currency,
+
                             session.amount_total / 100,
+
                             transactionStatus,
+
                             session.metadata.transaction_id
+
                         ];
 
                         await connection.query(sqlQuery, values);
 
                         if (paymentIntent.status !== 'succeeded') {
 
+                            logger.error("The Payment Was Not Successful. Updating Inventory")
+
                             await connection.query(
+
                                 `UPDATE Inventory 
+
                                 JOIN ShoppingCart ON Inventory.ItemID = ShoppingCart.ItemID 
+
                                 SET Inventory.Quantity = Inventory.Quantity + ShoppingCart.OrderQuantity 
+
                                 WHERE ShoppingCart.CustomerID = ?`,
+
                                 [session.metadata.customer_id]
+
                             );
 
                         }else{
+
+                            logger.info("The Payment Was Successful. Deleting Customer Shoppingcart")
 
                             await connection.query("DELETE FROM shoppingcart WHERE customerid = ?", [session.metadata.customer_id])
                         
@@ -303,78 +441,143 @@ const handleHook = async (req, res) => {
 
                     connection.release();
 
-                    break
-
-                } catch (error) {
-
-                    if (connection){
-
-                        await connection.rollback();
-
-                        connection.release();
-                    }  
-
-                    console.error("Error Updating Transaction:", error.message);
-
-                    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Error Updating Transaction And Inventory"})
-                }
-            }
-
-            case 'checkout.session.expired': {
-
-                let connection;
-
-                try {
-
-                    connection = await pool.promise().getConnection();
-
-                    await connection.beginTransaction();
-
-                        const sqlQueryFailed = `
-                            DELETE FROM Transactions
-                            WHERE TransactionID = ?;
-                        `;
-
-                        const valuesFailed = [session.metadata.transaction_id];
-
-                        await connection.query(sqlQueryFailed, valuesFailed);
-
-                        await connection.query(
-                            `UPDATE Inventory 
-                            JOIN ShoppingCart ON Inventory.ItemID = ShoppingCart.ItemID 
-                            SET Inventory.Quantity = Inventory.Quantity + ShoppingCart.OrderQuantity 
-                            WHERE ShoppingCart.CustomerID = ?`,
-                            [session.metadata.customer_id]
-                        );
-
-                    await connection.commit();
-
-                    connection.release();
+                    logger.info("Successfully Handled The Webhook Request")
 
                     break
 
                 } catch (error) {
 
-                    if (connection){
+                    logger.error("Error While Handling Hook: " + error.message)
+
+                    if (connection) {
+            
+                        try {
+            
+                            logger.info("Rolling Back Connection");
+            
+                            await connection.rollback();
+            
+                        } catch (rollbackError) {
+            
+                            logger.error("Error During Rollback: " + rollbackError.message);
+            
+                        }
+                    
+                        try {
+            
+                            logger.info("Releasing Connection");
+            
+                            connection.release();
+            
+                        } catch (releaseError) {
+            
+                            logger.error("Error Releasing Connection: " + releaseError.message);
+            
+                        }
                         
-                        await connection.rollback();
-
-                        connection.release();
-
                     }
 
-                    console.error("Error Deleting Expired Transaction:", error.message);
+                    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Error Updating Transaction And Inventory"})
 
-                    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:"Internal Server Removing Transaction"})
-                } 
+                }
+
             }
+
+        case 'checkout.session.expired': {
+
+            logger.info("Transaction Expired")
+
+            let connection;
+
+            try {
+
+                logger.info("Removing The Transaction And Updating Inventory")
+
+                connection = await pool.promise().getConnection();
+
+                await connection.beginTransaction();
+
+                    const sqlQueryFailed = `
+
+                        DELETE FROM Transactions
+
+                        WHERE TransactionID = ?;
+
+                    `;
+
+                    const valuesFailed = [session.metadata.transaction_id];
+
+                    await connection.query(sqlQueryFailed, valuesFailed);
+
+                    await connection.query(
+
+                        `UPDATE Inventory 
+
+                        JOIN ShoppingCart ON Inventory.ItemID = ShoppingCart.ItemID 
+
+                        SET Inventory.Quantity = Inventory.Quantity + ShoppingCart.OrderQuantity 
+
+                        WHERE ShoppingCart.CustomerID = ?`,
+
+                        [session.metadata.customer_id]
+
+                    );
+
+                await connection.commit();
+
+                connection.release();
+
+                logger.info("Successfully Removed Transaction And Updated Inventory")
+
+                break
+
+            } catch (error) {
+
+                logger.error("Error While Handling Hook: " + error.message)
+
+                if (connection) {
+        
+                    try {
+        
+                        logger.info("Rolling Back Connection");
+        
+                        await connection.rollback();
+        
+                    } catch (rollbackError) {
+        
+                        logger.error("Error During Rollback: " + rollbackError.message);
+        
+                    }
+                
+                    try {
+        
+                        logger.info("Releasing Connection");
+        
+                        connection.release();
+        
+                    } catch (releaseError) {
+        
+                        logger.error("Error Releasing Connection: " + releaseError.message);
+        
+                    }
+                    
+                }
+
+                return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:"Internal Server Removing Transaction And Updating Inventory"})
+
+            } 
+
         }
 
-        return res.status(statusCode.OK);
+    }
+
+    logger.info("Successful Handling Of The Webhook")
+
+    return res.status(statusCode.OK);
 
     } catch (error) {
 
-        console.error("Error Handling Webhook Event:", error.message);
+        logger.error("Error Handling Webhook Event:", error.message);
 
         return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error With Webhook"});
 

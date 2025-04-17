@@ -1,20 +1,18 @@
-//Import React Functions
+//Ready For Testing
+
 import { useNavigate } from 'react-router-dom';
+
 import { useState } from 'react';
 
-//Import Axios
 import axios from 'axios';
 
-//Import Custom Components
 import TextEntryBox from "../ItemEdit/TextBox";
 
-//Import Auth Hook
 import {useAuth} from "../../Context/AuthHook";
 
-//Import Formatter
 import { insertFormat } from '../Utils/Formatting'
 
-//Add Item
+//Add Inventory Item 
 export const ItemAdd = () => {
 
     const {logout} = useAuth();
@@ -24,17 +22,29 @@ export const ItemAdd = () => {
     const [file, setFile] = useState(null);
 
     const [formData, setFormData] = useState({
+
         ProductName:'',
+
         Distributor: '',
+
         Quantity:  0,
+
         Expiration: '',
+
         StorageRequirement: '',
-        ItemID:  '', 
+
+        ItemID:  '',
+
         Cost: 0,
+
         Weight: 0,
+
         Category:  '',
+
         SupplierCost:  0,
+
         Description:  ''
+
     });
 
     const handleSubmit = (e) => {
@@ -111,7 +121,6 @@ export const ItemAdd = () => {
         
     };
 
-    //When the image is uploaded
     const handleFile = (e) => {
 
         const file = e.target.files[0];
@@ -125,9 +134,9 @@ export const ItemAdd = () => {
             alert("Please Select A Valid File");
 
         }
+
     }
 
-    // Function to handle field changes
     const handleFieldChange = (fieldName) => (value) => {
 
         const numberFields = ['Quantity', 'Cost', 'Weight', 'SupplierCost'];
