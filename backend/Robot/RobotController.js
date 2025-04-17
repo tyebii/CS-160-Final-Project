@@ -5,11 +5,12 @@ const {validateRegularID, statusCode} = require('../Utils/Formatting')
 
 const logger = require('../Utils/Logger'); 
 
+//Get All Robots
 const getRobot = (req,res) => {
 
-    logger.info("Getting Robot")
+    logger.info("Getting Robots....")
 
-    const sqlQuery = "Select * From robot"
+    const sqlQuery = "Select * From robot Order By RobotStatus Desc, RobotID Asc"
 
     pool.query(sqlQuery, (error, results)=>{
 
@@ -29,12 +30,12 @@ const getRobot = (req,res) => {
     )
 }
 
-
+//Get All Faulty Robots
 const getFaultyRobot = (req,res)=>{
 
     logger.info("Getting Faulty Robots")
 
-    const sqlQuery = "Select * From FaultyRobots"
+    const sqlQuery = "Select * From FaultyRobots Order By RobotID Asc"
 
     pool.query(sqlQuery, (error, results)=>{
 

@@ -10,13 +10,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 //Robot Area 
-export default function RobotArea({auth, logout}) {
+export default function RobotArea({trigger, setTrigger,  auth, logout}) {
+
   const navigate = useNavigate()
   return (
     (auth === "Employee" || auth === "Manager") ? (
       <article className="w-[100%] mx-auto px-5 py-5 bg-gray-200 rounded-lg shadow-md mb-20">
         <h2 className="text-center text-3xl font-bold mb-6 text-gray-800">Robot Fleet</h2>
-        <Robots logout={logout} auth ={auth} />
+        <Robots trigger = {trigger} setTrigger = {setTrigger} logout={logout} auth ={auth} />
   
 
         {/* Only show the button if the user is a Manager */}
@@ -41,7 +42,7 @@ export default function RobotArea({auth, logout}) {
 }
 
 //Robot Component
-function Robots ({logout, auth}){
+function Robots ({trigger, setTrigger, logout, auth, trig}){
   //Import Navigate Function
   const navigate = useNavigate()
 
@@ -55,31 +56,170 @@ function Robots ({logout, auth}){
 
     //If The Token Is Not Found Then Alert Them And Logout The User
     if (!token) {
+
       alert('No token found');
+
       logout();
+
       return;
+
     }
 
     //Query The Backend For The Robots
     axios.get("http://localhost:3301/api/robot/robot", {
+
       headers: {
+
         Authorization: `Bearer ${token}`,
+
       },
+
     })
+
     //Set The Robots To The State
     .then((response) => {
+
       setRobots(response.data);
+
     })
+
     //If There Is An Error Then Alert The User
     .catch((error) => {
+
       if (error.response?.status === 401) {
+
         alert("You need to login again!");
+
         logout();
+
       } else {
+
         alert(`Error Status ${error.response.status}: ${error.response.data.error}`);
+
       }
+
     });
+
   }, [auth]);
+
+   const scheduleClick = () => {
+
+      const token = localStorage.getItem('accessToken');
+
+      if (!token) {
+
+        alert('No token found');
+
+        logout();
+
+        return;
+
+      }
+
+      axios.put(
+
+        "http://localhost:3301/api/delivery/schedule",
+
+        {}, 
+
+        {
+
+          headers: {
+
+            Authorization: `Bearer ${token}`,
+
+          },
+
+        }
+
+      )
+      
+
+      .then((response) => {
+
+        alert("Successfully Scheduled");
+
+        setTrigger(trig+1)
+
+      })
+
+      .catch((error) => {
+
+        if (error.response?.status === 401) {
+
+          alert("You need to login again!");
+
+          logout();
+
+        } else {
+
+          alert(`Error Status ${error.response?.status}: ${error.response?.data?.error}`);
+
+        }
+
+      });
+
+   }
+
+
+   const deployRobots = () => {
+
+    const token = localStorage.getItem('accessToken');
+
+    if (!token) {
+
+      alert('No token found');
+
+      logout();
+
+      return;
+
+    }
+
+    axios.put(
+
+      "http://localhost:3301/api/delivery/deploy",
+
+      {}, 
+
+      {
+
+        headers: {
+
+          Authorization: `Bearer ${token}`,
+
+        },
+
+      }
+
+    )
+    
+
+    .then((response) => {
+
+      alert("Successfully Deployed");
+
+      setTrigger(trig+1)
+
+    })
+
+    .catch((error) => {
+
+      if (error.response?.status === 401) {
+
+        alert("You need to login again!");
+
+        logout();
+
+      } else {
+
+        alert(`Error Status ${error.response?.status}: ${error.response?.data?.error}`);
+
+      }
+
+    });
+
+   }
 
   //Function To Handle The Click Of The Delete Button
   const clickDelete = (RobotID) => {
@@ -175,6 +315,27 @@ function Robots ({logout, auth}){
           </div>
         ))}
       </div>
+
+      {auth === "Manager" ? (
+          <div className="mt-8 flex justify-center gap-4">
+            <button
+              onClick={() => scheduleClick()}
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors w-full sm:w-auto"
+            >
+              Schedule Robots
+            </button>
+
+            <button
+              onClick={() => deployRobots()}
+              className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors w-full sm:w-auto"
+            >
+              Deploy Robots
+            </button>
+          </div>
+      ) : null}
+
+
+        
     </div>
   );
 };

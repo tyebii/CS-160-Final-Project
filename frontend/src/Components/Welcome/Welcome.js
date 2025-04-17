@@ -13,9 +13,12 @@ import SubordinatesArea from './Components/Employees/Subordinates';
 //Import Auth Context
 import { useAuth } from '../../Context/AuthHook'; //Responsible For Rendering Components For User's Based On Their Role
 import AddItem from './Components/AddItem/AddItem';
+import { useState } from 'react';
 
 //Welcome Page Component
 function Welcome() {
+
+    const[trigger, setTrigger] = useState(0)
 
     //Loaded Features From The Auth Hook
     const { auth, logout } = useAuth()
@@ -44,10 +47,10 @@ function Welcome() {
             <hr className="border-t border-gray-300 my-10" />
     
             {/* Robot Section */}
-            <RobotArea auth={auth} logout={logout} ></RobotArea>
+            <RobotArea trigger = {trigger} setTrigger = {setTrigger} auth={auth} logout={logout} ></RobotArea>
             
             {/* Transactions Section for Employees and Managers */}
-            <TransactionArea auth={auth} logout={logout} ></TransactionArea>
+            <TransactionArea trigger = {trigger} setTrigger = {setTrigger} auth={auth} logout={logout} ></TransactionArea>
 
             {/* Employees Section for Managers */}
             <SubordinatesArea auth={auth} logout={logout} ></SubordinatesArea>

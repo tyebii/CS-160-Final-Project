@@ -2,7 +2,7 @@ const express = require('express')
 
 const router = express.Router()
 
-const {getTransactionID, getCurrentTransactions, getCustomerTransactions} = require('./TransactionController')
+const {getTransactionID, getCurrentTransactions, getCustomerTransactions, fullfillOrder} = require('./TransactionController')
 
 const {authorizeEmployee, authorizeCustomer, authorizeManager} = require('../Utils/Authorization')
 
@@ -18,5 +18,8 @@ router.post('/transactions/id', authenticateToken, authorizeManager, getTransact
 
 //Customer's Transactions
 router.get('/transactions/customer', authenticateToken, authorizeCustomer, getCustomerTransactions)
+
+//Fulfill Order
+router.post('/transactions/fulfill', authenticateToken, authorizeEmployee, fullfillOrder)
 
 module.exports = router

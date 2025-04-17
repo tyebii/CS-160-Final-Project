@@ -1,20 +1,102 @@
 //Import Custom Hook
 import { useAuth } from "../../Context/AuthHook";
+import { validateID } from "../Utils/Formatting";
+import { useState } from "react";
+
+import axios from "axios";
 
 //Import Transaction Details Component
 export function TransactionDetails({transaction}) {
+
+  //Get the Auth Context
+  const { auth, logout } = useAuth();
   
   //If there is no transaction, return a message
   if (!transaction) {
+
     return (
+
       <section className="flex items-center justify-center min-h-screen">
+
         <p className="text-lg font-semibold text-gray-600">No transaction data found.</p>
+
       </section>
+
     );
+
   }
 
-  //Get the Auth Context
-  const { auth } = useAuth();
+  const [transactionStatus, setTransactionStatus] = useState(transaction.TransactionStatus)
+
+  const [visibility,setVisibility] = useState(true)
+
+  const handleFulfill = () => {
+
+    const token = localStorage.getItem('accessToken');
+
+    if (!token) {
+
+      alert('No token found');
+
+      logout();
+
+      return;
+
+    }
+
+    if(!validateID(transaction.TransactionID)){
+
+      alert("Invalid Transaction ID")
+
+      return
+
+    }
+
+    axios
+      .post(`http://localhost:3301/api/transaction//transactions/fulfill`,         {
+
+        TransactionID: transaction.TransactionID,
+
+      },
+
+      {
+
+        headers: {
+
+          Authorization: `Bearer ${token}`,
+
+        },
+
+      })
+
+      .then(() => {
+
+        alert("Successfully Fulfilled")
+
+        setVisibility(false)
+        
+        setTransactionStatus("Fulfilled")
+
+      })
+      .catch((error) => {
+
+        if (error.response?.status === 401) {
+
+          alert('Login Again!');
+
+          logout();
+
+          navigate('/login');
+
+        } else {
+
+          alert(`Error Status ${error.response?.status}: ${error.response?.data?.error || 'Unknown Error'}`);
+
+        }
+
+      });
+
+  }
 
   //Build the Transaction Details Page
   return (
@@ -37,7 +119,7 @@ export function TransactionDetails({transaction}) {
           <DetailRow label="Transaction Address" value={transaction.TransactionAddress} />
           <DetailRow
             label="Transaction Status"
-            value={transaction.TransactionStatus}
+            value={transactionStatus}
             isBadge
           />
           <DetailRow label="Transaction Date" value={new Date(transaction.TransactionDate).toLocaleDateString()} />
@@ -48,7 +130,15 @@ export function TransactionDetails({transaction}) {
           <DetailRow label="Currency" value={transaction.Currency} defaultValue="None" />
           <DetailRow label="Amount Paid" value={transaction.AmountPaid} defaultValue="None" />
         </div>
+        {(auth === "Manager" || auth === "Employee") && transaction.TransactionStatus === "Complete" && visibility ? (
+        <div className="flex justify-center mt-4">
+          <button onClick={handleFulfill} className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
+            Fulfill
+          </button>
+        </div>
+    ) : null}
       </div>
+
     </section>
   );
 }
@@ -68,7 +158,7 @@ const DetailRow = ({ label, value, defaultValue = "", isBadge = false }) => {
                 ? "bg-green-500"
                 : value === "In progress"
                 ? "bg-yellow-500"
-                : "bg-red-500"
+                : "bg-blue-500"
             }`}
           >
             {value}

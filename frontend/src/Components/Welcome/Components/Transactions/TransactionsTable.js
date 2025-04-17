@@ -8,7 +8,7 @@ import WelcomesearchIcon from './searchIcon.jpg';
 //Import Axios
 import axios from 'axios';
 
-export default function TransactionArea({ auth, logout }) {
+export default function TransactionArea({ trigger, setTrigger, auth, logout }) {
     //Search Area 
     var [transactionSearchInput, setTransactionSearchInput] = useState(""); 
 
@@ -71,7 +71,7 @@ export default function TransactionArea({ auth, logout }) {
         (auth === "Employee" || auth === "Manager") ? (
             <article className="w-[100%] mx-auto px-5 py-5 bg-gray-200 rounded-lg shadow-md mb-20">
                 <h2 className="text-center text-3xl font-bold mb-6 text-gray-800">Current Transactions</h2>
-                <TransactionsTable logout={logout} />
+                <TransactionsTable trigger = {trigger} setTrigger = {setTrigger} logout={logout} />
 
                 {/* Manager-Only Search */}
                 {auth === "Manager" && (
@@ -104,7 +104,7 @@ export default function TransactionArea({ auth, logout }) {
 }
 
 //Transaction Table Component
-function TransactionsTable({logout}) {
+function TransactionsTable({trigger, logout}) {
     //Get The Navigate Method From The useNavigate Hook
     const navigate = useNavigate();
     
@@ -160,7 +160,7 @@ function TransactionsTable({logout}) {
                     alert(`Error Status ${error.response.status}: ${error.response.data.error}`);
                 }
             });
-    },[]);
+    },[trigger]);
 
     //Render The Transactions Table
     return (

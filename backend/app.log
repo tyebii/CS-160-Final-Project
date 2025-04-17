@@ -1124,3 +1124,1173 @@
 2025-04-16T19:34:59.265Z [info]: Successfully Got Customer Transactions
 2025-04-16T19:34:59.267Z [info]: Getting Customer's Transactions
 2025-04-16T19:34:59.268Z [info]: Successfully Got Customer Transactions
+2025-04-16T21:14:37.730Z [info]: Starting Featured Search
+2025-04-16T21:14:37.761Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:14:37.762Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:17:38.667Z [info]: Starting Featured Search
+2025-04-16T21:17:38.674Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:17:38.674Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:17:42.657Z [info]: Login Starting...
+2025-04-16T21:17:42.762Z [info]: Successfully Logged In
+2025-04-16T21:17:43.003Z [info]: Getting Robots....
+2025-04-16T21:17:43.008Z [info]: Successfully Fetched Robot
+2025-04-16T21:17:43.012Z [info]: Getting Current Transactions
+2025-04-16T21:17:43.015Z [info]: Getting Employees...
+2025-04-16T21:17:43.019Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T21:17:43.022Z [info]: Employees Fetched Successfully
+2025-04-16T21:18:05.959Z [info]: Starting Featured Search
+2025-04-16T21:18:05.965Z [info]: Starting Featured Search
+2025-04-16T21:18:05.969Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:18:05.970Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:18:05.976Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:18:05.976Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:18:05.989Z [info]: Getting Robots....
+2025-04-16T21:18:05.993Z [info]: Successfully Fetched Robot
+2025-04-16T21:18:05.995Z [info]: Getting Current Transactions
+2025-04-16T21:18:05.996Z [info]: Getting Robots....
+2025-04-16T21:18:05.997Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T21:18:05.999Z [info]: Successfully Fetched Robot
+2025-04-16T21:18:06.002Z [info]: Getting Employees...
+2025-04-16T21:18:06.005Z [info]: Getting Employees...
+2025-04-16T21:18:06.006Z [info]: Employees Fetched Successfully
+2025-04-16T21:18:06.008Z [info]: Getting Current Transactions
+2025-04-16T21:18:06.008Z [info]: Employees Fetched Successfully
+2025-04-16T21:18:06.009Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T21:33:40.813Z [info]: Starting Featured Search
+2025-04-16T21:33:40.823Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:33:40.823Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:34:00.530Z [info]: Signing Up Customer...
+2025-04-16T21:34:00.640Z [info]: Successfully Signed Up
+2025-04-16T21:34:02.241Z [info]: Starting Featured Search
+2025-04-16T21:34:02.243Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:34:02.243Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:34:02.246Z [info]: Starting Featured Search
+2025-04-16T21:34:02.247Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:34:02.247Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:34:07.949Z [info]: Login Starting...
+2025-04-16T21:34:08.054Z [info]: Successfully Logged In
+2025-04-16T21:34:08.217Z [info]: Getting Robots....
+2025-04-16T21:34:08.221Z [info]: Successfully Fetched Robot
+2025-04-16T21:34:08.224Z [info]: Getting Current Transactions
+2025-04-16T21:34:08.226Z [info]: Getting Employees...
+2025-04-16T21:34:08.227Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T21:34:08.229Z [info]: Employees Fetched Successfully
+2025-04-16T21:34:38.035Z [info]: Uploading file to: ./uploads/
+2025-04-16T21:34:38.036Z [info]: Saving file as: 1744839278035.png
+2025-04-16T21:34:38.041Z [info]: Starting Product Insert
+2025-04-16T21:34:39.641Z [info]: Getting Robots....
+2025-04-16T21:34:39.644Z [info]: Getting Current Transactions
+2025-04-16T21:34:39.646Z [info]: Successfully Fetched Robot
+2025-04-16T21:34:39.648Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T21:34:39.652Z [info]: Getting Robots....
+2025-04-16T21:34:39.654Z [info]: Getting Employees...
+2025-04-16T21:34:39.655Z [info]: Getting Current Transactions
+2025-04-16T21:34:39.658Z [info]: Successfully Fetched Robot
+2025-04-16T21:34:39.659Z [info]: Employees Fetched Successfully
+2025-04-16T21:34:39.665Z [info]: Getting Employees...
+2025-04-16T21:34:39.668Z [info]: Employees Fetched Successfully
+2025-04-16T21:34:39.669Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T21:34:40.671Z [info]: Starting Featured Search
+2025-04-16T21:34:40.672Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:34:40.673Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:34:49.073Z [info]: Login Starting...
+2025-04-16T21:34:49.182Z [info]: Successfully Logged In
+2025-04-16T21:34:49.323Z [info]: Starting Featured Search
+2025-04-16T21:34:49.324Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:34:49.324Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:34:49.325Z [info]: Starting Featured Search
+2025-04-16T21:34:49.326Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:34:49.326Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:34:53.242Z [info]: Starting Customer Name Query
+2025-04-16T21:34:53.242Z [info]: Fetching The Items Associated With The Product: Pasta
+2025-04-16T21:34:53.245Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:34:53.245Z [info]: Fetched The Items And Their Associated Images
+2025-04-16T21:34:54.031Z [info]: Starting Customer ID Query
+2025-04-16T21:34:54.032Z [info]: Querying Item With ItemID As A Customer: 3a5caf46-e799-4ca3-b477-f41725429433
+2025-04-16T21:34:54.033Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:34:54.033Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-16T21:34:56.500Z [info]: Adding To Shopping Cart...
+2025-04-16T21:34:56.504Z [info]: Successfully Added To Shopping Cart
+2025-04-16T21:34:57.585Z [info]: Starting Featured Search
+2025-04-16T21:34:57.586Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:34:57.586Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:34:57.588Z [info]: Starting Featured Search
+2025-04-16T21:34:57.589Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:34:57.589Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:34:58.372Z [info]: Getting Shopping Cart...
+2025-04-16T21:34:58.374Z [info]: Successfully Fetched Shopping Cart
+2025-04-16T21:34:58.376Z [info]: Fetching Addresses Associated With Customer
+2025-04-16T21:34:58.378Z [info]: Addresses Fetched For Customer
+2025-04-16T21:35:02.082Z [info]: Adding Transaction
+2025-04-16T21:35:02.155Z [info]: Inventory Update And Transaction Addition Successful
+2025-04-16T21:35:02.155Z [info]: Handling Stripe...
+2025-04-16T21:35:02.155Z [info]: Populating Stripe Cart
+2025-04-16T21:35:02.156Z [info]: Successfully Loaded Stripe Order
+2025-04-16T21:35:02.219Z [info]: Address Found On Map
+2025-04-16T21:35:02.748Z [info]: Sessiong Created
+2025-04-16T21:35:31.153Z [info]: Getting Customer's Transactions
+2025-04-16T21:35:31.154Z [info]: Successfully Got Customer Transactions
+2025-04-16T21:37:42.628Z [info]: Starting Featured Search
+2025-04-16T21:37:42.635Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:37:42.635Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:37:46.009Z [info]: Starting Customer Name Query
+2025-04-16T21:37:46.009Z [info]: Fetching The Items Associated With The Product: pasta
+2025-04-16T21:37:46.012Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:37:46.013Z [info]: Fetched The Items And Their Associated Images
+2025-04-16T21:37:46.626Z [info]: Starting Customer ID Query
+2025-04-16T21:37:46.627Z [info]: Querying Item With ItemID As A Customer: 3a5caf46-e799-4ca3-b477-f41725429433
+2025-04-16T21:37:46.629Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:37:46.629Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-16T21:37:47.846Z [info]: Adding To Shopping Cart...
+2025-04-16T21:37:47.848Z [info]: Successfully Added To Shopping Cart
+2025-04-16T21:37:49.069Z [info]: Starting Featured Search
+2025-04-16T21:37:49.071Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:37:49.071Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:37:49.073Z [info]: Starting Featured Search
+2025-04-16T21:37:49.074Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:37:49.074Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:37:50.668Z [info]: Getting Shopping Cart...
+2025-04-16T21:37:50.671Z [info]: Successfully Fetched Shopping Cart
+2025-04-16T21:37:50.674Z [info]: Fetching Addresses Associated With Customer
+2025-04-16T21:37:50.675Z [info]: Addresses Fetched For Customer
+2025-04-16T21:37:54.059Z [info]: Adding Transaction
+2025-04-16T21:37:54.129Z [info]: Inventory Update And Transaction Addition Successful
+2025-04-16T21:37:54.130Z [info]: Handling Stripe...
+2025-04-16T21:37:54.130Z [info]: Populating Stripe Cart
+2025-04-16T21:37:54.132Z [info]: Successfully Loaded Stripe Order
+2025-04-16T21:37:54.294Z [info]: Address Found On Map
+2025-04-16T21:37:54.778Z [info]: Sessiong Created
+2025-04-16T21:38:24.679Z [info]: Handling Webhook Response
+2025-04-16T21:38:24.681Z [info]: Successful Handling Of The Webhook
+2025-04-16T21:38:24.735Z [info]: Handling Webhook Response
+2025-04-16T21:38:24.735Z [info]: Successful Handling Of The Webhook
+2025-04-16T21:38:24.784Z [info]: Handling Webhook Response
+2025-04-16T21:38:24.785Z [info]: Successful Handling Of The Webhook
+2025-04-16T21:38:24.802Z [info]: Handling Webhook Response
+2025-04-16T21:38:24.803Z [info]: Transaction Was Completed
+2025-04-16T21:38:25.187Z [info]: The Payment Was Successful. Deleting Customer Shoppingcart
+2025-04-16T21:38:25.191Z [info]: Successfully Handled The Webhook Request
+2025-04-16T21:38:25.191Z [info]: Successful Handling Of The Webhook
+2025-04-16T21:38:26.586Z [info]: Getting Customer's Transactions
+2025-04-16T21:38:26.588Z [info]: Successfully Got Customer Transactions
+2025-04-16T21:38:27.032Z [info]: Handling Webhook Response
+2025-04-16T21:38:27.033Z [info]: Successful Handling Of The Webhook
+2025-04-16T21:40:02.653Z [info]: Starting Featured Search
+2025-04-16T21:40:02.658Z [info]: Starting Featured Search
+2025-04-16T21:40:02.662Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:40:02.662Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:40:02.668Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:40:02.669Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:40:05.868Z [info]: Starting Customer Name Query
+2025-04-16T21:40:05.869Z [info]: Fetching The Items Associated With The Product: pasta
+2025-04-16T21:40:05.870Z [info]: Starting Customer Name Query
+2025-04-16T21:40:05.871Z [info]: Fetching The Items Associated With The Product: pasta
+2025-04-16T21:40:05.873Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:40:05.874Z [info]: Fetched The Items And Their Associated Images
+2025-04-16T21:40:05.876Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:40:05.876Z [info]: Fetched The Items And Their Associated Images
+2025-04-16T21:40:06.543Z [info]: Starting Customer ID Query
+2025-04-16T21:40:06.544Z [info]: Querying Item With ItemID As A Customer: 3a5caf46-e799-4ca3-b477-f41725429433
+2025-04-16T21:40:06.545Z [info]: Starting Customer ID Query
+2025-04-16T21:40:06.545Z [info]: Querying Item With ItemID As A Customer: 3a5caf46-e799-4ca3-b477-f41725429433
+2025-04-16T21:40:06.546Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:40:06.546Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-16T21:40:06.547Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:40:06.547Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-16T21:41:35.244Z [info]: Starting Featured Search
+2025-04-16T21:41:35.248Z [info]: Starting Featured Search
+2025-04-16T21:41:35.252Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:41:35.252Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:41:35.253Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:41:35.253Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:41:36.632Z [info]: Starting Featured Search
+2025-04-16T21:41:36.634Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T21:41:36.634Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T21:41:40.322Z [info]: Login Starting...
+2025-04-16T21:41:40.429Z [info]: Successfully Logged In
+2025-04-16T21:41:40.574Z [info]: Getting Robots....
+2025-04-16T21:41:40.576Z [info]: Successfully Fetched Robot
+2025-04-16T21:41:40.580Z [info]: Getting Current Transactions
+2025-04-16T21:41:40.582Z [info]: Getting Employees...
+2025-04-16T21:41:40.583Z [info]: Employees Fetched Successfully
+2025-04-16T21:41:40.584Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T21:41:51.133Z [info]: Getting Robots....
+2025-04-16T21:41:51.135Z [info]: Successfully Fetched Robot
+2025-04-16T21:41:51.138Z [info]: Getting Current Transactions
+2025-04-16T21:41:51.139Z [info]: Getting Employees...
+2025-04-16T21:41:51.140Z [info]: Getting Employees...
+2025-04-16T21:41:51.142Z [info]: Getting Robots....
+2025-04-16T21:41:51.144Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T21:41:51.145Z [info]: Employees Fetched Successfully
+2025-04-16T21:41:51.147Z [info]: Getting Current Transactions
+2025-04-16T21:41:51.149Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T21:41:51.151Z [info]: Employees Fetched Successfully
+2025-04-16T21:41:51.152Z [info]: Successfully Fetched Robot
+2025-04-16T21:56:05.438Z [info]: Fulfilling Order...
+2025-04-16T21:56:05.444Z [info]: Successfully Fulfilled
+2025-04-16T21:58:30.689Z [info]: Getting Current Transactions
+2025-04-16T21:58:30.691Z [info]: Getting Robots....
+2025-04-16T21:58:30.692Z [info]: Getting Employees...
+2025-04-16T21:58:30.693Z [info]: Getting Robots....
+2025-04-16T21:58:30.695Z [info]: Getting Current Transactions
+2025-04-16T21:58:30.702Z [info]: Successfully Fetched Robot
+2025-04-16T21:58:30.705Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T21:58:30.708Z [info]: Employees Fetched Successfully
+2025-04-16T21:58:30.711Z [info]: Successfully Fetched Robot
+2025-04-16T21:58:30.715Z [info]: Getting Employees...
+2025-04-16T21:58:30.717Z [info]: Employees Fetched Successfully
+2025-04-16T21:58:30.720Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T22:02:59.459Z [info]: Uploading file to: ./uploads/
+2025-04-16T22:02:59.460Z [info]: Saving file as: 1744840979460.png
+2025-04-16T22:02:59.466Z [info]: Starting Product Insert
+2025-04-16T22:03:01.112Z [info]: Getting Robots....
+2025-04-16T22:03:01.114Z [info]: Successfully Fetched Robot
+2025-04-16T22:03:01.119Z [info]: Getting Current Transactions
+2025-04-16T22:03:01.122Z [info]: Getting Employees...
+2025-04-16T22:03:01.126Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T22:03:01.129Z [info]: Employees Fetched Successfully
+2025-04-16T22:03:02.390Z [info]: Starting Featured Search
+2025-04-16T22:03:02.391Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T22:03:02.391Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T22:03:09.559Z [info]: Login Starting...
+2025-04-16T22:03:09.668Z [info]: Successfully Logged In
+2025-04-16T22:03:09.798Z [info]: Starting Featured Search
+2025-04-16T22:03:09.799Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T22:03:09.799Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T22:03:09.801Z [info]: Starting Featured Search
+2025-04-16T22:03:09.802Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T22:03:09.802Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T22:03:15.163Z [info]: Starting Customer Name Query
+2025-04-16T22:03:15.163Z [info]: Fetching The Items Associated With The Product: Pasta
+2025-04-16T22:03:15.164Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T22:03:15.165Z [info]: Fetched The Items And Their Associated Images
+2025-04-16T22:03:16.189Z [info]: Starting Customer ID Query
+2025-04-16T22:03:16.189Z [info]: Querying Item With ItemID As A Customer: 3a5caf46-e799-4ca3-b477-f41725429433
+2025-04-16T22:03:16.190Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T22:03:16.190Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-16T22:03:18.467Z [info]: Adding To Shopping Cart...
+2025-04-16T22:03:18.471Z [info]: Successfully Added To Shopping Cart
+2025-04-16T22:03:20.375Z [info]: Starting Featured Search
+2025-04-16T22:03:20.377Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T22:03:20.377Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T22:03:20.378Z [info]: Starting Featured Search
+2025-04-16T22:03:20.379Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T22:03:20.379Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T22:03:22.335Z [info]: Getting Shopping Cart...
+2025-04-16T22:03:22.338Z [info]: Successfully Fetched Shopping Cart
+2025-04-16T22:03:22.340Z [info]: Fetching Addresses Associated With Customer
+2025-04-16T22:03:22.342Z [info]: Addresses Fetched For Customer
+2025-04-16T22:03:26.958Z [info]: Adding Transaction
+2025-04-16T22:03:27.032Z [info]: Inventory Update And Transaction Addition Successful
+2025-04-16T22:03:27.032Z [info]: Handling Stripe...
+2025-04-16T22:03:27.032Z [info]: Populating Stripe Cart
+2025-04-16T22:03:27.033Z [info]: Successfully Loaded Stripe Order
+2025-04-16T22:03:27.094Z [info]: Address Found On Map
+2025-04-16T22:03:27.548Z [info]: Sessiong Created
+2025-04-16T22:03:57.508Z [info]: Handling Webhook Response
+2025-04-16T22:03:57.511Z [info]: Successful Handling Of The Webhook
+2025-04-16T22:03:57.567Z [info]: Handling Webhook Response
+2025-04-16T22:03:57.567Z [info]: Successful Handling Of The Webhook
+2025-04-16T22:03:57.622Z [info]: Handling Webhook Response
+2025-04-16T22:03:57.623Z [info]: Transaction Was Completed
+2025-04-16T22:03:57.625Z [info]: Handling Webhook Response
+2025-04-16T22:03:57.626Z [info]: Successful Handling Of The Webhook
+2025-04-16T22:03:58.030Z [info]: The Payment Was Successful. Deleting Customer Shoppingcart
+2025-04-16T22:03:58.034Z [info]: Successfully Handled The Webhook Request
+2025-04-16T22:03:58.034Z [info]: Successful Handling Of The Webhook
+2025-04-16T22:03:59.404Z [info]: Getting Customer's Transactions
+2025-04-16T22:03:59.405Z [info]: Successfully Got Customer Transactions
+2025-04-16T22:03:59.805Z [info]: Handling Webhook Response
+2025-04-16T22:03:59.806Z [info]: Successful Handling Of The Webhook
+2025-04-16T22:04:09.182Z [info]: Login Starting...
+2025-04-16T22:04:09.285Z [info]: Successfully Logged In
+2025-04-16T22:04:09.359Z [info]: Getting Robots....
+2025-04-16T22:04:09.360Z [info]: Successfully Fetched Robot
+2025-04-16T22:04:09.363Z [info]: Getting Current Transactions
+2025-04-16T22:04:09.364Z [info]: Getting Employees...
+2025-04-16T22:04:09.364Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T22:04:09.365Z [info]: Employees Fetched Successfully
+2025-04-16T22:04:16.077Z [info]: Fulfilling Order...
+2025-04-16T22:04:16.080Z [info]: Successfully Fulfilled
+2025-04-16T22:05:31.457Z [info]: Getting Robots....
+2025-04-16T22:05:31.460Z [info]: Getting Current Transactions
+2025-04-16T22:05:31.461Z [info]: Getting Employees...
+2025-04-16T22:05:31.462Z [info]: Getting Robots....
+2025-04-16T22:05:31.463Z [info]: Successfully Fetched Robot
+2025-04-16T22:05:31.464Z [info]: Getting Current Transactions
+2025-04-16T22:05:31.466Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T22:05:31.471Z [info]: Employees Fetched Successfully
+2025-04-16T22:05:31.472Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T22:05:31.473Z [info]: Successfully Fetched Robot
+2025-04-16T22:05:31.475Z [info]: Getting Employees...
+2025-04-16T22:05:31.477Z [info]: Employees Fetched Successfully
+2025-04-16T22:12:15.507Z [info]: Getting Robots....
+2025-04-16T22:12:15.509Z [info]: Successfully Fetched Robot
+2025-04-16T22:48:14.451Z [info]: Getting Robots....
+2025-04-16T22:48:14.460Z [info]: Successfully Fetched Robot
+2025-04-16T22:48:14.554Z [info]: Getting Robots....
+2025-04-16T22:48:14.557Z [info]: Successfully Fetched Robot
+2025-04-16T22:48:14.597Z [info]: Getting Robots....
+2025-04-16T22:48:14.600Z [info]: Successfully Fetched Robot
+2025-04-16T22:48:14.658Z [info]: Getting Robots....
+2025-04-16T22:48:14.659Z [info]: Successfully Fetched Robot
+2025-04-16T22:49:08.301Z [info]: Getting Robots....
+2025-04-16T22:49:08.303Z [info]: Successfully Fetched Robot
+2025-04-16T22:49:26.894Z [info]: Getting Robots....
+2025-04-16T22:49:26.895Z [info]: Successfully Fetched Robot
+2025-04-16T22:49:34.822Z [info]: Getting Robots....
+2025-04-16T22:49:34.824Z [info]: Successfully Fetched Robot
+2025-04-16T22:50:09.332Z [info]: Getting Robots....
+2025-04-16T22:50:09.333Z [info]: Successfully Fetched Robot
+2025-04-16T22:50:34.438Z [info]: Starting Featured Search
+2025-04-16T22:50:34.443Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T22:50:34.443Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T22:50:38.713Z [info]: Login Starting...
+2025-04-16T22:50:38.825Z [info]: Successfully Logged In
+2025-04-16T22:50:38.903Z [info]: Getting Robots....
+2025-04-16T22:50:38.904Z [info]: Successfully Fetched Robot
+2025-04-16T22:50:38.907Z [info]: Getting Current Transactions
+2025-04-16T22:50:38.909Z [info]: Getting Employees...
+2025-04-16T22:50:38.911Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T22:50:38.915Z [info]: Employees Fetched Successfully
+2025-04-16T22:57:15.811Z [info]: Login Starting...
+2025-04-16T22:57:15.916Z [info]: Successfully Logged In
+2025-04-16T22:57:16.003Z [info]: Getting Robots....
+2025-04-16T22:57:16.005Z [info]: Getting Current Transactions
+2025-04-16T22:57:16.008Z [info]: Successfully Fetched Robot
+2025-04-16T22:57:16.012Z [info]: Getting Employees...
+2025-04-16T22:57:16.013Z [info]: Employees Fetched Successfully
+2025-04-16T22:57:16.015Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T22:57:24.535Z [info]: Scheduling Robots...
+2025-04-16T22:57:24.537Z [info]: Getting Robots That Are Free
+2025-04-16T22:57:24.539Z [info]: Getting Transactions That Are Out For Delivery
+2025-04-16T22:57:24.542Z [error]: Scheduling Error: No Transactions To Deliver
+2025-04-16T22:57:53.734Z [info]: Scheduling Robots...
+2025-04-16T22:57:53.742Z [info]: Getting Robots That Are Free
+2025-04-16T22:57:53.746Z [info]: Getting Transactions That Are Out For Delivery
+2025-04-16T22:57:53.748Z [error]: Scheduling Error: No Transactions To Deliver
+2025-04-16T22:57:53.748Z [info]: Rolling Back Connection
+2025-04-16T22:57:53.749Z [info]: Releasing Connection
+2025-04-16T22:59:30.802Z [info]: Getting Robots....
+2025-04-16T22:59:30.806Z [info]: Successfully Fetched Robot
+2025-04-16T22:59:32.868Z [info]: Scheduling Robots...
+2025-04-16T22:59:32.871Z [info]: Getting Robots That Are Free
+2025-04-16T22:59:32.873Z [info]: Getting Transactions That Are Out For Delivery
+2025-04-16T22:59:32.874Z [error]: Scheduling Error: No Transactions To Deliver
+2025-04-16T22:59:32.875Z [info]: Rolling Back Connection
+2025-04-16T22:59:32.875Z [info]: Releasing Connection
+2025-04-16T23:10:04.694Z [info]: Getting Robots....
+2025-04-16T23:10:04.696Z [info]: Getting Robots....
+2025-04-16T23:10:04.698Z [info]: Successfully Fetched Robot
+2025-04-16T23:10:04.702Z [info]: Successfully Fetched Robot
+2025-04-16T23:11:27.172Z [info]: Starting Featured Search
+2025-04-16T23:11:27.174Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:11:27.174Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:11:45.681Z [info]: Starting Featured Search
+2025-04-16T23:11:45.683Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:11:45.683Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:11:45.684Z [info]: Starting Featured Search
+2025-04-16T23:11:45.685Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:11:45.685Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:11:57.325Z [info]: Starting Featured Search
+2025-04-16T23:11:57.326Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:11:57.326Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:11:57.328Z [info]: Starting Featured Search
+2025-04-16T23:11:57.329Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:11:57.329Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:12:39.607Z [info]: Starting Featured Search
+2025-04-16T23:12:39.608Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:12:39.608Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:12:39.610Z [info]: Starting Featured Search
+2025-04-16T23:12:39.611Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:12:39.611Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:12:41.015Z [info]: Starting Featured Search
+2025-04-16T23:12:41.016Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:12:41.016Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:12:41.019Z [info]: Starting Featured Search
+2025-04-16T23:12:41.020Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:12:41.020Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:12:55.325Z [info]: Starting Featured Search
+2025-04-16T23:12:55.327Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:12:55.327Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:12:55.330Z [info]: Starting Featured Search
+2025-04-16T23:12:55.330Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:12:55.331Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:12:55.391Z [info]: Getting Robots....
+2025-04-16T23:12:55.392Z [info]: Successfully Fetched Robot
+2025-04-16T23:12:55.397Z [info]: Getting Current Transactions
+2025-04-16T23:12:55.399Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T23:12:55.401Z [info]: Getting Employees...
+2025-04-16T23:12:55.403Z [info]: Employees Fetched Successfully
+2025-04-16T23:13:13.210Z [info]: Getting Robots....
+2025-04-16T23:13:13.211Z [info]: Successfully Fetched Robot
+2025-04-16T23:13:13.212Z [info]: Getting Robots....
+2025-04-16T23:13:13.213Z [info]: Successfully Fetched Robot
+2025-04-16T23:14:00.645Z [info]: Getting Robots....
+2025-04-16T23:14:00.646Z [info]: Successfully Fetched Robot
+2025-04-16T23:14:09.639Z [info]: Getting Robots....
+2025-04-16T23:14:09.640Z [info]: Successfully Fetched Robot
+2025-04-16T23:14:36.909Z [info]: Getting Robots....
+2025-04-16T23:14:36.911Z [info]: Successfully Fetched Robot
+2025-04-16T23:16:01.865Z [info]: Starting Featured Search
+2025-04-16T23:16:01.866Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:16:01.866Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:16:01.867Z [info]: Starting Featured Search
+2025-04-16T23:16:01.868Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:16:01.868Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:16:01.911Z [info]: Getting Robots....
+2025-04-16T23:16:01.913Z [info]: Successfully Fetched Robot
+2025-04-16T23:16:01.916Z [info]: Getting Current Transactions
+2025-04-16T23:16:01.917Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T23:16:01.920Z [info]: Getting Employees...
+2025-04-16T23:16:01.921Z [info]: Employees Fetched Successfully
+2025-04-16T23:16:01.923Z [info]: Getting Robots....
+2025-04-16T23:16:01.923Z [info]: Successfully Fetched Robot
+2025-04-16T23:16:01.927Z [info]: Getting Current Transactions
+2025-04-16T23:16:01.928Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T23:16:01.930Z [info]: Getting Employees...
+2025-04-16T23:16:01.931Z [info]: Employees Fetched Successfully
+2025-04-16T23:16:13.363Z [info]: Getting Robots....
+2025-04-16T23:16:13.364Z [info]: Successfully Fetched Robot
+2025-04-16T23:16:32.861Z [info]: Getting Robots....
+2025-04-16T23:16:32.862Z [info]: Successfully Fetched Robot
+2025-04-16T23:16:47.473Z [info]: Getting Current Transactions
+2025-04-16T23:16:47.474Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T23:17:38.432Z [info]: Starting Featured Search
+2025-04-16T23:17:38.432Z [info]: Starting Featured Search
+2025-04-16T23:17:38.433Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:17:38.433Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:17:38.433Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:17:38.434Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:17:38.468Z [info]: Getting Robots....
+2025-04-16T23:17:38.470Z [info]: Successfully Fetched Robot
+2025-04-16T23:17:38.473Z [info]: Getting Current Transactions
+2025-04-16T23:17:38.474Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T23:17:38.480Z [info]: Getting Employees...
+2025-04-16T23:17:38.481Z [info]: Getting Robots....
+2025-04-16T23:17:38.482Z [info]: Employees Fetched Successfully
+2025-04-16T23:17:38.482Z [info]: Successfully Fetched Robot
+2025-04-16T23:17:38.486Z [info]: Getting Current Transactions
+2025-04-16T23:17:38.487Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T23:17:38.490Z [info]: Getting Employees...
+2025-04-16T23:17:38.491Z [info]: Employees Fetched Successfully
+2025-04-16T23:19:06.290Z [info]: Starting Featured Search
+2025-04-16T23:19:06.292Z [info]: Starting Featured Search
+2025-04-16T23:19:06.293Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:19:06.293Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:19:06.295Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:19:06.295Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:19:06.445Z [info]: Getting Robots....
+2025-04-16T23:19:06.447Z [info]: Successfully Fetched Robot
+2025-04-16T23:19:06.451Z [info]: Getting Current Transactions
+2025-04-16T23:19:06.453Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T23:19:06.456Z [info]: Getting Employees...
+2025-04-16T23:19:06.459Z [info]: Getting Robots....
+2025-04-16T23:19:06.459Z [info]: Employees Fetched Successfully
+2025-04-16T23:19:06.460Z [info]: Successfully Fetched Robot
+2025-04-16T23:19:06.464Z [info]: Getting Current Transactions
+2025-04-16T23:19:06.466Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T23:19:06.468Z [info]: Getting Employees...
+2025-04-16T23:19:06.469Z [info]: Employees Fetched Successfully
+2025-04-16T23:19:32.741Z [info]: Starting Featured Search
+2025-04-16T23:19:32.743Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:19:32.745Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:19:40.598Z [info]: Login Starting...
+2025-04-16T23:19:40.699Z [info]: Successfully Logged In
+2025-04-16T23:19:40.760Z [info]: Starting Featured Search
+2025-04-16T23:19:40.762Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:19:40.762Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:19:40.763Z [info]: Starting Featured Search
+2025-04-16T23:19:40.764Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:19:40.764Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:19:42.605Z [info]: Starting Customer Category Query
+2025-04-16T23:19:42.606Z [info]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-16T23:19:42.607Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:19:42.608Z [info]: Fetched The Items And Their Associated Images
+2025-04-16T23:19:43.709Z [info]: Starting Customer ID Query
+2025-04-16T23:19:43.709Z [info]: Querying Item With ItemID As A Customer: 3a5caf46-e799-4ca3-b477-f41725429433
+2025-04-16T23:19:43.710Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:19:43.710Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-16T23:19:45.722Z [info]: Adding To Shopping Cart...
+2025-04-16T23:19:45.730Z [info]: Successfully Added To Shopping Cart
+2025-04-16T23:19:47.343Z [info]: Starting Featured Search
+2025-04-16T23:19:47.344Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:19:47.344Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:19:47.345Z [info]: Starting Featured Search
+2025-04-16T23:19:47.345Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:19:47.345Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:19:48.887Z [info]: Starting Customer Category Query
+2025-04-16T23:19:48.887Z [info]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-16T23:19:48.888Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:19:48.889Z [info]: Fetched The Items And Their Associated Images
+2025-04-16T23:19:48.891Z [info]: Starting Customer Category Query
+2025-04-16T23:19:48.891Z [info]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-16T23:19:48.893Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:19:48.893Z [info]: Fetched The Items And Their Associated Images
+2025-04-16T23:19:49.405Z [info]: Starting Customer ID Query
+2025-04-16T23:19:49.405Z [info]: Querying Item With ItemID As A Customer: 3a5caf46-e799-4ca3-b477-f41725429433
+2025-04-16T23:19:49.406Z [info]: Starting Customer ID Query
+2025-04-16T23:19:49.406Z [info]: Querying Item With ItemID As A Customer: 3a5caf46-e799-4ca3-b477-f41725429433
+2025-04-16T23:19:49.406Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:19:49.406Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-16T23:19:49.407Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:19:49.407Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-16T23:19:52.660Z [info]: Getting Shopping Cart...
+2025-04-16T23:19:52.662Z [info]: Successfully Fetched Shopping Cart
+2025-04-16T23:19:52.664Z [info]: Fetching Addresses Associated With Customer
+2025-04-16T23:19:52.666Z [info]: Addresses Fetched For Customer
+2025-04-16T23:20:07.671Z [info]: Adding Address To Database
+2025-04-16T23:20:07.833Z [info]: Address Found On Map
+2025-04-16T23:20:07.836Z [info]: Completed The Addition Of The Address
+2025-04-16T23:20:13.041Z [info]: Adding Transaction
+2025-04-16T23:20:13.052Z [info]: Inventory Update And Transaction Addition Successful
+2025-04-16T23:20:13.052Z [info]: Handling Stripe...
+2025-04-16T23:20:13.052Z [info]: Populating Stripe Cart
+2025-04-16T23:20:13.055Z [info]: Successfully Loaded Stripe Order
+2025-04-16T23:20:13.091Z [info]: Address Found On Map
+2025-04-16T23:20:13.640Z [info]: Sessiong Created
+2025-04-16T23:20:44.149Z [info]: Handling Webhook Response
+2025-04-16T23:20:44.152Z [info]: Successful Handling Of The Webhook
+2025-04-16T23:20:44.206Z [info]: Handling Webhook Response
+2025-04-16T23:20:44.207Z [info]: Transaction Was Completed
+2025-04-16T23:20:44.281Z [info]: Handling Webhook Response
+2025-04-16T23:20:44.283Z [info]: Successful Handling Of The Webhook
+2025-04-16T23:20:44.596Z [info]: The Payment Was Successful. Deleting Customer Shoppingcart
+2025-04-16T23:20:44.599Z [info]: Successfully Handled The Webhook Request
+2025-04-16T23:20:44.600Z [info]: Successful Handling Of The Webhook
+2025-04-16T23:20:45.359Z [info]: Handling Webhook Response
+2025-04-16T23:20:45.360Z [info]: Successful Handling Of The Webhook
+2025-04-16T23:20:46.201Z [info]: Getting Customer's Transactions
+2025-04-16T23:20:46.202Z [info]: Successfully Got Customer Transactions
+2025-04-16T23:20:46.511Z [info]: Handling Webhook Response
+2025-04-16T23:20:46.512Z [info]: Successful Handling Of The Webhook
+2025-04-16T23:20:51.127Z [info]: Starting Featured Search
+2025-04-16T23:20:51.129Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:20:51.129Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:20:51.130Z [info]: Starting Featured Search
+2025-04-16T23:20:51.131Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:20:51.131Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:20:53.806Z [info]: Starting Featured Search
+2025-04-16T23:20:53.808Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:20:53.808Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:20:59.002Z [info]: Login Starting...
+2025-04-16T23:20:59.109Z [info]: Successfully Logged In
+2025-04-16T23:20:59.196Z [info]: Getting Robots....
+2025-04-16T23:20:59.198Z [info]: Successfully Fetched Robot
+2025-04-16T23:20:59.205Z [info]: Getting Current Transactions
+2025-04-16T23:20:59.207Z [info]: Getting Employees...
+2025-04-16T23:20:59.208Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T23:20:59.209Z [info]: Employees Fetched Successfully
+2025-04-16T23:21:52.063Z [info]: Starting Featured Search
+2025-04-16T23:21:52.066Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:21:52.066Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:21:52.104Z [info]: Getting Robots....
+2025-04-16T23:21:52.108Z [info]: Successfully Fetched Robot
+2025-04-16T23:21:52.112Z [info]: Getting Current Transactions
+2025-04-16T23:21:52.114Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T23:21:52.116Z [info]: Getting Employees...
+2025-04-16T23:21:52.117Z [info]: Employees Fetched Successfully
+2025-04-16T23:22:37.714Z [info]: Scheduling Robots...
+2025-04-16T23:22:37.716Z [info]: Getting Robots That Are Free
+2025-04-16T23:22:37.717Z [info]: Getting Transactions That Are Out For Delivery
+2025-04-16T23:22:37.719Z [info]: Assigning Addresses To Robots And Updating Transactions
+2025-04-16T23:22:37.721Z [error]: Scheduling Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '?)' at line 1
+2025-04-16T23:22:37.721Z [info]: Rolling Back Connection
+2025-04-16T23:22:37.721Z [info]: Releasing Connection
+2025-04-16T23:22:42.782Z [info]: Getting Robots....
+2025-04-16T23:22:42.784Z [info]: Getting Current Transactions
+2025-04-16T23:22:42.785Z [info]: Successfully Fetched Robot
+2025-04-16T23:22:42.787Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T23:22:42.790Z [info]: Getting Robots....
+2025-04-16T23:22:42.791Z [info]: Getting Employees...
+2025-04-16T23:22:42.793Z [info]: Getting Employees...
+2025-04-16T23:22:42.794Z [info]: Getting Current Transactions
+2025-04-16T23:22:42.796Z [info]: Successfully Fetched Robot
+2025-04-16T23:22:42.797Z [info]: Employees Fetched Successfully
+2025-04-16T23:22:42.799Z [info]: Employees Fetched Successfully
+2025-04-16T23:22:42.801Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T23:26:37.125Z [info]: Scheduling Robots...
+2025-04-16T23:26:37.133Z [info]: Getting Robots That Are Free
+2025-04-16T23:26:37.137Z [info]: Getting Transactions That Are Out For Delivery
+2025-04-16T23:26:37.139Z [info]: Assigning Addresses To Robots And Updating Transactions
+2025-04-16T23:26:37.139Z [info]: Updating Transactions: de6c2ed9-3a16-4bd6-8da3-8ef87c33a70e
+2025-04-16T23:26:37.140Z [error]: Scheduling Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '?)' at line 1
+2025-04-16T23:26:37.141Z [info]: Rolling Back Connection
+2025-04-16T23:26:37.142Z [info]: Releasing Connection
+2025-04-16T23:27:06.685Z [info]: Scheduling Robots...
+2025-04-16T23:27:06.694Z [info]: Getting Robots That Are Free
+2025-04-16T23:27:06.699Z [info]: Getting Transactions That Are Out For Delivery
+2025-04-16T23:27:06.702Z [info]: Assigning Addresses To Robots And Updating Transactions
+2025-04-16T23:27:06.702Z [info]: Updating Transactions: 
+2025-04-16T23:27:06.707Z [error]: Scheduling Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '?)' at line 1
+2025-04-16T23:27:06.707Z [info]: Rolling Back Connection
+2025-04-16T23:27:06.708Z [info]: Releasing Connection
+2025-04-16T23:30:12.086Z [info]: Getting Robots....
+2025-04-16T23:30:12.093Z [info]: Successfully Fetched Robot
+2025-04-16T23:30:12.098Z [info]: Getting Current Transactions
+2025-04-16T23:30:12.100Z [info]: Getting Employees...
+2025-04-16T23:30:12.104Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T23:30:12.108Z [info]: Employees Fetched Successfully
+2025-04-16T23:30:12.299Z [info]: Starting Featured Search
+2025-04-16T23:30:12.301Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-16T23:30:12.301Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-16T23:30:12.337Z [info]: Getting Robots....
+2025-04-16T23:30:12.339Z [info]: Successfully Fetched Robot
+2025-04-16T23:30:12.342Z [info]: Getting Current Transactions
+2025-04-16T23:30:12.345Z [info]: Getting Employees...
+2025-04-16T23:30:12.346Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T23:30:12.348Z [info]: Employees Fetched Successfully
+2025-04-16T23:30:15.149Z [info]: Scheduling Robots...
+2025-04-16T23:30:15.158Z [info]: Getting Robots That Are Free
+2025-04-16T23:30:15.160Z [info]: Getting Transactions That Are Out For Delivery
+2025-04-16T23:30:15.162Z [info]: Assigning Addresses To Robots And Updating Transactions
+2025-04-16T23:30:15.162Z [info]: Updating Transactions: 
+2025-04-16T23:30:15.163Z [error]: Scheduling Error: robotID is not defined
+2025-04-16T23:30:15.163Z [info]: Rolling Back Connection
+2025-04-16T23:30:15.164Z [info]: Releasing Connection
+2025-04-16T23:30:35.922Z [info]: Scheduling Robots...
+2025-04-16T23:30:35.930Z [info]: Getting Robots That Are Free
+2025-04-16T23:30:35.934Z [info]: Getting Transactions That Are Out For Delivery
+2025-04-16T23:30:35.936Z [info]: Assigning Addresses To Robots And Updating Transactions
+2025-04-16T23:30:35.937Z [info]: Updating Transactions: 
+2025-04-16T23:30:35.949Z [info]: Assigned Robots Addresses And Updated Database: [object Object]
+2025-04-16T23:30:37.825Z [info]: Getting Current Transactions
+2025-04-16T23:30:37.829Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T23:32:00.087Z [info]: Scheduling Robots...
+2025-04-16T23:32:00.090Z [info]: Getting Robots That Are Free
+2025-04-16T23:32:00.092Z [info]: Getting Transactions That Are Out For Delivery
+2025-04-16T23:32:00.093Z [info]: Assigning Addresses To Robots And Updating Transactions
+2025-04-16T23:32:00.093Z [info]: Updating Transactions: 
+2025-04-16T23:32:00.094Z [info]: Assigned Robots Addresses And Updated Database: [object Object]
+2025-04-16T23:49:31.223Z [info]: Getting Robots....
+2025-04-16T23:49:31.246Z [info]: Successfully Fetched Robot
+2025-04-16T23:49:31.249Z [info]: Getting Current Transactions
+2025-04-16T23:49:31.252Z [info]: Getting Employees...
+2025-04-16T23:49:31.256Z [info]: Successfully Retrieved Current Transactions
+2025-04-16T23:49:31.259Z [info]: Getting Robots....
+2025-04-16T23:49:31.261Z [info]: Getting Employees...
+2025-04-16T23:49:31.263Z [info]: Successfully Fetched Robot
+2025-04-16T23:49:31.266Z [info]: Employees Fetched Successfully
+2025-04-16T23:49:31.267Z [info]: Employees Fetched Successfully
+2025-04-17T00:23:23.867Z [info]: Starting Featured Search
+2025-04-17T00:23:23.897Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T00:23:23.897Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T00:23:27.465Z [info]: Login Starting...
+2025-04-17T00:23:27.571Z [info]: Successfully Logged In
+2025-04-17T00:23:27.662Z [info]: Getting Robots....
+2025-04-17T00:23:27.666Z [info]: Successfully Fetched Robot
+2025-04-17T00:23:27.669Z [info]: Getting Current Transactions
+2025-04-17T00:23:27.671Z [info]: Getting Employees...
+2025-04-17T00:23:27.678Z [info]: Successfully Retrieved Current Transactions
+2025-04-17T00:23:27.683Z [info]: Employees Fetched Successfully
+2025-04-17T00:23:31.305Z [info]: Scheduling Robots...
+2025-04-17T00:23:31.308Z [info]: Getting Robots That Are Free
+2025-04-17T00:23:31.316Z [info]: Getting Transactions That Are Out For Delivery
+2025-04-17T00:23:31.318Z [info]: Assigning Addresses To Robots And Updating Transactions
+2025-04-17T00:23:31.319Z [info]: Updating Transactions: 
+2025-04-17T00:23:31.323Z [info]: Assigned Robots Addresses And Updated Database: [object Object]
+2025-04-17T00:23:32.925Z [info]: Getting Current Transactions
+2025-04-17T00:23:32.928Z [info]: Successfully Retrieved Current Transactions
+2025-04-17T00:25:18.851Z [info]: Getting Robots....
+2025-04-17T00:25:18.857Z [info]: Successfully Fetched Robot
+2025-04-17T00:26:00.529Z [info]: Getting Robots....
+2025-04-17T00:26:00.531Z [info]: Successfully Fetched Robot
+2025-04-17T00:26:23.239Z [info]: Getting Robots....
+2025-04-17T00:26:23.243Z [info]: Successfully Fetched Robot
+2025-04-17T00:26:44.354Z [info]: Getting Robots....
+2025-04-17T00:26:44.356Z [info]: Successfully Fetched Robot
+2025-04-17T00:26:51.617Z [info]: Getting Robots....
+2025-04-17T00:26:51.619Z [info]: Successfully Fetched Robot
+2025-04-17T00:28:20.681Z [info]: Deploying Robots...
+2025-04-17T00:28:20.691Z [info]: Fetching The Address Of Each Robot
+2025-04-17T00:28:20.704Z [info]: Organizing Fetch Of Robot Addresses
+2025-04-17T00:28:20.704Z [info]: Turning The Addresses To Geocodes
+2025-04-17T00:28:20.704Z [info]: Geocoding The Address
+2025-04-17T00:28:20.834Z [info]: Geocoding Successful
+2025-04-17T00:28:20.834Z [info]: Geocodes Found
+2025-04-17T00:28:20.834Z [info]: Deploying Robots...
+2025-04-17T00:28:20.835Z [info]: Deploying Robot: robot003
+2025-04-17T00:28:20.835Z [info]: Getting Optimized Route
+2025-04-17T00:28:21.139Z [error]: Deployment Error: Failed to optimize route
+2025-04-17T00:28:21.139Z [info]: Rolling Back Connection
+2025-04-17T00:28:21.141Z [info]: Releasing Connection
+2025-04-17T00:31:11.538Z [info]: Deploying Robots...
+2025-04-17T00:31:11.549Z [info]: Fetching The Address Of Each Robot
+2025-04-17T00:31:11.575Z [info]: Organizing Fetch Of Robot Addresses
+2025-04-17T00:31:11.576Z [info]: Turning The Addresses To Geocodes
+2025-04-17T00:31:11.576Z [info]: Geocoding The Address
+2025-04-17T00:31:11.765Z [info]: Geocoding Successful
+2025-04-17T00:31:11.765Z [info]: Geocodes Found
+2025-04-17T00:31:11.765Z [info]: Deploying Robots...
+2025-04-17T00:31:11.765Z [info]: Deploying Robot: robot003
+2025-04-17T00:31:11.766Z [info]: Getting Optimized Route
+2025-04-17T00:31:11.766Z [info]: Request URL: https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-121.90474,37.222357?access_token=pk.eyJ1IjoibWF0dGhld2RlbHVyaW8iLCJhIjoiY205Yzc5ODkwMG9pYzJtcTEweXVncnhraiJ9.fLo2x7rTBbss2-K6O4hBrQ&geometries=geojson&overview=full&roundtrip=true
+2025-04-17T00:31:12.062Z [error]: Deployment Error: Mapbox API returned error: 422 Unknown
+2025-04-17T00:31:12.062Z [info]: Rolling Back Connection
+2025-04-17T00:31:12.065Z [info]: Releasing Connection
+2025-04-17T00:35:28.052Z [info]: Scheduling Robots...
+2025-04-17T00:35:28.062Z [info]: Getting Robots That Are Free
+2025-04-17T00:35:28.078Z [info]: Getting Transactions That Are Out For Delivery
+2025-04-17T00:35:28.082Z [info]: Assigning Addresses To Robots And Updating Transactions
+2025-04-17T00:35:28.082Z [info]: Updating Transactions: 
+2025-04-17T00:35:28.087Z [info]: Assigned Robots Addresses And Updated Database: [object Object]
+2025-04-17T00:35:30.828Z [info]: Deploying Robots...
+2025-04-17T00:35:30.830Z [info]: Fetching The Address Of Each Robot
+2025-04-17T00:35:30.831Z [info]: Organizing Fetch Of Robot Addresses
+2025-04-17T00:35:30.832Z [info]: Turning The Addresses To Geocodes
+2025-04-17T00:35:30.832Z [info]: Geocoding The Address
+2025-04-17T00:35:30.945Z [info]: Geocoding Successful
+2025-04-17T00:35:30.945Z [info]: Geocodes Found
+2025-04-17T00:35:30.945Z [info]: Deploying Robots...
+2025-04-17T00:35:30.945Z [info]: Deploying Robot: robot003
+2025-04-17T00:35:30.945Z [info]: Getting Optimized Route
+2025-04-17T00:35:30.947Z [info]: Request URL: https://api.mapbox.com/optimized-trips/v1/mapbox/driving/37.3385,121.8839;-121.90474,37.222357?access_token=pk.eyJ1IjoibWF0dGhld2RlbHVyaW8iLCJhIjoiY205Yzc5ODkwMG9pYzJtcTEweXVncnhraiJ9.fLo2x7rTBbss2-K6O4hBrQ&geometries=geojson&overview=full&roundtrip=true
+2025-04-17T00:35:31.463Z [error]: Deployment Error: Mapbox API returned error: 422 Unknown
+2025-04-17T00:35:31.464Z [info]: Rolling Back Connection
+2025-04-17T00:35:31.465Z [info]: Releasing Connection
+2025-04-17T00:40:46.734Z [info]: Scheduling Robots...
+2025-04-17T00:40:46.743Z [info]: Getting Robots That Are Free
+2025-04-17T00:40:46.760Z [info]: Getting Transactions That Are Out For Delivery
+2025-04-17T00:40:46.764Z [info]: Assigning Addresses To Robots And Updating Transactions
+2025-04-17T00:40:46.765Z [info]: Updating Transactions: 
+2025-04-17T00:40:46.769Z [info]: Assigned Robots Addresses And Updated Database: [object Object]
+2025-04-17T00:40:48.899Z [info]: Deploying Robots...
+2025-04-17T00:40:48.901Z [info]: Fetching The Address Of Each Robot
+2025-04-17T00:40:48.904Z [info]: Turning The Addresses To Geocodes
+2025-04-17T00:40:48.904Z [info]: Geocoding The Address
+2025-04-17T00:40:49.022Z [info]: Geocoding Successful
+2025-04-17T00:40:49.022Z [info]: Geocodes Found
+2025-04-17T00:40:49.022Z [info]: Deploying Robot: robot003
+2025-04-17T00:40:49.022Z [info]: Getting Optimized Route
+2025-04-17T00:40:49.024Z [info]: Request URL: https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-121.8839,37.3385;-121.90474,37.222357?access_token=pk.eyJ1IjoibWF0dGhld2RlbHVyaW8iLCJhIjoiY205Yzc5ODkwMG9pYzJtcTEweXVncnhraiJ9.fLo2x7rTBbss2-K6O4hBrQ&geometries=geojson&overview=full&roundtrip=true
+2025-04-17T00:40:49.417Z [info]: Optimized Route Found
+2025-04-17T00:40:49.418Z [info]: Going To Sleep For 3117500ms for Robot: robot003
+2025-04-17T00:46:59.596Z [info]: Deploying Robots...
+2025-04-17T00:46:59.608Z [info]: Fetching The Address Of Each Robot
+2025-04-17T00:46:59.629Z [info]: Turning The Addresses To Geocodes
+2025-04-17T00:46:59.629Z [info]: Geocoding The Address
+2025-04-17T00:46:59.799Z [info]: Geocoding Successful
+2025-04-17T00:46:59.800Z [info]: Geocodes Found
+2025-04-17T00:46:59.800Z [info]: Deploying Robot: robot003
+2025-04-17T00:46:59.800Z [info]: Getting Optimized Route
+2025-04-17T00:46:59.802Z [info]: Request URL: https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-121.8839,37.3385;-121.90474,37.222357?access_token=pk.eyJ1IjoibWF0dGhld2RlbHVyaW8iLCJhIjoiY205Yzc5ODkwMG9pYzJtcTEweXVncnhraiJ9.fLo2x7rTBbss2-K6O4hBrQ&geometries=geojson&overview=full&roundtrip=true
+2025-04-17T00:47:00.290Z [info]: Optimized Route Found
+2025-04-17T00:47:00.290Z [info]: Going To Sleep For 3117500ms for Robot: robot003
+2025-04-17T00:53:20.297Z [info]: Deploying Robots...
+2025-04-17T00:53:20.304Z [info]: Fetching The Address Of Each Robot
+2025-04-17T00:53:20.310Z [info]: Turning The Addresses To Geocodes
+2025-04-17T00:53:20.311Z [info]: Geocoding The Address
+2025-04-17T00:53:20.427Z [info]: Geocoding Successful
+2025-04-17T00:53:20.428Z [info]: Geocodes Found
+2025-04-17T00:53:20.428Z [info]: Deploying Robot: robot003
+2025-04-17T00:53:20.428Z [info]: Getting Optimized Route
+2025-04-17T00:53:20.429Z [info]: Request URL: https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-121.8839,37.3385;-121.90474,37.222357?access_token=pk.eyJ1IjoibWF0dGhld2RlbHVyaW8iLCJhIjoiY205Yzc5ODkwMG9pYzJtcTEweXVncnhraiJ9.fLo2x7rTBbss2-K6O4hBrQ&geometries=geojson&overview=full&roundtrip=true
+2025-04-17T00:53:20.808Z [info]: Optimized Route Found
+2025-04-17T00:53:20.808Z [info]: Update Robot To Deliverying
+2025-04-17T00:53:20.822Z [info]: Update Transaction Status
+2025-04-17T00:53:20.823Z [error]: Deployment Error: dbConn is not defined
+2025-04-17T01:01:09.709Z [info]: Handling Webhook Response
+2025-04-17T01:01:09.719Z [info]: Successful Handling Of The Webhook
+2025-04-17T01:01:51.419Z [info]: Starting Featured Search
+2025-04-17T01:01:51.428Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:01:51.428Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:02:14.470Z [info]: Signing Up Customer...
+2025-04-17T01:02:14.596Z [info]: Successfully Signed Up
+2025-04-17T01:02:16.305Z [info]: Starting Featured Search
+2025-04-17T01:02:16.306Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:02:16.307Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:02:16.309Z [info]: Starting Featured Search
+2025-04-17T01:02:16.310Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:02:16.310Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:02:22.755Z [info]: Login Starting...
+2025-04-17T01:02:22.864Z [info]: Successfully Logged In
+2025-04-17T01:02:22.951Z [info]: Getting Robots....
+2025-04-17T01:02:22.955Z [info]: Successfully Fetched Robot
+2025-04-17T01:02:22.958Z [info]: Getting Current Transactions
+2025-04-17T01:02:22.960Z [info]: Getting Employees...
+2025-04-17T01:02:22.961Z [info]: Successfully Retrieved Current Transactions
+2025-04-17T01:02:22.962Z [info]: Employees Fetched Successfully
+2025-04-17T01:02:59.049Z [info]: Uploading file to: ./uploads/
+2025-04-17T01:02:59.050Z [info]: Saving file as: 1744851779050.png
+2025-04-17T01:02:59.054Z [info]: Starting Product Insert
+2025-04-17T01:03:00.316Z [info]: Getting Robots....
+2025-04-17T01:03:00.318Z [info]: Successfully Fetched Robot
+2025-04-17T01:03:00.322Z [info]: Getting Current Transactions
+2025-04-17T01:03:00.325Z [info]: Getting Robots....
+2025-04-17T01:03:00.330Z [info]: Getting Employees...
+2025-04-17T01:03:00.333Z [info]: Successfully Retrieved Current Transactions
+2025-04-17T01:03:00.335Z [info]: Successfully Fetched Robot
+2025-04-17T01:03:00.337Z [info]: Getting Current Transactions
+2025-04-17T01:03:00.339Z [info]: Getting Employees...
+2025-04-17T01:03:00.340Z [info]: Successfully Retrieved Current Transactions
+2025-04-17T01:03:00.342Z [info]: Employees Fetched Successfully
+2025-04-17T01:03:00.344Z [info]: Employees Fetched Successfully
+2025-04-17T01:03:02.733Z [info]: Starting Featured Search
+2025-04-17T01:03:02.735Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:03:02.735Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:03:06.527Z [info]: Login Starting...
+2025-04-17T01:03:06.528Z [error]: Wrong Credentials
+2025-04-17T01:03:28.634Z [info]: Login Starting...
+2025-04-17T01:03:28.742Z [info]: Successfully Logged In
+2025-04-17T01:03:28.821Z [info]: Starting Featured Search
+2025-04-17T01:03:28.823Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:03:28.823Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:03:28.827Z [info]: Starting Featured Search
+2025-04-17T01:03:28.829Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:03:28.829Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:03:30.966Z [info]: Starting Customer Category Query
+2025-04-17T01:03:30.967Z [info]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-17T01:03:30.968Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:03:30.968Z [info]: Fetched The Items And Their Associated Images
+2025-04-17T01:03:34.255Z [info]: Starting Customer Name Query
+2025-04-17T01:03:34.255Z [info]: Fetching The Items Associated With The Product: Pasta
+2025-04-17T01:03:34.258Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:03:34.258Z [info]: Fetched The Items And Their Associated Images
+2025-04-17T01:03:34.878Z [info]: Starting Customer ID Query
+2025-04-17T01:03:34.878Z [info]: Querying Item With ItemID As A Customer: 34f97ec9-a5b9-4d2e-af31-0c1b0b5ef4d8
+2025-04-17T01:03:34.879Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:03:34.879Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-17T01:03:36.411Z [info]: Adding To Shopping Cart...
+2025-04-17T01:03:36.414Z [info]: Successfully Added To Shopping Cart
+2025-04-17T01:03:37.589Z [info]: Starting Featured Search
+2025-04-17T01:03:37.590Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:03:37.590Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:03:37.592Z [info]: Starting Featured Search
+2025-04-17T01:03:37.592Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:03:37.592Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:03:38.603Z [info]: Getting Shopping Cart...
+2025-04-17T01:03:38.606Z [info]: Successfully Fetched Shopping Cart
+2025-04-17T01:03:38.608Z [info]: Fetching Addresses Associated With Customer
+2025-04-17T01:03:38.610Z [info]: Addresses Fetched For Customer
+2025-04-17T01:03:51.826Z [info]: Adding Address To Database
+2025-04-17T01:03:51.958Z [info]: Address Found On Map
+2025-04-17T01:03:51.962Z [info]: Completed The Addition Of The Address
+2025-04-17T01:03:55.626Z [info]: Adding Transaction
+2025-04-17T01:03:55.633Z [info]: Inventory Update And Transaction Addition Successful
+2025-04-17T01:03:55.634Z [info]: Handling Stripe...
+2025-04-17T01:03:55.634Z [info]: Populating Stripe Cart
+2025-04-17T01:03:55.636Z [info]: Successfully Loaded Stripe Order
+2025-04-17T01:03:55.649Z [info]: Address Found On Map
+2025-04-17T01:03:56.293Z [info]: Sessiong Created
+2025-04-17T01:04:26.560Z [info]: Handling Webhook Response
+2025-04-17T01:04:26.562Z [info]: Successful Handling Of The Webhook
+2025-04-17T01:04:26.606Z [info]: Handling Webhook Response
+2025-04-17T01:04:26.606Z [info]: Successful Handling Of The Webhook
+2025-04-17T01:04:26.645Z [info]: Handling Webhook Response
+2025-04-17T01:04:26.645Z [info]: Successful Handling Of The Webhook
+2025-04-17T01:04:26.678Z [info]: Handling Webhook Response
+2025-04-17T01:04:26.679Z [info]: Transaction Was Completed
+2025-04-17T01:04:27.078Z [info]: The Payment Was Successful. Deleting Customer Shoppingcart
+2025-04-17T01:04:27.081Z [info]: Successfully Handled The Webhook Request
+2025-04-17T01:04:27.081Z [info]: Successful Handling Of The Webhook
+2025-04-17T01:04:28.651Z [info]: Getting Customer's Transactions
+2025-04-17T01:04:28.653Z [info]: Successfully Got Customer Transactions
+2025-04-17T01:04:28.861Z [info]: Handling Webhook Response
+2025-04-17T01:04:28.861Z [info]: Successful Handling Of The Webhook
+2025-04-17T01:04:34.729Z [info]: Login Starting...
+2025-04-17T01:04:34.835Z [info]: Successfully Logged In
+2025-04-17T01:04:34.944Z [info]: Getting Robots....
+2025-04-17T01:04:34.945Z [info]: Successfully Fetched Robot
+2025-04-17T01:04:34.948Z [info]: Getting Current Transactions
+2025-04-17T01:04:34.950Z [info]: Getting Employees...
+2025-04-17T01:04:34.951Z [info]: Successfully Retrieved Current Transactions
+2025-04-17T01:04:34.952Z [info]: Employees Fetched Successfully
+2025-04-17T01:04:43.477Z [info]: Scheduling Robots...
+2025-04-17T01:04:43.479Z [info]: Getting Robots That Are Free
+2025-04-17T01:04:43.481Z [info]: Getting Transactions That Are Out For Delivery
+2025-04-17T01:04:43.483Z [info]: Assigning Addresses To Robots And Updating Transactions
+2025-04-17T01:04:43.483Z [info]: Updating Transactions: 
+2025-04-17T01:04:43.485Z [info]: Assigned Robots Addresses And Updated Database: [object Object]
+2025-04-17T01:04:44.695Z [info]: Getting Current Transactions
+2025-04-17T01:04:44.697Z [info]: Successfully Retrieved Current Transactions
+2025-04-17T01:05:00.313Z [info]: Deploying Robots...
+2025-04-17T01:05:00.315Z [info]: Fetching The Address Of Each Robot
+2025-04-17T01:05:00.320Z [info]: Turning The Addresses To Geocodes
+2025-04-17T01:05:00.321Z [info]: Geocoding The Address
+2025-04-17T01:05:00.468Z [info]: Geocoding Successful
+2025-04-17T01:05:00.468Z [info]: Geocodes Found
+2025-04-17T01:05:00.468Z [info]: Deploying Robot: robot003
+2025-04-17T01:05:00.468Z [info]: Getting Optimized Route
+2025-04-17T01:05:00.472Z [info]: Request URL: https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-121.8839,37.3385;-121.90474,37.222357?access_token=pk.eyJ1IjoibWF0dGhld2RlbHVyaW8iLCJhIjoiY205Yzc5ODkwMG9pYzJtcTEweXVncnhraiJ9.fLo2x7rTBbss2-K6O4hBrQ&geometries=geojson&overview=full&roundtrip=true
+2025-04-17T01:05:00.911Z [info]: Optimized Route Found
+2025-04-17T01:05:00.911Z [info]: Update Robot To Deliverying
+2025-04-17T01:05:00.918Z [info]: Update Transaction Status
+2025-04-17T01:05:00.920Z [error]: Deployment Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Is NULL WHERE TransactionID IN ('deb32f41-050d-40a1-acc5-ef0d21c3f3de')' at line 1
+2025-04-17T01:07:34.318Z [info]: Deploying Robots...
+2025-04-17T01:07:34.327Z [info]: Fetching The Address Of Each Robot
+2025-04-17T01:07:34.332Z [info]: Turning The Addresses To Geocodes
+2025-04-17T01:07:34.332Z [info]: Geocoding The Address
+2025-04-17T01:07:34.635Z [info]: Geocoding Successful
+2025-04-17T01:07:34.635Z [info]: Geocodes Found
+2025-04-17T01:07:34.635Z [info]: Deploying Robot: robot003
+2025-04-17T01:07:34.635Z [info]: Getting Optimized Route
+2025-04-17T01:07:34.636Z [info]: Request URL: https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-121.8839,37.3385;-121.90474,37.222357?access_token=pk.eyJ1IjoibWF0dGhld2RlbHVyaW8iLCJhIjoiY205Yzc5ODkwMG9pYzJtcTEweXVncnhraiJ9.fLo2x7rTBbss2-K6O4hBrQ&geometries=geojson&overview=full&roundtrip=true
+2025-04-17T01:07:34.896Z [info]: Optimized Route Found
+2025-04-17T01:07:34.897Z [info]: Update Robot To Deliverying
+2025-04-17T01:07:34.903Z [info]: Update Transaction Status
+2025-04-17T01:07:34.904Z [error]: Deployment Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Is NULL WHERE TransactionID IN ('robot003')' at line 1
+2025-04-17T01:12:20.663Z [info]: Deploying Robots...
+2025-04-17T01:12:20.671Z [info]: Fetching The Address Of Each Robot
+2025-04-17T01:12:20.676Z [info]: Turning The Addresses To Geocodes
+2025-04-17T01:12:20.677Z [info]: Geocoding The Address
+2025-04-17T01:12:20.794Z [info]: Geocoding Successful
+2025-04-17T01:12:20.795Z [info]: Geocodes Found
+2025-04-17T01:12:20.795Z [info]: Deploying Robot: robot003
+2025-04-17T01:12:20.795Z [info]: Getting Optimized Route
+2025-04-17T01:12:20.795Z [info]: Request URL: https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-121.8839,37.3385;-121.90474,37.222357?access_token=pk.eyJ1IjoibWF0dGhld2RlbHVyaW8iLCJhIjoiY205Yzc5ODkwMG9pYzJtcTEweXVncnhraiJ9.fLo2x7rTBbss2-K6O4hBrQ&geometries=geojson&overview=full&roundtrip=true
+2025-04-17T01:12:21.116Z [info]: Optimized Route Found
+2025-04-17T01:12:21.117Z [info]: Update Robot To Deliverying
+2025-04-17T01:12:21.121Z [info]: Update Transaction Status
+2025-04-17T01:12:21.122Z [error]: Deployment Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Is NULL WHERE TransactionID IN ('robot003')' at line 1
+2025-04-17T01:12:44.570Z [info]: Deploying Robots...
+2025-04-17T01:12:44.577Z [info]: Fetching The Address Of Each Robot
+2025-04-17T01:12:44.581Z [info]: Turning The Addresses To Geocodes
+2025-04-17T01:12:44.582Z [info]: Geocoding The Address
+2025-04-17T01:12:44.681Z [info]: Geocoding Successful
+2025-04-17T01:12:44.681Z [info]: Geocodes Found
+2025-04-17T01:12:44.682Z [info]: Deploying Robot: robot003
+2025-04-17T01:12:44.682Z [info]: Getting Optimized Route
+2025-04-17T01:12:44.682Z [info]: Request URL: https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-121.8839,37.3385;-121.90474,37.222357?access_token=pk.eyJ1IjoibWF0dGhld2RlbHVyaW8iLCJhIjoiY205Yzc5ODkwMG9pYzJtcTEweXVncnhraiJ9.fLo2x7rTBbss2-K6O4hBrQ&geometries=geojson&overview=full&roundtrip=true
+2025-04-17T01:12:44.938Z [info]: Optimized Route Found
+2025-04-17T01:12:44.938Z [info]: Update Robot To Deliverying
+2025-04-17T01:12:44.941Z [info]: Update Transaction Status
+2025-04-17T01:12:44.944Z [error]: Deployment Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Is NULL WHERE TransactionID IN ('robot003')' at line 1
+2025-04-17T01:14:00.348Z [info]: Deploying Robots...
+2025-04-17T01:14:00.357Z [info]: Fetching The Address Of Each Robot
+2025-04-17T01:14:00.363Z [info]: Turning The Addresses To Geocodes
+2025-04-17T01:14:00.363Z [info]: Geocoding The Address
+2025-04-17T01:14:00.477Z [info]: Geocoding Successful
+2025-04-17T01:14:00.478Z [info]: Geocodes Found
+2025-04-17T01:14:00.478Z [info]: Deploying Robot: robot003
+2025-04-17T01:14:00.478Z [info]: Getting Optimized Route
+2025-04-17T01:14:00.478Z [info]: Request URL: https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-121.8839,37.3385;-121.90474,37.222357?access_token=pk.eyJ1IjoibWF0dGhld2RlbHVyaW8iLCJhIjoiY205Yzc5ODkwMG9pYzJtcTEweXVncnhraiJ9.fLo2x7rTBbss2-K6O4hBrQ&geometries=geojson&overview=full&roundtrip=true
+2025-04-17T01:14:00.738Z [info]: Optimized Route Found
+2025-04-17T01:14:00.739Z [info]: Update Robot To Deliverying
+2025-04-17T01:14:00.742Z [info]: Update Transaction Status
+2025-04-17T01:14:00.745Z [error]: Deployment Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Is NULL WHERE TransactionID IN ('deb32f41-050d-40a1-acc5-ef0d21c3f3de')' at line 1
+2025-04-17T01:14:18.793Z [info]: Deploying Robots...
+2025-04-17T01:14:18.802Z [info]: Fetching The Address Of Each Robot
+2025-04-17T01:14:18.807Z [info]: Turning The Addresses To Geocodes
+2025-04-17T01:14:18.807Z [info]: Geocoding The Address
+2025-04-17T01:14:18.907Z [info]: Geocoding Successful
+2025-04-17T01:14:18.907Z [info]: Geocodes Found
+2025-04-17T01:14:18.908Z [info]: Deploying Robot: robot003
+2025-04-17T01:14:18.908Z [info]: Getting Optimized Route
+2025-04-17T01:14:18.908Z [info]: Request URL: https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-121.8839,37.3385;-121.90474,37.222357?access_token=pk.eyJ1IjoibWF0dGhld2RlbHVyaW8iLCJhIjoiY205Yzc5ODkwMG9pYzJtcTEweXVncnhraiJ9.fLo2x7rTBbss2-K6O4hBrQ&geometries=geojson&overview=full&roundtrip=true
+2025-04-17T01:14:19.177Z [info]: Optimized Route Found
+2025-04-17T01:14:19.177Z [info]: Update Robot To Deliverying
+2025-04-17T01:14:19.180Z [info]: Update Transaction Status
+2025-04-17T01:14:19.192Z [error]: Deployment Error: Data truncated for column 'TransactionStatus' at row 1
+2025-04-17T01:15:54.582Z [info]: Deploying Robots...
+2025-04-17T01:15:54.591Z [info]: Fetching The Address Of Each Robot
+2025-04-17T01:15:54.596Z [info]: Turning The Addresses To Geocodes
+2025-04-17T01:15:54.596Z [info]: Geocoding The Address
+2025-04-17T01:15:54.689Z [info]: Geocoding Successful
+2025-04-17T01:15:54.689Z [info]: Geocodes Found
+2025-04-17T01:15:54.689Z [info]: Deploying Robot: robot003
+2025-04-17T01:15:54.689Z [info]: Getting Optimized Route
+2025-04-17T01:15:54.690Z [info]: Request URL: https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-121.8839,37.3385;-121.90474,37.222357?access_token=pk.eyJ1IjoibWF0dGhld2RlbHVyaW8iLCJhIjoiY205Yzc5ODkwMG9pYzJtcTEweXVncnhraiJ9.fLo2x7rTBbss2-K6O4hBrQ&geometries=geojson&overview=full&roundtrip=true
+2025-04-17T01:15:54.945Z [info]: Optimized Route Found
+2025-04-17T01:15:54.945Z [info]: Update Robot To Deliverying
+2025-04-17T01:15:54.948Z [info]: Update Transaction Status
+2025-04-17T01:15:54.948Z [info]: Going To Sleep For 3117500ms for Robot: robot003
+2025-04-17T01:18:14.699Z [info]: Starting Featured Search
+2025-04-17T01:18:14.705Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:18:14.705Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:18:25.011Z [info]: Login Starting...
+2025-04-17T01:18:25.119Z [info]: Successfully Logged In
+2025-04-17T01:18:25.180Z [info]: Starting Featured Search
+2025-04-17T01:18:25.182Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:18:25.182Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:18:25.184Z [info]: Starting Featured Search
+2025-04-17T01:18:25.185Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:18:25.185Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:18:27.814Z [info]: Starting Customer Category Query
+2025-04-17T01:18:27.814Z [info]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-17T01:18:27.817Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:18:27.817Z [info]: Fetched The Items And Their Associated Images
+2025-04-17T01:18:31.054Z [info]: Starting Customer Name Query
+2025-04-17T01:18:31.054Z [info]: Fetching The Items Associated With The Product: Pasta
+2025-04-17T01:18:31.057Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:18:31.057Z [info]: Fetched The Items And Their Associated Images
+2025-04-17T01:18:31.726Z [info]: Starting Customer ID Query
+2025-04-17T01:18:31.727Z [info]: Querying Item With ItemID As A Customer: 34f97ec9-a5b9-4d2e-af31-0c1b0b5ef4d8
+2025-04-17T01:18:31.728Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:18:31.728Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-17T01:22:51.598Z [info]: Starting Featured Search
+2025-04-17T01:22:51.610Z [info]: Starting Featured Search
+2025-04-17T01:22:51.621Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:22:51.622Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:22:51.631Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:22:51.632Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:25:36.987Z [info]: Starting Customer ID Query
+2025-04-17T01:25:36.988Z [info]: Querying Item With ItemID As A Customer: 34f97ec9-a5b9-4d2e-af31-0c1b0b5ef4d8
+2025-04-17T01:25:36.989Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:25:36.990Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-17T01:25:37.981Z [info]: Starting Featured Search
+2025-04-17T01:25:37.982Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:25:37.982Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:25:37.983Z [info]: Starting Featured Search
+2025-04-17T01:25:37.984Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:25:37.984Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:29:10.524Z [info]: Login Starting...
+2025-04-17T01:29:10.532Z [error]: Wrong Credentials
+2025-04-17T01:29:17.944Z [info]: Login Starting...
+2025-04-17T01:29:18.056Z [info]: Successfully Logged In
+2025-04-17T01:29:18.179Z [info]: Starting Featured Search
+2025-04-17T01:29:18.180Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:29:18.180Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:29:18.181Z [info]: Starting Featured Search
+2025-04-17T01:29:18.182Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:29:18.182Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:29:23.097Z [info]: Starting Customer Name Query
+2025-04-17T01:29:23.098Z [info]: Fetching The Items Associated With The Product: Pasta
+2025-04-17T01:29:23.100Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:29:23.100Z [info]: Fetched The Items And Their Associated Images
+2025-04-17T01:29:25.587Z [info]: Starting Customer ID Query
+2025-04-17T01:29:25.588Z [info]: Querying Item With ItemID As A Customer: 34f97ec9-a5b9-4d2e-af31-0c1b0b5ef4d8
+2025-04-17T01:29:25.590Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:29:25.590Z [info]: Fetched The Items And Their Associated Images As A Customer
+2025-04-17T01:29:27.697Z [info]: Adding To Shopping Cart...
+2025-04-17T01:29:27.708Z [info]: Successfully Added To Shopping Cart
+2025-04-17T01:29:29.124Z [info]: Starting Featured Search
+2025-04-17T01:29:29.125Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:29:29.125Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:29:29.127Z [info]: Starting Featured Search
+2025-04-17T01:29:29.129Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:29:29.129Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:29:30.201Z [info]: Getting Shopping Cart...
+2025-04-17T01:29:30.205Z [info]: Successfully Fetched Shopping Cart
+2025-04-17T01:29:30.207Z [info]: Fetching Addresses Associated With Customer
+2025-04-17T01:29:30.209Z [info]: Addresses Fetched For Customer
+2025-04-17T01:29:34.200Z [info]: Delete Address From Database
+2025-04-17T01:29:34.340Z [info]: Address Found On Map
+2025-04-17T01:29:34.346Z [info]: Completed The Deletion Of The Address
+2025-04-17T01:30:00.060Z [info]: Adding Address To Database
+2025-04-17T01:30:00.107Z [info]: Address Found On Map
+2025-04-17T01:30:00.111Z [info]: Completed The Addition Of The Address
+2025-04-17T01:30:05.841Z [info]: Adding Transaction
+2025-04-17T01:30:05.853Z [info]: Inventory Update And Transaction Addition Successful
+2025-04-17T01:30:05.854Z [info]: Handling Stripe...
+2025-04-17T01:30:05.854Z [info]: Populating Stripe Cart
+2025-04-17T01:30:05.857Z [info]: Successfully Loaded Stripe Order
+2025-04-17T01:30:05.875Z [info]: Address Found On Map
+2025-04-17T01:30:06.419Z [info]: Sessiong Created
+2025-04-17T01:30:40.494Z [info]: Handling Webhook Response
+2025-04-17T01:30:40.496Z [info]: Successful Handling Of The Webhook
+2025-04-17T01:30:40.539Z [info]: Handling Webhook Response
+2025-04-17T01:30:40.541Z [info]: Successful Handling Of The Webhook
+2025-04-17T01:30:40.582Z [info]: Handling Webhook Response
+2025-04-17T01:30:40.583Z [info]: Successful Handling Of The Webhook
+2025-04-17T01:30:40.602Z [info]: Handling Webhook Response
+2025-04-17T01:30:40.602Z [info]: Transaction Was Completed
+2025-04-17T01:30:40.965Z [info]: The Payment Was Successful. Deleting Customer Shoppingcart
+2025-04-17T01:30:40.967Z [info]: Successfully Handled The Webhook Request
+2025-04-17T01:30:40.968Z [info]: Successful Handling Of The Webhook
+2025-04-17T01:30:42.609Z [info]: Getting Customer's Transactions
+2025-04-17T01:30:42.611Z [info]: Successfully Got Customer Transactions
+2025-04-17T01:30:42.776Z [info]: Handling Webhook Response
+2025-04-17T01:30:42.777Z [info]: Successful Handling Of The Webhook
+2025-04-17T01:31:06.125Z [info]: Login Starting...
+2025-04-17T01:31:06.222Z [info]: Successfully Logged In
+2025-04-17T01:31:06.550Z [info]: Getting Robots....
+2025-04-17T01:31:06.552Z [info]: Getting Employees...
+2025-04-17T01:31:06.555Z [info]: Getting Current Transactions
+2025-04-17T01:31:06.558Z [info]: Successfully Fetched Robot
+2025-04-17T01:31:06.561Z [info]: Employees Fetched Successfully
+2025-04-17T01:31:06.573Z [info]: Successfully Retrieved Current Transactions
+2025-04-17T01:31:32.882Z [info]: Scheduling Robots...
+2025-04-17T01:31:32.883Z [info]: Getting Robots That Are Free
+2025-04-17T01:31:32.886Z [error]: Scheduling Error: No Free Robots
+2025-04-17T01:31:32.886Z [info]: Rolling Back Connection
+2025-04-17T01:31:32.887Z [info]: Releasing Connection
+2025-04-17T01:31:54.702Z [error]: number
+2025-04-17T01:31:54.703Z [info]: Updating Robot...
+2025-04-17T01:31:54.706Z [info]: Successfully Updated
+2025-04-17T01:31:56.626Z [info]: Getting Robots....
+2025-04-17T01:31:56.628Z [info]: Successfully Fetched Robot
+2025-04-17T01:31:56.632Z [info]: Getting Current Transactions
+2025-04-17T01:31:56.635Z [info]: Successfully Retrieved Current Transactions
+2025-04-17T01:31:56.637Z [info]: Getting Current Transactions
+2025-04-17T01:31:56.639Z [info]: Getting Employees...
+2025-04-17T01:31:56.640Z [info]: Getting Employees...
+2025-04-17T01:31:56.641Z [info]: Successfully Retrieved Current Transactions
+2025-04-17T01:31:56.642Z [info]: Employees Fetched Successfully
+2025-04-17T01:31:56.642Z [info]: Employees Fetched Successfully
+2025-04-17T01:32:00.384Z [info]: Scheduling Robots...
+2025-04-17T01:32:00.385Z [info]: Getting Robots That Are Free
+2025-04-17T01:32:00.387Z [info]: Getting Transactions That Are Out For Delivery
+2025-04-17T01:32:00.388Z [info]: Assigning Addresses To Robots And Updating Transactions
+2025-04-17T01:32:00.388Z [info]: Updating Transactions: 
+2025-04-17T01:32:00.395Z [info]: Assigned Robots Addresses And Updated Database: [object Object],[object Object]
+2025-04-17T01:32:02.648Z [info]: Getting Current Transactions
+2025-04-17T01:32:02.650Z [info]: Successfully Retrieved Current Transactions
+2025-04-17T01:32:19.844Z [info]: Deploying Robots...
+2025-04-17T01:32:19.846Z [info]: Fetching The Address Of Each Robot
+2025-04-17T01:32:19.848Z [info]: Turning The Addresses To Geocodes
+2025-04-17T01:32:19.848Z [info]: Geocoding The Address
+2025-04-17T01:32:19.897Z [info]: Geocoding Successful
+2025-04-17T01:32:19.897Z [info]: Geocoding The Address
+2025-04-17T01:32:20.056Z [info]: Geocoding Successful
+2025-04-17T01:32:20.056Z [info]: Geocodes Found
+2025-04-17T01:32:20.056Z [info]: Deploying Robot: robot003
+2025-04-17T01:32:20.057Z [info]: Getting Optimized Route
+2025-04-17T01:32:20.057Z [info]: Request URL: https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-121.8839,37.3385;-121.90474,37.222357;-121.90474,37.222357?access_token=pk.eyJ1IjoibWF0dGhld2RlbHVyaW8iLCJhIjoiY205Yzc5ODkwMG9pYzJtcTEweXVncnhraiJ9.fLo2x7rTBbss2-K6O4hBrQ&geometries=geojson&overview=full&roundtrip=true
+2025-04-17T01:32:20.465Z [info]: Optimized Route Found
+2025-04-17T01:32:20.465Z [info]: Update Robot To Deliverying
+2025-04-17T01:32:20.468Z [info]: Update Transaction Status
+2025-04-17T01:32:20.468Z [info]: Going To Sleep For 3117500ms for Robot: robot003
+2025-04-17T01:33:12.575Z [info]: Getting Faulty Robots
+2025-04-17T01:33:12.578Z [info]: Starting Low Stock Search
+2025-04-17T01:33:12.579Z [info]: Successfully Fetched Faulty Robots
+2025-04-17T01:33:12.581Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:33:12.582Z [info]: Fetched The Items And Their Associated Images In Lowstock Search
+2025-04-17T01:33:12.583Z [info]: Starting A Search For Expired Items
+2025-04-17T01:33:12.585Z [info]: Starting Featured Search
+2025-04-17T01:33:12.586Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:33:12.586Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:33:12.588Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:33:12.588Z [info]: Fetched The Items And Their Associated Images In Expiration Search
+2025-04-17T01:33:17.766Z [info]: Starting Employee Name Query
+2025-04-17T01:33:17.766Z [info]: Fetching The Items Associated With The Product: pasta
+2025-04-17T01:33:17.769Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:33:17.770Z [info]: Fetched The Items And Their Associated Images
+2025-04-17T01:33:18.447Z [info]: Starting Employee ID Query
+2025-04-17T01:33:18.447Z [info]: Querying Item With ItemID As An Employee: 34f97ec9-a5b9-4d2e-af31-0c1b0b5ef4d8
+2025-04-17T01:33:18.448Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:33:18.448Z [info]: Fetched The Items And Their Associated Images As An Employee
+2025-04-17T01:33:22.896Z [info]: Starting Low Stock Search
+2025-04-17T01:33:22.897Z [info]: Getting Faulty Robots
+2025-04-17T01:33:22.898Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:33:22.898Z [info]: Fetched The Items And Their Associated Images In Lowstock Search
+2025-04-17T01:33:22.899Z [info]: Successfully Fetched Faulty Robots
+2025-04-17T01:33:22.902Z [info]: Starting A Search For Expired Items
+2025-04-17T01:33:22.903Z [info]: Starting Featured Search
+2025-04-17T01:33:22.905Z [info]: Starting Low Stock Search
+2025-04-17T01:33:22.906Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:33:22.906Z [info]: Fetched The Items And Their Associated Images In Expiration Search
+2025-04-17T01:33:22.906Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:33:22.906Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:33:22.908Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:33:22.908Z [info]: Fetched The Items And Their Associated Images In Lowstock Search
+2025-04-17T01:33:22.909Z [info]: Starting A Search For Expired Items
+2025-04-17T01:33:22.910Z [info]: Getting Faulty Robots
+2025-04-17T01:33:22.911Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:33:22.911Z [info]: Fetched The Items And Their Associated Images In Expiration Search
+2025-04-17T01:33:22.912Z [info]: Starting Featured Search
+2025-04-17T01:33:22.912Z [info]: Successfully Fetched Faulty Robots
+2025-04-17T01:33:22.913Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:33:22.913Z [info]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-17T01:33:25.442Z [info]: Starting Employee ID Query
+2025-04-17T01:33:25.442Z [info]: Querying Item With ItemID As An Employee: 34f97ec9-a5b9-4d2e-af31-0c1b0b5ef4d8
+2025-04-17T01:33:25.444Z [info]: Starting Employee ID Query
+2025-04-17T01:33:25.444Z [info]: Querying Item With ItemID As An Employee: 34f97ec9-a5b9-4d2e-af31-0c1b0b5ef4d8
+2025-04-17T01:33:25.444Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:33:25.444Z [info]: Fetched The Items And Their Associated Images As An Employee
+2025-04-17T01:33:25.445Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:33:25.445Z [info]: Fetched The Items And Their Associated Images As An Employee
+2025-04-17T01:33:29.692Z [info]: Starting A Featured Add
+2025-04-17T01:33:29.696Z [info]: Adding Featured Item Successful
+2025-04-17T01:33:33.715Z [info]: Starting Featured Search
+2025-04-17T01:33:33.716Z [info]: Fetched The Items... Creating Static Image Links
+2025-04-17T01:33:33.716Z [info]: Fetched The Items And Their Associated Images In Featured Search

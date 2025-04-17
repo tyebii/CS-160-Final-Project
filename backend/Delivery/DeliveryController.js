@@ -1,12 +1,13 @@
+
 const pool = require('../Database Pool/DBConnections');
 
-setInterval(deployRobots, 10 * 60 * 1000);
+const { statusCode } = require('../Utils/Formatting');
 
 const logger = require('../Utils/Logger'); 
 
-const deployRobots = async () => {
+const scheduleRobots = async (req, res) => {
 
-    logger.info("Deploying Robots...")
+    logger.info("Scheduling Robots...")
 
     let connection;
 
@@ -17,6 +18,8 @@ const deployRobots = async () => {
         await connection.beginTransaction();
 
             logger.info("Getting Robots That Are Free")
+
+            await connection.query("Update Transactions Set Transactions.RobotID = NULL Where Transactions.RobotID Is Not Null")
 
             const [freeRobots] = await connection.query(
 
@@ -54,6 +57,9 @@ const deployRobots = async () => {
                 
             }
 
+            logger.info("Assigning Addresses To Robots And Updating Transactions")
+
+
             // Step 1: Assign deliveries to robots
             const robotAddresses = Array.from({ length: freeRobots.length }, () => []);
 
@@ -63,6 +69,8 @@ const deployRobots = async () => {
 
                 let weight = 0;
 
+                const transactionIDList = []
+
                 while (robotAddresses[i].length <= 10 && j < pendingDelivery.length) {
 
                     const delivery = pendingDelivery[j];
@@ -71,123 +79,29 @@ const deployRobots = async () => {
 
                     robotAddresses[i].push(delivery);
 
+                    transactionIDList.push(delivery.TransactionID)
+
                     weight += delivery.TransactionWeight;
 
                     j++;
 
                 }
 
-            }
+                logger.info("Updating Transactions: ")
 
-            logger.info("Assigned Robots Addresses: " + robotAddresses)
+                if (transactionIDList.length > 0) {
 
+                    const placeholders = transactionIDList.map(() => '?').join(', '); // => "?, ?"
+                
+                    await connection.query(
 
-            logger.info("Turning The Addresses To Geocodes")
-            // Step 2: Geocode each robot's delivery addresses
-            const geocodedAddresses = [];
+                        `UPDATE Transactions SET RobotID = ? WHERE TransactionID IN (${placeholders})`,
 
-            for (let i = 0; i < robotAddresses.length; i++) {
+                        [freeRobots[i].RobotID, ...transactionIDList]
 
-                const geo = [];
-
-                for (let m = 0; m < robotAddresses[i].length; m++) {
-
-                    const coords = await geocodeAddress(robotAddresses[i][m].DeliveryAddress);
-
-                    geo.push(coords);
+                    );
 
                 }
-
-                geocodedAddresses.push(geo);
-
-            }
-
-            logger.info("Geocodes Found: " + geocodedAddresses)
-
-            logger.info("Deploying Robots")
-
-            // Step 3: Deploy each robot with optimized route
-            for (let i = 0; i < geocodedAddresses.length; i++) {
-
-                logger.info("Deploying Robot: " + freeRobots[i].RobotID)
-
-                const optimized = await getOptimizedRoute(geocodedAddresses[i]);
-
-                const tripDurationMs = optimized.optimizedRoute.duration * 1000;
-
-
-                setTimeout(async () => {
-
-                    const robotDeliveries = robotAddresses[i];
-
-                    const transactionIDs = robotDeliveries.map(row => row.TransactionID);
-
-                    let dbConn;
-
-                    try {
-
-                        dbConn = await pool.promise().getConnection();
-
-                        await dbConn.beginTransaction();
-
-                            await dbConn.query(
-
-                                'UPDATE Robot SET RobotStatus = "Complete" WHERE RobotID = ?',
-
-                                [freeRobots[i].RobotID]
-
-                            );
-
-                            await dbConn.query(
-
-                                'UPDATE transactions SET TransactionStatus = "Complete", TransactionTime = NULL WHERE TransactionID IN (?)',
-
-                                [transactionIDs]
-
-                            );
-
-                        await dbConn.commit();
-
-                        dbConn.release();
-
-                        logger.info("Successful Delivery On Robot: " + freeRobots[i].RobotID)
-
-                    } catch (error) {
-
-                        
-                        logger.error("Error While Delivering: " + error.message)
-
-                        if (dbConn) {
-                
-                            try {
-                
-                                logger.info("Rolling Back Connection");
-                
-                                await dbConn.rollback();
-                
-                            } catch (rollbackError) {
-                
-                                logger.error("Error During Rollback: " + rollbackError.message);
-                
-                            }
-                        
-                            try {
-                
-                                logger.info("Releasing Connection");
-                
-                                dbConn.release();
-                
-                            } catch (releaseError) {
-                
-                                logger.error("Error Releasing Connection: " + releaseError.message);
-                
-                            }
-                            
-                        }
-
-                    } 
-
-                }, tripDurationMs);
 
             }
 
@@ -195,10 +109,13 @@ const deployRobots = async () => {
 
         connection.release();
 
+        logger.info("Assigned Robots Addresses And Updated Database: " + robotAddresses)
+
+        return res.sendStatus(statusCode.OK)
+
     } catch (error) {
 
-
-        logger.error("Deployment Error: " + error.message)
+        logger.error("Scheduling Error: " + error.message)
 
         if (connection) {
 
@@ -227,9 +144,191 @@ const deployRobots = async () => {
             }
             
         }
+
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Error While Scheduling Robots"})
+
     }
 
 };
+
+const deployRobots = async () => {
+
+    logger.info("Deploying Robots...")
+
+    let connection;
+
+    try {
+
+        connection = await pool.promise().getConnection();
+
+        await connection.beginTransaction();
+
+        logger.info("Fetching The Address Of Each Robot");
+
+        const [Transactions] = await connection.query(
+
+            "SELECT * FROM Transactions WHERE TransactionStatus = 'Out For Delivery' AND RobotID IS NOT NULL ORDER BY RobotID"
+
+        );
+
+        if (Transactions.length === 0) {
+
+            throw new Error("There Are No Robots To Deploy");
+
+        }
+
+        const robotMap = {};
+
+        for (const transaction of Transactions) {
+
+            const { RobotID } = transaction;
+
+            if (!robotMap[RobotID]) robotMap[RobotID] = [];
+
+            robotMap[RobotID].push(transaction);
+
+        }
+
+        logger.info("Turning The Addresses To Geocodes");
+
+        for (const robotID in robotMap) {
+
+            for (let i = 0; i < robotMap[robotID].length; i++) {
+
+                const coords = await geocodeAddress(robotMap[robotID][i].TransactionAddress);
+
+                robotMap[robotID][i].TransactionAddress = coords;
+
+            }
+        }
+
+        logger.info("Geocodes Found");
+
+        for (const robotID in robotMap) {
+
+            logger.info("Deploying Robot: " + robotID);
+
+            const destinationCoords = robotMap[robotID].map(row => row.TransactionAddress);
+
+            const origin = [-121.8839, 37.3385]; 
+
+            const routeCoords = [origin, ...destinationCoords];
+
+            const optimized = await getOptimizedRoute(routeCoords);
+
+            const tripDurationMs = optimized.optimizedRoute.duration * 1000;
+
+            const transactionIDs = robotMap[robotID].map(t => t.TransactionID);
+
+            logger.info("Update Robot To Deliverying")
+
+            await connection.query("UPDATE Robot SET RobotStatus = \"En Route\" WHERE RobotID = ?", robotID)
+
+            logger.info("Update Transaction Status")
+
+
+            if (transactionIDs.length > 0) {
+
+                const placeholders = transactionIDs.map(() => '?').join(', ');
+
+                //console.log(transactionIDs)
+            
+                //await connection.query(
+
+                   // `UPDATE Transactions SET TransactionStatus = "Delivering", TransactionTime = NULL WHERE TransactionID IN (${placeholders})`,
+
+                   // [...transactionIDs]
+
+                //);
+
+            }
+
+            logger.info("Going To Sleep For " + tripDurationMs + "ms for Robot: " + robotID);
+
+            setTimeout(async () => {
+
+                let dbConn;
+
+                try {
+
+                    dbConn = await pool.promise().getConnection();
+
+                    await dbConn.beginTransaction();
+
+                    await dbConn.query(
+
+                        'UPDATE Robot SET RobotStatus = "Free" WHERE RobotID = ?',
+
+                        [robotID]
+
+                    );
+
+                    await dbConn.query(
+                        
+                        'UPDATE Transactions SET TransactionStatus = "Fulfilled", TransactionTime Is NULL WHERE TransactionID IN (?)',
+                        
+                        [transactionIDs]
+
+                    );
+
+                    await dbConn.commit();
+
+                    dbConn.release();
+
+                    logger.info("Successful Delivery On Robot: " + robotID);
+
+                } catch (error) {
+
+                    logger.error("Error While Delivering: " + error.message);
+
+                    if (dbConn) {
+
+                        try {
+
+                            await dbConn.rollback();
+
+                            dbConn.release();
+
+                        } catch (rollbackError) {
+
+                            logger.error("Error During Rollback: " + rollbackError.message);
+
+                        }
+
+                    }
+
+                }
+
+            }, tripDurationMs);
+        }
+
+        await connection.commit();
+
+        connection.release();
+
+    } catch (error) {
+        logger.error("Deployment Error: " + error.message);
+
+        if (connection) {
+
+            try {
+
+                await connection.rollback();
+
+                connection.release();
+
+            } catch (err) {
+
+                logger.error("Error During Rollback/Release: " + err.message);
+
+            }
+
+        }
+
+    }
+
+};
+
 
 //Turn Address Into Geocode
 const geocodeAddress = async (address) => {
@@ -261,21 +360,49 @@ const geocodeAddress = async (address) => {
 //Optimized Route Between Addresses
 const getOptimizedRoute = async (geoCodes) => {
 
-    logger.info("Getting Optimized Route")
+    logger.info("Getting Optimized Route");
 
     const accessToken = process.env.MAPBOXSECRET;
 
     const coordsStr = geoCodes.map(coord => coord.join(',')).join(';');
 
     const url = `https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${coordsStr}?access_token=${accessToken}&geometries=geojson&overview=full&roundtrip=true`;
-   
-    const response = await fetch(url);
 
-    const data = await response.json();
+    logger.info("Request URL: " + url);
+
+    let response;
+
+    try {
+
+        response = await fetch(url);
+
+    } catch (err) {
+
+        throw new Error("Failed to reach Mapbox API: " + err.message);
+
+    }
+
+    if (!response.ok) {
+
+        throw new Error(`Mapbox API returned error: ${response.status} ${response.statusText}`);
+    
+    }
+
+    let data;
+
+    try {
+
+        data = await response.json();
+
+    } catch (err) {
+
+        throw new Error("Failed to parse Mapbox response: " + err.message);
+
+    }
 
     if (!data.trips || data.trips.length === 0) {
 
-        throw new Error("Failed to optimize route")
+        throw new Error("Failed to optimize route");
 
     }
 
@@ -284,7 +411,7 @@ const getOptimizedRoute = async (geoCodes) => {
     const waypointOrder = data.waypoints.map(wp => wp.waypoint_index);
 
     logger.info("Optimized Route Found");
-    
+
     return {
 
         optimizedRoute: trip,
@@ -295,4 +422,5 @@ const getOptimizedRoute = async (geoCodes) => {
 
 };
 
-module.exports = { deployRobots };
+
+module.exports = { deployRobots, scheduleRobots };

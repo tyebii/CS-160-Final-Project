@@ -15,5 +15,6 @@ router.post("/create-checkout-session", express.json(), authenticateToken, autho
 
 
 
+//stripe listen --forward-to localhost:3301/api/stripe/webhook
 
 module.exports = router;

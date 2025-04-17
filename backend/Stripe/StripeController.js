@@ -167,7 +167,7 @@ const addTransaction = async (req, res, next) => {
 
     logger.info("Adding Transaction")
 
-    const { TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, TransactionDate } = req.body;
+    const { TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus } = req.body;
 
     if(!validateCost(TransactionCost)){
 
@@ -184,12 +184,6 @@ const addTransaction = async (req, res, next) => {
     if(!validateTransactionStatus(TransactionStatus)){
 
         return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Invalid Transaction Status"})
-
-    }
-
-    if(!validatePastDate(TransactionDate)){
-
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Invalid Transaction Date"})
 
     }
 
@@ -223,8 +217,6 @@ const addTransaction = async (req, res, next) => {
 
     }
 
-    const formattedTransactionDate = new Date(TransactionDate).toISOString().slice(0, 19).replace('T', ' ');
-
     try {
 
         const connection = await pool.promise().getConnection(); 
@@ -241,7 +233,7 @@ const addTransaction = async (req, res, next) => {
 
                     VALUES (?, ?, ?, ?, ?, ?, ?)`,
 
-                    [customerID, transactionID, TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, formattedTransactionDate]
+                    [customerID, transactionID, TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, new Date()]
 
                 );
 

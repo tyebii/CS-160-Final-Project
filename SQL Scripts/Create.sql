@@ -79,8 +79,9 @@ CREATE TABLE Transactions (
     TransactionCost DOUBLE NOT NULL,
     TransactionWeight DOUBLE NOT NULL,
     TransactionAddress varchar(255),
-    TransactionStatus ENUM('In progress', 'Complete', 'Failed', 'Out For Delivery') NOT NULL,
+    TransactionStatus ENUM('In progress', 'Complete', 'Out For Delivery', 'Fulfilled') NOT NULL,
     TransactionDate DATETIME NOT NULL,
+    TransactionTime DATETIME,
     RobotID varchar(255),
     PaymentMethod VARCHAR(50),
     ChargeStatus ENUM('succeeded', 'pending', 'failed'),
@@ -270,7 +271,7 @@ BEGIN
     WHERE Transactions.TransactionStatus = 'In Progress';
 
     DELETE FROM Transactions
-    WHERE TransactionStatus NOT IN ('Complete', 'Out For Delivery')
+    WHERE TransactionStatus NOT IN ('Complete', 'Out For Delivery', 'Delivering', 'Fulfilled')
       AND TransactionDate < NOW() - INTERVAL 35 MINUTE;
 
 END $$

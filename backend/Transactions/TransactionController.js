@@ -9,7 +9,7 @@ const getCurrentTransactions = (req, res) => {
 
     logger.info("Getting Current Transactions")
 
-    const sqlQuery = "Select Distinct * From Transactions, Users  Where (TransactionStatus = \"Out For Delivery\" or TransactionStatus = \"In Progress\"  or TransactionStatus = \"Complete\")  and Transactions.CustomerID = Users.CustomerID Order By TransactionDate Desc"
+    const sqlQuery = "Select Distinct * From Transactions, Users  Where (TransactionStatus = \"Out For Delivery\" or TransactionStatus = \"In Progress\"  or TransactionStatus = \"Complete\")  and Transactions.CustomerID = Users.CustomerID Order By TransactionDate Desc, RobotID ASC"
     
     pool.query(sqlQuery, (error,results)=>{
 
@@ -27,6 +27,39 @@ const getCurrentTransactions = (req, res) => {
 
     })
     
+}
+
+//Fulfill Complete Order
+const fullfillOrder = (req, res) => {
+
+    logger.info("Fulfilling Order...")
+
+    const {TransactionID} = req.body
+
+    if(!validateID(TransactionID)){
+
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Fulfilling Transaction"})
+
+    }
+
+    pool.query('Update transactions Set TransactionStatus = "Fulfilled" Where TransactionID = ?', TransactionID, (error,results) => {
+        
+        if(error){
+
+            logger.error("Error Fulfilling Order: " + error.message)
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Fulfilling Transaction"})
+
+        }
+
+        logger.info("Successfully Fulfilled")
+
+        return res.sendStatus(statusCode.OK)
+
+    })
+        
+    
+
 }
 
 //Getting Transaction By ID
@@ -95,4 +128,4 @@ const getCustomerTransactions = (req, res) => {
 
 }
 
-module.exports = {getCurrentTransactions, getTransactionID, getCustomerTransactions}
+module.exports = {getCurrentTransactions, getTransactionID, getCustomerTransactions, fullfillOrder}
