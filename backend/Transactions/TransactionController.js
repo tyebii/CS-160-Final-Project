@@ -2,7 +2,7 @@ const pool = require('../Database Pool/DBConnections')
 
 const {validateID, statusCode} = require('../Utils/Formatting')
 
-const logger = require('../Utils/Logger'); 
+const {logger} = require('../Utils/Logger'); 
 
 //Getting Customer Transactions
 const getCurrentTransactions = (req, res) => {

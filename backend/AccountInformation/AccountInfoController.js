@@ -1,27 +1,25 @@
-//Ready For Testing
-
 const pool = require('../Database Pool/DBConnections')
 
-const {validateID, statusCode} = require('../Utils/Formatting');
+const {validateID, statusCode} = require('../Utils/Formatting')
 
-const logger = require('../Utils/Logger'); 
+const {logger} = require('../Utils/Logger')
 
 //Gets The Customer's Information
 const getCustomer = (req, res) => {
 
-    logger.info("Fetching The Customer's Information")
-
     const customerID = req.user?.CustomerID
+
+    logger.info("Fetching The Customer's Information With ID: " + customerID)
 
     if(!validateID(customerID)){
 
-        logger.error("The Format For Fetching Customer Information Is Invalid")
+        logger.error("The Format For Fetching Customer With ID " + customerID + " Information Is Invalid")
         
-        return res.status(statusCode.BAD_REQUEST).json({error:"CustomerID Is Invalid"})
+        return res.status(statusCode.BAD_REQUEST).json({error:"CustomerID Has Invalid Format"})
 
     }
 
-    logger.info("Getting Customer Information For " + customerID)
+    logger.info("Now Getting Customer Information For " + customerID + " From The Database")
 
     const sqlQuery = "SELECT UserID, UserNameFirst, UserNameLast, UserPhoneNumber, c.CustomerID, c.JoinDate FROM customer c INNER JOIN users u ON c.CustomerID = u.CustomerID WHERE c.CustomerID = ?"
 
@@ -29,9 +27,9 @@ const getCustomer = (req, res) => {
 
         if(error){
 
-            logger.error("Error Accessing Customer Information: " + error.message)
+            logger.error("Error Accessing Customer Information For Customer " + customerID + " :" + error.message)
 
-            return res.status(statusCode.SERVICE_UNAVAILABLE).json({error: "Internal Server Error Fetching Customer Information"})
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Fetching Customer Information"})
 
         }
 
@@ -46,13 +44,13 @@ const getCustomer = (req, res) => {
 //Gets The Employees Information
 const getEmployee = (req, res) => {
 
-    logger.info("Fetching The Employee's Information")
-
     const employeeID = req.user?.EmployeeID
+
+    logger.info("Fetching The Employee's Information With Employee ID: " + employeeID)
 
     if(!validateID(employeeID)){
 
-        logger.error("The Format For Fetching Employee Information Is Invalid")
+        logger.error("The Format For Fetching Employee With ID " + employeeID + " Information Is Invalid")
 
         return res.status(statusCode.BAD_REQUEST).json({error:"Employee ID Is Invalid"})
 
@@ -66,7 +64,7 @@ const getEmployee = (req, res) => {
 
         if(error){
 
-            logger.error("Error Accessing Employee Information: " + error.message)
+            logger.error("Error Accessing Employee Information For ID " + employeeID + " : " + error.message)
 
             return res.status(statusCode.SERVICE_UNAVAILABLE).json({error: "Internal Server Error Fetching Employee Information"})
 

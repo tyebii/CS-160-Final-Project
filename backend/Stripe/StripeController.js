@@ -8,7 +8,7 @@ const {transactionIDExists} = require('../Utils/ExistanceChecks')
 
 const {generateUniqueID} = require('../Utils/Generation')
 
-const logger = require('../Utils/Logger'); 
+const {logger} = require('../Utils/Logger'); 
 
 //This Creates A Stripe Checkout Section
 const handleStripe = async (req, res) => {

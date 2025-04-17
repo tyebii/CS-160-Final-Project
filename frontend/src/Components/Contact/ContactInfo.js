@@ -1,5 +1,3 @@
-//Ready For Testing
-
 import {
 
   FaFacebook,

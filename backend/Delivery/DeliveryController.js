@@ -3,7 +3,7 @@ const pool = require('../Database Pool/DBConnections');
 
 const { statusCode } = require('../Utils/Formatting');
 
-const logger = require('../Utils/Logger'); 
+const {logger} = require('../Utils/Logger'); 
 
 const scheduleRobots = async (req, res) => {
 
@@ -17,10 +17,12 @@ const scheduleRobots = async (req, res) => {
 
         await connection.beginTransaction();
 
+            logger.info("Getting Rid Of Previous Scheduling")
+
+            await connection.query("Update Transactions Set Transactions.RobotID = NULL Where Transactions.RobotID Is Not Null And TransactionStatus = 'Out For Delivery'")
+
             logger.info("Getting Robots That Are Free")
-
-            await connection.query("Update Transactions Set Transactions.RobotID = NULL Where Transactions.RobotID Is Not Null")
-
+            
             const [freeRobots] = await connection.query(
 
                 'SELECT * FROM Robot WHERE RobotStatus = "Free"'
@@ -28,6 +30,8 @@ const scheduleRobots = async (req, res) => {
             );
 
             if (!freeRobots || freeRobots.length === 0) {
+
+                logger.error("No Free Robots Found")
 
                 throw new Error("No Free Robots");
 
@@ -53,6 +57,8 @@ const scheduleRobots = async (req, res) => {
 
             if (!pendingDelivery || pendingDelivery.length === 0) {
 
+                logger.error("No Transactions Out For Delivery")
+
                 throw new Error("No Transactions To Deliver");
                 
             }
@@ -60,7 +66,8 @@ const scheduleRobots = async (req, res) => {
             logger.info("Assigning Addresses To Robots And Updating Transactions")
 
 
-            // Step 1: Assign deliveries to robots
+            logger.info("Assigining Deliveries To Robots")
+
             const robotAddresses = Array.from({ length: freeRobots.length }, () => []);
 
             let j = 0;
@@ -87,7 +94,7 @@ const scheduleRobots = async (req, res) => {
 
                 }
 
-                logger.info("Updating Transactions: ")
+                logger.info("Updating Transactions With Robot ID: " + freeRobots[i].RobotID)
 
                 if (transactionIDList.length > 0) {
 
@@ -109,7 +116,7 @@ const scheduleRobots = async (req, res) => {
 
         connection.release();
 
-        logger.info("Assigned Robots Addresses And Updated Database: " + robotAddresses)
+        logger.info("Assigned Robots Addresses And Updated Database With " + robotAddresses)
 
         return res.sendStatus(statusCode.OK)
 
@@ -151,9 +158,9 @@ const scheduleRobots = async (req, res) => {
 
 };
 
-const deployRobots = async () => {
+const deployRobots = async (req, res) => {
 
-    logger.info("Deploying Robots...")
+    logger.info("Deploying Robots...");
 
     let connection;
 
@@ -161,25 +168,39 @@ const deployRobots = async () => {
 
         connection = await pool.promise().getConnection();
 
-        await connection.beginTransaction();
+        logger.info("Pulling Mapbox Secret")
 
-        logger.info("Fetching The Address Of Each Robot");
+        logger.silly("PLEASE DO NOT RUN THE API TOO MUCH. I'M Broke")
 
-        const [Transactions] = await connection.query(
+        if (!process.env.MAPBOXSECRET) {
+
+            logger.error("Mapbox Secret Could Not Be Fetched")
+
+            throw new Error("MAPBOXSECRET environment variable not set");
+
+        }
+
+        logger.info("Fetching Transactions Assigned to Robots");
+
+        const [transactions] = await connection.query(
 
             "SELECT * FROM Transactions WHERE TransactionStatus = 'Out For Delivery' AND RobotID IS NOT NULL ORDER BY RobotID"
 
         );
 
-        if (Transactions.length === 0) {
+        if (transactions.length === 0) {
+
+            logger.error("There Are No Robot To Deploy")
 
             throw new Error("There Are No Robots To Deploy");
 
         }
 
+        logger.info("Populating Robot-Address Map")
+
         const robotMap = {};
 
-        for (const transaction of Transactions) {
+        for (const transaction of transactions) {
 
             const { RobotID } = transaction;
 
@@ -189,7 +210,7 @@ const deployRobots = async () => {
 
         }
 
-        logger.info("Turning The Addresses To Geocodes");
+        logger.info("Turning Robot-Addresses into Geocodes");
 
         for (const robotID in robotMap) {
 
@@ -200,114 +221,162 @@ const deployRobots = async () => {
                 robotMap[robotID][i].TransactionAddress = coords;
 
             }
+
         }
 
-        logger.info("Geocodes Found");
+        logger.info("Geocodes Found. Deploying Robots...");
+
+        const failedRobots = [];
 
         for (const robotID in robotMap) {
 
-            logger.info("Deploying Robot: " + robotID);
+            logger.info(`Deploying Robot: ${robotID}`);
 
-            const destinationCoords = robotMap[robotID].map(row => row.TransactionAddress);
+            try {
 
-            const origin = [-121.8839, 37.3385]; 
+                await connection.beginTransaction();
 
-            const routeCoords = [origin, ...destinationCoords];
+                    const destinationCoords = robotMap[robotID].map(row => row.TransactionAddress);
 
-            const optimized = await getOptimizedRoute(routeCoords);
+                    const routeCoords = [[-121.8839, 37.3385], ...destinationCoords]; 
 
-            const tripDurationMs = optimized.optimizedRoute.duration * 1000;
+                    logger.info("Getting Optimized Routes")
 
-            const transactionIDs = robotMap[robotID].map(t => t.TransactionID);
+                    const optimized = await getOptimizedRoute(routeCoords);
 
-            logger.info("Update Robot To Deliverying")
+                    const tripDurationMs = optimized.optimizedRoute.duration * 1000;
 
-            await connection.query("UPDATE Robot SET RobotStatus = \"En Route\" WHERE RobotID = ?", robotID)
+                    const transactionIDs = robotMap[robotID].map(t => t.TransactionID);
 
-            logger.info("Update Transaction Status")
+                    logger.info(`Updating Robot ${robotID} Status to 'En Route'`);
 
+                    await connection.query(
 
-            if (transactionIDs.length > 0) {
-
-                const placeholders = transactionIDs.map(() => '?').join(', ');
-
-                //console.log(transactionIDs)
-            
-                //await connection.query(
-
-                   // `UPDATE Transactions SET TransactionStatus = "Delivering", TransactionTime = NULL WHERE TransactionID IN (${placeholders})`,
-
-                   // [...transactionIDs]
-
-                //);
-
-            }
-
-            logger.info("Going To Sleep For " + tripDurationMs + "ms for Robot: " + robotID);
-
-            setTimeout(async () => {
-
-                let dbConn;
-
-                try {
-
-                    dbConn = await pool.promise().getConnection();
-
-                    await dbConn.beginTransaction();
-
-                    await dbConn.query(
-
-                        'UPDATE Robot SET RobotStatus = "Free" WHERE RobotID = ?',
+                        "UPDATE Robot SET RobotStatus = 'En Route' WHERE RobotID = ?",
 
                         [robotID]
 
                     );
 
-                    await dbConn.query(
-                        
-                        'UPDATE Transactions SET TransactionStatus = "Fulfilled", TransactionTime Is NULL WHERE TransactionID IN (?)',
-                        
-                        [transactionIDs]
+                    logger.info(`Updating Transactions for Robot ${robotID} to 'Delivering And Setting The Expected Time'`);
 
-                    );
+                    let accumulatedDuration = 0;
 
-                    await dbConn.commit();
+                    const legs = optimized.optimizedRoute.legs;
 
-                    dbConn.release();
+                    for (let leg = 0; leg < legs.length; leg++) {
 
-                    logger.info("Successful Delivery On Robot: " + robotID);
+                        accumulatedDuration += legs[leg].duration;
 
-                } catch (error) {
+                        const deliveryTime = new Date(now.getTime() + accumulatedDuration * 1000);
 
-                    logger.error("Error While Delivering: " + error.message);
+                        await connection.query(
 
-                    if (dbConn) {
+                            "UPDATE Transactions SET TransactionStatus = 'Delivering', TransactionTime = ? WHERE TransactionID = ?",
 
-                        try {
+                            [deliveryTime, transactionIDs[leg]]
 
-                            await dbConn.rollback();
+                        );
 
-                            dbConn.release();
+                    }
 
-                        } catch (rollbackError) {
+                await connection.commit();
 
-                            logger.error("Error During Rollback: " + rollbackError.message);
+                logger.info(`Robot ${robotID} Dispatched. Sleeping For ${tripDurationMs} ms.`);
 
+                setTimeout(async () => {
+
+                    logger.info(`Waking Robot ${robotID} to mark as Free.`);
+
+                    let connectionAsync; 
+
+                    try{
+
+                        connectionAsync = await pool.promise().getConnection()
+
+                        await connectionAsync.beginTransaction()
+
+                            logger.info("Updating The Robot Status To Free")
+
+                            await connectionAsync.query('UPDATE Robot SET RobotStatus = "Free" WHERE RobotID = ?', [robotID])
+
+                            logger.info(`Robot ${robotID} is now Free.`);
+        
+                            const placeholders = transactionIDs.map(() => '?').join(', ');
+
+                            logger.info("Updating The Robot's Transactions To Fullfilled")
+
+                            await connectionAsync.query(
+
+                              `UPDATE Transactions SET TransactionStatus = "Fulfilled" WHERE TransactionID IN (${placeholders})`,
+                              
+                              transactionIDs
+
+                            );       
+
+                        await connectionAsync.commit()
+
+                        connectionAsync.release()
+
+                        logger.info("Robot Handled Successfully")
+
+                    }catch(error){
+
+                        logger.error(`Error Updating Robot ${robotID} And Transactions: ${error.message}`);
+
+                        if (connectionAsync) {
+        
+                            try {
+        
+                                await connectionAsync.rollback();
+
+                                connectionAsync.release();
+        
+                            } catch (err) {
+        
+                                logger.error(`Error During Rollback: ${err.message}`);
+        
+                            }
+        
                         }
+
+                    }
+
+                }, tripDurationMs);
+
+            } catch (error) {
+
+                logger.error(`Error Deploying Robot ${robotID}: ${error.message}`);
+
+                failedRobots.push(robotID);
+
+                if (connection) {
+
+                    try {
+
+                        await connection.rollback();
+
+                    } catch (err) {
+
+                        logger.error(`Error During Rollback: ${err.message}`);
 
                     }
 
                 }
 
-            }, tripDurationMs);
-        }
+            }
 
-        await connection.commit();
+        }
 
         connection.release();
 
+        logger.info("Failed Robots: " + failedRobots)
+
     } catch (error) {
+
         logger.error("Deployment Error: " + error.message);
+
+        logger.error("Failed Robots: " + failedRobots)
 
         if (connection) {
 
@@ -328,6 +397,7 @@ const deployRobots = async () => {
     }
 
 };
+
 
 
 //Turn Address Into Geocode

@@ -3,7 +3,7 @@ const pool = require('../Database Pool/DBConnections')
 
 const {validateRegularID, statusCode} = require('../Utils/Formatting')
 
-const logger = require('../Utils/Logger'); 
+const {logger} = require('../Utils/Logger'); 
 
 //Get All Robots
 const getRobot = (req,res) => {

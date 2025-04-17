@@ -1,5 +1,6 @@
 const pool = require('../Database Pool/DBConnections');
 
+//Check Customer Existance
 async function customerIDExists(CustomerID){
 
     return new Promise((resolve,reject)=>{
@@ -17,10 +18,12 @@ async function customerIDExists(CustomerID){
             }
 
         });
+
     })
+
 }
 
-
+//Check Employee Existance
 async function employeeIDExists(EmployeeID){
 
     return new Promise((resolve,reject)=>{
@@ -38,9 +41,12 @@ async function employeeIDExists(EmployeeID){
             }
             
         });
+
     })
+
 }
 
+//Supervisor Existance Check
 async function supervisorExists(SupervisorID) {
 
     return new Promise((resolve, reject) => {
@@ -56,10 +62,14 @@ async function supervisorExists(SupervisorID) {
                 resolve(results.length > 0);
 
             }
+
         });
+
     });
+
 }
 
+//TransactionID Existance Check
 async function transactionIDExists(transactionID) {
 
     return new Promise((resolve, reject) => {
@@ -75,10 +85,14 @@ async function transactionIDExists(transactionID) {
                 resolve(results.length > 0); 
                 
             }
+
         });
+
     });
+
 }
 
+//ItemID Existance Check
 async function itemIDExists(itemID) {
 
     return new Promise((resolve, reject) => {
@@ -94,8 +108,11 @@ async function itemIDExists(itemID) {
                 resolve(results.length > 0); 
                 
             }
+
         });
+
     });
+
 }
 
 module.exports = {customerIDExists, employeeIDExists, supervisorExists, transactionIDExists, itemIDExists}

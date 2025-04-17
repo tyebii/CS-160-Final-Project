@@ -1,6 +1,6 @@
 const {supervisorExists} = require('./ExistanceChecks')
 
-const logger = require('../Utils/Logger'); 
+const {logger} = require('../Utils/Logger'); 
 
 require('dotenv').config(); 
 

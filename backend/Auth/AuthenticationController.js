@@ -12,7 +12,7 @@ const {customerIDExists, employeeIDExists} = require('../Utils/ExistanceChecks')
 
 const {statusCode} = require('../Utils/Formatting')
 
-const logger = require('../Utils/Logger'); 
+const {logger} = require('../Utils/Logger'); 
 
 //Signup Customer
 const signUpCustomer = async (req, res) => {
@@ -29,9 +29,17 @@ const signUpCustomer = async (req, res) => {
 
                 let { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber } = req.body;
 
+                logger.info("Recieved Assets " + UserID + ", " + Password + ", " + UserNameFirst + ", " + UserNameLast + ", " + UserPhoneNumber)
+
+                logger.info("Generating Hashed Password")
+
                 let hashedPassword = await generateHash(Password);
 
+                logger.info("Generating Unique UUID For Customer")
+
                 let CustomerID = await generateUniqueID(customerIDExists);
+
+                logger.info("Inserting Into Customer")
     
                 const sqlQueryOne = 'INSERT INTO customer (CustomerID, JoinDate) VALUES (?, ?)'
 
@@ -42,7 +50,8 @@ const signUpCustomer = async (req, res) => {
                     [CustomerID, new Date()]
 
                 );
-        
+
+                logger.info("Inserting Into Users")
 
                 const sqlQueryTwo = 'INSERT INTO users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, NULL, ?)'
                 
@@ -110,7 +119,7 @@ const signUpCustomer = async (req, res) => {
 //Signup Employee
 const signUpEmployee = async (req, res) => {
 
-        logger.info("Signing Up Employee")
+        logger.info("Signing Up Employee...")
 
         let connection;
     
@@ -122,32 +131,42 @@ const signUpEmployee = async (req, res) => {
 
                 let { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID} = req.body;
 
+                logger.info("Recieved Assets " + UserID + ", " + Password + ", " + UserNameFirst + ", " + UserNameLast + ", " + UserPhoneNumber + ", " + EmployeeHireDate + ", " + EmployeeStatus + ", " + EmployeeBirthDate + ", " + EmployeeDepartment + ", " + EmployeeHourly + ", " + SupervisorID)
+
+                logger.info("Generating Password Hash")
 
                 let hashedPassword = await generateHash(Password)
 
-
+                logger.info("Generating Unique UUID For Employee")
 
                 let EmployeeID = await generateUniqueID(employeeIDExists)
     
+                logger.info("Inserting Into Employee Table")
 
                 const sqlQueryOne = 'INSERT INTO Employee (EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID) VALUES (?,?,?,?,?,?,?)'
                 
                 await connection.query(
+
                     sqlQueryOne, 
+
                     [EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID]
+                
                 );
+
+                logger.info("Inserting Into User's Table")
 
                 const sqlQueryTwo = 'INSERT INTO users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, ?, Null)'
                 
                 await connection.query(
+
                     sqlQueryTwo, 
+
                     [UserID, hashedPassword, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID]
+
                 );
-    
 
             await connection.commit();
     
-
             connection.release();
             
             logger.info("Successfully Signed Up Employee")
@@ -213,15 +232,25 @@ const signUpManager = async (req, res) => {
 
             let { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, Secret} = req.body;
 
+            logger.info("Recieved Assets " + UserID + ", " + Password + ", " + UserNameFirst + ", " + UserNameLast + ", " + UserPhoneNumber + ", " + EmployeeHireDate + ", " + EmployeeStatus + ", " + EmployeeBirthDate + ", " + EmployeeDepartment + ", " + EmployeeHourly)
+
             if(Secret!=process.env.Secret){
+
+                logger.error("SECRET ATTEMPTED AND WRONG")
 
                 return res.status(statusCode.UNAUTHORIZED).json({error:"Not Authorized"})
 
             }
 
+            logger.info("Generating Hashed Password")
+
             let hashedPassword = await generateHash(Password)
 
+            logger.info("Generating Unique EmployeeID")
+
             let EmployeeID = await generateUniqueID(employeeIDExists)
+
+            logger.info("Inserting Into Employee")
 
             const sqlQueryOne = 'INSERT INTO Employee (EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID) VALUES (?,?,?,?,?,?,Null)'
 
@@ -232,6 +261,8 @@ const signUpManager = async (req, res) => {
                 [EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly]
 
             );
+
+            logger.info("Inserting Into Users")
 
             const sqlQueryTwo = 'INSERT INTO users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, ?, Null)'
 
@@ -303,7 +334,11 @@ const login = async (req, res) => {
 
         let {UserID, Password} = req.body;
 
+        logger.info("Recieved Assets " + UserID + ", " + Password)
+
         const connection = await pool.promise().getConnection();
+
+            logger.info("Checking If The Account Exists")
 
             const sqlQueryOne =  `SELECT users.password, users.employeeid, users.customerid, employee.supervisorid FROM users LEFT JOIN employee ON users.EmployeeId = employee.EmployeeID WHERE users.UserID = ?`
 
@@ -313,11 +348,13 @@ const login = async (req, res) => {
 
         if (rows.length === 0) {
 
-            logger.error("Wrong Credentials")
+            logger.error("Wrong Credentials Or Account Doesn't Exist")
 
             return res.status(statusCode.UNAUTHORIZED).json({ error: "Wrong Credentials" });
 
         }
+
+        logger.info("Checking Password Correctness")
 
         try{
 
@@ -333,17 +370,25 @@ const login = async (req, res) => {
 
             logger.error("Error With Bcrypt: " + error.message)
 
-            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:"Issue With Bcrypt Compare"})
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:"Issue With Encryption"})
 
         }
 
+        logger.info("Loading The JWT Token")
+
         const user = {
+
             UserID: UserID,
+
             EmployeeID: rows[0].employeeid,
+
             CustomerID: rows[0].customerid,
+
             SupervisorID: rows[0].supervisorid 
+
         };
         
+        logger.info("Signing The JWT Token")
 
         const accessToken = jwt.sign(user, process.env.Secret_Key, { expiresIn: '1h' });
 
@@ -353,7 +398,7 @@ const login = async (req, res) => {
 
     } catch (error) {
 
-        logger.error("Error Signing Manager Up: " + error.message)
+        logger.error("Error Logging In: " + error.message)
 
         if (connection) {
 
