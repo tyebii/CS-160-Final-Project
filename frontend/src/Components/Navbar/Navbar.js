@@ -233,6 +233,8 @@ function Navbar() {
 
             value={searchText}
 
+            maxLength={255}
+
             type="text"
 
             placeholder="Search"
@@ -272,7 +274,7 @@ function Navbar() {
 
         {/* My Account */}
 
-        {auth === "Customer"? (
+        {auth? (
 
           <li
 

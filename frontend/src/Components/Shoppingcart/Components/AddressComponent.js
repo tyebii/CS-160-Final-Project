@@ -1,17 +1,19 @@
 import axios from "axios";
 
-import {useAuth} from "../../../Context/AuthHook"
-
-import { useNavigate } from "react-router-dom";
-
 import { validateAddress, validateName} from "../../Utils/Formatting";
+
+//Token Validation Hook
+import { useValidateToken } from '../../Utils/TokenValidation';
+
+//Error Message Hook
+import { useErrorResponse } from '../../Utils/AxiosError';
 
 //The Address Block Containing Information And Remove
 function AddressComponent({address,setAddress,}){
 
-    const {logout} = useAuth()
-
-    const navigate = useNavigate()
+    const validateToken = useValidateToken();
+  
+    const { handleError } = useErrorResponse(); 
 
     const clickAddressRemove = () => {
         
@@ -31,19 +33,7 @@ function AddressComponent({address,setAddress,}){
 
         }
 
-        const token = localStorage.getItem('accessToken');
-
-        if (!token) {
-
-          alert('Login Information Not Found');
-    
-          logout()
-    
-          navigate('/login')
-    
-          return;
-    
-        }
+        const token = validateToken()
 
         if(!validateAddress(address.Address)){
           
@@ -83,19 +73,7 @@ function AddressComponent({address,setAddress,}){
 
           .catch((error) => {
 
-            if (error.response?.status === 401) {
-
-              alert("You need to login again!");
-
-              logout();
-
-              navigate('/login')
-
-            }else{
-
-                alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
-
-            }
+            handleError(error)
 
           });
 

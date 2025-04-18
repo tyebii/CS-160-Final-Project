@@ -19,7 +19,6 @@ export function Signup() {
 
     const navigate = useNavigate();
 
-    // State for the form data
     const [formData, setFormData] = useState({
 
         UserID: "",
@@ -93,7 +92,7 @@ export function Signup() {
                 
                 <label className="block mb-2 text-gray-700">Username</label>
 
-                <input
+                <input  
 
                     className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
 
@@ -101,7 +100,13 @@ export function Signup() {
 
                     type="text"
 
+                    name="UserID"
+
                     placeholder="Enter Username"
+
+                    minLength={5}
+
+                    maxLength={255}
 
                     required
 
@@ -118,6 +123,12 @@ export function Signup() {
                     className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
 
                     id="Password"
+
+                    name="Password"
+
+                    minLength={7}
+
+                    maxLength={255}
 
                     type="password"
 
@@ -139,7 +150,13 @@ export function Signup() {
 
                     id="First-Name"
 
+                    name="UserNameFirst"
+
                     type="text"
+
+                    minLength={2}
+
+                    maxLength={255}
 
                     placeholder="Enter First Name"
 
@@ -159,9 +176,15 @@ export function Signup() {
 
                     id="Last-Name"
 
+                    name="UserNameLast"
+
                     type="text"
 
                     placeholder="Enter Last Name"
+
+                    minLength={2}
+
+                    maxLength={255}
 
                     required
 
@@ -178,6 +201,8 @@ export function Signup() {
                     className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
 
                     id="Phone-Number"
+
+                    name="UserPhoneNumber"
 
                     type="text"
 

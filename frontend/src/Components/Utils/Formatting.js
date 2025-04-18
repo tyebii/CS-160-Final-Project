@@ -409,35 +409,6 @@ export const validatePastDate = (input) => {
     return true;
 }
 
-export const validateSpeed = (input) => {
-
-    if (input == null) {
-
-        alert("Speed Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== 'number') {
-
-        alert("Speed Must Be A Number");
-
-        return false;
-
-    }
-
-    if (input < 0) {
-
-        alert("Speed Cannot Be Negative");
-
-        return false;
-
-    }
-
-    return true;
-}
-
 export const validateBatteryLife = (input) => {
 
     if (input == null) {
@@ -507,7 +478,7 @@ export const validateEstimatedDelivery = (input) => {
 }
 
 
-export const validateRobot = (RobotID, CurrentLoad, RobotStatus, Maintanence, Speed, BatteryLife, EstimatedDelivery) => {
+export const validateRobot = (RobotID, CurrentLoad, RobotStatus, Maintanence, BatteryLife, EstimatedDelivery) => {
 
       
     if(!validateRegularID(RobotID)){
@@ -533,12 +504,6 @@ export const validateRobot = (RobotID, CurrentLoad, RobotStatus, Maintanence, Sp
         return false
 
     }
-    
-    if(!validateSpeed(Speed)){
-
-        return false
-
-    } 
 
     if(!validateBatteryLife(BatteryLife)){
 
@@ -678,11 +643,13 @@ export const employeeFormat = (UserID, UserNameFirst, UserNameLast, UserPhoneNum
 
     }
 
-    if (validatePhoneNumber(UserPhoneNumber)) {
+    if (!validatePhoneNumber(UserPhoneNumber)) {
 
         return false
 
     }
+
+    return true
 
 }
 
@@ -787,11 +754,13 @@ export const signUpFormat = (UserID, Password, UserNameFirst, UserNameLast, User
         return false
     }
 
+    return true
+
 }
 
 export const validateTransactionStatus = (input) => {
 
-    const validStorage = ['In progress','Complete','Failed','Out For Delivery'];
+    const validStorage = ['In progress','Complete','Failed', 'Delivering', 'Pending Delivery'];
 
     if (input == null) {
 

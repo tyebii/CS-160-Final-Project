@@ -2,6 +2,7 @@
 function ProductComponent({ result }) {
   
   return (
+    
     <div className="flex items-center border p-4 bg-white rounded-lg shadow-lg max-w-4xl mx-auto mt-5">
 
       <img

@@ -58,7 +58,7 @@ export function TransactionCard({ transaction }) {
 
                                 ? 'bg-yellow-500'
 
-                                : transaction.TransactionStatus === 'Out For Delivery'
+                                : transaction.TransactionStatus === 'Pending Delivery'
 
                                 ? 'bg-orange-500'
 

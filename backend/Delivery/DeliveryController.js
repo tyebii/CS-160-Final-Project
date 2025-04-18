@@ -19,7 +19,7 @@ const scheduleRobots = async (req, res) => {
 
             logger.info("Getting Rid Of Previous Scheduling")
 
-            await connection.query("Update Transactions Set Transactions.RobotID = NULL Where Transactions.RobotID Is Not Null And TransactionStatus = 'Out For Delivery'")
+            await connection.query("Update Transactions Set Transactions.RobotID = NULL Where Transactions.RobotID Is Not Null And TransactionStatus = 'Pending Delivery'")
 
             logger.info("Getting Robots That Are Free")
             
@@ -37,7 +37,7 @@ const scheduleRobots = async (req, res) => {
 
             }
 
-            logger.info("Getting Transactions That Are Out For Delivery")
+            logger.info("Getting Transactions That Are Pending Delivery")
 
             const [pendingDelivery] = await connection.query(
 
@@ -49,7 +49,7 @@ const scheduleRobots = async (req, res) => {
 
                 JOIN address ON transactions.TransactionAddress = address.address 
 
-                WHERE TransactionStatus = "Out For Delivery" 
+                WHERE TransactionStatus = "Pending Delivery" 
 
                 ORDER BY TransactionDate DESC`
 
@@ -57,7 +57,7 @@ const scheduleRobots = async (req, res) => {
 
             if (!pendingDelivery || pendingDelivery.length === 0) {
 
-                logger.error("No Transactions Out For Delivery")
+                logger.error("No Transactions Pending Delivery")
 
                 throw new Error("No Transactions To Deliver");
                 
@@ -184,7 +184,7 @@ const deployRobots = async (req, res) => {
 
         const [transactions] = await connection.query(
 
-            "SELECT * FROM Transactions WHERE TransactionStatus = 'Out For Delivery' AND RobotID IS NOT NULL ORDER BY RobotID"
+            "SELECT * FROM Transactions WHERE TransactionStatus = 'Pending Delivery' AND RobotID IS NOT NULL ORDER BY RobotID"
 
         );
 
@@ -261,6 +261,8 @@ const deployRobots = async (req, res) => {
                     logger.info(`Updating Transactions for Robot ${robotID} to 'Delivering And Setting The Expected Time'`);
 
                     let accumulatedDuration = 0;
+
+                    const now = new Date();
 
                     const legs = optimized.optimizedRoute.legs;
 

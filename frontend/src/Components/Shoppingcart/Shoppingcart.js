@@ -4,28 +4,30 @@ import { Link } from 'react-router-dom';
 
 import AddressComponent from "./Components/AddressComponent"
 
-import { useNavigate } from 'react-router-dom';
-
 import { AddressModal } from './Components/AddressModal';
-
-import {useAuth} from '../../Context/AuthHook'
 
 import ProductComponent from './Components/ProductComponent';
 
 import axios from 'axios';
 
-import { validateAddress, validateCost, validateTransactionStatus, validateID, validateName, validateWeight } from '../Utils/Formatting';
+import { validateAddress, validateID, validateName} from '../Utils/Formatting';
+
+//Token Validation Hook
+import { useValidateToken } from '../Utils/TokenValidation';
+
+//Error Message Hook
+import { useErrorResponse } from '../Utils/AxiosError';
 
 //Shopping Cart Component
 function ShoppingCart() {
 
-  const {logout} = useAuth()
+  const validateToken = useValidateToken();
+
+  const { handleError } = useErrorResponse(); 
   
   const [results, setResults] = useState([]);
 
   const [weight, setWeight] = useState(0);
-
-  const navigate = useNavigate()
 
   const [deliveryFee, setDeliveryFee] = useState(0);
 
@@ -37,21 +39,10 @@ function ShoppingCart() {
 
   const [addresses, setAddresses] = useState([{Name: "In Store Pickup", Address: "272 E Santa Clara St, San Jose, CA 95112"}]);
 
+  //Load The Shopping Cart And Addresses
   useEffect(() => {
 
-    const token = localStorage.getItem('accessToken');
-
-    if (!token) {
-
-      alert('Login Information Not Found');
-
-      logout()
-
-      navigate('/login')
-
-      return;
-
-    }
+    const token = validateToken()
 
     axios
 
@@ -73,19 +64,7 @@ function ShoppingCart() {
 
       .catch((error) => {
 
-        if (error.response?.status === 401) {
-
-          alert("You need to login again!");
-
-          logout();
-
-          navigate('/login')
-
-        }else{
-
-            alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
-
-        }
+          handleError(error)
 
     });
 
@@ -117,24 +96,13 @@ function ShoppingCart() {
 
       .catch((error) => {
 
-        if (error.response?.status === 401) {
-
-            alert("You need to login again!");
-
-            logout();
-
-            navigate('/login')
-
-        }else{
-
-            alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
-
-        }
+        handleError(error)
 
       });
 
   }, []);
 
+  //Load The Total
   useEffect(() => {
 
     const newWeight = results.reduce((sum, item) => sum + item.Weight * item.OrderQuantity, 0);
@@ -145,25 +113,14 @@ function ShoppingCart() {
 
     setCost(newCost);
 
-    setDeliveryFee(newWeight > 20 ? 10 : 0);
+    setDeliveryFee(newWeight >= 20 ? 10 : 0);
 
   }, [results]);
 
+  //Clear The Cart
   const handleClear = () => {
 
-    const token = localStorage.getItem('accessToken');
-
-    if (!token) {
-
-      alert('Login Information Not Found');
-
-      logout()
-
-      navigate('/login')
-
-      return;
-
-    }
+    const token = validateToken()
 
     axios
 
@@ -183,38 +140,16 @@ function ShoppingCart() {
   
       .catch((error) => {
         
-        if (error.response?.status === 401) {
-
-            alert("You need to login again!");
-
-            logout();
-
-            navigate('/login')
-
-        }else{
-
-            alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
-
-        }
+        handleError(error)
 
       })
+
   };
 
+  //Remove From The Cart
   const clickRemove = (itemid) => {
 
-    const token = localStorage.getItem('accessToken');
-
-    if (!token) {
-
-      alert('Login Information Not Found');
-
-      logout()
-
-      navigate('/login')
-
-      return;
-
-    }
+    const token = validateToken()
 
     if(!validateID(itemid)){
 
@@ -241,39 +176,16 @@ function ShoppingCart() {
       })
       .catch((error) => {
         
-        if (error.response?.status === 401) {
-
-          alert("You need to login again!");
-
-          logout();
-
-          navigate('/login')
-
-        }else{
-
-            alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
-
-        }
+        handleError(error);
 
       })
 
   };
 
+  //Click Checkout
   const clickCheckout = () => {
 
-    const token = localStorage.getItem('accessToken');
-
-    if (!token) {
-
-      alert('Login Information Not Found');
-
-      logout()
-
-      navigate('/login')
-
-      return;
-
-    }
+    const token = validateToken()
 
     if(results.length==0){
 
@@ -290,33 +202,12 @@ function ShoppingCart() {
       return
 
     }
-
-    if(!validateCost(cost + deliveryFee)){
-      
-      return
-
-    }
-
-    if(!validateWeight(weight)){
-      
-      return
-
-    }
     
     axios
+
         .post('http://localhost:3301/api/stripe/create-checkout-session', {
 
-            TransactionCost: cost + deliveryFee, 
-
-            TransactionWeight: weight,
-
             TransactionAddress: selectedAddress.Address,
-
-            TransactionStatus: 'In progress',
-
-            TransactionDate: new Date().toISOString().slice(0, 10),
-
-            InStore: selectedAddress === addresses[0]? true:false
 
         }, {
 
@@ -332,19 +223,7 @@ function ShoppingCart() {
 
         .catch((error) => {
 
-          if (error.response?.status === 401) {
-
-            alert("You need to login again!");
-  
-            logout();
-  
-            navigate('/login')
-  
-          }else{
-  
-              alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
-  
-          }
+          handleError(error);
 
         })
 
@@ -354,19 +233,7 @@ function ShoppingCart() {
 
     e.preventDefault();
   
-    const token = localStorage.getItem('accessToken');
-  
-    if (!token) {
-
-      alert('Login Information Not Found');
-
-      logout();
-
-      navigate('/login');
-
-      return;
-
-    }
+    const token = validateToken();
   
     const formData = new FormData(e.target);
 
@@ -432,19 +299,7 @@ function ShoppingCart() {
 
     .catch((error) => {
 
-      if (error.response?.status === 401) {
-
-        alert("You need to login again!");
-
-        logout();
-
-        navigate('/login');
-
-      } else {
-
-        alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
-
-      }
+      handleError(error)
 
       setAddressModalOpen(false);
 

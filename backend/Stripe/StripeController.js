@@ -15,8 +15,6 @@ const handleStripe = async (req, res) => {
 
     logger.info("Handling Stripe...")
 
-    let connection 
-
     try {
 
         if (!process.env.STRIPE_PRIVATE_KEY) {
@@ -31,19 +29,11 @@ const handleStripe = async (req, res) => {
 
         let lineItems = [];
         
-        const connection = req.connection;
+        logger.info("Populating Stripe Cart")
+    
+        const items = req.items;
         
-            logger.info("Populating Stripe Cart")
-        
-            const [items] = await connection.query(
-
-            "SELECT * FROM Inventory JOIN Shoppingcart ON Inventory.ItemID = Shoppingcart.ItemID WHERE Shoppingcart.CustomerID = ?",
-
-            [req.user.CustomerID]
-
-            );
-            
-            for (let i = 0; i < items.length; i++) {
+        for (let i = 0; i < items.length; i++) {
 
             const item = items[i];
             
@@ -69,11 +59,8 @@ const handleStripe = async (req, res) => {
 
             });
 
-            }
+        }
 
-        await connection.commit()
-
-        connection.release();
 
         lineItems.push({
 
@@ -83,14 +70,16 @@ const handleStripe = async (req, res) => {
 
                 product_data: { name: 'Delivery' },
 
-                unit_amount: weight <= 20 ? 0 : 1000, 
+                unit_amount: weight < 20 ? 0 : 1000, 
 
             },
             quantity: 1
 
         });
 
-        logger.info("Successfully Loaded Stripe Order")
+        logger.info("Successfully Loaded Stripe Order" )
+
+        logger.info("In Store: " + (req.body.TransactionAddress == "272 E Santa Clara St, San Jose, CA 95112"))
 
         const session = await stripe.checkout.sessions.create({
 
@@ -110,47 +99,21 @@ const handleStripe = async (req, res) => {
 
                 transaction_id: req.body.TransactionID,  
                 
-                in_store: req.body.InStore,
+                in_store: req.body.TransactionAddress == "272 E Santa Clara St, San Jose, CA 95112",
 
                 customer_id: req.user.CustomerID
+
             },
+
         });
 
-        logger.info("Sessiong Created")
+        logger.info("Session Created")
 
         return res.json({ url: session.url });
     
     } catch (error) {
 
         logger.error("Error While Handling Stripe: " + error.message)
-
-        if (connection) {
-
-            try {
-
-                logger.info("Rolling Back Connection");
-
-                await connection.rollback();
-
-            } catch (rollbackError) {
-
-                logger.error("Error During Rollback: " + rollbackError.message);
-
-            }
-        
-            try {
-
-                logger.info("Releasing Connection");
-
-                connection.release();
-
-            } catch (releaseError) {
-
-                logger.error("Error Releasing Connection: " + releaseError.message);
-
-            }
-            
-        }
 
         if (!res.headersSent) { 
 
@@ -167,25 +130,7 @@ const addTransaction = async (req, res, next) => {
 
     logger.info("Adding Transaction")
 
-    const { TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus } = req.body;
-
-    if(!validateCost(TransactionCost)){
-
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Invalid Transaction Cost"})
-
-    }
-
-    if(!validateWeight(TransactionWeight)){
-
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Invalid Transaction Weight"})
-
-    }
-
-    if(!validateTransactionStatus(TransactionStatus)){
-
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Invalid Transaction Status"})
-
-    }
+    const {TransactionAddress} = req.body;
 
     let customerID = req.user.CustomerID;
 
@@ -201,7 +146,9 @@ const addTransaction = async (req, res, next) => {
 
     }
 
-    console.log(TransactionAddress)
+    logger.info("Transaction Address: " + TransactionAddress)
+
+    logger.info("CustomerID: " + customerID)
     
     let transactionID;
     
@@ -225,6 +172,28 @@ const addTransaction = async (req, res, next) => {
 
             await connection.beginTransaction();
 
+                const [items] = await connection.query(
+
+                    "SELECT * FROM Inventory JOIN Shoppingcart ON Inventory.ItemID = Shoppingcart.ItemID WHERE Shoppingcart.CustomerID = ?",
+    
+                    [req.user.CustomerID]
+    
+                );
+
+                console.log(items)
+
+                let weight = 0
+
+                let cost = 0
+
+                for(let i = 0; i < items.length; i++){
+
+                    weight += items[i].Weight * items[i].OrderQuantity;
+
+                    cost += items[i].Cost * 100 * items[i].OrderQuantity
+
+                }
+
                 await connection.query(
 
                     `INSERT INTO Transactions 
@@ -233,7 +202,7 @@ const addTransaction = async (req, res, next) => {
 
                     VALUES (?, ?, ?, ?, ?, ?, ?)`,
 
-                    [customerID, transactionID, TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, new Date()]
+                    [customerID, transactionID, cost / 100 , weight , TransactionAddress, "In Progress" , new Date()]
 
                 );
 
@@ -249,15 +218,20 @@ const addTransaction = async (req, res, next) => {
                     WHERE ShoppingCart.CustomerID = ?`,
 
                     [customerID]
+
                 );
             
             req.body.TransactionID = transactionID;
 
-            req.connection = connection
+            req.items = items
 
             logger.info("Inventory Update And Transaction Addition Successful")
 
-            next();
+        await connection.commit()
+
+        connection.release();
+
+        next();
 
         } catch (error) {
 
@@ -347,7 +321,7 @@ const handleHook = async (req, res) => {
 
                         const transactionStatus = paymentIntent.status === 'succeeded'
 
-                            ? (session.metadata.in_store === 'true' ? 'Complete' : 'Out For Delivery')
+                            ? (session.metadata.in_store === 'true' ? 'Complete' : 'Pending Delivery')
 
                             : 'Failed';
 

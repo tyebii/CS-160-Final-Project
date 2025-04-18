@@ -33,6 +33,10 @@ export const AddressModal = ({ submitHandle, onCancel, onClose }) => {
 
               name="Name"
 
+              minLength={2}
+              
+              maxLength={255}
+
               id="name"
 
               className="w-full border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
@@ -53,7 +57,9 @@ export const AddressModal = ({ submitHandle, onCancel, onClose }) => {
 
               name="Address"
 
-              id="address"
+              minLength={2}
+              
+              maxLength={255}
 
               className="w-full border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
               
@@ -73,8 +79,6 @@ export const AddressModal = ({ submitHandle, onCancel, onClose }) => {
 
               name="City"
 
-              id="city"
-
               value="San Jose"
 
               readOnly
@@ -91,8 +95,6 @@ export const AddressModal = ({ submitHandle, onCancel, onClose }) => {
 
               name="State"
 
-              id="state"
-
               value="CA"
 
               readOnly
@@ -108,8 +110,6 @@ export const AddressModal = ({ submitHandle, onCancel, onClose }) => {
               type="text"
 
               name="Zip"
-
-              id="zip"
 
               className="w-1/3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
               

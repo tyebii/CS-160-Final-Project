@@ -96,6 +96,10 @@ function Login() {
 
                         type="text"
 
+                        minLength={5}
+                        
+                        maxLength={255}
+
                         placeholder="Username"
 
                         value={username}
@@ -111,6 +115,10 @@ function Login() {
                         required   
 
                         type="password"
+
+                        min={7}
+
+                        maxLength={255}
 
                         placeholder="Password"
 

@@ -200,6 +200,10 @@ export const ItemAdd = () => {
 
                                 type ="text"
 
+                                minLength={2}
+              
+                                maxLength={255}
+
                                 onChange={handleFieldChange('ProductName')}
 
                                 placeholder="Product Name"
@@ -215,6 +219,10 @@ export const ItemAdd = () => {
                             <TextEntryBox
 
                                 type="text"
+
+                                minLength={2}
+              
+                                maxLength={255}
 
                                 value={formData.Distributor}
 
@@ -379,7 +387,7 @@ export const ItemAdd = () => {
 
                                 min = "0"
 
-                                placeholder="0"
+                                placeholder="Cost In USD"
 
                             />
 
@@ -399,7 +407,7 @@ export const ItemAdd = () => {
 
                                 onChange={handleFieldChange('Weight')}
 
-                                placeholder="Weight"
+                                placeholder="Weight In KG"
 
                             />
 
@@ -419,7 +427,7 @@ export const ItemAdd = () => {
 
                                 onChange={handleFieldChange('SupplierCost')}
 
-                                placeholder="Supplier Cost"
+                                placeholder="Supplier Cost In USD"
 
                             />
 
@@ -436,6 +444,10 @@ export const ItemAdd = () => {
                     value={formData?.Description}
 
                     type={"text"}
+
+                    minLength={2}
+              
+                    maxLength={255}
 
                     onChange={handleFieldChange('Description')}
 

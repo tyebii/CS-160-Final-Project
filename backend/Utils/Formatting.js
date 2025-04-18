@@ -440,37 +440,6 @@ const validatePastDate = (input) => {
 
 }
 
-const validateSpeed = (input) => {
-
-    logger.error(typeof input)
-
-    if (input == null) {
-
-        logger.error("Speed Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== 'number') {
-
-        logger.error("Speed Must Be A Number");
-
-        return false;
-
-    }
-
-    if (input < 0) {
-
-        logger.error("Speed Cannot Be Negative");
-
-        return false;
-        
-    }
-
-    return true;
-}
-
 const validateBatteryLife = (input) => {
 
     if (input == null) {
@@ -562,12 +531,6 @@ const validateRobot = (req, res, next) => {
     if(!validateFutureDate(req.body.Maintanence)){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"Maintenance Date Format Invalid"})
-
-    } 
-    
-    if(!validateSpeed(req.body.Speed)){
-
-        return res.status(statusCode.BAD_REQUEST).json({error:"Speed Format Invalid"})
 
     } 
 
@@ -720,6 +683,7 @@ const employeeFormat = (req, res, next) => {
     }
 
     next();
+    
 }
 
 const validatePassword = (input) => {
@@ -1257,7 +1221,7 @@ const validateStorageRequirement = (input) => {
 
 const validateTransactionStatus = (input) => {
 
-    const validStorage = ['In progress','Complete','Failed','Out For Delivery'];
+    const validStorage = ['In progress','Complete', 'Delivering', 'Failed','Pending Delivery'];
 
     if (input == null) {
 

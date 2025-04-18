@@ -17,7 +17,7 @@ const getShoppingCart = (req, res) => {
 
     }
 
-    pool.query("select * from shoppingcart s, inventory i where s.customerid = ? and s.itemid = i.itemid", [customerID], (error,result)=>{
+    pool.query("select * from shoppingcart s, inventory i where s.customerid = ? and s.itemid = i.itemid", [customerID], (error,results)=>{
 
         if(error){
 
@@ -27,9 +27,26 @@ const getShoppingCart = (req, res) => {
 
         }
 
+        try{
+
+            for(let i = 0; i < results.length; i++){
+
+                results[i].ImageLink = `${process.env.IMAGE_URL}` + results[i].ImageLink;
+
+            }
+
+        }catch(error){
+
+            logger.error("Error While Creating Static Links For Images: " + error.message)
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error While Searching Featured Items"})
+
+        }
+
+
         logger.info("Successfully Fetched Shopping Cart")
 
-        return res.status(statusCode.OK).json(result)
+        return res.status(statusCode.OK).json(results)
 
     })
     

@@ -9,7 +9,7 @@ const getCurrentTransactions = (req, res) => {
 
     logger.info("Getting Current Transactions")
 
-    const sqlQuery = "Select Distinct * From Transactions, Users  Where (TransactionStatus = \"Out For Delivery\" or TransactionStatus = \"In Progress\"  or TransactionStatus = \"Complete\")  and Transactions.CustomerID = Users.CustomerID Order By TransactionDate Desc, RobotID ASC"
+    const sqlQuery = "Select Distinct * From Transactions, Users  Where (TransactionStatus = \"Pending Delivery\" or TransactionStatus = \"In Progress\"  or TransactionStatus = \"Complete\")  and Transactions.CustomerID = Users.CustomerID Order By TransactionDate Desc, RobotID ASC"
     
     pool.query(sqlQuery, (error,results)=>{
 
