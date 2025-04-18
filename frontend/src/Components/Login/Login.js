@@ -12,10 +12,15 @@ import {useAuth} from '../../Context/AuthHook'
 import { loginFormat } from "../Utils/Formatting";
 
 //Import Axios
-import axios from 'axios'; // Make sure axios is imported
+import axios from 'axios'; 
+
+//Error Message Hook
+import { useErrorResponse } from '../Utils/AxiosError';
 
 //Login Component
 function Login() {
+    
+    const { handleError } = useErrorResponse();  
 
     const [username, setUserName] = useState("");
 
@@ -38,9 +43,12 @@ function Login() {
         axios.post(
 
             "http://localhost:3301/api/authentication/login", 
+
             { 
                 UserID: username,
+
                 Password: password
+
             }
 
         )
@@ -59,7 +67,7 @@ function Login() {
 
         .catch((error) => {
 
-            alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
+            handleError(error)
 
         });
 
@@ -71,7 +79,6 @@ function Login() {
 
     }
 
-    //HTML
     return (
 
         <section className="flex justify-center items-center h-screen w-screen">
@@ -84,40 +91,65 @@ function Login() {
                 <form onSubmit={handleSubmit}>
 
                     <input
+
                         required
+
                         type="text"
+
                         placeholder="Username"
+
                         value={username}
+
                         onChange={(e) => setUserName(e.target.value)}
+
                         className="w-full p-4 text-lg border border-gray-300 rounded-xl mb-4 focus:outline-none focus:ring-4 focus:ring-blue-400"
-                    />
+                   
+                   />
 
                     <input
-                        required    
+
+                        required   
+
                         type="password"
+
                         placeholder="Password"
+
                         value={password}
+
                         onChange={(e) => setPassword(e.target.value)}
+                        
                         className="w-full p-4 text-lg border border-gray-300 rounded-xl mb-6 focus:outline-none focus:ring-4 focus:ring-blue-400"
+                    
                     />
 
                     <button
+
                         className="w-full bg-blue-600 text-white py-3 text-lg font-semibold rounded-xl hover:bg-blue-700 transition"
+                    
                     >
+
                         Submit
+
                     </button>
 
                 </form>
 
                 {/* Styled Sign-Up Link */}
+
                 <div className="mt-4 text-center">
 
                     <span className="text-gray-600 text-md">Don't have an account? </span>
+
                     <p 
+
                     onClick={clickSignUp} 
+
                     className="text-blue-600 font-semibold text-sm inline-block hover:underline hover:cursor-pointer hover:text-blue-800 transition"
+                    
                     >
+
                         Sign Up
+
                     </p>
 
                 </div>

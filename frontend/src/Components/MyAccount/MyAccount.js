@@ -1,37 +1,32 @@
-//Refactored April 12
-
+//Import UseEffect
 import { useEffect, useState } from "react";
 
+//Import Use Navigate
 import { useNavigate } from "react-router-dom";
 
-import {useAuth} from "../../Context/AuthHook"
-
+//Import Axios
 import axios from 'axios';
+
+//Token Validation Hook
+import { useValidateToken } from '../Utils/TokenValidation';
+
+//Error Message Hook
+import { useErrorResponse } from '../Utils/AxiosError';
 
 //Gets And Present Account Information
 export function MyAccount (){
 
-    const navigate = useNavigate()
+    const validateToken = useValidateToken();
 
-    const {logout} = useAuth()
+    const { handleError } = useErrorResponse(); 
+
+    const navigate = useNavigate()
 
     const [result, setResult] = useState({})
 
     useEffect(() => {
 
-        const token = localStorage.getItem('accessToken');
-
-        if (!token) {
-
-            alert('Login Information Not Found')
-
-            logout()
-
-            navigate('/login')
-
-            return;
-
-        }
+        const token = validateToken();
 
         axios
 
@@ -61,23 +56,7 @@ export function MyAccount (){
 
             .catch((error) => {
 
-                if (error.response?.status === 401) {
-
-                    alert("You Need To Login Again!");
-
-                    logout();
-
-                    navigate('/login')
-
-                }else if(error.response){
-
-                    alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
-
-                }else{
-
-                    alert("Contact With Backend Lost")
-
-                }
+                handleError(error);
 
             });
 
@@ -104,6 +83,7 @@ export function MyAccount (){
                 <p className="text-lg text-gray-700">
 
                     <span className="font-semibold text-gray-800">Join Date: </span> 
+
                     {result.JoinDate ? result.JoinDate.slice(0, 10) : "Loading..."}
 
                 </p>
