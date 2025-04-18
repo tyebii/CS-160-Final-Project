@@ -13,12 +13,16 @@ export function MyAccount (){
 
     const navigate = useNavigate()
 
-    const {logout} = useAuth()
+    const {auth, logout} = useAuth()
 
     const [result, setResult] = useState({})
+    
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
 
+        if (!auth || loaded) return;
+        
         const token = localStorage.getItem('accessToken');
 
         if (!token) {
@@ -33,16 +37,26 @@ export function MyAccount (){
 
         }
 
+        const endpoints = {
+            Customer: "http://localhost:3301/api/customer/customer",
+            Employee: "http://localhost:3301/api/customer/employee",
+            Manager: "http://localhost:3301/api/customer/employee",
+        };
+
+        const endpoint = endpoints[auth];
+        if (!endpoint) {
+            alert("Invalid user role");
+            logout();
+            navigate("/login");
+            return;
+        }
+
         axios
 
-            .get("http://localhost:3301/api/customer/customer", {
-
+            .get(endpoint, {
                 headers: {
-
                     Authorization: `Bearer ${token}`,
-
                 },
-
             })
 
             .then((response) => {
@@ -57,6 +71,7 @@ export function MyAccount (){
 
                 setResult(response.data[0])
 
+                setLoaded(true);
             })
 
             .catch((error) => {
@@ -81,7 +96,7 @@ export function MyAccount (){
 
             });
 
-    }, []);
+    }, [auth, loaded, logout, navigate]);
     
     return (
         
@@ -99,15 +114,32 @@ export function MyAccount (){
                 
                 <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">Phone Number:</span> {result.UserPhoneNumber}</p>
                 
-                <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">Customer ID:</span> {result.CustomerID}</p>
-                
-                <p className="text-lg text-gray-700">
+                {auth === "Customer" && (
+                    <>
+                        <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">Customer ID:</span> {result.CustomerID}</p>
+                        <p className="text-lg text-gray-700">
 
-                    <span className="font-semibold text-gray-800">Join Date: </span> 
-                    {result.JoinDate ? result.JoinDate.slice(0, 10) : "Loading..."}
+                            <span className="font-semibold text-gray-800">Join Date: </span> 
+                            {result.JoinDate ? result.JoinDate.slice(0, 10) : "Loading..."}
 
-                </p>
+                        </p>
+                    </>
+                )}
 
+                {(auth === "Manager" || auth === "Employee") && (
+                    <>
+                        <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">Employee ID:</span> {result.EmployeeID}</p>
+                        <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">Hire Date:</span> {result.EmployeeHireDate?.slice(0, 10)}</p>
+                        <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">Status:</span> {result.EmployeeStatus}</p>
+                        <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">Birth Date:</span> {result.EmployeeBirthDate?.slice(0, 10)}</p>
+                        <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">Department:</span> {result.EmployeeDepartment}</p>
+                        <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">Hourly Pay:</span> ${result.EmployeeHourly}</p>                    
+                    </>
+                )}
+
+                {auth === "Employee" && (          
+                    <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">Supervisor ID:</span> {result.SupervisorID}</p>
+                )}
             </div>
 
         </section>
