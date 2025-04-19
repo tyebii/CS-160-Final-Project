@@ -486,6 +486,23 @@ VALUES
 ('8e7dbed8-9e18-4d9f-b575-f5678237503b', 150, 'JuicyHealth', 0.60, 'Healthy Juice', 'Health and Wellness', 3.50, '2025-07-15', 5.50, 'Room Temperature', '2025-04-18', 'healthyjuice.jpg', 'Fresh and organic healthy juice blend'),
 ('f5e3e3d7-d8fe-4ad7-b464-eeb82b8e2e9a', 120, 'WellnessInc', 0.40, 'Vitamin C', 'Health and Wellness', 2.00, '2025-09-01', 3.00, 'Room Temperature', '2025-04-18', 'vitaminc.jpg', 'Vitamin C supplement for immunity support');
 
+INSERT INTO FeaturedItems (ItemID) VALUES
+
+('d2f24db5-70f2-4e7d-9a96-4a387a858a1e'),  -- Green Apple
+('59ff0a4a-1a15-4961-8a9e-89b062f60a7d'),  -- Mango
+
+('3e4c9fc9-1af1-4c3f-9953-7e4c2597bc21'),  -- Eggs
+('c2017f6c-8fc3-4f2d-bdc1-49ce1d973b9c'),  -- Cheese
+
+('19a1878c-7be3-4d7e-a6e7-89cd10998be0'),  -- Tuna
+('7102d3f3-8c6f-41f2-aac6-4a05907e0ea1'),  -- Bacon
+
+('5b8ab365-bd98-4e31-88a2-d39607c9c0a7'),  -- Croissant
+('0c1a91e1-f148-4c11-8121-4371c03a56d3'),  -- Cheesecake
+
+('af57e96d-5566-4765-b733-4fbb7861c401'),  -- Coffee
+('efde2609-5d6e-47c2-b14e-fc234c49a138');  -- Rice
+
 
 INSERT INTO Customer(CustomerID, JoinDate) VALUES 
 ('29bde254-1295-4faa-9c63-c5a721173f9f', '2025-04-18');

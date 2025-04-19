@@ -9,6 +9,7 @@ const {transactionIDExists} = require('../Utils/ExistanceChecks')
 const {generateUniqueID} = require('../Utils/Generation')
 
 const {logger} = require('../Utils/Logger'); 
+const { error } = require('winston');
 
 //This Creates A Stripe Checkout Section
 const handleStripe = async (req, res) => {
@@ -191,6 +192,12 @@ const addTransaction = async (req, res, next) => {
                     weight += items[i].Weight * items[i].OrderQuantity;
 
                     cost += items[i].Cost * 100 * items[i].OrderQuantity
+
+                }
+
+                if(cost < 50){
+
+                    res.status(statusCode.BAD_REQUEST).json({error: "Transaction Must Be Greater Than $.5"})
 
                 }
 

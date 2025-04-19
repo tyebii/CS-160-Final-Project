@@ -133,7 +133,8 @@ export function TransactionDetails({transaction}) {
 
           <DetailRow label="Transaction Date" value={new Date(transaction.TransactionDate).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })} />
 
-          <DetailRow label="Transaction Arrival Date" value={new Date(transaction.TransactionTime).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })} />
+          <DetailRow label="Transaction Arrival Date" value={transaction.TransactionTime ? new Date(transaction.TransactionTime).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }) : "N/A"} />
+
 
           <DetailRow label="Robot ID" value={transaction.RobotID} defaultValue="None" />
 

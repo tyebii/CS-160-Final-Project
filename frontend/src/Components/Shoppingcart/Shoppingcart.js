@@ -202,6 +202,14 @@ function ShoppingCart() {
       return
 
     }
+
+    if(cost<.5){
+
+      alert("Cost Must Be Greater Than $.5 To Checkout")
+      
+      return
+      
+    }
     
     axios
 

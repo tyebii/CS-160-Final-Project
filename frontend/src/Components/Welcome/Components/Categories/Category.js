@@ -69,7 +69,7 @@ export default function Categories({auth}) {
 
       <article className="mt-10">
 
-        <h2 className="text-center text-3xl font-bold mb-6 text-gray-800">
+        <h2 className="text-center text-4xl mb-6 text-gray-800">
 
           {auth === "Employee" || auth === "Manager"
 
@@ -93,33 +93,40 @@ export default function Categories({auth}) {
 
 }
 
-//Category
+
+// Category
 const Category = ({ imageSrc, categoryName }) => {
 
   return (
 
-    <div className="flex flex-col items-center text-center mt-5 hover:scale-105 hover:translate-y-2 transition-all duration-200 ease-in-out">
-
-      <p className="text-lg font-bold mb-2">{categoryName}</p>
-
-      <div className="p-3 border-2 border-gray-300 rounded-full bg-white shadow-md">
-
-        <img
-
-          src={imageSrc}
-
-          alt={categoryName}
-
-          className="w-24 h-24 object-cover rounded-full"
-
-        />
-
-      </div>
-
+<div className="flex flex-col items-center text-center mt-10 hover:scale-110 hover:-translate-y-3 transition-all duration-300 ease-in-out">
+  
+  <div className="p-4 bg-black rounded-lg shadow-xl hover:shadow-3xl transition-shadow duration-300">
+    
+    <div className="w-64 h-64 rounded-lg overflow-hidden">  {/* Increased size to make it more square */}
+      
+      <img
+        src={imageSrc}
+        alt={categoryName}
+        className="w-full h-full object-cover"
+      />
     </div>
+
+  </div>
+
+  <p className="mt-6 text-3xl font-bold text-gray-800">{categoryName}</p>
+
+</div>
+
+
 
   );
   
 };
+
+
+
+
+
 
 

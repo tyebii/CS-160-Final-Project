@@ -16,6 +16,8 @@ import AddItem from './Components/AddItem/AddItem';
 
 import { useState } from 'react';
 
+import backdrop from './backdrop.png';
+
 //Welcome Page Component
 function Welcome() {
 
@@ -25,10 +27,21 @@ function Welcome() {
 
     return (
 
-        <section className="max-w-screen-xl mx-auto px-5">
+        <section
+
+            className="w-full bg-cover bg-center bg-no-repeat"
+
+            style={{ backgroundImage: `url(${backdrop})` }}
+
+        >
         
+        <div className="w-full max-w-[80%] mx-auto mt-10 mb-10 bg-white p-8 rounded-lg shadow-lg"
+            style={{
+                background: "linear-gradient(rgb(231, 204, 204),rgb(206, 200, 200))", // Gradient background
+              }}
+        >
             {/* Dynamic Welcome Header */}
-            <h1 className="text-4xl font-bold text-center mb-8">
+            <h1 className="text-7xl mt-10 font-bold text-center mb-8">
 
                 {auth === "Employee"
 
@@ -68,6 +81,7 @@ function Welcome() {
             {/*Add Items */}
             <AddItem auth={auth}></AddItem>
 
+        </div>
         </section>
         
     );

@@ -115,7 +115,7 @@ export default function Carousel({auth}) {
 
             <article className="text-center mb-10">
 
-                <h2 className="text-2xl mb-4">Featured Products</h2>
+                <h2 className="text-4xl mb-4">Featured Products</h2>
 
                 <div className="flex items-center justify-center gap-4 overflow-x-auto p-3">
 
@@ -176,49 +176,62 @@ const FeaturedProductCard = ({ item, cost, distributor, imageSrc, productName })
   };
 
   return (
-    <div className="w-64 h-[26rem] bg-white border border-gray-200 rounded-3xl shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col items-center p-5 transform hover:scale-[1.06] hover:border-red-500 group">
-      
-      {/* Product Image */}
-      <div className="w-48 h-48 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl overflow-hidden shadow-inner group-hover:shadow-lg transition duration-300">
+    <div className="w-64 h-[26rem] bg-white border border-gray-200 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col items-center p-5 transform hover:scale-[1.06] hover:-translate-y-1 hover:border-pink-400 group">
+
+        {/* Product Image */}
+        <div className="w-48 h-48 flex items-center justify-center bg-gradient-to-br from-pink-100 via-yellow-100 to-blue-100 rounded-xl overflow-hidden shadow-inner group-hover:shadow-xl transition duration-300">
         
-        <img 
+            <img 
+            
+            className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-300" 
+                
+            src={imageSrc} 
+                
+            alt={productName} 
+            />
 
-          className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-300" 
-          
-          src={imageSrc} 
+        </div>
 
-          alt={productName} 
-
-        />
-
-      </div>
-  
-      {/* Product Name */}
-      <p className="text-lg font-bold text-gray-800 mt-4 text-center group-hover:text-red-600 transition-colors duration-300">
+        {/* Product Name */}
+        <p className="text-xl font-extrabold text-gray-800 mt-4 text-center group-hover:text-pink-600 transition-colors duration-300 tracking-wide">
         
-        {productName}
+            {productName}
 
-      </p>
-  
-      {/* Optional Price Label */}
-    <span className="mt-1 text-sm text-gray-500">Cost: {cost}</span>
+        </p>
 
-    <span className="mt-1 text-sm text-gray-500">Distributor: {distributor}</span>
-  
-      {/* View Button */}
-      <button 
+        {/* Fancy Labels */}
+        <div className="flex flex-col items-center mt-2 gap-1">
+
+            <span className="px-3 py-1 text-sm rounded-full bg-yellow-100 text-yellow-800 font-semibold shadow-sm">
+                
+                💲 {cost}
+
+            </span>
+
+            <span className="px-3 py-1 text-sm rounded-full bg-blue-100 text-blue-800 font-semibold shadow-sm">
+                
+                📦 {distributor}
+
+            </span>
+
+        </div>
+
+        {/* View Button */}
+        <button 
 
         onClick={clickView}
 
-        className="mt-auto bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-2 rounded-full font-medium shadow-md hover:shadow-lg hover:brightness-110 hover:scale-105 transition-all duration-300 flex items-center gap-2"
-      
-      >
+        className="mt-auto bg-gradient-to-r from-pink-500 to-red-500 text-white px-6 py-2 rounded-full font-semibold shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center gap-2"
+        
+        >
 
-        View Item
+        🛒 View Item
 
-      </button>
+        </button>
 
     </div>
+
+
     
   );
   
