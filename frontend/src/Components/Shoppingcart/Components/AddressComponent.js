@@ -92,7 +92,7 @@ function AddressComponent({address,setAddress,}){
 
                 </div>
 
-                <div class="text-gray-600 font-thin ">
+                <div className="text-gray-600 font-thin ">
 
                     <p>{address.Address}</p>
 

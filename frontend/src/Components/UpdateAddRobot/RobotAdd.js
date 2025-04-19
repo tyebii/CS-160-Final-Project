@@ -23,12 +23,10 @@ export function RobotAdd() {
     const validateToken = useValidateToken();
 
     const { handleError } = useErrorResponse(); 
-s
+
     const [RobotID, setRobotID] = useState("");
 
     const [Maintanence, setMaintanence] = useState("");
-
-    const [BatteryLife, setBatteryLife] = useState(0);
 
     //Maybe Try Catch on Type Conversion
     //Submit The Form 
@@ -36,11 +34,13 @@ s
         
         e.preventDefault();
 
-        if(!validateRobot(RobotID, 0, "Free", Maintanence, Number(BatteryLife), 0)){
+        if(!validateRobot(RobotID, 0, "Free", Maintanence)){
 
             return; 
 
         }
+
+        console.log("here")
 
         const token = validateToken()
 
@@ -53,10 +53,6 @@ s
             RobotStatus: "Free",
 
             Maintanence: Maintanence,
-
-            BatteryLife: Number(BatteryLife),
-
-            EstimatedDelivery: 0
 
         }, {
 
@@ -91,6 +87,7 @@ s
             <h2 className="text-4xl font-bold text-center mb-8">Add Robot</h2>
 
             <form onSubmit={handleSubmit} className="mt-20 grid grid-cols-1 gap-4 p-4 bg-white rounded-lg shadow-md w-full max-w-md mx-auto">
+
                 <div>
 
                     <label htmlFor="RobotID" className="block text-sm font-medium text-gray-700">Robot ID</label>
@@ -155,42 +152,6 @@ s
                         className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
 
                     />
-
-                </div>
-
-                <div>
-
-                    <label htmlFor="BatteryLife" className="block text-sm font-medium text-gray-700">Battery Life</label>
-
-                    <input
-
-                        id="BatteryLife"
-
-                        type="number"
-
-                        placeholder="Enter Battery Life"
-
-                        min="0"
-
-                        max="100"
-
-                        required
-
-                        value={BatteryLife}
-
-                        onChange={(e) => setBatteryLife(e.target.value)}
-
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
-
-                    />
-
-                </div>
-
-                <div>
-
-                    <label htmlFor="EstimatedDelivery" className="block text-sm font-medium text-gray-700">Estimated Delivery</label>
-
-                    <input id="EstimatedDelivery" type="number" value="0" readOnly className="mt-1 block w-full bg-gray-100 border-gray-300 rounded-md shadow-sm" />
 
                 </div>
 

@@ -28,8 +28,6 @@ export function RobotUpdate({ robot }) {
 
     const [Maintanence, setMaintanence] = useState(robot.Maintanence?.slice(0, 10) || "");  
 
-    const [BatteryLife, setBatteryLife] = useState(robot.BatteryLife || 0);
-
     const [RobotStatus, setRobotStatus] = useState(robot.RobotStatus || 0); 
 
     //May Want To Use Try Catch
@@ -38,7 +36,7 @@ export function RobotUpdate({ robot }) {
 
         e.preventDefault();
 
-        if(!validateRobot(RobotID, 0, RobotStatus, Maintanence, Number(BatteryLife), 0)){
+        if(!validateRobot(RobotID, 0, RobotStatus, Maintanence)){
 
             return; 
 
@@ -55,10 +53,6 @@ export function RobotUpdate({ robot }) {
             RobotStatus: RobotStatus,
 
             Maintanence: Maintanence,
-
-            BatteryLife: Number(BatteryLife),
-
-            EstimatedDelivery: 0
 
         }, {
 
@@ -176,40 +170,6 @@ export function RobotUpdate({ robot }) {
                         className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
 
                     />
-
-                </div>
-
-                <div>
-
-                    <label htmlFor="BatteryLife" className="block text-sm font-medium text-gray-700">Battery Life</label>
-
-                    <input
-
-                        id="BatteryLife"
-
-                        type="number"
-
-                        value={BatteryLife}
-
-                        min="0"
-
-                        max="100"
-
-                        required
-
-                        onChange={(e) => setBatteryLife(e.target.value)}  
-
-                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
-
-                    />
-
-                </div>
-
-                <div>
-
-                    <label htmlFor="EstimatedDelivery" className="block text-sm font-medium text-gray-700">Estimated Delivery</label>
-
-                    <input id="EstimatedDelivery" type="text" value="0" readOnly className="mt-1 block w-full bg-gray-100 border-gray-300 rounded-md shadow-sm" />
 
                 </div>
 

@@ -440,74 +440,6 @@ const validatePastDate = (input) => {
 
 }
 
-const validateBatteryLife = (input) => {
-
-    if (input == null) {
-
-        logger.error("Battery Life Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== 'number') {
-
-        logger.error("Battery Life Must Be A Number");
-
-        return false;
-
-    }
-
-    if (input <= 0) {
-
-        logger.error("Battery Life Must Be Greater Than 0%");
-
-        return false;
-
-    }
-
-    if (input > 100) {
-
-        logger.error("Battery Life Cannot Exceed 100%");
-
-        return false;
-
-    }
-
-    return true;
-
-}
-
-const validateEstimatedDelivery = (input) => {
-
-    if (input == null) {
-
-        logger.error("Estimated Delivery Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== 'number') {
-
-        logger.error("Estimated Delivery Must Be A Number");
-
-        return false;
-
-    }
-
-    if (input < 0) {
-
-        logger.error("Estimated Delivery Must Be Greater Than 0%");
-
-        return false;
-
-    }
-
-    return true;
-
-}
-
 const validateRobot = (req, res, next) => {
 
     if(!validateRegularID(req.body.RobotID)){
@@ -533,18 +465,6 @@ const validateRobot = (req, res, next) => {
         return res.status(statusCode.BAD_REQUEST).json({error:"Maintenance Date Format Invalid"})
 
     } 
-
-    if(!validateBatteryLife(req.body.BatteryLife)){
-
-        return res.status(statusCode.BAD_REQUEST).json({error:"Battery Life Format Invalid"})
-
-    } 
-    
-    if(!validateEstimatedDelivery(req.body.EstimatedDelivery)){
-
-        return res.status(statusCode.BAD_REQUEST).json({error:"Estimated Delivery Format Invalid"})
-
-    }
 
     next();
 

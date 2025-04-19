@@ -89,18 +89,11 @@ Create Table Robot(
     CurrentLoad double not null,
     RobotStatus enum('En Route', 'Broken', 'Maintenance', 'Charging', 'Free', 'Retired') not null,
     Maintanence Date not null,
-    BatteryLife double not null,
-    EstimatedDelivery double
+    EstimatedDelivery DATETIME
 );
 
 Alter Table robot
 Add Constraint CheckRobotWeight Check (CurrentLoad<=200 and Currentload >= 0);
-
-Alter Table robot 
-Add Constraint CheckRobotBattery Check (BatteryLife >= 0 and BatteryLife <=100);
-
-Alter Table robot 
-Add Constraint CheckRobotEstimatedDelivery Check (EstimatedDelivery >= 0);
 
 CREATE INDEX robot_status
 ON Robot (RobotStatus);
@@ -200,12 +193,7 @@ CREATE TRIGGER FaultyRobotUpdate
 AFTER UPDATE ON robot
 FOR EACH ROW
 BEGIN
-    IF NEW.BatteryLife < 10 THEN
-        IF NOT EXISTS (SELECT 1 FROM faultyrobots WHERE RobotID = NEW.RobotID AND Cause = 'Low Battery') THEN
-            INSERT INTO faultyrobots (RobotID, EventDate, Cause)
-            VALUES (NEW.RobotID, NOW(), 'Low Battery');
-        END IF;
-    ELSEIF NEW.RobotStatus = 'Broken' THEN
+    IF NEW.RobotStatus = 'Broken' THEN
         IF NOT EXISTS (SELECT 1 FROM faultyrobots WHERE RobotID = NEW.RobotID AND Cause = 'Broken') THEN
             INSERT INTO faultyrobots (RobotID, EventDate, Cause)
             VALUES (NEW.RobotID, NOW(), 'Broken');
@@ -215,7 +203,7 @@ BEGIN
             INSERT INTO faultyrobots (RobotID, EventDate, Cause)
             VALUES (NEW.RobotID, NOW(), 'Needs Maintenance');
         END IF;
-    ELSEIF NEW.BatteryLife >= 10 AND NEW.RobotStatus != 'Broken' AND NEW.RobotStatus != 'Maintenance' THEN
+    ELSEIF NEW.RobotStatus != 'Broken' AND NEW.RobotStatus != 'Maintenance' THEN
         DELETE FROM faultyrobots
         WHERE RobotID = NEW.RobotID;
     END IF;
@@ -240,12 +228,7 @@ CREATE TRIGGER FaultyRobotInsert
 AFTER INSERT ON robot
 FOR EACH ROW
 BEGIN
-    IF NEW.BatteryLife < 10 THEN
-        IF NOT EXISTS (SELECT 1 FROM faultyrobots WHERE RobotID = NEW.RobotID AND Cause = 'Low Battery') THEN
-            INSERT INTO faultyrobots (RobotID, EventDate, Cause)
-            VALUES (NEW.RobotID, NOW(), 'Low Battery');
-        END IF;
-    ELSEIF NEW.RobotStatus = 'Broken' THEN
+    IF NEW.RobotStatus = 'Broken' THEN
         IF NOT EXISTS (SELECT 1 FROM faultyrobots WHERE RobotID = NEW.RobotID AND Cause = 'Broken') THEN
             INSERT INTO faultyrobots (RobotID, EventDate, Cause)
             VALUES (NEW.RobotID, NOW(), 'Broken');
@@ -255,7 +238,7 @@ BEGIN
             INSERT INTO faultyrobots (RobotID, EventDate, Cause)
             VALUES (NEW.RobotID, NOW(), 'Needs Maintenance');
         END IF;
-    ELSEIF NEW.BatteryLife >= 10 AND NEW.RobotStatus != 'Broken' AND NEW.RobotStatus != 'Maintenance' THEN
+    ELSEIF NEW.RobotStatus != 'Broken' AND NEW.RobotStatus != 'Maintenance' THEN
         DELETE FROM faultyrobots
         WHERE RobotID = NEW.RobotID;
     END IF;
@@ -325,10 +308,10 @@ SET GLOBAL event_scheduler = ON;
 INSERT INTO Address (Address) VALUES
 ('272 E Santa Clara St, San Jose, CA 95112');
 
-INSERT INTO Robot (RobotID, CurrentLoad, RobotStatus, Maintanence, BatteryLife, EstimatedDelivery) VALUES
-('robot001', 5.0,  'En Route', '2025-03-01', 80.0, 15.0),
-('robot002', 2.0,  'Charging', '2025-03-05', 50.0, NULL),
-('robot003', 0.0,  'Free', '2025-02-28', 100.0, NULL);
+INSERT INTO Robot (RobotID, CurrentLoad, RobotStatus, Maintanence, EstimatedDelivery) VALUES
+('robot001', 0,  'Free', '2025-04-29', NULL),
+('robot002', 0,  'Free', '2025-04-29', NULL),
+('robot003', 0,  'Free', '2025-04-29', NULL);
 
 INSERT INTO Inventory VALUES 
 ('d2f24db5-70f2-4e7d-9a96-4a387a858a1e', 120, 'SunFresh Farms', 0.25, 'Green Apple', 'Fresh Produce', 0.30, '2025-05-15', 0.50, 'Cool', '2025-04-18', 'appleGreen.jpg', 'Crisp and tart green apples perfect for snacking.'),

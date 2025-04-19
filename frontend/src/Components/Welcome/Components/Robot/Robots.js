@@ -100,7 +100,7 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
 
     });
 
-  }, [auth]);
+  }, [trigger]);
 
   //Schedule Robots
   const scheduleClick = () => {
@@ -238,11 +238,9 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
             {/* Robot Details */}
             <div className="w-full text-sm text-gray-600 space-y-1 mb-4">
 
-              <p><strong>Battery:</strong> {robot.BatteryLife}%</p>
-
               <p><strong>Load:</strong> {robot.CurrentLoad} kg</p>
 
-              <p><strong>ETA:</strong> {robot.EstimatedDelivery ? `${robot.EstimatedDelivery} mins` : "N/A"}</p>
+              <p><strong>ETA:</strong> {robot.EstimatedDelivery ? `${new Date(robot.EstimatedDelivery).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })} mins` : "N/A"}</p>
 
               <p>
 

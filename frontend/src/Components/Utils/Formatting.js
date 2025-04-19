@@ -409,76 +409,7 @@ export const validatePastDate = (input) => {
     return true;
 }
 
-export const validateBatteryLife = (input) => {
-
-    if (input == null) {
-
-        alert("Battery Life Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== 'number') {
-
-        alert("Battery Life Must Be A Number");
-
-        return false;
-
-    }
-
-    if (input <= 0) {
-
-        alert("Battery Life Must Be Greater Than 0%");
-
-        return false;
-
-    }
-
-    if (input > 100) {
-
-        alert("Battery Life Cannot Exceed 100%");
-
-        return false;
-
-    }
-
-    return true;
-
-}
-
-export const validateEstimatedDelivery = (input) => {
-
-    if (input == null) {
-
-        console.log("Estimated Delivery Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== 'number') {
-
-        console.log("Estimated Delivery Must Be A Number");
-
-        return false;
-
-    }
-
-    if (input < 0) {
-
-        console.log("Estimated Delivery Must Be Greater Than 0%");
-
-        return false;
-
-    }
-
-    return true
-
-}
-
-
-export const validateRobot = (RobotID, CurrentLoad, RobotStatus, Maintanence, BatteryLife, EstimatedDelivery) => {
+export const validateRobot = (RobotID, CurrentLoad, RobotStatus, Maintanence) => {
 
       
     if(!validateRegularID(RobotID)){
@@ -500,18 +431,6 @@ export const validateRobot = (RobotID, CurrentLoad, RobotStatus, Maintanence, Ba
     } 
 
     if(!validateFutureDate(Maintanence)){
-
-        return false
-
-    }
-
-    if(!validateBatteryLife(BatteryLife)){
-
-        return false
-
-    } 
-    
-    if(!validateEstimatedDelivery(EstimatedDelivery)){
 
         return false
 

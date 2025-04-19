@@ -108,6 +108,14 @@ const scheduleRobots = async (req, res) => {
 
                     );
 
+                    await connection.query(
+
+                        `UPDATE Robot SET CurrentLoad = ? WHERE RobotID = ?`,
+
+                        [weight, freeRobots[i].RobotID]
+
+                    );
+
                 }
 
             }
@@ -252,9 +260,10 @@ const deployRobots = async (req, res) => {
 
                     await connection.query(
 
-                        "UPDATE Robot SET RobotStatus = 'En Route' WHERE RobotID = ?",
+                        "UPDATE Robot SET RobotStatus = 'En Route', EstimatedDelivery = ? WHERE RobotID = ?",
 
-                        [robotID]
+                        [ new Date(Date.now() + tripDurationMs), robotID ]
+
 
                     );
 
@@ -300,7 +309,13 @@ const deployRobots = async (req, res) => {
 
                             logger.info("Updating The Robot Status To Free")
 
-                            await connectionAsync.query('UPDATE Robot SET RobotStatus = "Free" WHERE RobotID = ?', [robotID])
+                            await connectionAsync.query(
+                                
+                                'UPDATE Robot SET RobotStatus = "Free", EstimatedDelivery = NULL, CurrentLoad = "0" WHERE RobotID = ?',
+                                
+                                [robotID]
+
+                            );
 
                             logger.info(`Robot ${robotID} is now Free.`);
         

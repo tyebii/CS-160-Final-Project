@@ -60,11 +60,11 @@ const addRobot = (req, res) => {
 
     logger.info("Adding Robot")
 
-    const {RobotID, CurrentLoad,RobotStatus, Maintanence, BatteryLife, EstimatedDelivery} = req.body
+    const {RobotID, CurrentLoad,RobotStatus, Maintanence} = req.body
 
-    const sqlQuery = "Insert Into Robot(RobotID, CurrentLoad, RobotStatus, Maintanence, BatteryLife, EstimatedDelivery) Values(?,?,?,?,?,?,?)"
+    const sqlQuery = "Insert Into Robot(RobotID, CurrentLoad, RobotStatus, Maintanence) Values(?,?,?,?)"
     
-    pool.query(sqlQuery, [RobotID,CurrentLoad,RobotStatus,Maintanence, BatteryLife,EstimatedDelivery], (error, results)=>{
+    pool.query(sqlQuery, [RobotID,CurrentLoad,RobotStatus,Maintanence], (error, results)=>{
 
         if(error){
 
@@ -86,11 +86,11 @@ const updateRobot = (req, res) => {
 
     logger.info("Updating Robot...")
 
-    const {RobotID, CurrentLoad,RobotStatus, Maintanence, BatteryLife, EstimatedDelivery} = req.body
+    const {RobotID, CurrentLoad, RobotStatus, Maintanence} = req.body
 
-    const sqlQuery = "Update robot set CurrentLoad = ?, RobotStatus = ?, Maintanence = ?, BatteryLife = ?, EstimatedDelivery = ? Where RobotID = ?"
+    const sqlQuery = "Update robot set CurrentLoad = ?, RobotStatus = ?, Maintanence = ? Where RobotID = ?"
 
-    pool.query(sqlQuery, [CurrentLoad,RobotStatus, Maintanence, BatteryLife, EstimatedDelivery, RobotID], (error, results)=>{
+    pool.query(sqlQuery, [CurrentLoad,RobotStatus, Maintanence, RobotID], (error, results)=>{
 
         if(error){
 
