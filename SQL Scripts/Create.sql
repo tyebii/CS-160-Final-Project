@@ -293,11 +293,18 @@ CREATE EVENT IF NOT EXISTS delete_expired_transactions
 ON SCHEDULE EVERY 20 MINUTE
 DO
 BEGIN
+    -- Restore the inventory from expired transactions
     UPDATE Inventory
     JOIN ShoppingCart ON Inventory.ItemID = ShoppingCart.ItemID
     JOIN Transactions ON ShoppingCart.CustomerID = Transactions.CustomerID
     SET Inventory.Quantity = Inventory.Quantity + ShoppingCart.OrderQuantity
-    WHERE Transactions.TransactionStatus = 'In Progress';
+    WHERE Transactions.TransactionStatus = 'In Progress'
+      AND Transactions.TransactionDate < NOW() - INTERVAL 35 MINUTE;
+
+    -- Delete only the expired transactions
+    DELETE FROM Transactions
+    WHERE TransactionStatus = 'In Progress'
+      AND TransactionDate < NOW() - INTERVAL 35 MINUTE;
 END;
 //
 
