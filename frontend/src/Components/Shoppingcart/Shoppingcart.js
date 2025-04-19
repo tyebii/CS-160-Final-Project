@@ -23,6 +23,8 @@ function ShoppingCart() {
 
   const validateToken = useValidateToken();
 
+  const [isProcessing, setIsProcessing] = useState(false);
+
   const { handleError } = useErrorResponse(); 
   
   const [results, setResults] = useState([]);
@@ -183,59 +185,76 @@ function ShoppingCart() {
   };
 
   //Click Checkout
-  const clickCheckout = () => {
+  const clickCheckout = async () => {
 
-    const token = validateToken()
+    if (isProcessing) return;
+  
+    setIsProcessing(true);
+  
+    const token = validateToken();
+  
+    if (results.length === 0) {
 
-    if(results.length==0){
+      alert("Cannot checkout. There are no items");
 
-      alert("Cannot checkout. There are no items")
+      setIsProcessing(false);
 
-      return
-
-    }
-
-    if(!validateAddress(selectedAddress.Address)){
-
-      alert("Select Address!")
-
-      return
+      return;
 
     }
+  
+    if (!validateAddress(selectedAddress?.Address)) {
 
-    if(cost<.5){
+      alert("Select Address!");
 
-      alert("Cost Must Be Greater Than $.5 To Checkout")
-      
-      return
-      
+      setIsProcessing(false);
+
+      return;
+
     }
-    
-    axios
+  
+    if (cost < 0.5) {
 
-        .post('http://localhost:3301/api/stripe/create-checkout-session', {
+      alert("Cost Must Be Greater Than $.5 To Checkout");
 
-            TransactionAddress: selectedAddress.Address,
+      setIsProcessing(false);
 
-        }, {
+      return;
 
-            headers: { Authorization: `Bearer ${token}` },
+    }
+  
+    try {
 
-        })
+      const response = await axios.post(
 
-        .then((response) => {
+        'http://localhost:3301/api/stripe/create-checkout-session',
 
-          window.location.href = response.data.url;
+        {
 
-        })
+          TransactionAddress: selectedAddress.Address,
 
-        .catch((error) => {
+        },
 
-          handleError(error);
+        {
 
-        })
+          headers: { Authorization: `Bearer ${token}` },
+
+        }
+
+      );
+  
+      window.location.href = response.data.url;
+  
+    } catch (error) {
+
+      handleError(error);
+
+      setIsProcessing(false);
+
+    }
 
   };
+  
 
   const handleAddAddress = (e) => {
 
@@ -467,11 +486,17 @@ function ShoppingCart() {
 
         onClick={clickCheckout}
 
-        className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold text-xl py-3 px-6 rounded-lg w-full mt-10 transition duration-300 ease-in-out"
-      
+        disabled={isProcessing}
+
+        className={`${
+
+          isProcessing ? "bg-gray-300 cursor-not-allowed" : "bg-yellow-400 hover:bg-yellow-500"
+
+        } text-black font-semibold text-xl py-3 px-6 rounded-lg w-full mt-10 transition duration-300 ease-in-out`}
+
       >
 
-        Proceed to Checkout
+        {isProcessing ? "Processing..." : "Proceed to Checkout"}
 
       </button>
 
