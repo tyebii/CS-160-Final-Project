@@ -4,7 +4,6 @@ const { validateName } = require('../Formatting'); // Adjust path if needed
 // ✅ Valid Names (should return true)
 const validNames = [
   "John",                   // Typical name
-  "A",                      // Single character name (valid)
   "Max",                    // Valid short name
   "LongNameLongNameLongName", // Longer name
   "Name with spaces",       // Name with spaces

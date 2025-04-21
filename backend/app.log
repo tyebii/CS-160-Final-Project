@@ -15333,3 +15333,61 @@
 2025-04-21T18:48:06.540Z [info] [Request ID: db51a108-79e7-4d97-a9b0-8fd74ae3cd7a]: Fetching The Items Associated With The Category: Fresh Produce
 2025-04-21T18:48:06.544Z [info] [Request ID: db51a108-79e7-4d97-a9b0-8fd74ae3cd7a]: Fetched The Items... Creating Static Image Links
 2025-04-21T18:48:06.544Z [info] [Request ID: db51a108-79e7-4d97-a9b0-8fd74ae3cd7a]: Fetched The Items And Their Associated Images
+2025-04-21T19:55:50.941Z [info] [Request ID: ef842fa6-7ba5-47d4-8608-aeee469dca81]: Login Starting...
+2025-04-21T19:55:50.945Z [info] [Request ID: ef842fa6-7ba5-47d4-8608-aeee469dca81]: Recieved Assets customeraccount, Password13!
+2025-04-21T19:55:50.963Z [info] [Request ID: ef842fa6-7ba5-47d4-8608-aeee469dca81]: Checking If The Account Exists
+2025-04-21T19:55:50.981Z [info] [Request ID: ef842fa6-7ba5-47d4-8608-aeee469dca81]: Checking Password Correctness
+2025-04-21T19:55:51.117Z [info] [Request ID: ef842fa6-7ba5-47d4-8608-aeee469dca81]: Loading The JWT Token
+2025-04-21T19:55:51.118Z [info] [Request ID: ef842fa6-7ba5-47d4-8608-aeee469dca81]: Signing The JWT Token
+2025-04-21T19:55:51.128Z [info] [Request ID: ef842fa6-7ba5-47d4-8608-aeee469dca81]: Successfully Logged In
+2025-04-21T19:55:51.197Z [info] [Request ID: 528ca9d9-b3c3-4c63-bd1b-654e037e660b]: Starting Featured Search
+2025-04-21T19:55:51.208Z [info] [Request ID: 528ca9d9-b3c3-4c63-bd1b-654e037e660b]: Fetched The Items... Creating Static Image Links
+2025-04-21T19:55:51.209Z [info] [Request ID: 528ca9d9-b3c3-4c63-bd1b-654e037e660b]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T19:55:51.231Z [info] [Request ID: d9d4e029-07e1-498b-96e8-73ccd157539f]: Starting Featured Search
+2025-04-21T19:55:51.236Z [info] [Request ID: d9d4e029-07e1-498b-96e8-73ccd157539f]: Fetched The Items... Creating Static Image Links
+2025-04-21T19:55:51.239Z [info] [Request ID: d9d4e029-07e1-498b-96e8-73ccd157539f]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T20:01:46.898Z [info] [Request ID: 1bf54a56-27a6-483f-bd72-3d32ae61c6af]: Starting Featured Search
+2025-04-21T20:01:46.902Z [info] [Request ID: 1bf54a56-27a6-483f-bd72-3d32ae61c6af]: Fetched The Items... Creating Static Image Links
+2025-04-21T20:01:46.902Z [info] [Request ID: 1bf54a56-27a6-483f-bd72-3d32ae61c6af]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T20:01:46.920Z [info] [Request ID: 563ed743-4ef3-4c1c-a10f-ff1986eb55dc]: Starting Featured Search
+2025-04-21T20:01:46.924Z [info] [Request ID: 563ed743-4ef3-4c1c-a10f-ff1986eb55dc]: Fetched The Items... Creating Static Image Links
+2025-04-21T20:01:46.926Z [info] [Request ID: 563ed743-4ef3-4c1c-a10f-ff1986eb55dc]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T20:01:46.986Z [info] [Request ID: bffe175c-7431-4381-82f2-715bf594b410]: Starting Featured Search
+2025-04-21T20:01:46.988Z [info] [Request ID: bffe175c-7431-4381-82f2-715bf594b410]: Fetched The Items... Creating Static Image Links
+2025-04-21T20:01:46.990Z [info] [Request ID: bffe175c-7431-4381-82f2-715bf594b410]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T20:02:22.193Z [info] [Request ID: 3b682bec-542d-4903-9b56-fe26fcdd10e7]: Starting Featured Search
+2025-04-21T20:02:22.197Z [info] [Request ID: 3b682bec-542d-4903-9b56-fe26fcdd10e7]: Fetched The Items... Creating Static Image Links
+2025-04-21T20:02:22.198Z [info] [Request ID: 3b682bec-542d-4903-9b56-fe26fcdd10e7]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T20:02:22.216Z [info] [Request ID: a800bc98-3835-4b3a-b26a-afe7c7d32ba3]: Starting Featured Search
+2025-04-21T20:02:22.219Z [info] [Request ID: a800bc98-3835-4b3a-b26a-afe7c7d32ba3]: Fetched The Items... Creating Static Image Links
+2025-04-21T20:02:22.219Z [info] [Request ID: a800bc98-3835-4b3a-b26a-afe7c7d32ba3]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T20:02:22.236Z [info] [Request ID: e841147c-0761-49cd-a0b4-0fb286864256]: Starting Featured Search
+2025-04-21T20:02:22.239Z [info] [Request ID: e841147c-0761-49cd-a0b4-0fb286864256]: Fetched The Items... Creating Static Image Links
+2025-04-21T20:02:22.240Z [info] [Request ID: e841147c-0761-49cd-a0b4-0fb286864256]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T20:02:45.417Z [info] [Request ID: 2b8a8bec-fb5f-4eaf-a690-ef0fb1a7ee00]: Starting Featured Search
+2025-04-21T20:02:45.434Z [info] [Request ID: 2b8a8bec-fb5f-4eaf-a690-ef0fb1a7ee00]: Fetched The Items... Creating Static Image Links
+2025-04-21T20:02:45.435Z [info] [Request ID: 2b8a8bec-fb5f-4eaf-a690-ef0fb1a7ee00]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T20:02:45.452Z [info] [Request ID: 230d1ec2-3a0b-4e5b-b65f-63d1185da9cd]: Starting Featured Search
+2025-04-21T20:02:45.454Z [info] [Request ID: 230d1ec2-3a0b-4e5b-b65f-63d1185da9cd]: Fetched The Items... Creating Static Image Links
+2025-04-21T20:02:45.455Z [info] [Request ID: 230d1ec2-3a0b-4e5b-b65f-63d1185da9cd]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T20:02:45.469Z [info] [Request ID: fa523300-3ee2-49a1-87a2-cb56e07f2320]: Starting Featured Search
+2025-04-21T20:02:45.472Z [info] [Request ID: fa523300-3ee2-49a1-87a2-cb56e07f2320]: Fetched The Items... Creating Static Image Links
+2025-04-21T20:02:45.473Z [info] [Request ID: fa523300-3ee2-49a1-87a2-cb56e07f2320]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T20:03:19.788Z [info] [Request ID: 7936f011-60d8-4eeb-ae55-9ecac3f26168]: Starting Featured Search
+2025-04-21T20:03:19.792Z [info] [Request ID: 7936f011-60d8-4eeb-ae55-9ecac3f26168]: Fetched The Items... Creating Static Image Links
+2025-04-21T20:03:19.793Z [info] [Request ID: 7936f011-60d8-4eeb-ae55-9ecac3f26168]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T20:03:19.810Z [info] [Request ID: 17780a44-b597-485e-a450-ca1cc04e3add]: Starting Featured Search
+2025-04-21T20:03:19.813Z [info] [Request ID: 17780a44-b597-485e-a450-ca1cc04e3add]: Fetched The Items... Creating Static Image Links
+2025-04-21T20:03:19.814Z [info] [Request ID: 17780a44-b597-485e-a450-ca1cc04e3add]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T20:03:19.826Z [info] [Request ID: 35a5b5d5-1f0d-4037-841e-143e99f2ab89]: Starting Featured Search
+2025-04-21T20:03:19.829Z [info] [Request ID: 35a5b5d5-1f0d-4037-841e-143e99f2ab89]: Fetched The Items... Creating Static Image Links
+2025-04-21T20:03:19.830Z [info] [Request ID: 35a5b5d5-1f0d-4037-841e-143e99f2ab89]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T20:03:46.125Z [info] [Request ID: c314ccc9-84e4-463b-9fd0-7770342c31d1]: Starting Featured Search
+2025-04-21T20:03:46.131Z [info] [Request ID: c314ccc9-84e4-463b-9fd0-7770342c31d1]: Fetched The Items... Creating Static Image Links
+2025-04-21T20:03:46.133Z [info] [Request ID: c314ccc9-84e4-463b-9fd0-7770342c31d1]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T20:03:46.161Z [info] [Request ID: 7e802633-90aa-43fa-a903-d1fe0a820f45]: Starting Featured Search
+2025-04-21T20:03:46.166Z [info] [Request ID: 7e802633-90aa-43fa-a903-d1fe0a820f45]: Fetched The Items... Creating Static Image Links
+2025-04-21T20:03:46.167Z [info] [Request ID: 7e802633-90aa-43fa-a903-d1fe0a820f45]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T20:03:46.189Z [info] [Request ID: eccf4340-00f0-4b35-9b03-29b5cdf630bb]: Starting Featured Search
+2025-04-21T20:03:46.192Z [info] [Request ID: eccf4340-00f0-4b35-9b03-29b5cdf630bb]: Fetched The Items... Creating Static Image Links
+2025-04-21T20:03:46.193Z [info] [Request ID: eccf4340-00f0-4b35-9b03-29b5cdf630bb]: Fetched The Items And Their Associated Images In Featured Search

@@ -1,6 +1,6 @@
 const {supervisorExists} = require('./ExistanceChecks')
 
-const {logger} = require('../Utils/Logger'); 
+const { logger } = require('../Utils/Logger'); 
 
 require('dotenv').config(); 
 
@@ -440,6 +440,105 @@ const validatePastDate = (input) => {
 
 }
 
+const validateSpeed = (input) => {
+
+    logger.error(typeof input)
+
+    if (input == null) {
+
+        logger.error("Speed Not Provided");
+
+        return false;
+
+    }
+
+    if (typeof input !== 'number') {
+
+        logger.error("Speed Must Be A Number");
+
+        return false;
+
+    }
+
+    if (input < 0) {
+
+        logger.error("Speed Cannot Be Negative");
+
+        return false;
+        
+    }
+
+    return true;
+}
+
+const validateBatteryLife = (input) => {
+
+    if (input == null) {
+
+        logger.error("Battery Life Not Provided");
+
+        return false;
+
+    }
+
+    if (typeof input !== 'number') {
+
+        logger.error("Battery Life Must Be A Number");
+
+        return false;
+
+    }
+
+    if (input <= 0) {
+
+        logger.error("Battery Life Must Be Greater Than 0%");
+
+        return false;
+
+    }
+
+    if (input > 100) {
+
+        logger.error("Battery Life Cannot Exceed 100%");
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
+const validateEstimatedDelivery = (input) => {
+
+    if (input == null) {
+
+        logger.error("Estimated Delivery Not Provided");
+
+        return false;
+
+    }
+
+    if (typeof input !== 'number') {
+
+        logger.error("Estimated Delivery Must Be A Number");
+
+        return false;
+
+    }
+
+    if (input < 0) {
+
+        logger.error("Estimated Delivery Must Be Greater Than 0%");
+
+        return false;
+
+    }
+
+    return true;
+
+}
+
 const validateRobot = (req, res, next) => {
 
     if(!validateRegularID(req.body.RobotID)){
@@ -465,6 +564,24 @@ const validateRobot = (req, res, next) => {
         return res.status(statusCode.BAD_REQUEST).json({error:"Maintenance Date Format Invalid"})
 
     } 
+    
+    if(!validateSpeed(req.body.Speed)){
+
+        return res.status(statusCode.BAD_REQUEST).json({error:"Speed Format Invalid"})
+
+    } 
+
+    if(!validateBatteryLife(req.body.BatteryLife)){
+
+        return res.status(statusCode.BAD_REQUEST).json({error:"Battery Life Format Invalid"})
+
+    } 
+    
+    if(!validateEstimatedDelivery(req.body.EstimatedDelivery)){
+
+        return res.status(statusCode.BAD_REQUEST).json({error:"Estimated Delivery Format Invalid"})
+
+    }
 
     next();
 
@@ -603,7 +720,6 @@ const employeeFormat = (req, res, next) => {
     }
 
     next();
-    
 }
 
 const validatePassword = (input) => {
@@ -1141,7 +1257,7 @@ const validateStorageRequirement = (input) => {
 
 const validateTransactionStatus = (input) => {
 
-    const validStorage = ['In progress','Complete', 'Delivering', 'Failed','Pending Delivery'];
+    const validStorage = ['In progress','Complete','Failed','Out For Delivery'];
 
     if (input == null) {
 

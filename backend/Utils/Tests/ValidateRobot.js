@@ -5,6 +5,7 @@ const { validateRobot } = require('../Formatting'); // Adjust path if needed
 function createMockRes() {
   return {
     statusCode: 200,
+    payload: null,
     status(code) {
       this.statusCode = code;
       return this;
@@ -23,7 +24,10 @@ const validRobots = [
       RobotID: "robot123",
       CurrentLoad: 5,
       RobotStatus: "Free",
-      Maintanence: "2099-12-31"
+      Maintanence: "2099-12-31",
+      Speed: 10,
+      BatteryLife: 90,
+      EstimatedDelivery: 15
     }
   }
 ];
@@ -35,7 +39,10 @@ const invalidRobots = [
       RobotID: "bad id", // space = invalid
       CurrentLoad: 5,
       RobotStatus: "Free",
-      Maintanence: "2099-12-31"
+      Maintanence: "2099-12-31",
+      Speed: 10,
+      BatteryLife: 90,
+      EstimatedDelivery: 15
     }
   },
   {
@@ -43,15 +50,21 @@ const invalidRobots = [
       RobotID: "robot123",
       CurrentLoad: -1,
       RobotStatus: "Free",
-      Maintanence: "2099-12-31"
+      Maintanence: "2099-12-31",
+      Speed: 10,
+      BatteryLife: 90,
+      EstimatedDelivery: 15
     }
   },
   {
     body: {
       RobotID: "robot123",
       CurrentLoad: 5,
-      RobotStatus: "Offline", // not in list
-      Maintanence: "2099-12-31"
+      RobotStatus: "Offline", // not in allowed list
+      Maintanence: "2099-12-31",
+      Speed: 10,
+      BatteryLife: 90,
+      EstimatedDelivery: 15
     }
   },
   {
@@ -59,7 +72,32 @@ const invalidRobots = [
       RobotID: "robot123",
       CurrentLoad: 5,
       RobotStatus: "Free",
-      Maintanence: "2020-01-01" // past date
+      Maintanence: "2020-01-01", // past date
+      Speed: 10,
+      BatteryLife: 90,
+      EstimatedDelivery: 15
+    }
+  },
+  {
+    body: {
+      RobotID: "robot123",
+      CurrentLoad: 5,
+      RobotStatus: "Free",
+      Maintanence: "2099-12-31",
+      Speed: -1, // invalid speed
+      BatteryLife: 90,
+      EstimatedDelivery: 15
+    }
+  },
+  {
+    body: {
+      RobotID: "robot123",
+      CurrentLoad: 5,
+      RobotStatus: "Free",
+      Maintanence: "2099-12-31",
+      Speed: 10,
+      BatteryLife: "high", // invalid type
+      EstimatedDelivery: 15
     }
   }
 ];
@@ -71,7 +109,10 @@ const blacklistRobots = [
       RobotID: "robot<script>",
       CurrentLoad: 5,
       RobotStatus: "Free",
-      Maintanence: "2099-12-31"
+      Maintanence: "2099-12-31",
+      Speed: 10,
+      BatteryLife: 90,
+      EstimatedDelivery: 15
     }
   }
 ];
@@ -92,6 +133,8 @@ async function runTests(label, cases, shouldCallNext = true) {
 }
 
 // Run test groups
-runTests("Valid Robots", validRobots, true);
-runTests("Invalid Robots", invalidRobots, false);
-runTests("Blacklisted Robots", blacklistRobots, false);
+(async () => {
+  await runTests("Valid Robots", validRobots, true);
+  await runTests("Invalid Robots", invalidRobots, false);
+  await runTests("Blacklisted Robots", blacklistRobots, false);
+})();

@@ -1,0 +1,713 @@
+2025-04-21T21:27:31.983Z [error] [Request ID: undefined]: No Date Found
+2025-04-21T21:27:31.987Z [error] [Request ID: undefined]: No Date Found
+2025-04-21T21:27:31.988Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:31.989Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:31.990Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:31.992Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:31.993Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:31.994Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:31.995Z [error] [Request ID: undefined]: Not A Valid Date
+2025-04-21T21:27:31.996Z [error] [Request ID: undefined]: Not A Valid Date
+2025-04-21T21:27:31.998Z [error] [Request ID: undefined]: Not A Valid Date
+2025-04-21T21:27:31.999Z [error] [Request ID: undefined]: Not A Valid Date
+2025-04-21T21:27:32.000Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.002Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.002Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.003Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.004Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.005Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.005Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.007Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:27:32.008Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:27:32.009Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:27:32.010Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:27:32.012Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:27:32.013Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:27:32.013Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:27:32.014Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:27:32.015Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:27:32.019Z [error] [Request ID: undefined]: Input Not Found
+2025-04-21T21:27:32.020Z [error] [Request ID: undefined]: Input Not Found
+2025-04-21T21:27:32.020Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:27:32.021Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:27:32.021Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:27:32.022Z [error] [Request ID: undefined]: Must Be A String
+2025-04-21T21:27:32.022Z [error] [Request ID: undefined]: Must Be A String
+2025-04-21T21:27:32.022Z [error] [Request ID: undefined]: Must Be A String
+2025-04-21T21:27:32.023Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:27:32.024Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:27:32.024Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:27:32.025Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:27:32.025Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:27:32.026Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:27:32.026Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.027Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:27:32.027Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.027Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:27:32.027Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.028Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:27:32.028Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.028Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:27:32.029Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.029Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:27:32.029Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.030Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:27:32.033Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:27:32.035Z [error] [Request ID: undefined]: Quantity Not Provided
+2025-04-21T21:27:32.036Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:27:32.036Z [error] [Request ID: undefined]: Quantity Must Be Greater Than Zero
+2025-04-21T21:27:32.037Z [error] [Request ID: undefined]: Quantity Must Be Greater Than Zero
+2025-04-21T21:27:32.037Z [error] [Request ID: undefined]: Quantity Must Be An Integer
+2025-04-21T21:27:32.038Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:27:32.038Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:27:32.039Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:27:32.039Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:27:32.039Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:27:32.042Z [error] [Request ID: undefined]: Input Not Found
+2025-04-21T21:27:32.042Z [error] [Request ID: undefined]: Input Too Short (Minimum 5 Characters)
+2025-04-21T21:27:32.043Z [error] [Request ID: undefined]: Input Too Short (Minimum 5 Characters)
+2025-04-21T21:27:32.043Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:27:32.043Z [error] [Request ID: undefined]: Contains Spaces
+2025-04-21T21:27:32.044Z [error] [Request ID: undefined]: Input Too Short (Minimum 5 Characters)
+2025-04-21T21:27:32.044Z [error] [Request ID: undefined]: Input Too Short (Minimum 5 Characters)
+2025-04-21T21:27:32.045Z [error] [Request ID: undefined]: Input Too Short (Minimum 5 Characters)
+2025-04-21T21:27:32.045Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.046Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:27:32.046Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.047Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:27:32.047Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.048Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:27:32.050Z [error] [Request ID: undefined]: undefined
+2025-04-21T21:27:32.050Z [error] [Request ID: undefined]: Speed Not Provided
+2025-04-21T21:27:32.051Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:27:32.052Z [error] [Request ID: undefined]: Contains Spaces
+2025-04-21T21:27:32.052Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.052Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:27:32.054Z [error] [Request ID: undefined]: Name Too Short (Minimum 2 Characters)
+2025-04-21T21:27:32.055Z [error] [Request ID: undefined]: Name Not Provided
+2025-04-21T21:27:32.056Z [error] [Request ID: undefined]: Name Not Provided
+2025-04-21T21:27:32.056Z [error] [Request ID: undefined]: Name Cannot Be Empty or Whitespace
+2025-04-21T21:27:32.057Z [error] [Request ID: undefined]: Name Too Short (Minimum 2 Characters)
+2025-04-21T21:27:32.057Z [error] [Request ID: undefined]: Name Too Long (Maximum 255 Characters)
+2025-04-21T21:27:32.057Z [error] [Request ID: undefined]: Name Must Be A String
+2025-04-21T21:27:32.058Z [error] [Request ID: undefined]: Name Must Be A String
+2025-04-21T21:27:32.058Z [error] [Request ID: undefined]: Name Must Be A String
+2025-04-21T21:27:32.058Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.059Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:27:32.059Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.059Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:27:32.059Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.059Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:27:32.060Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.060Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:27:32.060Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.061Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:27:32.061Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.061Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:27:32.064Z [error] [Request ID: undefined]: Category Not Provided
+2025-04-21T21:27:32.065Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:27:32.065Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:27:32.066Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:27:32.067Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:27:32.067Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:27:32.068Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:27:32.068Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:27:32.069Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:27:32.069Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:27:32.071Z [error] [Request ID: undefined]: Product Name Not Provided
+2025-04-21T21:27:32.072Z [error] [Request ID: undefined]: Product Name Cannot Be Empty
+2025-04-21T21:27:32.072Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:27:32.072Z [error] [Request ID: undefined]: Product Name Cannot Contain Spaces
+2025-04-21T21:27:32.073Z [error] [Request ID: undefined]: Product Name Too Long (Maximum 255 Characters)
+2025-04-21T21:27:32.073Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:27:32.073Z [error] [Request ID: undefined]: Product Name Cannot Contain Spaces
+2025-04-21T21:27:32.074Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.074Z [error] [Request ID: undefined]: Product Name Contains Blacklisted Characters
+2025-04-21T21:27:32.074Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.074Z [error] [Request ID: undefined]: Product Name Contains Blacklisted Characters
+2025-04-21T21:27:32.075Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.075Z [error] [Request ID: undefined]: Product Name Contains Blacklisted Characters
+2025-04-21T21:27:32.075Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.075Z [error] [Request ID: undefined]: Product Name Contains Blacklisted Characters
+2025-04-21T21:27:32.076Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.076Z [error] [Request ID: undefined]: Product Name Contains Blacklisted Characters
+2025-04-21T21:27:32.080Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:27:32.081Z [error] [Request ID: undefined]: Transaction Status Not Provided
+2025-04-21T21:27:32.082Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:27:32.083Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:27:32.083Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:27:32.084Z [error] [Request ID: undefined]: Transaction Status Must Be A String
+2025-04-21T21:27:32.085Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:27:32.086Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:27:32.087Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:27:32.087Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:27:32.088Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:27:32.090Z [error] [Request ID: undefined]: Cost Not Provided
+2025-04-21T21:27:32.091Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:27:32.091Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:27:32.091Z [error] [Request ID: undefined]: Cost Must Be Greater Than Zero
+2025-04-21T21:27:32.092Z [error] [Request ID: undefined]: Cost Must Be Greater Than Zero
+2025-04-21T21:27:32.092Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:27:32.092Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:27:32.093Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:27:32.093Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:27:32.093Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:27:32.096Z [error] [Request ID: undefined]: Weight Not Provided
+2025-04-21T21:27:32.097Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:27:32.098Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:27:32.099Z [error] [Request ID: undefined]: Weight Must Be Greater Than Zero
+2025-04-21T21:27:32.099Z [error] [Request ID: undefined]: Weight Must Be Greater Than Zero
+2025-04-21T21:27:32.100Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:27:32.101Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:27:32.101Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:27:32.102Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:27:32.102Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:27:32.104Z [error] [Request ID: undefined]: Date Not Provided
+2025-04-21T21:27:32.105Z [error] [Request ID: undefined]: Date Must Be In The Future
+2025-04-21T21:27:32.105Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.105Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.106Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.107Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.107Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.107Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.108Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.108Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.112Z [error] [Request ID: undefined]: No DateTime Found
+2025-04-21T21:27:32.112Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:27:32.113Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:27:32.113Z [error] [Request ID: undefined]: Not A Valid DateTime
+2025-04-21T21:27:32.114Z [error] [Request ID: undefined]: No Future Dates
+2025-04-21T21:27:32.115Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:27:32.116Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:27:32.116Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:27:32.117Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:27:32.118Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:27:32.121Z [error] [Request ID: undefined]: Date Not Provided
+2025-04-21T21:27:32.122Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.122Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:27:32.123Z [error] [Request ID: undefined]: Date Must Be In The Past
+2025-04-21T21:27:32.123Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.124Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:27:32.124Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.125Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:27:32.125Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.126Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:27:32.126Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.126Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:27:32.127Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.127Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:27:32.127Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.127Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:27:32.128Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:27:32.128Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:27:32.133Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:27:32.134Z [error] [Request ID: undefined]: Robot Load Cannot Be Negative
+2025-04-21T21:27:32.134Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:27:32.135Z [error] [Request ID: undefined]: Invalid Robot Status. Must be one of: En Route, Broken, Maintenance, Charging, Free, Retired
+2025-04-21T21:27:32.135Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:27:32.136Z [error] [Request ID: undefined]: Date Must Be In The Future
+2025-04-21T21:27:32.136Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:27:32.137Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:27:32.137Z [error] [Request ID: undefined]: Address Not Found
+2025-04-21T21:27:32.137Z [error] [Request ID: undefined]: Address Not Found
+2025-04-21T21:27:32.138Z [error] [Request ID: undefined]: Address Too Short (Minimum 5 Characters)
+2025-04-21T21:27:32.138Z [error] [Request ID: undefined]: Address Must Be A String
+2025-04-21T21:27:32.138Z [error] [Request ID: undefined]: Address Must Be A String
+2025-04-21T21:27:32.139Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:27:32.139Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:27:32.140Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:27:32.529Z [error] [Request ID: undefined]: Error Validating Address With Mapbox
+2025-04-21T21:27:32.530Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:27:32.531Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:27:32.532Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:27:32.533Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:27:32.534Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:27:32.535Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:27:32.536Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.536Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-21T21:27:32.537Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.537Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-21T21:27:32.537Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.537Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-21T21:27:32.538Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.538Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-21T21:27:32.538Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.538Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-21T21:27:32.539Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:27:32.539Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-21T21:31:54.973Z [error] [Request ID: undefined]: No Date Found
+2025-04-21T21:31:54.975Z [error] [Request ID: undefined]: No Date Found
+2025-04-21T21:31:54.976Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:54.977Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:54.978Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:54.979Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:54.980Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:54.980Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:54.981Z [error] [Request ID: undefined]: Not A Valid Date
+2025-04-21T21:31:54.982Z [error] [Request ID: undefined]: Not A Valid Date
+2025-04-21T21:31:54.984Z [error] [Request ID: undefined]: Not A Valid Date
+2025-04-21T21:31:54.985Z [error] [Request ID: undefined]: Not A Valid Date
+2025-04-21T21:31:54.986Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:54.988Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:54.988Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:54.989Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:54.990Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:54.991Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:54.992Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:54.994Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:31:54.995Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:31:54.996Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:31:54.997Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:31:54.999Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:31:54.999Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:31:55.000Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:31:55.001Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:31:55.001Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:31:55.005Z [error] [Request ID: undefined]: Input Not Found
+2025-04-21T21:31:55.006Z [error] [Request ID: undefined]: Input Not Found
+2025-04-21T21:31:55.006Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:31:55.007Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:31:55.007Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:31:55.008Z [error] [Request ID: undefined]: Must Be A String
+2025-04-21T21:31:55.008Z [error] [Request ID: undefined]: Must Be A String
+2025-04-21T21:31:55.009Z [error] [Request ID: undefined]: Must Be A String
+2025-04-21T21:31:55.009Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:31:55.010Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:31:55.011Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:31:55.011Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:31:55.012Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:31:55.013Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:31:55.014Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.014Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:31:55.015Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.015Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:31:55.016Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.016Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:31:55.017Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.017Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:31:55.017Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.018Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:31:55.018Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.018Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:31:55.021Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:31:55.023Z [error] [Request ID: undefined]: Quantity Not Provided
+2025-04-21T21:31:55.024Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:31:55.024Z [error] [Request ID: undefined]: Quantity Must Be Greater Than Zero
+2025-04-21T21:31:55.025Z [error] [Request ID: undefined]: Quantity Must Be Greater Than Zero
+2025-04-21T21:31:55.025Z [error] [Request ID: undefined]: Quantity Must Be An Integer
+2025-04-21T21:31:55.026Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:31:55.026Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:31:55.027Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:31:55.027Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:31:55.027Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:31:55.030Z [error] [Request ID: undefined]: Input Not Found
+2025-04-21T21:31:55.031Z [error] [Request ID: undefined]: Input Too Short (Minimum 5 Characters)
+2025-04-21T21:31:55.031Z [error] [Request ID: undefined]: Input Too Short (Minimum 5 Characters)
+2025-04-21T21:31:55.032Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:31:55.032Z [error] [Request ID: undefined]: Contains Spaces
+2025-04-21T21:31:55.033Z [error] [Request ID: undefined]: Input Too Short (Minimum 5 Characters)
+2025-04-21T21:31:55.033Z [error] [Request ID: undefined]: Input Too Short (Minimum 5 Characters)
+2025-04-21T21:31:55.033Z [error] [Request ID: undefined]: Input Too Short (Minimum 5 Characters)
+2025-04-21T21:31:55.034Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.034Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:31:55.035Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.035Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:31:55.036Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.036Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:31:55.038Z [error] [Request ID: undefined]: undefined
+2025-04-21T21:31:55.039Z [error] [Request ID: undefined]: Speed Not Provided
+2025-04-21T21:31:55.039Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:31:55.040Z [error] [Request ID: undefined]: Contains Spaces
+2025-04-21T21:31:55.040Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.040Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:31:55.042Z [error] [Request ID: undefined]: Name Too Short (Minimum 2 Characters)
+2025-04-21T21:31:55.044Z [error] [Request ID: undefined]: Name Not Provided
+2025-04-21T21:31:55.044Z [error] [Request ID: undefined]: Name Not Provided
+2025-04-21T21:31:55.045Z [error] [Request ID: undefined]: Name Cannot Be Empty or Whitespace
+2025-04-21T21:31:55.045Z [error] [Request ID: undefined]: Name Too Short (Minimum 2 Characters)
+2025-04-21T21:31:55.046Z [error] [Request ID: undefined]: Name Too Long (Maximum 255 Characters)
+2025-04-21T21:31:55.046Z [error] [Request ID: undefined]: Name Must Be A String
+2025-04-21T21:31:55.047Z [error] [Request ID: undefined]: Name Must Be A String
+2025-04-21T21:31:55.047Z [error] [Request ID: undefined]: Name Must Be A String
+2025-04-21T21:31:55.047Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.047Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:31:55.048Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.048Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:31:55.049Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.049Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:31:55.050Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.050Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:31:55.050Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.051Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:31:55.051Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.051Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:31:55.054Z [error] [Request ID: undefined]: Category Not Provided
+2025-04-21T21:31:55.055Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:31:55.055Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:31:55.056Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:31:55.056Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:31:55.057Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:31:55.057Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:31:55.057Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:31:55.058Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:31:55.058Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:31:55.061Z [error] [Request ID: undefined]: Product Name Not Provided
+2025-04-21T21:31:55.061Z [error] [Request ID: undefined]: Product Name Cannot Be Empty
+2025-04-21T21:31:55.061Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:31:55.062Z [error] [Request ID: undefined]: Product Name Cannot Contain Spaces
+2025-04-21T21:31:55.062Z [error] [Request ID: undefined]: Product Name Too Long (Maximum 255 Characters)
+2025-04-21T21:31:55.062Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:31:55.062Z [error] [Request ID: undefined]: Product Name Cannot Contain Spaces
+2025-04-21T21:31:55.063Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.063Z [error] [Request ID: undefined]: Product Name Contains Blacklisted Characters
+2025-04-21T21:31:55.064Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.064Z [error] [Request ID: undefined]: Product Name Contains Blacklisted Characters
+2025-04-21T21:31:55.064Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.064Z [error] [Request ID: undefined]: Product Name Contains Blacklisted Characters
+2025-04-21T21:31:55.065Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.065Z [error] [Request ID: undefined]: Product Name Contains Blacklisted Characters
+2025-04-21T21:31:55.066Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.066Z [error] [Request ID: undefined]: Product Name Contains Blacklisted Characters
+2025-04-21T21:31:55.068Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:31:55.069Z [error] [Request ID: undefined]: Transaction Status Not Provided
+2025-04-21T21:31:55.070Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:31:55.070Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:31:55.071Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:31:55.072Z [error] [Request ID: undefined]: Transaction Status Must Be A String
+2025-04-21T21:31:55.072Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:31:55.072Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:31:55.073Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:31:55.073Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:31:55.074Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:31:55.076Z [error] [Request ID: undefined]: Cost Not Provided
+2025-04-21T21:31:55.077Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:31:55.077Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:31:55.077Z [error] [Request ID: undefined]: Cost Must Be Greater Than Zero
+2025-04-21T21:31:55.078Z [error] [Request ID: undefined]: Cost Must Be Greater Than Zero
+2025-04-21T21:31:55.078Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:31:55.079Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:31:55.079Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:31:55.079Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:31:55.080Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:31:55.082Z [error] [Request ID: undefined]: Weight Not Provided
+2025-04-21T21:31:55.083Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:31:55.083Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:31:55.084Z [error] [Request ID: undefined]: Weight Must Be Greater Than Zero
+2025-04-21T21:31:55.084Z [error] [Request ID: undefined]: Weight Must Be Greater Than Zero
+2025-04-21T21:31:55.084Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:31:55.085Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:31:55.086Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:31:55.086Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:31:55.087Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:31:55.090Z [error] [Request ID: undefined]: Date Not Provided
+2025-04-21T21:31:55.091Z [error] [Request ID: undefined]: Date Must Be In The Future
+2025-04-21T21:31:55.091Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:55.091Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:55.092Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:55.092Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:55.093Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:55.093Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:55.094Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:55.094Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:55.096Z [error] [Request ID: undefined]: No DateTime Found
+2025-04-21T21:31:55.097Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:31:55.097Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:31:55.098Z [error] [Request ID: undefined]: Not A Valid DateTime
+2025-04-21T21:31:55.098Z [error] [Request ID: undefined]: No Future Dates
+2025-04-21T21:31:55.099Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:31:55.099Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:31:55.100Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:31:55.100Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:31:55.100Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:31:55.103Z [error] [Request ID: undefined]: Date Not Provided
+2025-04-21T21:31:55.103Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:55.104Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:31:55.105Z [error] [Request ID: undefined]: Date Must Be In The Past
+2025-04-21T21:31:55.106Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:55.106Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:31:55.107Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:55.107Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:31:55.107Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:55.108Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:31:55.108Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:55.109Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:31:55.109Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:55.109Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:31:55.110Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:55.110Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:31:55.110Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:31:55.110Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:31:55.115Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:31:55.116Z [error] [Request ID: undefined]: Robot Load Cannot Be Negative
+2025-04-21T21:31:55.117Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:31:55.118Z [error] [Request ID: undefined]: Invalid Robot Status. Must be one of: En Route, Broken, Maintenance, Charging, Free, Retired
+2025-04-21T21:31:55.118Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:31:55.119Z [error] [Request ID: undefined]: Date Must Be In The Future
+2025-04-21T21:31:55.119Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:31:55.120Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:31:55.121Z [error] [Request ID: undefined]: Address Not Found
+2025-04-21T21:31:55.122Z [error] [Request ID: undefined]: Address Not Found
+2025-04-21T21:31:55.122Z [error] [Request ID: undefined]: Address Too Short (Minimum 5 Characters)
+2025-04-21T21:31:55.123Z [error] [Request ID: undefined]: Address Must Be A String
+2025-04-21T21:31:55.123Z [error] [Request ID: undefined]: Address Must Be A String
+2025-04-21T21:31:55.124Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:31:55.124Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:31:55.124Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:31:55.418Z [error] [Request ID: undefined]: Error Validating Address With Mapbox
+2025-04-21T21:31:55.419Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:31:55.420Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:31:55.421Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:31:55.421Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:31:55.422Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:31:55.422Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:31:55.423Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.423Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-21T21:31:55.424Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.425Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-21T21:31:55.425Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.426Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-21T21:31:55.426Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.426Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-21T21:31:55.427Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.427Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-21T21:31:55.428Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:31:55.428Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-21T21:43:03.077Z [error] [Request ID: undefined]: No Date Found
+2025-04-21T21:43:03.080Z [error] [Request ID: undefined]: No Date Found
+2025-04-21T21:43:03.081Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.082Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.082Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.083Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.084Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.084Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.085Z [error] [Request ID: undefined]: Not A Valid Date
+2025-04-21T21:43:03.085Z [error] [Request ID: undefined]: Not A Valid Date
+2025-04-21T21:43:03.088Z [error] [Request ID: undefined]: Not A Valid Date
+2025-04-21T21:43:03.089Z [error] [Request ID: undefined]: Not A Valid Date
+2025-04-21T21:43:03.090Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.091Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.092Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.092Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.093Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.094Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.095Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.097Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:43:03.098Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:43:03.099Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:43:03.100Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:43:03.102Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:43:03.102Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:43:03.103Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:43:03.103Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:43:03.104Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:43:03.108Z [error] [Request ID: undefined]: Input Not Found
+2025-04-21T21:43:03.108Z [error] [Request ID: undefined]: Input Not Found
+2025-04-21T21:43:03.109Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:43:03.109Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:43:03.110Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:43:03.110Z [error] [Request ID: undefined]: Must Be A String
+2025-04-21T21:43:03.111Z [error] [Request ID: undefined]: Must Be A String
+2025-04-21T21:43:03.111Z [error] [Request ID: undefined]: Must Be A String
+2025-04-21T21:43:03.112Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:43:03.112Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:43:03.112Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:43:03.113Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:43:03.114Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:43:03.114Z [error] [Request ID: undefined]: Improper Format On ID
+2025-04-21T21:43:03.115Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.115Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:43:03.115Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.115Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:43:03.115Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.116Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:43:03.116Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.116Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:43:03.116Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.117Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:43:03.117Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.117Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:43:03.119Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:43:03.122Z [error] [Request ID: undefined]: Quantity Not Provided
+2025-04-21T21:43:03.122Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:43:03.123Z [error] [Request ID: undefined]: Quantity Must Be Greater Than Zero
+2025-04-21T21:43:03.123Z [error] [Request ID: undefined]: Quantity Must Be Greater Than Zero
+2025-04-21T21:43:03.124Z [error] [Request ID: undefined]: Quantity Must Be An Integer
+2025-04-21T21:43:03.125Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:43:03.125Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:43:03.126Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:43:03.127Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:43:03.127Z [error] [Request ID: undefined]: Quantity Must Be A Number
+2025-04-21T21:43:03.131Z [error] [Request ID: undefined]: Input Not Found
+2025-04-21T21:43:03.131Z [error] [Request ID: undefined]: Input Too Short (Minimum 5 Characters)
+2025-04-21T21:43:03.131Z [error] [Request ID: undefined]: Input Too Short (Minimum 5 Characters)
+2025-04-21T21:43:03.131Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:43:03.132Z [error] [Request ID: undefined]: Contains Spaces
+2025-04-21T21:43:03.132Z [error] [Request ID: undefined]: Input Too Short (Minimum 5 Characters)
+2025-04-21T21:43:03.133Z [error] [Request ID: undefined]: Input Too Short (Minimum 5 Characters)
+2025-04-21T21:43:03.134Z [error] [Request ID: undefined]: Input Too Short (Minimum 5 Characters)
+2025-04-21T21:43:03.134Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.135Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:43:03.135Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.136Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:43:03.137Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.137Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:43:03.151Z [error] [Request ID: undefined]: number
+2025-04-21T21:43:03.155Z [error] [Request ID: undefined]: Name Not Provided
+2025-04-21T21:43:03.156Z [error] [Request ID: undefined]: Name Not Provided
+2025-04-21T21:43:03.157Z [error] [Request ID: undefined]: Name Cannot Be Empty or Whitespace
+2025-04-21T21:43:03.157Z [error] [Request ID: undefined]: Name Too Short (Minimum 2 Characters)
+2025-04-21T21:43:03.157Z [error] [Request ID: undefined]: Name Too Long (Maximum 255 Characters)
+2025-04-21T21:43:03.157Z [error] [Request ID: undefined]: Name Must Be A String
+2025-04-21T21:43:03.158Z [error] [Request ID: undefined]: Name Must Be A String
+2025-04-21T21:43:03.159Z [error] [Request ID: undefined]: Name Must Be A String
+2025-04-21T21:43:03.159Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.160Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:43:03.160Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.161Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:43:03.161Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.162Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:43:03.162Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.162Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:43:03.163Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.163Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:43:03.163Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.163Z [error] [Request ID: undefined]: Name Contains Blacklisted Characters
+2025-04-21T21:43:03.165Z [error] [Request ID: undefined]: Category Not Provided
+2025-04-21T21:43:03.166Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:43:03.166Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:43:03.167Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:43:03.167Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:43:03.168Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:43:03.168Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:43:03.168Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:43:03.169Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:43:03.169Z [error] [Request ID: undefined]: Invalid Category. Must be one of: Fresh Produce, Dairy and Eggs, Meat and Seafood, Frozen Foods, Bakery and Bread, Pantry Staples, Beverages, Snacks and Sweets, Health and Wellness
+2025-04-21T21:43:03.171Z [error] [Request ID: undefined]: Product Name Not Provided
+2025-04-21T21:43:03.172Z [error] [Request ID: undefined]: Product Name Cannot Be Empty
+2025-04-21T21:43:03.173Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:43:03.173Z [error] [Request ID: undefined]: Product Name Cannot Contain Spaces
+2025-04-21T21:43:03.173Z [error] [Request ID: undefined]: Product Name Too Long (Maximum 255 Characters)
+2025-04-21T21:43:03.174Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:43:03.174Z [error] [Request ID: undefined]: Product Name Cannot Contain Spaces
+2025-04-21T21:43:03.174Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.174Z [error] [Request ID: undefined]: Product Name Contains Blacklisted Characters
+2025-04-21T21:43:03.175Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.175Z [error] [Request ID: undefined]: Product Name Contains Blacklisted Characters
+2025-04-21T21:43:03.175Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.176Z [error] [Request ID: undefined]: Product Name Contains Blacklisted Characters
+2025-04-21T21:43:03.176Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.176Z [error] [Request ID: undefined]: Product Name Contains Blacklisted Characters
+2025-04-21T21:43:03.177Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.177Z [error] [Request ID: undefined]: Product Name Contains Blacklisted Characters
+2025-04-21T21:43:03.180Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:43:03.180Z [error] [Request ID: undefined]: Transaction Status Not Provided
+2025-04-21T21:43:03.181Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:43:03.182Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:43:03.182Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:43:03.183Z [error] [Request ID: undefined]: Transaction Status Must Be A String
+2025-04-21T21:43:03.183Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:43:03.184Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:43:03.184Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:43:03.184Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:43:03.185Z [error] [Request ID: undefined]: Invalid Transaction Status. Must be one of: In progress, Complete, Failed, Out For Delivery
+2025-04-21T21:43:03.187Z [error] [Request ID: undefined]: Cost Not Provided
+2025-04-21T21:43:03.188Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:43:03.188Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:43:03.189Z [error] [Request ID: undefined]: Cost Must Be Greater Than Zero
+2025-04-21T21:43:03.190Z [error] [Request ID: undefined]: Cost Must Be Greater Than Zero
+2025-04-21T21:43:03.190Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:43:03.191Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:43:03.191Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:43:03.191Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:43:03.192Z [error] [Request ID: undefined]: Cost Must Be A Number
+2025-04-21T21:43:03.195Z [error] [Request ID: undefined]: Weight Not Provided
+2025-04-21T21:43:03.195Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:43:03.195Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:43:03.196Z [error] [Request ID: undefined]: Weight Must Be Greater Than Zero
+2025-04-21T21:43:03.196Z [error] [Request ID: undefined]: Weight Must Be Greater Than Zero
+2025-04-21T21:43:03.197Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:43:03.197Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:43:03.198Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:43:03.198Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:43:03.199Z [error] [Request ID: undefined]: Weight Must Be A Number
+2025-04-21T21:43:03.201Z [error] [Request ID: undefined]: Date Not Provided
+2025-04-21T21:43:03.201Z [error] [Request ID: undefined]: Date Must Be In The Future
+2025-04-21T21:43:03.201Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.202Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.202Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.203Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.203Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.204Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.204Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.204Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.208Z [error] [Request ID: undefined]: No DateTime Found
+2025-04-21T21:43:03.208Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:43:03.209Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:43:03.210Z [error] [Request ID: undefined]: Not A Valid DateTime
+2025-04-21T21:43:03.210Z [error] [Request ID: undefined]: No Future Dates
+2025-04-21T21:43:03.211Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:43:03.211Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:43:03.212Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:43:03.212Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:43:03.212Z [error] [Request ID: undefined]: DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)
+2025-04-21T21:43:03.215Z [error] [Request ID: undefined]: Date Not Provided
+2025-04-21T21:43:03.215Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.216Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:43:03.216Z [error] [Request ID: undefined]: Date Must Be In The Past
+2025-04-21T21:43:03.216Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.217Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:43:03.217Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.217Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:43:03.217Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.218Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:43:03.218Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.218Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:43:03.219Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.219Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:43:03.219Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.220Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:43:03.220Z [error] [Request ID: undefined]: Date Fails The Pattern xxxx-xx-xx
+2025-04-21T21:43:03.220Z [error] [Request ID: undefined]: Invalid Date Format
+2025-04-21T21:43:03.225Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:43:03.226Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:43:03.227Z [error] [Request ID: undefined]: Spaces Detected
+2025-04-21T21:43:03.228Z [error] [Request ID: undefined]: Contains Spaces
+2025-04-21T21:43:03.228Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:43:03.229Z [error] [Request ID: undefined]: Robot Load Cannot Be Negative
+2025-04-21T21:43:03.229Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:43:03.230Z [error] [Request ID: undefined]: Invalid Robot Status. Must be one of: En Route, Broken, Maintenance, Charging, Free, Retired
+2025-04-21T21:43:03.230Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:43:03.231Z [error] [Request ID: undefined]: Date Must Be In The Future
+2025-04-21T21:43:03.232Z [error] [Request ID: undefined]: number
+2025-04-21T21:43:03.232Z [error] [Request ID: undefined]: Speed Cannot Be Negative
+2025-04-21T21:43:03.232Z [error] [Request ID: undefined]: Address Not Found
+2025-04-21T21:43:03.233Z [error] [Request ID: undefined]: number
+2025-04-21T21:43:03.233Z [error] [Request ID: undefined]: Battery Life Must Be A Number
+2025-04-21T21:43:03.233Z [error] [Request ID: undefined]: Address Not Found
+2025-04-21T21:43:03.234Z [error] [Request ID: undefined]: Address Too Short (Minimum 5 Characters)
+2025-04-21T21:43:03.234Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.234Z [error] [Request ID: undefined]: Has Blacklisted Characters
+2025-04-21T21:43:03.235Z [error] [Request ID: undefined]: Address Must Be A String
+2025-04-21T21:43:03.235Z [error] [Request ID: undefined]: Address Must Be A String
+2025-04-21T21:43:03.235Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:43:03.236Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:43:03.236Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:43:03.558Z [error] [Request ID: undefined]: Error Validating Address With Mapbox
+2025-04-21T21:43:03.559Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:43:03.560Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:43:03.561Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:43:03.562Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:43:03.562Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:43:03.563Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-21T21:43:03.564Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.564Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-21T21:43:03.565Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.565Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-21T21:43:03.566Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.566Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-21T21:43:03.567Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.567Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-21T21:43:03.568Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.568Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-21T21:43:03.569Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-21T21:43:03.569Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
