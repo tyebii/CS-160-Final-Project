@@ -21,7 +21,7 @@ router.post('/signup/employee', authenticateToken, authorizeManager, signUpForma
 //Signup Manager
 router.post('/signup/manager', signUpFormat, signUpFormatManager, signUpManager)
 
-//Signup Login
+//Login
 router.post('/login', loginFormat, login)
 
 module.exports = router;

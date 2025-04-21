@@ -14,7 +14,7 @@ const multer = require('multer');
 
 const fs = require('fs/promises');
 
-const logger = require('../Utils/Logger'); 
+const {logger} = require('../Utils/Logger'); 
 
 //Make A Search For Items In A Category As A Customer
 const categoryQuery = (req, res) => {

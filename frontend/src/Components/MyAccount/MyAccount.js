@@ -1,6 +1,11 @@
-//Refactored April 12
-
+//Import UseEffect
 import { useEffect, useState } from "react";
+
+//Token Validation Hook
+import { useValidateToken } from '../Utils/TokenValidation';
+
+//Error Message Hook
+import { useErrorResponse } from '../Utils/AxiosError';
 
 import { useNavigate } from "react-router-dom";
 
@@ -10,53 +15,61 @@ import axios from 'axios';
 
 //Gets And Present Account Information
 export function MyAccount (){
+    
+    const validateToken = useValidateToken();
+
+    const { handleError } = useErrorResponse();
 
     const navigate = useNavigate()
 
     const {auth, logout} = useAuth()
 
     const [result, setResult] = useState({})
-    
-    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
-
-        if (!auth || loaded) return;
         
-        const token = localStorage.getItem('accessToken');
+        const token = validateToken()
 
-        if (!token) {
+        if(token == null){
 
-            alert('Login Information Not Found')
-
-            logout()
-
-            navigate('/login')
-
-            return;
+            return
 
         }
 
         const endpoints = {
+
             Customer: "http://localhost:3301/api/customer/customer",
+
             Employee: "http://localhost:3301/api/customer/employee",
+
             Manager: "http://localhost:3301/api/customer/employee",
+
         };
 
         const endpoint = endpoints[auth];
+
         if (!endpoint) {
+
             alert("Invalid user role");
+
             logout();
+
             navigate("/login");
+
             return;
+
         }
 
         axios
 
             .get(endpoint, {
+
                 headers: {
+
                     Authorization: `Bearer ${token}`,
+
                 },
+                
             })
 
             .then((response) => {
@@ -67,36 +80,64 @@ export function MyAccount (){
 
                     navigate('/')
 
+                    return;
+
                 }
 
                 setResult(response.data[0])
-
-                setLoaded(true);
+                
             })
 
             .catch((error) => {
 
-                if (error.response?.status === 401) {
-
-                    alert("You Need To Login Again!");
-
-                    logout();
-
-                    navigate('/login')
-
-                }else if(error.response){
-
-                    alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
-
-                }else{
-
-                    alert("Contact With Backend Lost")
-
-                }
+                handleError(error)
+                
+                return; 
 
             });
 
-    }, [auth, loaded, logout, navigate]);
+    }, []);
+
+    const handleDelete = () => {
+
+        const token = validateToken()
+
+        if(token == null){
+
+            return
+
+        }
+
+        axios.delete("http://localhost:3301/api/customer/customer", {
+
+            headers: {
+
+                Authorization: `Bearer ${token}`,
+
+            },
+            
+        })
+
+        .then((response) => {
+
+            logout()
+
+            navigate("/")
+
+            return 
+            
+        })
+
+        .catch((error) => {
+
+            handleError(error)
+
+            return;
+
+        });
+
+
+    }
     
     return (
         
@@ -140,6 +181,19 @@ export function MyAccount (){
                 {auth === "Employee" && (          
                     <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">Supervisor ID:</span> {result.SupervisorID}</p>
                 )}
+
+                {auth === "Customer"? (
+                    <div className="mb-10 flex justify-center items-center h-full">
+
+                        <button onClick={handleDelete} className="bg-red-500 text-white px-8 py-2 rounded-lg hover:bg-red-600 transition-colors">
+    
+                            Delete Account
+    
+                        </button>
+    
+                    </div>
+
+                ):null}
             </div>
 
         </section>

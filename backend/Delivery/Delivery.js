@@ -2,8 +2,14 @@ const express = require('express')
 
 const router = express.Router()
 
-const {handleSchedule} = require('./DeliveryController.js')
+const {authenticateToken} = require('../Utils/Authentication.js')
 
-router.post("/schedule/robots", handleSchedule)
+const {authorizeManager} = require('../Utils/Authorization.js')
 
-module.exports = {router}
+const {scheduleRobots, deployRobots} = require('./DeliveryController.js')
+
+router.put("/deploy", deployRobots)
+
+router.put("/schedule", authenticateToken, authorizeManager, scheduleRobots)
+
+module.exports = router

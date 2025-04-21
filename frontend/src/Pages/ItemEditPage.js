@@ -1,4 +1,4 @@
-import ItemEdit from "../Components/ItemEdit/ItemEdit";
+import ItemEdit from "../Components/UpdateAddItem/ItemEdit";
 import { useLocation } from "react-router-dom";
 export function ItemEditPage() {
     const location = useLocation();

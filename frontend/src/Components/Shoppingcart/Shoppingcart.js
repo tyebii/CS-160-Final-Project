@@ -4,53 +4,52 @@ import { Link } from 'react-router-dom';
 
 import AddressComponent from "./Components/AddressComponent"
 
-import { useNavigate } from 'react-router-dom';
-
 import { AddressModal } from './Components/AddressModal';
-
-import {useAuth} from '../../Context/AuthHook'
 
 import ProductComponent from './Components/ProductComponent';
 
 import axios from 'axios';
 
-import { validateAddress, validateCost, validateTransactionStatus, validateID, validateName, validateWeight } from '../Utils/Formatting';
+import { validateAddress, validateID, validateName} from '../Utils/Formatting';
+
+//Token Validation Hook
+import { useValidateToken } from '../Utils/TokenValidation';
+
+//Error Message Hook
+import { useErrorResponse } from '../Utils/AxiosError';
 
 //Shopping Cart Component
 function ShoppingCart() {
 
-  const {logout} = useAuth()
+  const validateToken = useValidateToken();
+
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const { handleError } = useErrorResponse(); 
   
   const [results, setResults] = useState([]);
 
   const [weight, setWeight] = useState(0);
 
-  const navigate = useNavigate()
-
   const [deliveryFee, setDeliveryFee] = useState(0);
 
   const [cost, setCost] = useState(0);
 
-  const [selectedAddress, setSelectedAddress] = useState(null); 
+  const [selectedAddress, setSelectedAddress] = useState({Name: "In Store Pickup", Address: "272 E Santa Clara St, San Jose, CA 95112"}); 
 
   const [addressModalOpen, setAddressModalOpen] = useState(false);
 
   const [addresses, setAddresses] = useState([{Name: "In Store Pickup", Address: "272 E Santa Clara St, San Jose, CA 95112"}]);
 
+  //Load The Shopping Cart And Addresses
   useEffect(() => {
 
-    const token = localStorage.getItem('accessToken');
+    const token = validateToken()
 
-    if (!token) {
+    if(token == null){
 
-      alert('Login Information Not Found');
-
-      logout()
-
-      navigate('/login')
-
-      return;
-
+      return 
+      
     }
 
     axios
@@ -73,19 +72,7 @@ function ShoppingCart() {
 
       .catch((error) => {
 
-        if (error.response?.status === 401) {
-
-          alert("You need to login again!");
-
-          logout();
-
-          navigate('/login')
-
-        }else{
-
-            alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
-
-        }
+          handleError(error)
 
     });
 
@@ -117,24 +104,13 @@ function ShoppingCart() {
 
       .catch((error) => {
 
-        if (error.response?.status === 401) {
-
-            alert("You need to login again!");
-
-            logout();
-
-            navigate('/login')
-
-        }else{
-
-            alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
-
-        }
+        handleError(error)
 
       });
 
   }, []);
 
+  //Load The Total
   useEffect(() => {
 
     const newWeight = results.reduce((sum, item) => sum + item.Weight * item.OrderQuantity, 0);
@@ -145,23 +121,18 @@ function ShoppingCart() {
 
     setCost(newCost);
 
-    setDeliveryFee(newWeight > 20 ? 10 : 0);
+    setDeliveryFee(newWeight >= 20 ? 10 : 0);
 
-  }, [results]);
+  }, [results, selectedAddress]);
 
+  //Clear The Cart
   const handleClear = () => {
 
-    const token = localStorage.getItem('accessToken');
+    const token = validateToken()
 
-    if (!token) {
+    if(token == null){
 
-      alert('Login Information Not Found');
-
-      logout()
-
-      navigate('/login')
-
-      return;
+      return 
 
     }
 
@@ -183,36 +154,20 @@ function ShoppingCart() {
   
       .catch((error) => {
         
-        if (error.response?.status === 401) {
-
-            alert("You need to login again!");
-
-            logout();
-
-            navigate('/login')
-
-        }else{
-
-            alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
-
-        }
+        handleError(error)
 
       })
+
   };
 
+  //Remove From The Cart
   const clickRemove = (itemid) => {
 
-    const token = localStorage.getItem('accessToken');
+    const token = validateToken()
 
-    if (!token) {
-
-      alert('Login Information Not Found');
-
-      logout()
-
-      navigate('/login')
-
-      return;
+    if(token == null){
+      
+      return
 
     }
 
@@ -241,130 +196,99 @@ function ShoppingCart() {
       })
       .catch((error) => {
         
-        if (error.response?.status === 401) {
-
-          alert("You need to login again!");
-
-          logout();
-
-          navigate('/login')
-
-        }else{
-
-            alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
-
-        }
+        handleError(error);
 
       })
 
   };
 
-  const clickCheckout = () => {
+  //Click Checkout
+  const clickCheckout = async () => {
 
-    const token = localStorage.getItem('accessToken');
+    if (isProcessing) return;
+  
+    setIsProcessing(true);
+  
+    const token = validateToken();
 
-    if (!token) {
+    if(token == null){
 
-      alert('Login Information Not Found');
+      return 
 
-      logout()
+    }
+  
+    if (results.length === 0) {
 
-      navigate('/login')
+      alert("Cannot checkout. There are no items");
+
+      setIsProcessing(false);
 
       return;
 
     }
+  
+    if (!validateAddress(selectedAddress?.Address)) {
 
-    if(results.length==0){
+      alert("Select Address!");
 
-      alert("Cannot checkout. There are no items")
+      setIsProcessing(false);
 
-      return
+      return;
 
     }
+  
+    if (cost < 0.5) {
 
-    if(!validateAddress(selectedAddress.Address)){
+      alert("Cost Must Be Greater Than $.5 To Checkout");
 
-      alert("Select Address!")
+      setIsProcessing(false);
 
-      return
+      return;
 
     }
+  
+    try {
 
-    if(!validateCost(cost + deliveryFee)){
-      
-      return
+      const response = await axios.post(
+
+        'http://localhost:3301/api/stripe/create-checkout-session',
+
+        {
+
+          TransactionAddress: selectedAddress.Address,
+
+        },
+
+        {
+
+          headers: { Authorization: `Bearer ${token}` },
+
+        }
+
+      );
+  
+      window.location.href = response.data.url;
+  
+    } catch (error) {
+
+      handleError(error);
+
+      setIsProcessing(false);
 
     }
-
-    if(!validateWeight(weight)){
-      
-      return
-
-    }
-    
-    axios
-        .post('http://localhost:3301/api/stripe/create-checkout-session', {
-
-            TransactionCost: cost + deliveryFee, 
-
-            TransactionWeight: weight,
-
-            TransactionAddress: selectedAddress.Address,
-
-            TransactionStatus: 'In progress',
-
-            TransactionDate: new Date().toISOString().slice(0, 10),
-
-            InStore: selectedAddress === addresses[0]? true:false
-
-        }, {
-
-            headers: { Authorization: `Bearer ${token}` },
-
-        })
-
-        .then((response) => {
-
-          window.location.href = response.data.url;
-
-        })
-
-        .catch((error) => {
-
-          if (error.response?.status === 401) {
-
-            alert("You need to login again!");
-  
-            logout();
-  
-            navigate('/login')
-  
-          }else{
-  
-              alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
-  
-          }
-
-        })
 
   };
+  
 
   const handleAddAddress = (e) => {
 
     e.preventDefault();
   
-    const token = localStorage.getItem('accessToken');
-  
-    if (!token) {
+    const token = validateToken();
 
-      alert('Login Information Not Found');
+    if(token == null){
 
-      logout();
-
-      navigate('/login');
-
-      return;
+      return 
 
     }
   
@@ -432,19 +356,7 @@ function ShoppingCart() {
 
     .catch((error) => {
 
-      if (error.response?.status === 401) {
-
-        alert("You need to login again!");
-
-        logout();
-
-        navigate('/login');
-
-      } else {
-
-        alert(`Error Status ${error.response?.status}: ${error.response?.data.error}`);
-
-      }
+      handleError(error)
 
       setAddressModalOpen(false);
 
@@ -592,9 +504,9 @@ function ShoppingCart() {
 
           <h3>Weight: {weight} lbs</h3>
 
-          <h3>Delivery Fee: ${deliveryFee} </h3>
+          <h3>Delivery Fee: ${selectedAddress.Name === "In Store Pickup" ? 0 : deliveryFee} </h3>
 
-          <h3>Total: ${deliveryFee + cost} </h3>
+          <h3>Total: $ {selectedAddress.Name === "In Store Pickup" ? cost : deliveryFee + cost} </h3>
 
         </div>
 
@@ -604,11 +516,17 @@ function ShoppingCart() {
 
         onClick={clickCheckout}
 
-        className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold text-xl py-3 px-6 rounded-lg w-full mt-10 transition duration-300 ease-in-out"
-      
+        disabled={isProcessing}
+
+        className={`${
+
+          isProcessing ? "bg-gray-300 cursor-not-allowed" : "bg-yellow-400 hover:bg-yellow-500"
+
+        } text-black font-semibold text-xl py-3 px-6 rounded-lg w-full mt-10 transition duration-300 ease-in-out`}
+
       >
 
-        Proceed to Checkout
+        {isProcessing ? "Processing..." : "Proceed to Checkout"}
 
       </button>
 

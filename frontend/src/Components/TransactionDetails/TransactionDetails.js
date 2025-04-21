@@ -1,99 +1,266 @@
 //Import Custom Hook
 import { useAuth } from "../../Context/AuthHook";
 
-//Import Transaction Details Component
+import { validateID } from "../Utils/Formatting";
+
+import { useState } from "react";
+
+import axios from "axios";
+
+//Token Validation Hook
+import { useValidateToken } from '../Utils/TokenValidation';
+
+//Error Message Hook
+import { useErrorResponse } from '../Utils/AxiosError';
+
+//Transaction Details Component
 export function TransactionDetails({transaction}) {
+
+  const { auth} = useAuth();
+
+  const validateToken = useValidateToken();
+
+  const { handleError } = useErrorResponse(); 
   
-  //If there is no transaction, return a message
   if (!transaction) {
+
     return (
+
       <section className="flex items-center justify-center min-h-screen">
+
         <p className="text-lg font-semibold text-gray-600">No transaction data found.</p>
+
       </section>
+
     );
+
   }
 
-  //Get the Auth Context
-  const { auth } = useAuth();
+  const [transactionStatus, setTransactionStatus] = useState(transaction.TransactionStatus)
 
-  //Build the Transaction Details Page
+  const [visibility,setVisibility] = useState(true)
+
+  //Click Fullfill
+  const handleFulfill = () => {
+
+    const token = validateToken()
+
+    if(token == null){
+
+      return
+      
+    }
+
+    if(!validateID(transaction.TransactionID)){
+
+      alert("Invalid Transaction ID")
+
+      return
+
+    }
+
+    axios
+      .post(`http://localhost:3301/api/transaction//transactions/fulfill`,         {
+
+        TransactionID: transaction.TransactionID,
+
+      },
+
+      {
+
+        headers: {
+
+          Authorization: `Bearer ${token}`,
+
+        },
+
+      })
+
+      .then(() => {
+
+        alert("Successfully Fulfilled")
+
+        setVisibility(false)
+        
+        setTransactionStatus("Fulfilled")
+
+      })
+      .catch((error) => {
+
+        handleError(error)
+
+      });
+
+  }
+
   return (
+
     <section className="flex items-center justify-center min-h-screen  p-6">
+
       <div className="bg-white shadow-lg rounded-lg p-6 max-w-2xl w-full border border-gray-300">
+
         <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Transaction Summary</h2>
+
         <div className="space-y-4">
+
           <DetailRow label="Transaction ID" value={transaction.TransactionID} />
+
           <DetailRow label="Customer ID" value={transaction.CustomerID} />
+
           {auth === "Manager" || auth === "Employee" ? (<>
+
             <DetailRow label="Stripe Transaction ID" value={transaction.StripeTransactionID} defaultValue="None" />
+
             <DetailRow label="User ID" value={transaction.UserID} />
+
             <DetailRow label="First Name" value={transaction.UserNameFirst} />
+
             <DetailRow label="Last Name" value={transaction.UserNameLast} />
+
             <DetailRow label="Phone Number" value={transaction.UserPhoneNumber} />
+
           </>): null}
 
           <DetailRow label="Transaction Cost" value={`$${transaction.TransactionCost}`} />
+
           <DetailRow label="Transaction Weight" value={`${transaction.TransactionWeight} lbs`} />
+
           <DetailRow label="Transaction Address" value={transaction.TransactionAddress} />
+
           <DetailRow
+
             label="Transaction Status"
-            value={transaction.TransactionStatus}
+
+            value={transactionStatus}
+
             isBadge
+
           />
-          <DetailRow label="Transaction Date" value={new Date(transaction.TransactionDate).toLocaleDateString()} />
+
+          <DetailRow label="Transaction Date" value={new Date(transaction.TransactionDate).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })} />
+
+          <DetailRow label="Transaction Arrival Date" value={transaction.TransactionTime ? new Date(transaction.TransactionTime).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }) : "N/A"} />
+
+
           <DetailRow label="Robot ID" value={transaction.RobotID} defaultValue="None" />
+
           <DetailRow label="Payment Method" value={transaction.PaymentMethod} defaultValue="None" />
+
           <DetailRow label="Charge Status" value={transaction.ChargeStatus} defaultValue="None" />
+
           <DetailRow label="Receipt URL" value={transaction.ReceiptURL} defaultValue="None" />
+
           <DetailRow label="Currency" value={transaction.Currency} defaultValue="None" />
+
           <DetailRow label="Amount Paid" value={transaction.AmountPaid} defaultValue="None" />
+
         </div>
+
+        {(auth === "Manager" || auth === "Employee") && transaction.TransactionStatus === "Complete" && visibility ? (
+
+        <div className="flex justify-center mt-4">
+
+          <button onClick={handleFulfill} className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
+
+            Fulfill
+
+          </button>
+
+        </div>
+
+    ) : null}
+
       </div>
+
     </section>
+
   );
+
 }
 
 //Each Row
 const DetailRow = ({ label, value, defaultValue = "", isBadge = false }) => {
+
     if (!value){
+
       value = defaultValue;
+
     }
+
     return (
+
       <p className="text-gray-700">
+
         <strong className="font-semibold text-gray-800">{label}:</strong>{" "}
+
         {isBadge ? (
+
           <span
+
             className={`ml-2 px-2 py-1 rounded text-white text-sm ${
+
               value === "Complete"
+
                 ? "bg-green-500"
+
                 : value === "In progress"
+
                 ? "bg-yellow-500"
-                : "bg-red-500"
+
+                : "bg-blue-500"
+
             }`}
+
           >
+
             {value}
+
           </span>
+
         ) : (
+
           <span
+
             className={`ml-2 text-gray-900 ${
+              
               label === "Receipt URL" ? "break-words" : ""
+
             }`}
+
           >
+
             {label === "Receipt URL" ? (
+
               <a
+
                 href={value}
+
                 target="_blank"
+
                 rel="noopener noreferrer"
+
                 className="text-blue-600"
+
               >
+
                 {value}
+
               </a>
+
             ) : (
+
               value
+
             )}
+
           </span>
+
         )}
+
       </p>
+
     );
+
   };
+  
   
