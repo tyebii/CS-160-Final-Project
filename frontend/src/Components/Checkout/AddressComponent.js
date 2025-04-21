@@ -1,4 +1,4 @@
-function AddressComponent(){
+const AddressComponent = ({result}) => {
     return (
         <div className="flex w-3/4 px-2 pt-2 pb-2 rounded-md hover:bg-gray-100 hover:shadow-xl border-2 border-gray-900 border-solid">
             <div className="flex w-1/12 nowrap px-2 py-1">
@@ -9,8 +9,8 @@ function AddressComponent(){
                     <h2>Saved Address</h2>
                 </div>
                 <div class="text-gray-600 font-thin ">
-                    <p>350 S 9th St.</p>
-                    <p>San Jose, CA 95112</p>
+                    <p>{result.Address}</p>
+                    <p>{result.City}, {result.State} {result.Zip}</p>
                 </div>
             </div>
         </div>

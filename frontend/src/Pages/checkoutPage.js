@@ -9,6 +9,9 @@ import axios from "axios";
 
 function CheckoutPage() {
 
+    //Array containing saved addresses
+    const [results, setResults] = useState([]);
+
     const [paymentModalOpen, setPaymentModalOpen] = useState(false);
 
     const [addressModalOpen, setAddressModalOpen] = useState(false);
@@ -22,12 +25,22 @@ function CheckoutPage() {
     };
 
     useEffect( () => {
-        //auth
-
         let endPoint = ``;
+        //auth
+        if (auth == null || auth == "Customer") {
+            endPoint = `http://localhost:3301/api/address`;
+        } 
+        
+        //fetch
         axios
-            //tbi after merge
-        }
+            .get(endPoint)
+            .then((response) => {
+                setResults(response.data);
+            })
+            .catch((error) => {
+                console.error("Error: ", error);
+            })
+        }, []                                     // render based on address list update
     );
 
     return(
@@ -44,7 +57,14 @@ function CheckoutPage() {
                         <div class="p-4 mb-12 border-2 border-black-900 border-solid">
                         <h2 class="sm:text-lg md:text-3xl font-medium">Delivery Address</h2>
                             <div class="flex flex-col mt-4 bg-gray rounded-md">
-                                <AddressComponent></AddressComponent>
+
+                                {results.length === 0 ? (
+                                    <h3>No Payment Information Listed!</h3>
+                                ) : (
+                                    results.map((result) => (
+                                        <AddressComponent></AddressComponent>
+                                    ))
+                                )}
                                 <AddressComponent></AddressComponent>
                                 <div class="flex-start pt-6 pb-4 ">
                                     <button class="text-blue-600" onClick={() => setAddressModalOpen(true)}>Add an Address</button>
