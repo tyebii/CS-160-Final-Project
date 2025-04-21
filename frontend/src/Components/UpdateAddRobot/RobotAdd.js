@@ -40,9 +40,13 @@ export function RobotAdd() {
 
         }
 
-        console.log("here")
-
         const token = validateToken()
+
+        if(token == null){
+
+            return
+            
+        }
 
         axios.post('http://localhost:3301/api/robot/robot', {
 

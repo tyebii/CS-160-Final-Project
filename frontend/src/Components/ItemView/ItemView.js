@@ -48,7 +48,7 @@ const ItemView = () => {
 
     }
 
-    const token = localStorage.getItem('accessToken');
+    let token;
 
     let endPoint = "";
 
@@ -58,7 +58,13 @@ const ItemView = () => {
 
     } else {
 
-      validateToken();
+      token = validateToken()
+
+      if(token == null){
+
+        return;
+
+      }
 
       endPoint = `http://localhost:3301/api/inventory/search/itemID/employee/${itemid}`;
 
@@ -92,10 +98,14 @@ const ItemView = () => {
 
         setFeatured(response.data[0].FeaturedID != null)
 
+        return;
+
       })
       .catch((error) => {
 
         handleError(error)
+
+        return
 
       });
 
@@ -108,6 +118,12 @@ const ItemView = () => {
     e.preventDefault();
 
     const token = validateToken()
+
+    if(token == null){
+      
+      return;
+
+    }
 
     if (!validateID(itemid)) {
 
@@ -163,11 +179,15 @@ const ItemView = () => {
 
         navigate("/");
 
+        return
+
       })
 
       .catch((error) => {
 
         handleError(error);
+
+        return
 
       });
 
@@ -182,6 +202,12 @@ const ItemView = () => {
 
 
       const token = validateToken();
+
+      if(token == null){
+
+        return
+
+      }
 
       if(!validateID(itemid)){
 
@@ -213,11 +239,15 @@ const ItemView = () => {
 
           navigate('/');
 
+          return;
+
         })
 
         .catch((error) => {
 
           handleError(error)
+
+          return;
 
         });
 
@@ -235,6 +265,12 @@ const ItemView = () => {
     }
   
     const token = validateToken();
+
+    if(token == null){
+
+      return null
+
+    }
   
     axios
 
@@ -260,11 +296,15 @@ const ItemView = () => {
 
         setFeatured(true);
 
+        return;
+
       })
 
       .catch((error) => {
 
         handleError(error);
+
+        return;
 
       });
 
@@ -280,6 +320,12 @@ const ItemView = () => {
     }
   
     const token = validateToken()
+
+    if(token == null){
+      
+      return null
+
+    }
   
     axios
 
@@ -301,11 +347,15 @@ const ItemView = () => {
 
         setFeatured(false);
 
+        return;
+
       })
 
       .catch((error) => {
 
         handleError(error)
+
+        return;
 
       });
 

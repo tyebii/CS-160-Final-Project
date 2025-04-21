@@ -35,7 +35,7 @@ function ShoppingCart() {
 
   const [cost, setCost] = useState(0);
 
-  const [selectedAddress, setSelectedAddress] = useState(null); 
+  const [selectedAddress, setSelectedAddress] = useState({Name: "In Store Pickup", Address: "272 E Santa Clara St, San Jose, CA 95112"}); 
 
   const [addressModalOpen, setAddressModalOpen] = useState(false);
 
@@ -45,6 +45,12 @@ function ShoppingCart() {
   useEffect(() => {
 
     const token = validateToken()
+
+    if(token == null){
+
+      return 
+      
+    }
 
     axios
 
@@ -117,12 +123,18 @@ function ShoppingCart() {
 
     setDeliveryFee(newWeight >= 20 ? 10 : 0);
 
-  }, [results]);
+  }, [results, selectedAddress]);
 
   //Clear The Cart
   const handleClear = () => {
 
     const token = validateToken()
+
+    if(token == null){
+
+      return 
+
+    }
 
     axios
 
@@ -152,6 +164,12 @@ function ShoppingCart() {
   const clickRemove = (itemid) => {
 
     const token = validateToken()
+
+    if(token == null){
+      
+      return
+
+    }
 
     if(!validateID(itemid)){
 
@@ -192,6 +210,12 @@ function ShoppingCart() {
     setIsProcessing(true);
   
     const token = validateToken();
+
+    if(token == null){
+
+      return 
+
+    }
   
     if (results.length === 0) {
 
@@ -261,6 +285,12 @@ function ShoppingCart() {
     e.preventDefault();
   
     const token = validateToken();
+
+    if(token == null){
+
+      return 
+
+    }
   
     const formData = new FormData(e.target);
 
@@ -474,9 +504,9 @@ function ShoppingCart() {
 
           <h3>Weight: {weight} lbs</h3>
 
-          <h3>Delivery Fee: ${deliveryFee} </h3>
+          <h3>Delivery Fee: ${selectedAddress.Name === "In Store Pickup" ? 0 : deliveryFee} </h3>
 
-          <h3>Total: ${deliveryFee + cost} </h3>
+          <h3>Total: $ {selectedAddress.Name === "In Store Pickup" ? cost : deliveryFee + cost} </h3>
 
         </div>
 

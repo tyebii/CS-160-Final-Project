@@ -38,7 +38,7 @@ function SearchResults() {
 
     let endPoint = "";
 
-    const token = localStorage.getItem('accessToken');
+    let token;
 
     if(!auth || auth == "Customer"){
 
@@ -46,7 +46,13 @@ function SearchResults() {
 
     }else{
 
-      validateToken();
+      token = validateToken();
+
+      if(token == null){
+
+        return
+
+      }
 
       endPoint = `http://localhost:3301/api/inventory/search/${searchType}/employee/${query}`
 

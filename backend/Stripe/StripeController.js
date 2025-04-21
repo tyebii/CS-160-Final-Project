@@ -9,7 +9,6 @@ const {transactionIDExists} = require('../Utils/ExistanceChecks')
 const {generateUniqueID} = require('../Utils/Generation')
 
 const {logger} = require('../Utils/Logger'); 
-const { error } = require('winston');
 
 //This Creates A Stripe Checkout Section
 const handleStripe = async (req, res) => {
@@ -71,7 +70,7 @@ const handleStripe = async (req, res) => {
 
                 product_data: { name: 'Delivery' },
 
-                unit_amount: weight < 20 ? 0 : 1000, 
+                unit_amount: weight < 20 || req.body.TransactionAddress == "272 E Santa Clara St, San Jose, CA 95112"? 0 : 1000, 
 
             },
             quantity: 1

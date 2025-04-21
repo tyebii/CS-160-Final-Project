@@ -32,6 +32,12 @@ const SystemAlerts = () => {
 
       const token = validateToken()
 
+      if(token == null){
+
+        return
+        
+      }
+
     axios
 
       .get(`http://localhost:3301/api/inventory/lowstock`,{

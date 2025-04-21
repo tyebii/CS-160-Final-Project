@@ -59,6 +59,9 @@ Create Table Inventory(
     Description varchar(255) not null
 );
 
+CREATE INDEX inventory_category
+ON Inventory (Category);
+
 Alter Table inventory 
 Add Constraint CheckInventoryQuantity Check (Quantity >= 0);
 

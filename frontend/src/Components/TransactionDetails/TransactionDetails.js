@@ -45,6 +45,12 @@ export function TransactionDetails({transaction}) {
 
     const token = validateToken()
 
+    if(token == null){
+
+      return
+      
+    }
+
     if(!validateID(transaction.TransactionID)){
 
       alert("Invalid Transaction ID")

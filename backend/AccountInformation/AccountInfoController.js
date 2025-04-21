@@ -1,3 +1,4 @@
+const { error, add } = require('winston')
 const pool = require('../Database Pool/DBConnections')
 
 const {validateID, statusCode} = require('../Utils/Formatting')
@@ -78,4 +79,131 @@ const getEmployee = (req, res) => {
 
 }
 
-module.exports = {getCustomer, getEmployee}
+const deleteCustomer = async (req, res) => {
+
+    logger.info("Deleting Customer...");
+
+    const customerID = req.user?.CustomerID;
+
+    let connection;
+
+    try {
+
+        connection = await pool.promise().getConnection();
+
+        await connection.beginTransaction();
+
+        logger.info("Checking For Ongoing Transactions");
+
+        const [transactions] = await connection.query(
+
+            "SELECT * FROM Transactions WHERE CustomerID = ? AND TransactionStatus != 'Fulfilled'",
+
+            [customerID]
+
+        );
+
+        if (transactions.length !== 0) {
+
+            logger.error("Ongoing Transaction Occurring. Aborting Deletion");
+
+            throw new Error("Cannot Delete Account With Ongoing Transactions");
+
+        }
+
+        logger.info("Get The Addresses Associated With Customer");
+
+        const [addrs] = await connection.query(
+
+            "SELECT Address FROM CustomerAddress WHERE CustomerID = ?",
+
+            [customerID]
+
+        );
+
+        logger.info("Deleting From Customer Table (Cascade Handles User Deletion)");
+
+        await connection.query(
+
+            "DELETE FROM Customer WHERE CustomerID = ?",
+
+            [customerID]
+
+        );
+
+        logger.info("Deleting Addresses With No Association");
+
+        for (const addrObj of addrs) {
+
+            const address = addrObj.Address;
+
+            const [exists] = await connection.query(
+
+                "SELECT * FROM CustomerAddress WHERE Address = ?",
+
+                [address]
+
+            );
+
+            if (exists.length === 0) {
+
+                await connection.query(
+
+                    "DELETE FROM Address WHERE Address = ?",
+
+                    [address]
+
+                );
+
+            }
+
+        }
+
+        await connection.commit();
+
+        connection.release();
+
+        logger.info("Successful Account Deletion");
+
+        return res.sendStatus(statusCode.OK);
+
+    } catch (error) {
+
+        logger.error("Error Deleting Customer: " + error.message);
+
+        if (connection) {
+
+            try {
+
+                logger.info("Rolling Back Transaction");
+
+                await connection.rollback();
+
+            } catch (rollbackError) {
+
+                logger.error("Error During Rollback: " + rollbackError.message);
+
+            }
+
+            try {
+
+                logger.info("Releasing Connection");
+
+                connection.release();
+
+            } catch (releaseError) {
+
+                logger.error("Error Releasing Connection: " + releaseError.message);
+
+            }
+
+        }
+
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:error.message});
+
+    }
+
+};
+
+
+module.exports = {getCustomer, getEmployee, deleteCustomer}

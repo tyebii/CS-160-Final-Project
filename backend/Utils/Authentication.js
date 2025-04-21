@@ -24,13 +24,13 @@ function authenticateToken(req, res, next) {
 
     } 
 
-    logger.info("Verifying Token")
+    logger.info("Verifying Token " + token)
 
     jwt.verify(token, process.env.Secret_Key, (error, user) => {
 
         if (error) {
 
-            logger.error("JWT Not Authentic")
+            logger.error("JWT Not Authentic " + error.message)
 
             return res.status(statusCode.UNAUTHORIZED).json({ error: 'Invalid token' });
 

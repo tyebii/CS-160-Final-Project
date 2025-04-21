@@ -31,6 +31,12 @@ export default function TransactionArea({ trigger, setTrigger, auth, logout }) {
 
         const token = validateToken();
 
+        if(token == null){
+
+            return
+
+        }
+
         if(!validateID(transactionSearchInput)) {
 
             alert("Please enter a transaction ID.");
@@ -194,6 +200,12 @@ function TransactionsTable({trigger, logout}) {
     useEffect(() => {
 
         const token = validateToken()
+
+        if(token==null){
+
+            return
+            
+        }
 
 
         axios.get('http://localhost:3301/api/transaction/transactions/pending', {

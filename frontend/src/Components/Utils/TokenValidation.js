@@ -20,6 +20,8 @@ export const useValidateToken = () => {
 
             navigate('/login');
 
+            return;
+
         }
 
         return token

@@ -55,7 +55,7 @@ function Login() {
 
         .then((results) => {
 
-            let token = results.data.accessToken
+            let token = results.data?.accessToken
 
             localStorage.setItem("accessToken", token);
 
@@ -63,11 +63,15 @@ function Login() {
 
             navigate("/");
 
+            return;
+
         })
 
         .catch((error) => {
 
             handleError(error)
+
+            return ;
 
         });
 
@@ -76,6 +80,8 @@ function Login() {
     const clickSignUp = () => {
 
         navigate("/signup")
+
+        return;
 
     }
 

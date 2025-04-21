@@ -63,6 +63,12 @@ export const ItemEdit = ({ item }) => {
 
         const token = validateToken()
 
+        if(token == null){
+
+            return
+            
+        }
+
         if(!insertFormat(formData.Quantity, formData.Distributor, formData.Weight, formData.ProductName, formData.Category, formData.SupplierCost, formData.Cost, formData.Expiration, formData.StorageRequirement, formData.Description)){
 
             return false

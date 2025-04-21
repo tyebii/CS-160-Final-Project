@@ -30,6 +30,12 @@ export function MyAccount (){
         
         const token = validateToken()
 
+        if(token == null){
+
+            return
+
+        }
+
         const endpoints = {
 
             Customer: "http://localhost:3301/api/customer/customer",
@@ -57,9 +63,13 @@ export function MyAccount (){
         axios
 
             .get(endpoint, {
+
                 headers: {
+
                     Authorization: `Bearer ${token}`,
+
                 },
+                
             })
 
             .then((response) => {
@@ -70,6 +80,8 @@ export function MyAccount (){
 
                     navigate('/')
 
+                    return;
+
                 }
 
                 setResult(response.data[0])
@@ -79,10 +91,53 @@ export function MyAccount (){
             .catch((error) => {
 
                 handleError(error)
+                
+                return; 
 
             });
 
     }, []);
+
+    const handleDelete = () => {
+
+        const token = validateToken()
+
+        if(token == null){
+
+            return
+
+        }
+
+        axios.delete("http://localhost:3301/api/customer/customer", {
+
+            headers: {
+
+                Authorization: `Bearer ${token}`,
+
+            },
+            
+        })
+
+        .then((response) => {
+
+            logout()
+
+            navigate("/")
+
+            return 
+            
+        })
+
+        .catch((error) => {
+
+            handleError(error)
+
+            return;
+
+        });
+
+
+    }
     
     return (
         
@@ -126,6 +181,19 @@ export function MyAccount (){
                 {auth === "Employee" && (          
                     <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">Supervisor ID:</span> {result.SupervisorID}</p>
                 )}
+
+                {auth === "Customer"? (
+                    <div className="mb-10 flex justify-center items-center h-full">
+
+                        <button onClick={handleDelete} className="bg-red-500 text-white px-8 py-2 rounded-lg hover:bg-red-600 transition-colors">
+    
+                            Delete Account
+    
+                        </button>
+    
+                    </div>
+
+                ):null}
             </div>
 
         </section>

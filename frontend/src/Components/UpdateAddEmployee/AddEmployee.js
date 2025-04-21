@@ -80,6 +80,12 @@ function AddEmployee() {
     
     const token = validateToken()
 
+    if(token == null){
+
+      return
+      
+    }
+
     axios.post('http://localhost:3301/api/authentication/signup/employee', {
 
         "UserID": formData.UserID,

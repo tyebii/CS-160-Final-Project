@@ -197,7 +197,7 @@ function Navbar() {
         
           {auth !== "Employee" && auth !== "Manager" ? (    
 
-          <p className="text-2xl font-medium">
+          <div className="text-2xl font-medium">
 
             <span className="flex items-center gap-2">
 
@@ -209,7 +209,7 @@ function Navbar() {
 
             {renderDropdown(dropdownVisible)}
             
-          </p>
+          </div>
 
           ) : null}
 

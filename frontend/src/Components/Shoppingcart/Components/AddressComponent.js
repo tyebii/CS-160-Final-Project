@@ -35,6 +35,12 @@ function AddressComponent({address,setAddress,}){
 
         const token = validateToken()
 
+        if(token == null){
+
+          return
+
+        }
+
         if(!validateAddress(address.Address)){
           
           alert("Invalid Address")

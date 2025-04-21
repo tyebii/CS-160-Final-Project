@@ -44,6 +44,12 @@ export function RobotUpdate({ robot }) {
 
         const token = validateToken()
 
+        if(token == null){
+
+            return
+            
+        }
+
         axios.put('http://localhost:3301/api/robot/robot', {
 
             RobotID: RobotID,

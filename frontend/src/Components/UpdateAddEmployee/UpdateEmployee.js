@@ -71,6 +71,12 @@ export function UpdateEmployee({ employee }) {
 
         const token = validateToken()
 
+        if(token == null){
+
+          return
+
+        }
+
         if(!employeeFormat(formData.UserID, formData.UserNameFirst, formData.UserNameLast, formData.UserPhoneNumber) || !signUpFormatEmployee(formData.EmployeeHireDate, formData.EmployeeStatus,formData.EmployeeBirthDate,formData.EmployeeDepartment,formData.EmployeeHourly, formData.SupervisorID)){
             
           return; 

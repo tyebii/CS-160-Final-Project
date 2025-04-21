@@ -29,6 +29,12 @@ export function MyOrders (){
 
         const token = validateToken()
 
+        if(token == null){
+
+            return;
+
+        }
+
         axios
 
         .get("http://localhost:3301/api/transaction/transactions/customer", {
@@ -47,9 +53,13 @@ export function MyOrders (){
 
                 alert("No Results Found")
 
+                return;
+
             }else{
 
                 setResults(response.data)
+
+                return;
 
             }
 
@@ -58,6 +68,8 @@ export function MyOrders (){
         .catch((error) => {
 
             handleError(error)
+
+            return;
 
         });
 

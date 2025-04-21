@@ -78,6 +78,12 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
 
     const token = validateToken()
 
+    if(token == null){
+
+      return
+
+    }
+
     axios.get("http://localhost:3301/api/robot/robot", {
 
       headers: {
@@ -106,6 +112,12 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
   const scheduleClick = () => {
 
     const token = validateToken()
+
+    if(token == null){
+
+      return
+
+    }
 
     axios.put(
 
@@ -147,6 +159,12 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
 
   const token = validateToken()
 
+  if(token == null){
+
+    return null
+
+  }
+
   axios.put(
 
     "http://localhost:3301/api/delivery/deploy",
@@ -185,6 +203,12 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
   const clickDelete = (RobotID) => {
 
     const token = validateToken()
+
+    if(token == null){
+
+      return
+      
+    }
 
     axios.delete("http://localhost:3301/api/robot/robot", {
 

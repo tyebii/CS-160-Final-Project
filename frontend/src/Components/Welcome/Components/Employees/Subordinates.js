@@ -67,6 +67,12 @@ const Subordinates = ({logout}) => {
   useEffect(() => {
 
     const token = validateToken();
+
+    if(token == null){
+
+      return
+
+    }
     
     axios
 
@@ -98,6 +104,12 @@ const Subordinates = ({logout}) => {
   const clickTerminate = (employeeID)=>{
 
     const token = validateToken();
+
+    if(token == null){
+
+      return
+      
+    }
 
     axios.delete("http://localhost:3301/api/employee/employee", {
 
