@@ -15333,3 +15333,350 @@
 2025-04-21T18:48:06.540Z [info] [Request ID: db51a108-79e7-4d97-a9b0-8fd74ae3cd7a]: Fetching The Items Associated With The Category: Fresh Produce
 2025-04-21T18:48:06.544Z [info] [Request ID: db51a108-79e7-4d97-a9b0-8fd74ae3cd7a]: Fetched The Items... Creating Static Image Links
 2025-04-21T18:48:06.544Z [info] [Request ID: db51a108-79e7-4d97-a9b0-8fd74ae3cd7a]: Fetched The Items And Their Associated Images
+2025-04-21T18:58:17.324Z [info] [Request ID: 45bea108-2f57-40c8-a5c9-edb7f645e854]: Starting Authentication
+2025-04-21T18:58:17.325Z [info] [Request ID: 45bea108-2f57-40c8-a5c9-edb7f645e854]: Token Recieved: true
+2025-04-21T18:58:17.326Z [info] [Request ID: 45bea108-2f57-40c8-a5c9-edb7f645e854]: Verifying Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtYXR0aGV3IiwiRW1wbG95ZWVJRCI6bnVsbCwiQ3VzdG9tZXJJRCI6IjEwMDM5MDE0LWJlYzgtNDczNy1iZjBjLWNlYjVkODFiZTZmNCIsIlN1cGVydmlzb3JJRCI6bnVsbCwiaWF0IjoxNzQ1MjYxNDM5LCJleHAiOjE3NDUyNjUwMzl9.Hg4Sz-k-rbQHsEmUH3uB-iKmPMbs_XtcsMQOZImkCW0
+2025-04-21T18:58:17.328Z [info] [Request ID: 45bea108-2f57-40c8-a5c9-edb7f645e854]: Authentication Done
+2025-04-21T18:58:17.328Z [info] [Request ID: 45bea108-2f57-40c8-a5c9-edb7f645e854]: Authorizing Customer
+2025-04-21T18:58:17.328Z [info] [Request ID: 45bea108-2f57-40c8-a5c9-edb7f645e854]: Valid Customer
+2025-04-21T18:58:17.329Z [info] [Request ID: 45bea108-2f57-40c8-a5c9-edb7f645e854]: Fetching The Customer's Information With ID: 10039014-bec8-4737-bf0c-ceb5d81be6f4
+2025-04-21T18:58:17.329Z [info] [Request ID: 45bea108-2f57-40c8-a5c9-edb7f645e854]: Now Getting Customer Information For 10039014-bec8-4737-bf0c-ceb5d81be6f4 From The Database
+2025-04-21T18:58:17.332Z [info] [Request ID: 45bea108-2f57-40c8-a5c9-edb7f645e854]: Information For Customer 10039014-bec8-4737-bf0c-ceb5d81be6f4 Has Been Fetched
+2025-04-21T18:58:44.431Z [info] [Request ID: 5330ca93-843f-4d45-bcd3-f7a2e969e18f]: Starting Featured Search
+2025-04-21T18:58:44.436Z [info] [Request ID: 5330ca93-843f-4d45-bcd3-f7a2e969e18f]: Fetched The Items... Creating Static Image Links
+2025-04-21T18:58:44.437Z [info] [Request ID: 5330ca93-843f-4d45-bcd3-f7a2e969e18f]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T18:58:44.440Z [info] [Request ID: d3d7554d-811a-41dd-b370-84cfa400f255]: Starting Featured Search
+2025-04-21T18:58:44.442Z [info] [Request ID: d3d7554d-811a-41dd-b370-84cfa400f255]: Fetched The Items... Creating Static Image Links
+2025-04-21T18:58:44.443Z [info] [Request ID: d3d7554d-811a-41dd-b370-84cfa400f255]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T18:58:44.485Z [info] [Request ID: 6797821d-b9cf-4a76-8033-f1b24142c59b]: Starting Featured Search
+2025-04-21T18:58:44.486Z [info] [Request ID: 6797821d-b9cf-4a76-8033-f1b24142c59b]: Fetched The Items... Creating Static Image Links
+2025-04-21T18:58:44.487Z [info] [Request ID: 6797821d-b9cf-4a76-8033-f1b24142c59b]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T18:58:48.570Z [info] [Request ID: 3f01b555-d8f4-4931-9ba0-08d893d81c1a]: Starting Authentication
+2025-04-21T18:58:48.571Z [info] [Request ID: 3f01b555-d8f4-4931-9ba0-08d893d81c1a]: Token Recieved: true
+2025-04-21T18:58:48.571Z [info] [Request ID: 3f01b555-d8f4-4931-9ba0-08d893d81c1a]: Verifying Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtYXR0aGV3IiwiRW1wbG95ZWVJRCI6bnVsbCwiQ3VzdG9tZXJJRCI6IjEwMDM5MDE0LWJlYzgtNDczNy1iZjBjLWNlYjVkODFiZTZmNCIsIlN1cGVydmlzb3JJRCI6bnVsbCwiaWF0IjoxNzQ1MjYxNDM5LCJleHAiOjE3NDUyNjUwMzl9.Hg4Sz-k-rbQHsEmUH3uB-iKmPMbs_XtcsMQOZImkCW0
+2025-04-21T18:58:48.572Z [info] [Request ID: 3f01b555-d8f4-4931-9ba0-08d893d81c1a]: Authentication Done
+2025-04-21T18:58:48.572Z [info] [Request ID: 3f01b555-d8f4-4931-9ba0-08d893d81c1a]: Authorizing Customer
+2025-04-21T18:58:48.572Z [info] [Request ID: 3f01b555-d8f4-4931-9ba0-08d893d81c1a]: Valid Customer
+2025-04-21T18:58:48.573Z [info] [Request ID: 3f01b555-d8f4-4931-9ba0-08d893d81c1a]: Fetching The Customer's Information With ID: 10039014-bec8-4737-bf0c-ceb5d81be6f4
+2025-04-21T18:58:48.573Z [info] [Request ID: 3f01b555-d8f4-4931-9ba0-08d893d81c1a]: Now Getting Customer Information For 10039014-bec8-4737-bf0c-ceb5d81be6f4 From The Database
+2025-04-21T18:58:48.574Z [info] [Request ID: 3f01b555-d8f4-4931-9ba0-08d893d81c1a]: Information For Customer 10039014-bec8-4737-bf0c-ceb5d81be6f4 Has Been Fetched
+2025-04-21T18:58:48.576Z [info] [Request ID: b422e110-8d83-45c0-89e7-1d381f9650c4]: Starting Authentication
+2025-04-21T18:58:48.577Z [info] [Request ID: b422e110-8d83-45c0-89e7-1d381f9650c4]: Token Recieved: true
+2025-04-21T18:58:48.577Z [info] [Request ID: b422e110-8d83-45c0-89e7-1d381f9650c4]: Verifying Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtYXR0aGV3IiwiRW1wbG95ZWVJRCI6bnVsbCwiQ3VzdG9tZXJJRCI6IjEwMDM5MDE0LWJlYzgtNDczNy1iZjBjLWNlYjVkODFiZTZmNCIsIlN1cGVydmlzb3JJRCI6bnVsbCwiaWF0IjoxNzQ1MjYxNDM5LCJleHAiOjE3NDUyNjUwMzl9.Hg4Sz-k-rbQHsEmUH3uB-iKmPMbs_XtcsMQOZImkCW0
+2025-04-21T18:58:48.578Z [info] [Request ID: b422e110-8d83-45c0-89e7-1d381f9650c4]: Authentication Done
+2025-04-21T18:58:48.578Z [info] [Request ID: b422e110-8d83-45c0-89e7-1d381f9650c4]: Authorizing Customer
+2025-04-21T18:58:48.578Z [info] [Request ID: b422e110-8d83-45c0-89e7-1d381f9650c4]: Valid Customer
+2025-04-21T18:58:48.578Z [info] [Request ID: b422e110-8d83-45c0-89e7-1d381f9650c4]: Fetching The Customer's Information With ID: 10039014-bec8-4737-bf0c-ceb5d81be6f4
+2025-04-21T18:58:48.579Z [info] [Request ID: b422e110-8d83-45c0-89e7-1d381f9650c4]: Now Getting Customer Information For 10039014-bec8-4737-bf0c-ceb5d81be6f4 From The Database
+2025-04-21T18:58:48.579Z [info] [Request ID: b422e110-8d83-45c0-89e7-1d381f9650c4]: Information For Customer 10039014-bec8-4737-bf0c-ceb5d81be6f4 Has Been Fetched
+2025-04-21T18:58:50.017Z [info] [Request ID: c629dbff-a1e2-4ee8-a2bb-2ef7b341e295]: Starting Authentication
+2025-04-21T18:58:50.017Z [info] [Request ID: c629dbff-a1e2-4ee8-a2bb-2ef7b341e295]: Token Recieved: true
+2025-04-21T18:58:50.017Z [info] [Request ID: c629dbff-a1e2-4ee8-a2bb-2ef7b341e295]: Verifying Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtYXR0aGV3IiwiRW1wbG95ZWVJRCI6bnVsbCwiQ3VzdG9tZXJJRCI6IjEwMDM5MDE0LWJlYzgtNDczNy1iZjBjLWNlYjVkODFiZTZmNCIsIlN1cGVydmlzb3JJRCI6bnVsbCwiaWF0IjoxNzQ1MjYxNDM5LCJleHAiOjE3NDUyNjUwMzl9.Hg4Sz-k-rbQHsEmUH3uB-iKmPMbs_XtcsMQOZImkCW0
+2025-04-21T18:58:50.019Z [info] [Request ID: c629dbff-a1e2-4ee8-a2bb-2ef7b341e295]: Authentication Done
+2025-04-21T18:58:50.019Z [info] [Request ID: c629dbff-a1e2-4ee8-a2bb-2ef7b341e295]: Authorizing Customer
+2025-04-21T18:58:50.019Z [info] [Request ID: c629dbff-a1e2-4ee8-a2bb-2ef7b341e295]: Valid Customer
+2025-04-21T18:58:50.019Z [info] [Request ID: c629dbff-a1e2-4ee8-a2bb-2ef7b341e295]: Getting Customer's Transactions
+2025-04-21T18:58:50.021Z [info] [Request ID: c629dbff-a1e2-4ee8-a2bb-2ef7b341e295]: Successfully Got Customer Transactions
+2025-04-21T18:58:50.023Z [info] [Request ID: b036c4bf-de6a-47ce-a4b1-b7a5bef61add]: Starting Authentication
+2025-04-21T18:58:50.023Z [info] [Request ID: b036c4bf-de6a-47ce-a4b1-b7a5bef61add]: Token Recieved: true
+2025-04-21T18:58:50.023Z [info] [Request ID: b036c4bf-de6a-47ce-a4b1-b7a5bef61add]: Verifying Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtYXR0aGV3IiwiRW1wbG95ZWVJRCI6bnVsbCwiQ3VzdG9tZXJJRCI6IjEwMDM5MDE0LWJlYzgtNDczNy1iZjBjLWNlYjVkODFiZTZmNCIsIlN1cGVydmlzb3JJRCI6bnVsbCwiaWF0IjoxNzQ1MjYxNDM5LCJleHAiOjE3NDUyNjUwMzl9.Hg4Sz-k-rbQHsEmUH3uB-iKmPMbs_XtcsMQOZImkCW0
+2025-04-21T18:58:50.024Z [info] [Request ID: b036c4bf-de6a-47ce-a4b1-b7a5bef61add]: Authentication Done
+2025-04-21T18:58:50.025Z [info] [Request ID: b036c4bf-de6a-47ce-a4b1-b7a5bef61add]: Authorizing Customer
+2025-04-21T18:58:50.025Z [info] [Request ID: b036c4bf-de6a-47ce-a4b1-b7a5bef61add]: Valid Customer
+2025-04-21T18:58:50.025Z [info] [Request ID: b036c4bf-de6a-47ce-a4b1-b7a5bef61add]: Getting Customer's Transactions
+2025-04-21T18:58:50.026Z [info] [Request ID: b036c4bf-de6a-47ce-a4b1-b7a5bef61add]: Successfully Got Customer Transactions
+2025-04-21T18:58:51.003Z [info] [Request ID: 2bbbbf6f-d339-4a00-a0ca-2d63dd3f1d3a]: Starting Authentication
+2025-04-21T18:58:51.004Z [info] [Request ID: 2bbbbf6f-d339-4a00-a0ca-2d63dd3f1d3a]: Token Recieved: true
+2025-04-21T18:58:51.004Z [info] [Request ID: 2bbbbf6f-d339-4a00-a0ca-2d63dd3f1d3a]: Verifying Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtYXR0aGV3IiwiRW1wbG95ZWVJRCI6bnVsbCwiQ3VzdG9tZXJJRCI6IjEwMDM5MDE0LWJlYzgtNDczNy1iZjBjLWNlYjVkODFiZTZmNCIsIlN1cGVydmlzb3JJRCI6bnVsbCwiaWF0IjoxNzQ1MjYxNDM5LCJleHAiOjE3NDUyNjUwMzl9.Hg4Sz-k-rbQHsEmUH3uB-iKmPMbs_XtcsMQOZImkCW0
+2025-04-21T18:58:51.005Z [info] [Request ID: 2bbbbf6f-d339-4a00-a0ca-2d63dd3f1d3a]: Authentication Done
+2025-04-21T18:58:51.005Z [info] [Request ID: 2bbbbf6f-d339-4a00-a0ca-2d63dd3f1d3a]: Authorizing Customer
+2025-04-21T18:58:51.005Z [info] [Request ID: 2bbbbf6f-d339-4a00-a0ca-2d63dd3f1d3a]: Valid Customer
+2025-04-21T18:58:51.006Z [info] [Request ID: 2bbbbf6f-d339-4a00-a0ca-2d63dd3f1d3a]: Getting Shopping Cart...
+2025-04-21T18:58:51.007Z [info] [Request ID: 3be1068f-58b2-49f2-9f5c-4a4a8e2e7768]: Starting Authentication
+2025-04-21T18:58:51.007Z [info] [Request ID: 3be1068f-58b2-49f2-9f5c-4a4a8e2e7768]: Token Recieved: true
+2025-04-21T18:58:51.007Z [info] [Request ID: 3be1068f-58b2-49f2-9f5c-4a4a8e2e7768]: Verifying Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtYXR0aGV3IiwiRW1wbG95ZWVJRCI6bnVsbCwiQ3VzdG9tZXJJRCI6IjEwMDM5MDE0LWJlYzgtNDczNy1iZjBjLWNlYjVkODFiZTZmNCIsIlN1cGVydmlzb3JJRCI6bnVsbCwiaWF0IjoxNzQ1MjYxNDM5LCJleHAiOjE3NDUyNjUwMzl9.Hg4Sz-k-rbQHsEmUH3uB-iKmPMbs_XtcsMQOZImkCW0
+2025-04-21T18:58:51.008Z [info] [Request ID: 3be1068f-58b2-49f2-9f5c-4a4a8e2e7768]: Authentication Done
+2025-04-21T18:58:51.008Z [info] [Request ID: 3be1068f-58b2-49f2-9f5c-4a4a8e2e7768]: Authorizing Customer
+2025-04-21T18:58:51.009Z [info] [Request ID: 3be1068f-58b2-49f2-9f5c-4a4a8e2e7768]: Valid Customer
+2025-04-21T18:58:51.009Z [info] [Request ID: 3be1068f-58b2-49f2-9f5c-4a4a8e2e7768]: Fetching Addresses Associated With Customer ID: 10039014-bec8-4737-bf0c-ceb5d81be6f4
+2025-04-21T18:58:51.011Z [info] [Request ID: 3be1068f-58b2-49f2-9f5c-4a4a8e2e7768]: Successfully Fetched Shopping Cart
+2025-04-21T18:58:51.014Z [info] [Request ID: b4b33664-4a4e-4a03-870e-cffe5f3e5b1f]: Starting Authentication
+2025-04-21T18:58:51.014Z [info] [Request ID: b4b33664-4a4e-4a03-870e-cffe5f3e5b1f]: Token Recieved: true
+2025-04-21T18:58:51.014Z [info] [Request ID: b4b33664-4a4e-4a03-870e-cffe5f3e5b1f]: Verifying Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtYXR0aGV3IiwiRW1wbG95ZWVJRCI6bnVsbCwiQ3VzdG9tZXJJRCI6IjEwMDM5MDE0LWJlYzgtNDczNy1iZjBjLWNlYjVkODFiZTZmNCIsIlN1cGVydmlzb3JJRCI6bnVsbCwiaWF0IjoxNzQ1MjYxNDM5LCJleHAiOjE3NDUyNjUwMzl9.Hg4Sz-k-rbQHsEmUH3uB-iKmPMbs_XtcsMQOZImkCW0
+2025-04-21T18:58:51.015Z [info] [Request ID: b4b33664-4a4e-4a03-870e-cffe5f3e5b1f]: Authentication Done
+2025-04-21T18:58:51.016Z [info] [Request ID: b4b33664-4a4e-4a03-870e-cffe5f3e5b1f]: Authorizing Customer
+2025-04-21T18:58:51.016Z [info] [Request ID: b4b33664-4a4e-4a03-870e-cffe5f3e5b1f]: Valid Customer
+2025-04-21T18:58:51.016Z [info] [Request ID: b4b33664-4a4e-4a03-870e-cffe5f3e5b1f]: Getting Shopping Cart...
+2025-04-21T18:58:51.017Z [info] [Request ID: b4b33664-4a4e-4a03-870e-cffe5f3e5b1f]: Successfully Fetched Shopping Cart
+2025-04-21T18:58:51.019Z [info] [Request ID: b4b33664-4a4e-4a03-870e-cffe5f3e5b1f]: Addresses Fetched For Customer With ID 10039014-bec8-4737-bf0c-ceb5d81be6f4
+2025-04-21T18:58:51.020Z [info] [Request ID: 01723b72-70c0-4354-b758-c5ac8670f97f]: Starting Authentication
+2025-04-21T18:58:51.021Z [info] [Request ID: 01723b72-70c0-4354-b758-c5ac8670f97f]: Token Recieved: true
+2025-04-21T18:58:51.021Z [info] [Request ID: 01723b72-70c0-4354-b758-c5ac8670f97f]: Verifying Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtYXR0aGV3IiwiRW1wbG95ZWVJRCI6bnVsbCwiQ3VzdG9tZXJJRCI6IjEwMDM5MDE0LWJlYzgtNDczNy1iZjBjLWNlYjVkODFiZTZmNCIsIlN1cGVydmlzb3JJRCI6bnVsbCwiaWF0IjoxNzQ1MjYxNDM5LCJleHAiOjE3NDUyNjUwMzl9.Hg4Sz-k-rbQHsEmUH3uB-iKmPMbs_XtcsMQOZImkCW0
+2025-04-21T18:58:51.022Z [info] [Request ID: 01723b72-70c0-4354-b758-c5ac8670f97f]: Authentication Done
+2025-04-21T18:58:51.022Z [info] [Request ID: 01723b72-70c0-4354-b758-c5ac8670f97f]: Authorizing Customer
+2025-04-21T18:58:51.022Z [info] [Request ID: 01723b72-70c0-4354-b758-c5ac8670f97f]: Valid Customer
+2025-04-21T18:58:51.022Z [info] [Request ID: 01723b72-70c0-4354-b758-c5ac8670f97f]: Fetching Addresses Associated With Customer ID: 10039014-bec8-4737-bf0c-ceb5d81be6f4
+2025-04-21T18:58:51.023Z [info] [Request ID: 01723b72-70c0-4354-b758-c5ac8670f97f]: Addresses Fetched For Customer With ID 10039014-bec8-4737-bf0c-ceb5d81be6f4
+2025-04-21T18:58:51.973Z [info] [Request ID: 64f03ff6-b5e0-42d4-b3e4-ac8882fac91c]: Starting Featured Search
+2025-04-21T18:58:51.975Z [info] [Request ID: 64f03ff6-b5e0-42d4-b3e4-ac8882fac91c]: Fetched The Items... Creating Static Image Links
+2025-04-21T18:58:51.975Z [info] [Request ID: 64f03ff6-b5e0-42d4-b3e4-ac8882fac91c]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T18:58:51.976Z [info] [Request ID: e6eeb2ba-d7de-4b9f-b4ab-27e358abf28c]: Starting Featured Search
+2025-04-21T18:58:51.978Z [info] [Request ID: e6eeb2ba-d7de-4b9f-b4ab-27e358abf28c]: Fetched The Items... Creating Static Image Links
+2025-04-21T18:58:51.978Z [info] [Request ID: e6eeb2ba-d7de-4b9f-b4ab-27e358abf28c]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T18:58:58.761Z [info] [Request ID: 04059124-a548-4d1a-ab2f-e5c54f5ea0c7]: Starting Customer Category Query
+2025-04-21T18:58:58.761Z [info] [Request ID: 04059124-a548-4d1a-ab2f-e5c54f5ea0c7]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-21T18:58:58.762Z [info] [Request ID: 04059124-a548-4d1a-ab2f-e5c54f5ea0c7]: Fetched The Items... Creating Static Image Links
+2025-04-21T18:58:58.762Z [info] [Request ID: 04059124-a548-4d1a-ab2f-e5c54f5ea0c7]: Fetched The Items And Their Associated Images
+2025-04-21T18:58:58.763Z [info] [Request ID: b5288571-3aa9-4216-8910-68c70a01bbfb]: Starting Customer Category Query
+2025-04-21T18:58:58.764Z [info] [Request ID: b5288571-3aa9-4216-8910-68c70a01bbfb]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-21T18:58:58.764Z [info] [Request ID: b5288571-3aa9-4216-8910-68c70a01bbfb]: Fetched The Items... Creating Static Image Links
+2025-04-21T18:58:58.765Z [info] [Request ID: b5288571-3aa9-4216-8910-68c70a01bbfb]: Fetched The Items And Their Associated Images
+2025-04-21T18:58:59.696Z [info] [Request ID: 06758dac-5536-413d-bac1-287bc0bec733]: Starting Customer Category Query
+2025-04-21T18:58:59.696Z [info] [Request ID: 06758dac-5536-413d-bac1-287bc0bec733]: Fetching The Items Associated With The Category: Dairy and Eggs
+2025-04-21T18:58:59.697Z [info] [Request ID: 06758dac-5536-413d-bac1-287bc0bec733]: Fetched The Items... Creating Static Image Links
+2025-04-21T18:58:59.697Z [info] [Request ID: 06758dac-5536-413d-bac1-287bc0bec733]: Fetched The Items And Their Associated Images
+2025-04-21T18:59:00.913Z [info] [Request ID: 3829c248-a572-475e-ba9f-745007eef0a9]: Starting Customer Category Query
+2025-04-21T18:59:00.913Z [info] [Request ID: 3829c248-a572-475e-ba9f-745007eef0a9]: Fetching The Items Associated With The Category: Meat and Seafood
+2025-04-21T18:59:00.914Z [info] [Request ID: 3829c248-a572-475e-ba9f-745007eef0a9]: Fetched The Items... Creating Static Image Links
+2025-04-21T18:59:00.914Z [info] [Request ID: 3829c248-a572-475e-ba9f-745007eef0a9]: Fetched The Items And Their Associated Images
+2025-04-21T18:59:02.802Z [info] [Request ID: 624bd531-8f91-4c0a-b2b0-93a296426ab5]: Starting Customer Category Query
+2025-04-21T18:59:02.803Z [info] [Request ID: 624bd531-8f91-4c0a-b2b0-93a296426ab5]: Fetching The Items Associated With The Category: Bakery and Bread
+2025-04-21T18:59:02.804Z [info] [Request ID: 624bd531-8f91-4c0a-b2b0-93a296426ab5]: Fetched The Items... Creating Static Image Links
+2025-04-21T18:59:02.804Z [info] [Request ID: 624bd531-8f91-4c0a-b2b0-93a296426ab5]: Fetched The Items And Their Associated Images
+2025-04-21T18:59:04.276Z [info] [Request ID: 24f1ed69-4413-4930-b526-ef520937e3a2]: Starting Customer Category Query
+2025-04-21T18:59:04.276Z [info] [Request ID: 24f1ed69-4413-4930-b526-ef520937e3a2]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-21T18:59:04.277Z [info] [Request ID: 24f1ed69-4413-4930-b526-ef520937e3a2]: Fetched The Items... Creating Static Image Links
+2025-04-21T18:59:04.277Z [info] [Request ID: 24f1ed69-4413-4930-b526-ef520937e3a2]: Fetched The Items And Their Associated Images
+2025-04-21T18:59:04.792Z [info] [Request ID: 6d2252f7-d29b-435e-932d-5618224b97fe]: Starting Featured Search
+2025-04-21T18:59:04.794Z [info] [Request ID: 6d2252f7-d29b-435e-932d-5618224b97fe]: Fetched The Items... Creating Static Image Links
+2025-04-21T18:59:04.794Z [info] [Request ID: 6d2252f7-d29b-435e-932d-5618224b97fe]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T18:59:04.796Z [info] [Request ID: e9c2b60b-c7c8-4fb9-9715-862e19ad1236]: Starting Featured Search
+2025-04-21T18:59:04.798Z [info] [Request ID: e9c2b60b-c7c8-4fb9-9715-862e19ad1236]: Fetched The Items... Creating Static Image Links
+2025-04-21T18:59:04.798Z [info] [Request ID: e9c2b60b-c7c8-4fb9-9715-862e19ad1236]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T18:59:10.142Z [info] [Request ID: c579dbb1-4a46-4ddb-89ac-dab26b65fbbb]: Starting Customer Name Query
+2025-04-21T18:59:10.143Z [info] [Request ID: c579dbb1-4a46-4ddb-89ac-dab26b65fbbb]: Fetching The Items Associated With The Product: blue
+2025-04-21T18:59:10.144Z [info] [Request ID: c579dbb1-4a46-4ddb-89ac-dab26b65fbbb]: Fetched The Items... Creating Static Image Links
+2025-04-21T18:59:10.144Z [info] [Request ID: c579dbb1-4a46-4ddb-89ac-dab26b65fbbb]: Fetched The Items And Their Associated Images
+2025-04-21T18:59:10.145Z [info] [Request ID: 4582b18b-b45c-442b-99db-09227d522cac]: Starting Customer Name Query
+2025-04-21T18:59:10.146Z [info] [Request ID: 4582b18b-b45c-442b-99db-09227d522cac]: Fetching The Items Associated With The Product: blue
+2025-04-21T18:59:10.147Z [info] [Request ID: 4582b18b-b45c-442b-99db-09227d522cac]: Fetched The Items... Creating Static Image Links
+2025-04-21T18:59:10.147Z [info] [Request ID: 4582b18b-b45c-442b-99db-09227d522cac]: Fetched The Items And Their Associated Images
+2025-04-21T18:59:21.720Z [info] [Request ID: 15ae5320-0add-4f4e-93b3-0d46acd47bbf]: Starting Customer Category Query
+2025-04-21T18:59:21.720Z [info] [Request ID: 15ae5320-0add-4f4e-93b3-0d46acd47bbf]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-21T18:59:21.721Z [info] [Request ID: 15ae5320-0add-4f4e-93b3-0d46acd47bbf]: Fetched The Items... Creating Static Image Links
+2025-04-21T18:59:21.721Z [info] [Request ID: 15ae5320-0add-4f4e-93b3-0d46acd47bbf]: Fetched The Items And Their Associated Images
+2025-04-21T18:59:51.919Z [info] [Request ID: b35df957-7a44-48ed-971e-144cf44192cb]: Starting Customer Category Query
+2025-04-21T18:59:51.919Z [info] [Request ID: b35df957-7a44-48ed-971e-144cf44192cb]: Fetching The Items Associated With The Category: Dairy and Eggs
+2025-04-21T18:59:51.920Z [info] [Request ID: b35df957-7a44-48ed-971e-144cf44192cb]: Fetched The Items... Creating Static Image Links
+2025-04-21T18:59:51.921Z [info] [Request ID: b35df957-7a44-48ed-971e-144cf44192cb]: Fetched The Items And Their Associated Images
+2025-04-21T19:00:48.380Z [info] [Request ID: 6a03a33d-4288-4cba-967c-369112b6495e]: Starting Customer Category Query
+2025-04-21T19:00:48.380Z [info] [Request ID: 6a03a33d-4288-4cba-967c-369112b6495e]: Fetching The Items Associated With The Category: Dairy and Eggs
+2025-04-21T19:00:48.381Z [info] [Request ID: 6a03a33d-4288-4cba-967c-369112b6495e]: Fetched The Items... Creating Static Image Links
+2025-04-21T19:00:48.381Z [info] [Request ID: 6a03a33d-4288-4cba-967c-369112b6495e]: Fetched The Items And Their Associated Images
+2025-04-21T19:00:58.236Z [info] [Request ID: 5f2918e6-4f05-41c1-9bb9-c81c5b566063]: Starting Customer ID Query
+2025-04-21T19:00:58.236Z [info] [Request ID: 5f2918e6-4f05-41c1-9bb9-c81c5b566063]: Querying Item With ItemID As A Customer: 20b27d25-84dc-4d4d-b39d-6a808b344d5e
+2025-04-21T19:00:58.237Z [info] [Request ID: 5f2918e6-4f05-41c1-9bb9-c81c5b566063]: Fetched The Items... Creating Static Image Links
+2025-04-21T19:00:58.238Z [info] [Request ID: 5f2918e6-4f05-41c1-9bb9-c81c5b566063]: Fetched The Items And Their Associated Images As A Customer
+2025-04-21T19:00:58.239Z [info] [Request ID: 31ce2a91-437f-464c-902c-c697d5b98a3c]: Starting Customer ID Query
+2025-04-21T19:00:58.239Z [info] [Request ID: 31ce2a91-437f-464c-902c-c697d5b98a3c]: Querying Item With ItemID As A Customer: 20b27d25-84dc-4d4d-b39d-6a808b344d5e
+2025-04-21T19:00:58.240Z [info] [Request ID: 31ce2a91-437f-464c-902c-c697d5b98a3c]: Fetched The Items... Creating Static Image Links
+2025-04-21T19:00:58.240Z [info] [Request ID: 31ce2a91-437f-464c-902c-c697d5b98a3c]: Fetched The Items And Their Associated Images As A Customer
+2025-04-21T19:01:01.803Z [info] [Request ID: d60088d8-548f-4115-858b-90023fcfc313]: Starting Featured Search
+2025-04-21T19:01:01.805Z [info] [Request ID: d60088d8-548f-4115-858b-90023fcfc313]: Fetched The Items... Creating Static Image Links
+2025-04-21T19:01:01.805Z [info] [Request ID: d60088d8-548f-4115-858b-90023fcfc313]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T19:01:01.808Z [info] [Request ID: 67a0f958-e69e-4652-a640-9dec8e64db2c]: Starting Featured Search
+2025-04-21T19:01:01.810Z [info] [Request ID: 67a0f958-e69e-4652-a640-9dec8e64db2c]: Fetched The Items... Creating Static Image Links
+2025-04-21T19:01:01.811Z [info] [Request ID: 67a0f958-e69e-4652-a640-9dec8e64db2c]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T19:01:05.882Z [info] [Request ID: 1fb0069a-0405-4a31-81bb-45ff3b0b7b20]: Starting Authentication
+2025-04-21T19:01:05.882Z [info] [Request ID: 1fb0069a-0405-4a31-81bb-45ff3b0b7b20]: Token Recieved: true
+2025-04-21T19:01:05.882Z [info] [Request ID: 1fb0069a-0405-4a31-81bb-45ff3b0b7b20]: Verifying Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtYXR0aGV3IiwiRW1wbG95ZWVJRCI6bnVsbCwiQ3VzdG9tZXJJRCI6IjEwMDM5MDE0LWJlYzgtNDczNy1iZjBjLWNlYjVkODFiZTZmNCIsIlN1cGVydmlzb3JJRCI6bnVsbCwiaWF0IjoxNzQ1MjYxNDM5LCJleHAiOjE3NDUyNjUwMzl9.Hg4Sz-k-rbQHsEmUH3uB-iKmPMbs_XtcsMQOZImkCW0
+2025-04-21T19:01:05.883Z [info] [Request ID: 1fb0069a-0405-4a31-81bb-45ff3b0b7b20]: Authentication Done
+2025-04-21T19:01:05.883Z [info] [Request ID: 1fb0069a-0405-4a31-81bb-45ff3b0b7b20]: Authorizing Customer
+2025-04-21T19:01:05.884Z [info] [Request ID: 1fb0069a-0405-4a31-81bb-45ff3b0b7b20]: Valid Customer
+2025-04-21T19:01:05.884Z [info] [Request ID: 1fb0069a-0405-4a31-81bb-45ff3b0b7b20]: Fetching The Customer's Information With ID: 10039014-bec8-4737-bf0c-ceb5d81be6f4
+2025-04-21T19:01:05.884Z [info] [Request ID: 1fb0069a-0405-4a31-81bb-45ff3b0b7b20]: Now Getting Customer Information For 10039014-bec8-4737-bf0c-ceb5d81be6f4 From The Database
+2025-04-21T19:01:05.885Z [info] [Request ID: 1fb0069a-0405-4a31-81bb-45ff3b0b7b20]: Information For Customer 10039014-bec8-4737-bf0c-ceb5d81be6f4 Has Been Fetched
+2025-04-21T19:01:05.887Z [info] [Request ID: f06ddbb2-18d9-43fd-a73f-9394004515db]: Starting Authentication
+2025-04-21T19:01:05.887Z [info] [Request ID: f06ddbb2-18d9-43fd-a73f-9394004515db]: Token Recieved: true
+2025-04-21T19:01:05.887Z [info] [Request ID: f06ddbb2-18d9-43fd-a73f-9394004515db]: Verifying Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtYXR0aGV3IiwiRW1wbG95ZWVJRCI6bnVsbCwiQ3VzdG9tZXJJRCI6IjEwMDM5MDE0LWJlYzgtNDczNy1iZjBjLWNlYjVkODFiZTZmNCIsIlN1cGVydmlzb3JJRCI6bnVsbCwiaWF0IjoxNzQ1MjYxNDM5LCJleHAiOjE3NDUyNjUwMzl9.Hg4Sz-k-rbQHsEmUH3uB-iKmPMbs_XtcsMQOZImkCW0
+2025-04-21T19:01:05.888Z [info] [Request ID: f06ddbb2-18d9-43fd-a73f-9394004515db]: Authentication Done
+2025-04-21T19:01:05.888Z [info] [Request ID: f06ddbb2-18d9-43fd-a73f-9394004515db]: Authorizing Customer
+2025-04-21T19:01:05.888Z [info] [Request ID: f06ddbb2-18d9-43fd-a73f-9394004515db]: Valid Customer
+2025-04-21T19:01:05.888Z [info] [Request ID: f06ddbb2-18d9-43fd-a73f-9394004515db]: Fetching The Customer's Information With ID: 10039014-bec8-4737-bf0c-ceb5d81be6f4
+2025-04-21T19:01:05.888Z [info] [Request ID: f06ddbb2-18d9-43fd-a73f-9394004515db]: Now Getting Customer Information For 10039014-bec8-4737-bf0c-ceb5d81be6f4 From The Database
+2025-04-21T19:01:05.889Z [info] [Request ID: f06ddbb2-18d9-43fd-a73f-9394004515db]: Information For Customer 10039014-bec8-4737-bf0c-ceb5d81be6f4 Has Been Fetched
+2025-04-21T19:01:07.067Z [info] [Request ID: 1aa8b405-49a5-42a4-811a-d23d8d311114]: Starting Authentication
+2025-04-21T19:01:07.067Z [info] [Request ID: 1aa8b405-49a5-42a4-811a-d23d8d311114]: Token Recieved: true
+2025-04-21T19:01:07.067Z [info] [Request ID: 1aa8b405-49a5-42a4-811a-d23d8d311114]: Verifying Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtYXR0aGV3IiwiRW1wbG95ZWVJRCI6bnVsbCwiQ3VzdG9tZXJJRCI6IjEwMDM5MDE0LWJlYzgtNDczNy1iZjBjLWNlYjVkODFiZTZmNCIsIlN1cGVydmlzb3JJRCI6bnVsbCwiaWF0IjoxNzQ1MjYxNDM5LCJleHAiOjE3NDUyNjUwMzl9.Hg4Sz-k-rbQHsEmUH3uB-iKmPMbs_XtcsMQOZImkCW0
+2025-04-21T19:01:07.068Z [info] [Request ID: 1aa8b405-49a5-42a4-811a-d23d8d311114]: Authentication Done
+2025-04-21T19:01:07.068Z [info] [Request ID: 1aa8b405-49a5-42a4-811a-d23d8d311114]: Authorizing Customer
+2025-04-21T19:01:07.068Z [info] [Request ID: 1aa8b405-49a5-42a4-811a-d23d8d311114]: Valid Customer
+2025-04-21T19:01:07.069Z [info] [Request ID: 1aa8b405-49a5-42a4-811a-d23d8d311114]: Deleting Customer...
+2025-04-21T19:01:07.073Z [info] [Request ID: 1aa8b405-49a5-42a4-811a-d23d8d311114]: Checking For Ongoing Transactions
+2025-04-21T19:01:07.074Z [info] [Request ID: 1aa8b405-49a5-42a4-811a-d23d8d311114]: Get The Addresses Associated With Customer
+2025-04-21T19:01:07.075Z [info] [Request ID: 1aa8b405-49a5-42a4-811a-d23d8d311114]: Deleting From Customer Table (Cascade Handles User Deletion)
+2025-04-21T19:01:07.076Z [info] [Request ID: 1aa8b405-49a5-42a4-811a-d23d8d311114]: Deleting Addresses With No Association
+2025-04-21T19:01:07.078Z [info] [Request ID: 1aa8b405-49a5-42a4-811a-d23d8d311114]: Successful Account Deletion
+2025-04-21T19:01:07.092Z [info] [Request ID: 49ef52bd-c98b-4822-9835-ad5d73a9d43a]: Starting Featured Search
+2025-04-21T19:01:07.093Z [info] [Request ID: 49ef52bd-c98b-4822-9835-ad5d73a9d43a]: Fetched The Items... Creating Static Image Links
+2025-04-21T19:01:07.094Z [info] [Request ID: 49ef52bd-c98b-4822-9835-ad5d73a9d43a]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T19:01:07.095Z [info] [Request ID: 137fef90-8152-4a2f-8a5e-ff5277e709f2]: Starting Featured Search
+2025-04-21T19:01:07.097Z [info] [Request ID: 137fef90-8152-4a2f-8a5e-ff5277e709f2]: Fetched The Items... Creating Static Image Links
+2025-04-21T19:01:07.097Z [info] [Request ID: 137fef90-8152-4a2f-8a5e-ff5277e709f2]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T19:01:36.500Z [info] [Request ID: 1f05bfb6-cd39-46c1-ae14-f937feddb230]: Starting Featured Search
+2025-04-21T19:01:36.501Z [info] [Request ID: 1f05bfb6-cd39-46c1-ae14-f937feddb230]: Fetched The Items... Creating Static Image Links
+2025-04-21T19:01:36.502Z [info] [Request ID: 1f05bfb6-cd39-46c1-ae14-f937feddb230]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T19:01:36.505Z [info] [Request ID: a2ebf440-7104-4ad0-9804-3d90c9651e6c]: Starting Featured Search
+2025-04-21T19:01:36.507Z [info] [Request ID: a2ebf440-7104-4ad0-9804-3d90c9651e6c]: Fetched The Items... Creating Static Image Links
+2025-04-21T19:01:36.507Z [info] [Request ID: a2ebf440-7104-4ad0-9804-3d90c9651e6c]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-21T19:01:37.319Z [info] [Request ID: 56daf0bd-1fd5-4553-9765-b4b87c2b4eda]: Starting Customer Category Query
+2025-04-21T19:01:37.319Z [info] [Request ID: 56daf0bd-1fd5-4553-9765-b4b87c2b4eda]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-21T19:01:37.321Z [info] [Request ID: 56daf0bd-1fd5-4553-9765-b4b87c2b4eda]: Fetched The Items... Creating Static Image Links
+2025-04-21T19:01:37.321Z [info] [Request ID: 56daf0bd-1fd5-4553-9765-b4b87c2b4eda]: Fetched The Items And Their Associated Images
+2025-04-21T19:01:37.323Z [info] [Request ID: 1dec0034-e118-45ad-bd78-5537ac938087]: Starting Customer Category Query
+2025-04-21T19:01:37.323Z [info] [Request ID: 1dec0034-e118-45ad-bd78-5537ac938087]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-21T19:01:37.324Z [info] [Request ID: 1dec0034-e118-45ad-bd78-5537ac938087]: Fetched The Items... Creating Static Image Links
+2025-04-21T19:01:37.324Z [info] [Request ID: 1dec0034-e118-45ad-bd78-5537ac938087]: Fetched The Items And Their Associated Images
+2025-04-21T19:01:42.687Z [info] [Request ID: e614dc18-0721-4837-828d-67d39ee85723]: Starting Customer Category Query
+2025-04-21T19:01:42.687Z [info] [Request ID: e614dc18-0721-4837-828d-67d39ee85723]: Fetching The Items Associated With The Category: Dairy and Eggs
+2025-04-21T19:01:42.688Z [info] [Request ID: e614dc18-0721-4837-828d-67d39ee85723]: Fetched The Items... Creating Static Image Links
+2025-04-21T19:01:42.689Z [info] [Request ID: e614dc18-0721-4837-828d-67d39ee85723]: Fetched The Items And Their Associated Images
+2025-04-21T19:01:45.861Z [info] [Request ID: 94521e1b-7430-4888-8e8a-adfc2dbf561a]: Starting Customer Category Query
+2025-04-21T19:01:45.862Z [info] [Request ID: 94521e1b-7430-4888-8e8a-adfc2dbf561a]: Fetching The Items Associated With The Category: Bakery and Bread
+2025-04-21T19:01:45.862Z [info] [Request ID: 94521e1b-7430-4888-8e8a-adfc2dbf561a]: Fetched The Items... Creating Static Image Links
+2025-04-21T19:01:45.863Z [info] [Request ID: 94521e1b-7430-4888-8e8a-adfc2dbf561a]: Fetched The Items And Their Associated Images
+2025-04-21T19:01:47.536Z [info] [Request ID: 8bc0996c-28fd-48b1-938a-2273a43b995a]: Starting Customer Category Query
+2025-04-21T19:01:47.537Z [info] [Request ID: 8bc0996c-28fd-48b1-938a-2273a43b995a]: Fetching The Items Associated With The Category: Health and Wellness
+2025-04-21T19:01:47.537Z [info] [Request ID: 8bc0996c-28fd-48b1-938a-2273a43b995a]: Fetched The Items... Creating Static Image Links
+2025-04-21T19:01:47.538Z [info] [Request ID: 8bc0996c-28fd-48b1-938a-2273a43b995a]: Fetched The Items And Their Associated Images
+2025-04-22T00:34:20.440Z [info] [Request ID: 8c7a8aa8-56e2-4f55-9220-279b06975678]: Starting Featured Search
+2025-04-22T00:34:20.448Z [info] [Request ID: 8c7a8aa8-56e2-4f55-9220-279b06975678]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:34:20.449Z [info] [Request ID: 8c7a8aa8-56e2-4f55-9220-279b06975678]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-22T00:34:20.453Z [info] [Request ID: be52f765-6ba4-46e7-99ee-8a02b2009ea9]: Starting Featured Search
+2025-04-22T00:34:20.454Z [info] [Request ID: be52f765-6ba4-46e7-99ee-8a02b2009ea9]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:34:20.454Z [info] [Request ID: be52f765-6ba4-46e7-99ee-8a02b2009ea9]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-22T00:34:20.482Z [info] [Request ID: bf206999-b2e8-485e-9d7a-ae82cc360258]: Starting Featured Search
+2025-04-22T00:34:20.484Z [info] [Request ID: bf206999-b2e8-485e-9d7a-ae82cc360258]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:34:20.484Z [info] [Request ID: bf206999-b2e8-485e-9d7a-ae82cc360258]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-22T00:34:23.346Z [info] [Request ID: b1199854-2128-4e83-8df7-edd6fab11b94]: Starting Customer Category Query
+2025-04-22T00:34:23.347Z [info] [Request ID: b1199854-2128-4e83-8df7-edd6fab11b94]: Fetching The Items Associated With The Category: Meat and Seafood
+2025-04-22T00:34:23.349Z [info] [Request ID: b1199854-2128-4e83-8df7-edd6fab11b94]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:34:23.350Z [info] [Request ID: b1199854-2128-4e83-8df7-edd6fab11b94]: Fetched The Items And Their Associated Images
+2025-04-22T00:34:23.353Z [info] [Request ID: dff6d410-4e32-4baa-a25a-bbcd755d6472]: Starting Customer Category Query
+2025-04-22T00:34:23.353Z [info] [Request ID: dff6d410-4e32-4baa-a25a-bbcd755d6472]: Fetching The Items Associated With The Category: Meat and Seafood
+2025-04-22T00:34:23.355Z [info] [Request ID: dff6d410-4e32-4baa-a25a-bbcd755d6472]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:34:23.356Z [info] [Request ID: dff6d410-4e32-4baa-a25a-bbcd755d6472]: Fetched The Items And Their Associated Images
+2025-04-22T00:34:30.502Z [info] [Request ID: d06b7c28-c8ae-482c-9d33-387ee6775d88]: Starting Customer Category Query
+2025-04-22T00:34:30.503Z [info] [Request ID: d06b7c28-c8ae-482c-9d33-387ee6775d88]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-22T00:34:30.504Z [info] [Request ID: d06b7c28-c8ae-482c-9d33-387ee6775d88]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:34:30.504Z [info] [Request ID: d06b7c28-c8ae-482c-9d33-387ee6775d88]: Fetched The Items And Their Associated Images
+2025-04-22T00:34:37.226Z [info] [Request ID: 32442ab1-1f50-4fe6-8bb4-8e40172f3066]: Starting Featured Search
+2025-04-22T00:34:37.228Z [info] [Request ID: 32442ab1-1f50-4fe6-8bb4-8e40172f3066]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:34:37.228Z [info] [Request ID: 32442ab1-1f50-4fe6-8bb4-8e40172f3066]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-22T00:34:37.229Z [info] [Request ID: 36f30876-b5eb-464b-b2b9-adc135f51607]: Starting Featured Search
+2025-04-22T00:34:37.231Z [info] [Request ID: 36f30876-b5eb-464b-b2b9-adc135f51607]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:34:37.231Z [info] [Request ID: 36f30876-b5eb-464b-b2b9-adc135f51607]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-22T00:34:48.148Z [info] [Request ID: 725b6e76-9d04-4847-8bb1-879629b09ed8]: Login Starting...
+2025-04-22T00:34:48.148Z [info] [Request ID: 725b6e76-9d04-4847-8bb1-879629b09ed8]: Recieved Assets matthew, Password13!
+2025-04-22T00:34:48.155Z [info] [Request ID: 725b6e76-9d04-4847-8bb1-879629b09ed8]: Checking If The Account Exists
+2025-04-22T00:34:48.157Z [error] [Request ID: 725b6e76-9d04-4847-8bb1-879629b09ed8]: Wrong Credentials Or Account Doesn't Exist
+2025-04-22T00:35:05.448Z [info] [Request ID: ee382e5f-36f7-48f2-9814-b2c0a2f999cb]: Signing Up Customer...
+2025-04-22T00:35:05.450Z [info] [Request ID: ee382e5f-36f7-48f2-9814-b2c0a2f999cb]: Recieved Assets matthew, Daschel13!, matthew, delurio, 1-408-499-0857
+2025-04-22T00:35:05.450Z [info] [Request ID: ee382e5f-36f7-48f2-9814-b2c0a2f999cb]: Generating Hashed Password
+2025-04-22T00:35:05.499Z [info] [Request ID: ee382e5f-36f7-48f2-9814-b2c0a2f999cb]: Generating Unique UUID For Customer
+2025-04-22T00:35:05.503Z [info] [Request ID: ee382e5f-36f7-48f2-9814-b2c0a2f999cb]: Inserting Into Customer
+2025-04-22T00:35:05.504Z [info] [Request ID: ee382e5f-36f7-48f2-9814-b2c0a2f999cb]: Inserting Into Users
+2025-04-22T00:35:05.507Z [info] [Request ID: ee382e5f-36f7-48f2-9814-b2c0a2f999cb]: Successfully Signed Up
+2025-04-22T00:35:06.792Z [info] [Request ID: 3704970e-133e-450e-b580-a0ff07595739]: Starting Featured Search
+2025-04-22T00:35:06.793Z [info] [Request ID: 3704970e-133e-450e-b580-a0ff07595739]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:35:06.794Z [info] [Request ID: 3704970e-133e-450e-b580-a0ff07595739]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-22T00:35:06.796Z [info] [Request ID: f4cfd0a3-b8a3-4c26-9464-9c6bdd80e591]: Starting Featured Search
+2025-04-22T00:35:06.798Z [info] [Request ID: f4cfd0a3-b8a3-4c26-9464-9c6bdd80e591]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:35:06.798Z [info] [Request ID: f4cfd0a3-b8a3-4c26-9464-9c6bdd80e591]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-22T00:35:16.810Z [info] [Request ID: 3eec58b0-e62f-42d5-a2bf-40426abac499]: Login Starting...
+2025-04-22T00:35:16.811Z [info] [Request ID: 3eec58b0-e62f-42d5-a2bf-40426abac499]: Recieved Assets matthew, Daschel13!
+2025-04-22T00:35:16.811Z [info] [Request ID: 3eec58b0-e62f-42d5-a2bf-40426abac499]: Checking If The Account Exists
+2025-04-22T00:35:16.813Z [info] [Request ID: 3eec58b0-e62f-42d5-a2bf-40426abac499]: Checking Password Correctness
+2025-04-22T00:35:16.869Z [info] [Request ID: 3eec58b0-e62f-42d5-a2bf-40426abac499]: Loading The JWT Token
+2025-04-22T00:35:16.869Z [info] [Request ID: 3eec58b0-e62f-42d5-a2bf-40426abac499]: Signing The JWT Token
+2025-04-22T00:35:16.872Z [info] [Request ID: 3eec58b0-e62f-42d5-a2bf-40426abac499]: Successfully Logged In
+2025-04-22T00:35:16.888Z [info] [Request ID: 568f495e-51af-4f97-9919-2950ccb7f826]: Starting Featured Search
+2025-04-22T00:35:16.889Z [info] [Request ID: 568f495e-51af-4f97-9919-2950ccb7f826]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:35:16.889Z [info] [Request ID: 568f495e-51af-4f97-9919-2950ccb7f826]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-22T00:35:16.892Z [info] [Request ID: 92cd85fe-eea9-48f1-826c-3d95450e4a30]: Starting Featured Search
+2025-04-22T00:35:16.893Z [info] [Request ID: 92cd85fe-eea9-48f1-826c-3d95450e4a30]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:35:16.894Z [info] [Request ID: 92cd85fe-eea9-48f1-826c-3d95450e4a30]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-22T00:35:18.134Z [info] [Request ID: 767cf117-8164-4be2-a447-3ce6da287939]: Starting Authentication
+2025-04-22T00:35:18.134Z [info] [Request ID: 767cf117-8164-4be2-a447-3ce6da287939]: Token Recieved: true
+2025-04-22T00:35:18.134Z [info] [Request ID: 767cf117-8164-4be2-a447-3ce6da287939]: Verifying Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtYXR0aGV3IiwiRW1wbG95ZWVJRCI6bnVsbCwiQ3VzdG9tZXJJRCI6IjBiNGYzMzEyLThlMDMtNGU1OS1iYTE0LTIyNDY1NGNlYTQ5ZSIsIlN1cGVydmlzb3JJRCI6bnVsbCwiaWF0IjoxNzQ1MjgyMTE2LCJleHAiOjE3NDUyODU3MTZ9.i07kujBe6qQ0SiMrXrUhOnGVE3QusLydsDjP4Gly9-A
+2025-04-22T00:35:18.136Z [info] [Request ID: 767cf117-8164-4be2-a447-3ce6da287939]: Authentication Done
+2025-04-22T00:35:18.136Z [info] [Request ID: 767cf117-8164-4be2-a447-3ce6da287939]: Authorizing Customer
+2025-04-22T00:35:18.137Z [info] [Request ID: 767cf117-8164-4be2-a447-3ce6da287939]: Valid Customer
+2025-04-22T00:35:18.137Z [info] [Request ID: 767cf117-8164-4be2-a447-3ce6da287939]: Getting Customer's Transactions
+2025-04-22T00:35:18.138Z [info] [Request ID: 767cf117-8164-4be2-a447-3ce6da287939]: Successfully Got Customer Transactions
+2025-04-22T00:35:18.139Z [info] [Request ID: 75487daa-bd8c-4da9-ac21-53424c0f3d1d]: Starting Authentication
+2025-04-22T00:35:18.139Z [info] [Request ID: 75487daa-bd8c-4da9-ac21-53424c0f3d1d]: Token Recieved: true
+2025-04-22T00:35:18.140Z [info] [Request ID: 75487daa-bd8c-4da9-ac21-53424c0f3d1d]: Verifying Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtYXR0aGV3IiwiRW1wbG95ZWVJRCI6bnVsbCwiQ3VzdG9tZXJJRCI6IjBiNGYzMzEyLThlMDMtNGU1OS1iYTE0LTIyNDY1NGNlYTQ5ZSIsIlN1cGVydmlzb3JJRCI6bnVsbCwiaWF0IjoxNzQ1MjgyMTE2LCJleHAiOjE3NDUyODU3MTZ9.i07kujBe6qQ0SiMrXrUhOnGVE3QusLydsDjP4Gly9-A
+2025-04-22T00:35:18.141Z [info] [Request ID: 75487daa-bd8c-4da9-ac21-53424c0f3d1d]: Authentication Done
+2025-04-22T00:35:18.141Z [info] [Request ID: 75487daa-bd8c-4da9-ac21-53424c0f3d1d]: Authorizing Customer
+2025-04-22T00:35:18.141Z [info] [Request ID: 75487daa-bd8c-4da9-ac21-53424c0f3d1d]: Valid Customer
+2025-04-22T00:35:18.141Z [info] [Request ID: 75487daa-bd8c-4da9-ac21-53424c0f3d1d]: Getting Customer's Transactions
+2025-04-22T00:35:18.142Z [info] [Request ID: 75487daa-bd8c-4da9-ac21-53424c0f3d1d]: Successfully Got Customer Transactions
+2025-04-22T00:35:18.755Z [info] [Request ID: 565a4b4e-0552-49a1-a8b8-c8bad0471734]: Starting Authentication
+2025-04-22T00:35:18.755Z [info] [Request ID: 565a4b4e-0552-49a1-a8b8-c8bad0471734]: Token Recieved: true
+2025-04-22T00:35:18.756Z [info] [Request ID: 565a4b4e-0552-49a1-a8b8-c8bad0471734]: Verifying Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtYXR0aGV3IiwiRW1wbG95ZWVJRCI6bnVsbCwiQ3VzdG9tZXJJRCI6IjBiNGYzMzEyLThlMDMtNGU1OS1iYTE0LTIyNDY1NGNlYTQ5ZSIsIlN1cGVydmlzb3JJRCI6bnVsbCwiaWF0IjoxNzQ1MjgyMTE2LCJleHAiOjE3NDUyODU3MTZ9.i07kujBe6qQ0SiMrXrUhOnGVE3QusLydsDjP4Gly9-A
+2025-04-22T00:35:18.757Z [info] [Request ID: 565a4b4e-0552-49a1-a8b8-c8bad0471734]: Authentication Done
+2025-04-22T00:35:18.757Z [info] [Request ID: 565a4b4e-0552-49a1-a8b8-c8bad0471734]: Authorizing Customer
+2025-04-22T00:35:18.757Z [info] [Request ID: 565a4b4e-0552-49a1-a8b8-c8bad0471734]: Valid Customer
+2025-04-22T00:35:18.757Z [info] [Request ID: 565a4b4e-0552-49a1-a8b8-c8bad0471734]: Fetching The Customer's Information With ID: 0b4f3312-8e03-4e59-ba14-224654cea49e
+2025-04-22T00:35:18.757Z [info] [Request ID: 565a4b4e-0552-49a1-a8b8-c8bad0471734]: Now Getting Customer Information For 0b4f3312-8e03-4e59-ba14-224654cea49e From The Database
+2025-04-22T00:35:18.758Z [info] [Request ID: 565a4b4e-0552-49a1-a8b8-c8bad0471734]: Information For Customer 0b4f3312-8e03-4e59-ba14-224654cea49e Has Been Fetched
+2025-04-22T00:35:18.759Z [info] [Request ID: cbbaf91c-1f63-4966-83f2-2bf0bc31a5a2]: Starting Authentication
+2025-04-22T00:35:18.759Z [info] [Request ID: cbbaf91c-1f63-4966-83f2-2bf0bc31a5a2]: Token Recieved: true
+2025-04-22T00:35:18.759Z [info] [Request ID: cbbaf91c-1f63-4966-83f2-2bf0bc31a5a2]: Verifying Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtYXR0aGV3IiwiRW1wbG95ZWVJRCI6bnVsbCwiQ3VzdG9tZXJJRCI6IjBiNGYzMzEyLThlMDMtNGU1OS1iYTE0LTIyNDY1NGNlYTQ5ZSIsIlN1cGVydmlzb3JJRCI6bnVsbCwiaWF0IjoxNzQ1MjgyMTE2LCJleHAiOjE3NDUyODU3MTZ9.i07kujBe6qQ0SiMrXrUhOnGVE3QusLydsDjP4Gly9-A
+2025-04-22T00:35:18.760Z [info] [Request ID: cbbaf91c-1f63-4966-83f2-2bf0bc31a5a2]: Authentication Done
+2025-04-22T00:35:18.760Z [info] [Request ID: cbbaf91c-1f63-4966-83f2-2bf0bc31a5a2]: Authorizing Customer
+2025-04-22T00:35:18.760Z [info] [Request ID: cbbaf91c-1f63-4966-83f2-2bf0bc31a5a2]: Valid Customer
+2025-04-22T00:35:18.760Z [info] [Request ID: cbbaf91c-1f63-4966-83f2-2bf0bc31a5a2]: Fetching The Customer's Information With ID: 0b4f3312-8e03-4e59-ba14-224654cea49e
+2025-04-22T00:35:18.760Z [info] [Request ID: cbbaf91c-1f63-4966-83f2-2bf0bc31a5a2]: Now Getting Customer Information For 0b4f3312-8e03-4e59-ba14-224654cea49e From The Database
+2025-04-22T00:35:18.761Z [info] [Request ID: cbbaf91c-1f63-4966-83f2-2bf0bc31a5a2]: Information For Customer 0b4f3312-8e03-4e59-ba14-224654cea49e Has Been Fetched
+2025-04-22T00:35:20.282Z [info] [Request ID: cd2a667a-13ef-4bc3-8c05-22d50d5075b9]: Starting Authentication
+2025-04-22T00:35:20.282Z [info] [Request ID: cd2a667a-13ef-4bc3-8c05-22d50d5075b9]: Token Recieved: true
+2025-04-22T00:35:20.284Z [info] [Request ID: cd2a667a-13ef-4bc3-8c05-22d50d5075b9]: Verifying Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtYXR0aGV3IiwiRW1wbG95ZWVJRCI6bnVsbCwiQ3VzdG9tZXJJRCI6IjBiNGYzMzEyLThlMDMtNGU1OS1iYTE0LTIyNDY1NGNlYTQ5ZSIsIlN1cGVydmlzb3JJRCI6bnVsbCwiaWF0IjoxNzQ1MjgyMTE2LCJleHAiOjE3NDUyODU3MTZ9.i07kujBe6qQ0SiMrXrUhOnGVE3QusLydsDjP4Gly9-A
+2025-04-22T00:35:20.287Z [info] [Request ID: cd2a667a-13ef-4bc3-8c05-22d50d5075b9]: Authentication Done
+2025-04-22T00:35:20.288Z [info] [Request ID: cd2a667a-13ef-4bc3-8c05-22d50d5075b9]: Authorizing Customer
+2025-04-22T00:35:20.289Z [info] [Request ID: cd2a667a-13ef-4bc3-8c05-22d50d5075b9]: Valid Customer
+2025-04-22T00:35:20.290Z [info] [Request ID: cd2a667a-13ef-4bc3-8c05-22d50d5075b9]: Deleting Customer...
+2025-04-22T00:35:20.293Z [info] [Request ID: cd2a667a-13ef-4bc3-8c05-22d50d5075b9]: Checking For Ongoing Transactions
+2025-04-22T00:35:20.296Z [info] [Request ID: cd2a667a-13ef-4bc3-8c05-22d50d5075b9]: Get The Addresses Associated With Customer
+2025-04-22T00:35:20.299Z [info] [Request ID: cd2a667a-13ef-4bc3-8c05-22d50d5075b9]: Deleting From Customer Table (Cascade Handles User Deletion)
+2025-04-22T00:35:20.302Z [info] [Request ID: cd2a667a-13ef-4bc3-8c05-22d50d5075b9]: Deleting Addresses With No Association
+2025-04-22T00:35:20.306Z [info] [Request ID: cd2a667a-13ef-4bc3-8c05-22d50d5075b9]: Successful Account Deletion
+2025-04-22T00:35:20.328Z [info] [Request ID: 453b3df3-cdac-4e1a-aab1-18c4b86a7954]: Starting Featured Search
+2025-04-22T00:35:20.329Z [info] [Request ID: 453b3df3-cdac-4e1a-aab1-18c4b86a7954]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:35:20.330Z [info] [Request ID: 453b3df3-cdac-4e1a-aab1-18c4b86a7954]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-22T00:35:20.332Z [info] [Request ID: 82b47fff-38bb-4b4c-a79b-b8434c20e012]: Starting Featured Search
+2025-04-22T00:35:20.333Z [info] [Request ID: 82b47fff-38bb-4b4c-a79b-b8434c20e012]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:35:20.334Z [info] [Request ID: 82b47fff-38bb-4b4c-a79b-b8434c20e012]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-22T00:37:04.015Z [info] [Request ID: 12902129-eeaa-4c1f-9381-054bd4265999]: Starting Customer Category Query
+2025-04-22T00:37:04.016Z [info] [Request ID: 12902129-eeaa-4c1f-9381-054bd4265999]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-22T00:37:04.017Z [info] [Request ID: 12902129-eeaa-4c1f-9381-054bd4265999]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:37:04.017Z [info] [Request ID: 12902129-eeaa-4c1f-9381-054bd4265999]: Fetched The Items And Their Associated Images
+2025-04-22T00:37:04.019Z [info] [Request ID: 8cf1f187-922e-4739-8fb4-37d433dc60fd]: Starting Customer Category Query
+2025-04-22T00:37:04.019Z [info] [Request ID: 8cf1f187-922e-4739-8fb4-37d433dc60fd]: Fetching The Items Associated With The Category: Fresh Produce
+2025-04-22T00:37:04.021Z [info] [Request ID: 8cf1f187-922e-4739-8fb4-37d433dc60fd]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:37:04.021Z [info] [Request ID: 8cf1f187-922e-4739-8fb4-37d433dc60fd]: Fetched The Items And Their Associated Images
+2025-04-22T00:37:05.526Z [info] [Request ID: c8a285e6-61da-4ad2-aff0-7ee09a272a8b]: Starting Customer Category Query
+2025-04-22T00:37:05.527Z [info] [Request ID: c8a285e6-61da-4ad2-aff0-7ee09a272a8b]: Fetching The Items Associated With The Category: Dairy and Eggs
+2025-04-22T00:37:05.528Z [info] [Request ID: c8a285e6-61da-4ad2-aff0-7ee09a272a8b]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:37:05.528Z [info] [Request ID: c8a285e6-61da-4ad2-aff0-7ee09a272a8b]: Fetched The Items And Their Associated Images
+2025-04-22T00:37:06.627Z [info] [Request ID: 624514c3-1743-4735-b2a9-ae3b4fc5e5a4]: Starting Customer Category Query
+2025-04-22T00:37:06.627Z [info] [Request ID: 624514c3-1743-4735-b2a9-ae3b4fc5e5a4]: Fetching The Items Associated With The Category: Frozen Foods
+2025-04-22T00:37:06.628Z [info] [Request ID: 624514c3-1743-4735-b2a9-ae3b4fc5e5a4]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:37:06.628Z [info] [Request ID: 624514c3-1743-4735-b2a9-ae3b4fc5e5a4]: Fetched The Items And Their Associated Images
+2025-04-22T00:37:07.414Z [info] [Request ID: b40119d7-07a8-4c92-a6dc-a22fb9ce5735]: Starting Featured Search
+2025-04-22T00:37:07.416Z [info] [Request ID: b40119d7-07a8-4c92-a6dc-a22fb9ce5735]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:37:07.416Z [info] [Request ID: b40119d7-07a8-4c92-a6dc-a22fb9ce5735]: Fetched The Items And Their Associated Images In Featured Search
+2025-04-22T00:37:07.420Z [info] [Request ID: 3cbe200a-ca81-4cbc-9402-66a1ba1c88f2]: Starting Featured Search
+2025-04-22T00:37:07.421Z [info] [Request ID: 3cbe200a-ca81-4cbc-9402-66a1ba1c88f2]: Fetched The Items... Creating Static Image Links
+2025-04-22T00:37:07.422Z [info] [Request ID: 3cbe200a-ca81-4cbc-9402-66a1ba1c88f2]: Fetched The Items And Their Associated Images In Featured Search

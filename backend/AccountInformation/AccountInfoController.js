@@ -79,11 +79,20 @@ const getEmployee = (req, res) => {
 
 }
 
+//Deletes User From The Database
 const deleteCustomer = async (req, res) => {
 
-    logger.info("Deleting Customer...");
-
     const customerID = req.user?.CustomerID;
+
+    if(!validateID(customerID)){
+
+        logger.error("Bad Format On CustomerID")
+
+        return res.status(statusCode.BAD_REQUEST).json({error:"CustomerID Has Improper Format"})
+
+    }
+
+    logger.info("Deleting Customer For Customer " + customerID);
 
     let connection;
 
@@ -205,5 +214,66 @@ const deleteCustomer = async (req, res) => {
 
 };
 
+//Updates The Customer User Information
+const updateCustomer = () => {
 
-module.exports = {getCustomer, getEmployee, deleteCustomer}
+    logger.info("Updating The Customer Account Information")
+
+    const userID = req.user?.UserID;
+    
+    const {FirstName, LastName, PhoneNumber} = req.body
+
+    if(!validateID(userID)){
+
+        logger.error("Bad Format On UserID")
+
+        return res.status(statusCode.BAD_REQUEST).json({error:"UserID Has Improper Format"})
+
+    }
+
+    if(!validateName(FirstName)){
+
+        logger.error("First Name Format Invalid")
+    
+        return res.status(statusCode.BAD_REQUEST).json({error:"First Name Format Invalid"})
+    
+    }
+    
+    if(!validateName(LastName)){
+
+        logger.error("Last Name Format Invalid")
+
+        return res.status(statusCode.BAD_REQUEST).json({error:"Last Name Format Invalid"})
+
+    }
+
+    if (!validatePhoneNumber(PhoneNumber)) {
+
+        logger.error("Phone Number Format Invalid")
+
+        return res.status(statusCode.BAD_REQUEST).json({error:"Phone Number Format Invalid"})
+
+    }
+
+    logger.info("Updating The User's Information For User " + userID)
+
+    pool.query("Update Users Set UserNameFirst = ?, UserNameLast = ?, UserPhoneNumber = ? Where UserID = ?", [FirstName,LastName,PhoneNumber,userID], (error)=>{
+
+        if(error){
+
+            logger.error("Error Accessing Updating User Information For ID " + userID + " : " + error.message)
+
+            return res.status(statusCode.SERVICE_UNAVAILABLE).json({error: "Internal Server Error updating Customer Information"})
+
+        }
+
+        logger.info("Information For Customer " + userID + " Has Been Updated")
+
+        return res.status(statusCode.OK)
+
+    })
+
+}
+
+
+module.exports = {getCustomer, getEmployee, deleteCustomer, updateCustomer}

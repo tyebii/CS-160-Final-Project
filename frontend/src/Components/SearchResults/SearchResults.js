@@ -98,11 +98,11 @@ function SearchResults() {
 
     } else if (filterType === "Low to High Cost") {
 
-        sortedResults.sort((a, b) => a.SupplierCost - b.SupplierCost);
+        sortedResults.sort((a, b) => a.Cost - b.Cost);
 
     } else if (filterType === "High to Low Cost") {
 
-        sortedResults.sort((a, b) => b.SupplierCost - a.SupplierCost);
+        sortedResults.sort((a, b) => b.Cost - a.Cost);
 
     }
 
