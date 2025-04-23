@@ -33,7 +33,7 @@ function SearchResults() {
 
   const [results, setResults] = useState([]);
 
-  //Renders based on changes to searchType and Query 
+  //Renders based on changes to searchType and Query
   useEffect(() => {
 
     let endPoint = "";
@@ -80,9 +80,8 @@ function SearchResults() {
         handleError(error)
 
       });
-    
-  },[searchType, query]);
-  
+  }, [searchType, query]);
+
   //Filtering the results based on demmand
   const handleFilterSelect = (filterType) => {
 
@@ -105,7 +104,7 @@ function SearchResults() {
         sortedResults.sort((a, b) => b.SupplierCost - a.SupplierCost);
     } else if (filterType === "Low to High Stock") {
       sortedResults.sort((a, b) => a.Quantity - b.Quantity);
-  } else if (filterType === "High to Low Stock") {
+    } else if (filterType === "High to Low Stock") {
       sortedResults.sort((a, b) => b.Quantity - a.Quantity);
   } else 
 =======

@@ -142,4 +142,10 @@ const deleteRobot = (req, res) => {
     
 }
 
-module.exports = {getRobot,addRobot,updateRobot,deleteRobot, getFaultyRobot}
+module.exports = {
+  getRobot,
+  addRobot,
+  updateRobot,
+  deleteRobot,
+  getFaultyRobot,
+};
