@@ -1,29 +1,66 @@
-const FlaggedItem = ({ item }) => {
-  return (
-    <div className="flex items-center border p-4 bg-gray-100 rounded-lg shadow-md">
-      {/* Product Image */}
-      <img
-        src={item.image}
-        alt={item.title}
-        className="w-24 h-24 object-cover rounded-md"
-      />
+//Import navigation functionality
+import { useNavigate } from "react-router-dom";
 
-      {/* Product Details */}
-      <div className="ml-4">
-        <h3 className="text-lg font-bold">{item.title}</h3>
-        <p className="text-gray-600">Distributed By {item.distributor}</p>
-        <p>
-          <strong>Cost:</strong> {item.cost}
-        </p>
-        <p>
-          <strong>Average Weight:</strong> {item.weight} LBS
-        </p>
-        <p>
-          <strong>Stock:</strong> {item.stock} quantity
-        </p>
+const FlaggedItem = ({ item, robots }) => {
+
+  const navigate = useNavigate();
+
+  if (item != null) {
+
+    return (
+
+      <div onClick = {()=>{navigate(`/itemview/${item.ItemID}`)}} className="flex items-center border p-5 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+  
+        {/* Product Details */}
+        <div className="ml-6">
+
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">Item ID: {item.ItemID}</h3>
+
+          <p className="text-sm text-gray-500">Date of Event Add: {item.EventDate}</p>
+
+        </div>
+  
+        {/* Optional: Flag Icon or Badge */}
+
+        <div className="ml-auto flex items-center justify-center w-10 h-10 bg-yellow-200 rounded-full shadow-md text-gray-700">
+
+          <span className="text-xl font-semibold">!</span>
+
+        </div>
+
       </div>
-    </div>
-  );
+
+    );
+
+  }else{
+
+    return (
+
+      <div onClick = {()=>{navigate(`/`)}} className="flex items-center border p-5 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+  
+        {/* Product Details */}
+        <div className="ml-6">
+
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">Robot ID: {robots.RobotID}</h3>
+
+          <p className="text-sm text-gray-500">Date of Event Add: {robots.EventDate}</p>
+
+        </div>
+  
+        {/* Optional: Flag Icon or Badge */}
+
+        <div className="ml-auto flex items-center justify-center w-10 h-10 bg-yellow-200 rounded-full shadow-md text-gray-700">
+
+          <span className="text-xl font-semibold">!</span>
+
+        </div>
+
+      </div>
+
+    );
+    
+  }
+
 };
 
 export default FlaggedItem;

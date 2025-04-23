@@ -1,15 +1,28 @@
 const express = require('express')
-const {removeFromShoppingCart, updateShoppingCart, addToShoppingCart, getShoppingCart} = require('./ShoppingCartController')
-const { authenticateToken, authorizeCustomer } = require('../Auth/AuthenticationController')
-const router = express.Router()
-router.use([authenticateToken,authorizeCustomer])
 
+const {removeFromShoppingCart, updateShoppingCart, addToShoppingCart, getShoppingCart, clearShoppingCart} = require('./ShoppingCartController')
+
+const {authorizeCustomer} = require('../Utils/Authorization')
+
+const {authenticateToken} = require('../Utils/Authentication')
+
+const router = express.Router()
+
+router.use([express.json(), authenticateToken, authorizeCustomer])
+
+//Get Customer Shopping Cart
 router.get('/shoppingcart', getShoppingCart)
 
+//Add To Customer Shopping Cart
 router.post('/shoppingcart',  addToShoppingCart)
 
+//Update Customer Shopping Cart
 router.put('/shoppingcart',  updateShoppingCart)
 
+//Delete Items From Shopping Cart
 router.delete('/shoppingcart',  removeFromShoppingCart)
+
+//Clear Shopping Cart
+router.delete('/shoppingcart/clear',  clearShoppingCart)
 
 module.exports = router

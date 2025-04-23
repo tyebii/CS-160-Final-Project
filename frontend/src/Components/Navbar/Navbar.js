@@ -1,155 +1,371 @@
 //React functions
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
 import { Link } from 'react-router-dom';
+
+import { useNavigate } from 'react-router-dom';
+
+//Import Auth Context
 import { useAuth } from '../../Context/AuthHook';
 
 // Images for the Navbar
 import ofsLogo from './NavbarImages/ofsLogo.png';
+
 import loginIcon from './NavbarImages/loginIcon.jpg';
+
 import searchIcon from './NavbarImages/searchIcon.jpg';
+
 import shoppingCartIcon from './NavbarImages/shoppingCart.png';
+
 import dropDownIcon from './NavbarImages/dropdownIcon.png';
-import { useNavigate } from 'react-router-dom';
+
+import portalIcon from './NavbarImages/portalIcon.png';
+
 //Navbar Component
 function Navbar() {
-  //Authentication hook
+
   const { auth, logout} = useAuth();
   
-  //Navigation hook
   const navigate = useNavigate();
 
-  //Text
   const [searchText, setSearchText] = useState("")
 
-  //Dropdown Visibility
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
-  //Invert the dropdown
+  //Set Dropdown Visibility
   const toggleDropdown = () => {
+
     setDropdownVisible(!dropdownVisible);
+
   };
 
-  //Format the search input
-  function formatText(text){
-    var sol = "";
-    var i = 0
-    while(i < text.length){
-        if(text[i] === " "){
-            while (i<text.length && text[i] === " "){
-                i++;
-            }
-            if (i==text.length){
-                return sol;
-            }
-            sol += "-";
-        }
-        else{
-            sol += text[i];
-            i +=1 
-        }
-    }
-    return sol;
-  }
-
-  //Renders the components of the browse
+  //Render The Dropdown
   const renderDropdown = (visible) => {
+
     if (!visible) return null;
-    const categories = [
-      'Fresh Produce',
-      'Dairy and Eggs',
-      'Meat and Seafood',
-      'Frozen Foods',
-      'Bakery and Bread',
-      'Pantry Staples',
-      'Beverages',
-      'Snacks and Sweets',
-      'Health and Wellness',
-    ];
-    return (
-      <div className="absolute top-full left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-2xl w-72 z-10">
-        {categories.map((category) => (
-          <Link 
-            key={category} 
-            to={`/search/category/${category.replace(/ /g, '-')}`} 
-            className="block p-3 text-lg hover:bg-gray-300 rounded-lg"
-          >
-            {category}
-          </Link>
-        ))}
-      </div>
-    );
+
+      const categories = [
+
+        'Fresh Produce',
+
+        'Dairy and Eggs',
+
+        'Meat and Seafood',
+
+        'Frozen Foods',
+
+        'Bakery and Bread',
+
+        'Pantry Staples',
+
+        'Beverages',
+
+        'Snacks and Sweets',
+
+        'Health and Wellness',
+
+      ];
+  
+      return (
+
+        <div className="absolute top-full left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-2xl w-72 z-10">
+
+          {categories.map((category) => (
+
+            <Link 
+
+              key={category} 
+
+              to={`/search/category/${category.trim().replace(/ /g, '-')}`} 
+
+              className="block p-3 text-lg hover:bg-gray-300 rounded-lg"
+
+            >
+
+              {category}
+
+            </Link>
+
+          ))}
+
+        </div>
+
+      );
+
   };
   
-  //Click the OFS logo
+  //Clicking The Logo
   const clickLogo = () => {
+
     navigate('/');
+
   }
 
-  //Click the search icon
+  //Clicking The Search Icon
   const clickSearch = () => {
+
     let text = searchText; 
+
     if (text.trim() === "") {
+
+      alert("There Is Nothing To Search")
+
       return;
+
     }
+
     setSearchText("")
-    navigate(`/search/item/${formatText(text.toLowerCase())}`); // Use backticks
+
+    navigate(`/search/item/${text.trim().replace(/ /g, '-')}`);
+
   }
 
   //Click login icon
   const clickLogin = () => {
+
     navigate("/login")
+
   }
 
+  //Logout Click
   const clickLogout = () => {
+
     logout()
+
   }
 
   //Click shopping cart
   const clickShoppingCart = () => {
+
     navigate("/shoppingcart")
+
   }
 
-  //Component
+  //Click orders
+  const clickOrders = () => {
+
+    navigate("/orders")
+
+  }
+
+  //Click orders
+  const clickAccount = () => {
+
+    navigate("/account")
+
+  }
+
+  //Click portal
+  const clickPortal = () => {
+
+    navigate("/portal")
+
+  }
+
   return (
-    <nav className="w-full h-48 bg-gray-100 flex justify-between items-center">
-      {/*Logo and Dropdown Menu*/}
-      <ul className="flex items-center ml-0">
-        {/*Logo*/}
+
+    <nav className="w-full h-48 bg-gray-100 px-8 flex justify-between items-center shadow-md">
+
+      {/* Left: Logo and Dropdown */}
+      <ul className="flex items-center space-x-6">
+
+        {/* Logo */}
         <li>
-          <img src={ofsLogo} alt="ofsLogo" className="w-72 h-48 hover:cursor-pointer" onClick={clickLogo}/>
+
+          <img
+
+            src={ofsLogo}
+
+            alt="ofsLogo"
+
+            className="w-64 h-40 object-contain hover:cursor-pointer"
+
+            onClick={clickLogo}
+
+          />
+
         </li>
-        {/*Dropdown*/}
-        <li className="relative flex items-center p-5 hover:bg-gray-300 rounded-xl hover:cursor-pointer" onClick={toggleDropdown}>
-          <p className="text-xl">Browse</p>
-          <img src={dropDownIcon} alt="dropdownIcon" className="w-12 h-12 pl-2" />
-          {renderDropdown(dropdownVisible)}
+
+        {/* Dropdown */}
+        <li
+
+          className="relative flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 rounded-xl cursor-pointer transition duration-200"
+
+          onClick={toggleDropdown}
+
+        >
+        
+          {auth !== "Employee" && auth !== "Manager" ? (    
+
+          <div className="text-2xl font-medium">
+
+            <span className="flex items-center gap-2">
+
+              Browse
+
+              <img src={dropDownIcon} alt="dropdownIcon" className="mt-1 w-6 h-6" />
+
+            </span>
+
+            {renderDropdown(dropdownVisible)}
+            
+          </div>
+
+          ) : null}
+
         </li>
+
       </ul>
 
-      {/*Search Bar*/}
-      <ul className="flex items-center mr-24 space-x-8">
-        <li className="flex items-center bg-white border-2 border-black rounded-lg">
-            <input onChange={(e)=>{setSearchText(e.target.value)}} value = {searchText} type="text" placeholder="Search" className="w-72 h-12 text-lg p-2 outline-none"/>
-            <div className="p-2 border-l-2 border-black hover:bg-gray-300 rounded-lg">
-              <img src={searchIcon} onClick={clickSearch} alt="search icon" className="w-10 h-8 hover:cursor-pointer" />
-            </div>
+      {/* Right: Search, Login, Cart, etc */}
+
+      <ul className="flex items-center space-x-6">
+
+        {/* Search Bar */}
+
+        <li className="flex items-center bg-white border border-gray-400 rounded-lg overflow-hidden">
+
+          <input
+
+            onChange={(e) => setSearchText(e.target.value)}
+            
+            required
+
+            value={searchText}
+
+            maxLength={255}
+
+            type="text"
+
+            placeholder="Search"
+
+            className="w-64 h-10 px-4 text-2xl outline-none"
+
+          />
+
+          <div
+
+            className="px-3 py-2 border-l border-gray-400 hover:bg-gray-200 cursor-pointer transition duration-200"
+
+            onClick={clickSearch}
+
+          >
+
+            <img src={searchIcon} alt="search icon" className="w-6 h-6" />
+
+          </div>
+
         </li>
 
-        {/*Login*/}
-        <li onClick={auth ? clickLogout : clickLogin} className="flex items-center space-x-2 p-2 hover:bg-gray-300 rounded-lg hover:cursor-pointer">
-          <img src={loginIcon} alt="loginIcon" className="w-12 h-12" />
-          <p>{auth ? "Logout" : "Login"}</p>
+        {/* Login / Logout */}
+        <li
+
+          onClick={auth ? clickLogout : clickLogin}
+
+          className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 rounded-lg cursor-pointer transition duration-200"
+
+        >
+
+          <img src={loginIcon} alt="loginIcon" className="w-6 h-6" />
+
+          <p className="text-2xl">{auth ? "Logout" : "Login"}</p>
+
         </li>
 
-        {/*Shopping Cart*/}
-        <li onClick={auth ? clickShoppingCart : clickLogin} className="flex items-center space-x-2 p-2 hover:bg-gray-300 hover:cursor-pointer rounded-lg">
-          <img src={shoppingCartIcon} alt="shopping cart icon" className="w-20 h-12" />
-          <p>Shopping Cart</p>
-        </li>
+        {/* My Account */}
+
+        {auth? (
+
+          <li
+
+            onClick={clickAccount}
+
+            className="px-4 py-2 hover:bg-gray-200 rounded-lg cursor-pointer transition duration-200"
+
+          >
+
+            <p className="text-2xl">My Account</p>
+
+          </li>
+
+        ): null}
+
+        {/* My Orders */}
+
+        {auth === "Customer"? (
+
+          <li
+
+            onClick={clickOrders}
+
+            className="px-4 py-2 hover:bg-gray-200 rounded-lg cursor-pointer transition duration-200"
+
+          >
+
+            <p className="text-2xl">My Orders</p>
+
+          </li>
+
+        ): null}
+
+        {/* Portal / Cart */}
+
+        {auth === "Manager" || auth === "Employee" ? (
+
+          <li
+
+            onClick={clickPortal}
+
+            className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 rounded-lg cursor-pointer transition duration-200"
+
+          >
+
+            <img
+
+              src={portalIcon}
+
+              alt="portal icon"
+
+              className="w-8 h-8 object-contain"
+
+            />
+
+            <p className="text-2xl">Portal</p>
+
+          </li>
+
+        ) : (
+
+          <li
+
+            onClick={auth ? clickShoppingCart : clickLogin}
+
+            className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 rounded-lg cursor-pointer transition duration-200"
+
+          >
+
+            <img
+
+              src={shoppingCartIcon}
+
+              alt="shopping cart icon"
+
+              className="w-8 h-8 object-contain"
+
+            />
+
+            <p className="text-2xl">Shopping Cart</p>
+
+          </li>
+
+        )}
+
       </ul>
 
     </nav>
+
   );
+
 }
 
 export default Navbar;

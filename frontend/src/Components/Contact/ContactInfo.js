@@ -1,38 +1,82 @@
+//Import React Icons
 import {
+
   FaFacebook,
+
   FaInstagram,
+
   FaPinterest,
+
   FaYoutube,
+
 } from "react-icons/fa";
 
+
+// Contact That Goes At The Bottom Of Every Page
 const Footer = () => {
+
   return (
-    <div className="bg-gray-300  p-6  mb-0 w-full">
-      <div className="container mx-auto flex justify-between items-center h-full">
-        {/* Social Media Links */}
-        <div className="flex flex-col items-center space-y-2">
-          <p className="font-semibold">Follow Us</p>
+
+    <section className="bg-white border-t border-gray-200 p-6 w-full shadow-sm">
+
+      <div className="container mx-auto flex flex-col justify-between items-center gap-6">
+
+        <div className="flex flex-col items-center space-y-3">
+
+          <p className="font-semibold text-gray-800">Follow Us</p>
+
           <div className="flex space-x-4">
-            {/*Wrap with <a> tag to add links later*/}
-            <FaFacebook className="text-2xl cursor-pointer hover:text-blue-600" />
-            <FaInstagram className="text-2xl cursor-pointer hover:text-pink-500" />
-            <FaPinterest className="text-2xl cursor-pointer hover:text-red-600" />
-            <FaYoutube className="text-2xl cursor-pointer hover:text-red-500" />
+
+            <a href="#" aria-label="Facebook">
+
+              <FaFacebook className="text-xl text-gray-500 hover:text-blue-600 transition duration-300" />
+
+            </a>
+
+            <a href="#" aria-label="Instagram">
+
+              <FaInstagram className="text-xl text-gray-500 hover:text-pink-500 transition duration-300" />
+
+            </a>
+
+            <a href="#" aria-label="Pinterest">
+
+              <FaPinterest className="text-xl text-gray-500 hover:text-red-600 transition duration-300" />
+
+            </a>
+
+            <a href="#" aria-label="YouTube">
+
+              <FaYoutube className="text-xl text-gray-500 hover:text-red-500 transition duration-300" />
+
+            </a>
+
           </div>
+
         </div>
 
-        {/* Contact Info */}
-        <div className="text-right">
+        <div className="text-center space-y-1 text-gray-700 text-sm">
+
           <p>
-            <strong>Company Number:</strong> XXX-XXX-XXXX
+
+            <strong>Company Number:</strong> 1 (XXX) XXX-XXXX
+
           </p>
+
           <p>
-            <strong>Company Email:</strong> OFS@gmail.com
+
+            <strong>Company Email:</strong> <a href="mailto:OFS@gmail.com" className="underline hover:text-blue-600 transition">OFS@gmail.com</a>
+          
           </p>
+
         </div>
+
       </div>
-    </div>
+
+    </section>
+
   );
+
 };
 
 export default Footer;

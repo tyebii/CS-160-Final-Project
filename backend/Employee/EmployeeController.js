@@ -1,63 +1,160 @@
-//Import the database connection pool
 const pool = require('../Database Pool/DBConnections')
 
+const {validateID, statusCode} = require('../Utils/Formatting')
 
-//Get total list of employees
+const {logger} = require('../Utils/Logger'); 
+
+//Gets The Employees
 const getEmployee = (req,res) => {
-    const sqlQuery = "Select * From Employee" 
-    pool.query(sqlQuery, (err,results)=>{
-        if(err){
-            res.status(500).json({err:err.message})
-            return;
-        }
-        res.status(200).json(results)
-    })
+
+    logger.info("Getting Employees...")
+
+    const sqlQuery = "Select * From Employee e, Users u Where e.EmployeeID = u.EmployeeID and e.SupervisorID Is Not null" 
+
+    pool.query(sqlQuery, (error,results)=>{
+
+            if(error){
+
+                logger.error("Error Getting Employees: " + error.message)
+
+                return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Getting Employees'});
+
+            }
+
+            logger.info("Employees Fetched Successfully")
+
+            return res.status(statusCode.OK).json(results)
+
+        }  
+    )
 }
 
-//Get employee by their ID
+//Gets The Employee Information By ID
 const getEmployeeID = (req,res) => {
-    //Fetch employee ID
-    const EmployeeID = req.body.EmployeeID
+
+    logger.info("Get Employee Information By Their ID")
+
+    const employeeID = req.body.EmployeeID
+
+    if(!validateID(employeeID)){
+
+        return res.status(statusCode.BAD_REQUEST).json({error:"EmployeeID Is Invalid"})
+
+    }
+
     const sqlQuery = "Select * From Employee Where EmployeeID = ?"
-    pool.query(sqlQuery, [EmployeeID], (err,results) => {
-        if(err){
-            res.status(500).json({err:err.message})
-            return;
+
+    pool.query(sqlQuery, [employeeID], (error,results) => {
+
+        if(error){
+
+            logger.error("Error Getting Employee: " + error.message)
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Getting Employee'});
         }
-        res.status(200).json(results)
+
+        logger.info("Employee Information Fetched By Their ID")
+
+        return res.status(statusCode.OK).json(results)
+
     })
+
 }
 
-//Update the employees information
+//Updates The Employee
 const updateEmployee = (req, res) => {
-    //EmployeeInformation
-    const {EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID} = req.body
+
+    logger.info("Updating The Employee")
+
+    let { UserID, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID,  EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID} = req.body;
     
-    //Append the information to DB
-    const sqlQuery = "Update employee Set EmployeeHireDate = ?, EmployeeStatus = ?, EmployeeBirthDate = ?, EmployeeDepartment = ?, EmployeeHourly = ?, SupervisorID = ? Where EmployeeID = ?"
-    pool.query(sqlQuery, [EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID, EmployeeID], (err, results)=>{
-        if(err){
-            res.status(500).json({err:err.message})
-            return;
-        }
-        res.status(200).json({success:"True"})
-    })
-}
+    const sqlQuery = `
 
-//Delete the employee
+        UPDATE employee e
+
+        JOIN users u ON e.EmployeeID = u.EmployeeID
+
+        SET 
+
+            u.UserNameFirst = ?, 
+
+            u.UserNameLast = ?, 
+
+            u.UserPhoneNumber = ?, 
+
+            e.EmployeeHireDate = ?,
+
+            e.EmployeeStatus = ?, 
+
+            e.EmployeeBirthDate = ?, 
+
+            e.EmployeeDepartment = ?, 
+
+            e.EmployeeHourly = ?, 
+
+            e.SupervisorID = ?
+
+        WHERE e.EmployeeID = ? and u.UserID=?;
+
+    `;
+
+    pool.query(sqlQuery, [
+
+        UserNameFirst, UserNameLast, UserPhoneNumber, 
+
+        EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, 
+
+        EmployeeDepartment, EmployeeHourly, SupervisorID, EmployeeID, UserID
+
+    ], (error, results) => {
+
+        if(error){
+
+            logger.error("Error Update Employee: " + error.message)
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Adding Employee'});
+
+        }
+
+        logger.info("Successfully Updated Employee")
+
+        return res.status(statusCode.OK).json(results)
+
+    });
+
+};
+
+//Delete The Employee
 const deleteEmployee = (req, res) => {
-    //Fetch EmployeeID
-    const EmployeeID = req.body.EmployeeID
+    
+    logger.info("Deleting The Employee")
 
-    //Delete from DB
-    const sqlQuery = "Delete From Employee Where EmployeeID = ?"
-    pool.query(sqlQuery, [EmployeeID], (err, results)=>{
-        if(err){
-            res.status(500).json({err:err.message})
-            return;
+    const employeeID = req.body.EmployeeID
+
+    if(!validateID(employeeID)){
+
+        return res.status(statusCode.BAD_REQUEST).json({error:"EmployeeID Is Invalid"})
+
+    }
+
+    const sqlQuery = "DELETE e, u FROM Employee e JOIN Users u ON u.EmployeeID = e.EmployeeID WHERE e.EmployeeID = ?"
+
+    pool.query(sqlQuery, [employeeID], (error, results)=>{
+
+        if(error){
+
+            logger.error("Error Deleting Employee: " + error.message)
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Adding Employee'});
+
         }
-        res.status(200).json({success:"True"})
+
+        logger.info("Successfully Deleted Employee")
+
+        return res.status(statusCode.OK).json(results)
+        
     })
+
 }
 
 module.exports = {getEmployee, getEmployeeID, updateEmployee, deleteEmployee}

@@ -1,0 +1,2 @@
+Drop database OFS;
+

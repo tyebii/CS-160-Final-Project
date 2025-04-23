@@ -1,111 +1,91 @@
-//Category Images
-import Carrot from './Images/carrot.png';
-import bakeryAndBreadImage from '../../CategoryImages/bakeryandbread.jpg';
-import beverages from '../../CategoryImages/beverages.jpg';
-import dairyAndEggs from '../../CategoryImages/dairyeggs.webp';
-import freshProduce from '../../CategoryImages/freshproduce.webp';
-import frozenFoods from '../../CategoryImages/frozenfoods.jpg';
-import healthAndWellness from '../../CategoryImages/healthandwellness.jpg';
-import meatAndSeafood from '../../CategoryImages/meatseafood.webp';
-import pantryStaples from '../../CategoryImages/pantrystaples.jpg';
-import snacksAndSweets from '../../CategoryImages/snacksandsweets.jpg';
+//Import Custom Components
+import Categories from './Components/Categories/Category'
 
-//React Functions
+import Carousel from './Components/Carousel/Carousel';
+
+import RobotArea from './Components/Robot/Robots';
+
+import TransactionArea from './Components/Transactions/TransactionsTable'; 
+
+import SubordinatesArea from './Components/Employees/Subordinates';
+
+//Import Auth Context
+import { useAuth } from '../../Context/AuthHook'; 
+
+import AddItem from './Components/AddItem/AddItem';
+
 import { useState } from 'react';
-import { Link } from "react-router-dom";
-import FeaturedProductCard from './Components/FeaturedProductCard';
-import CategoryCard from './Components/Category';
+
+import backdrop from './backdrop.png';
 
 //Welcome Page Component
 function Welcome() {
 
-    //Carousel Index
-    const [index, changeIndex] = useState(0);
+    const[trigger, setTrigger] = useState(0)
 
-    //Sample Featured Items
-    const loadedFeatured = [
-        {imageSrc: Carrot, productName: "Carrots"},
-        {imageSrc: Carrot, productName: "Carrots"},
-        {imageSrc: Carrot, productName: "Carrots"},
-        {imageSrc: Carrot, productName: "Carrots"}
-    ];
-
-    //Carousel Left Click
-    const handleLeftClick = () => {
-        changeIndex((index + 1) % loadedFeatured.length);
-    };
-
-    //Carousel Right Click
-    const handleRightClick = () => {
-        if(index - 1 === -1){
-            changeIndex(loadedFeatured.length - 1);
-            return;
-        }
-        changeIndex((index - 1) % loadedFeatured.length);
-    };
+    const { auth, logout } = useAuth()
 
     return (
-        <div className="max-w-screen-xl mx-auto px-5">
-            <header className="text-center mb-8">
-                <h1 className="text-4xl font-bold">Welcome to OFS!</h1>
-            </header>
 
-            {/*Carousel*/}
-            <section className="text-center mb-10">
-                <h2 className="text-2xl mb-4">Featured Products</h2>
-                <div className="flex items-center justify-center gap-4 overflow-x-auto p-3">
-                    <button className="text-2xl bg-blue-500 text-white rounded-full p-3 hover:bg-blue-700" onClick={handleLeftClick}>←</button>
-                    {
-                        [...Array(3)].map((_, iter) => {
-                            const tempIndex = (index + iter) % loadedFeatured.length;
-                            return (
-                                <FeaturedProductCard
-                                    key={tempIndex}
-                                    imageSrc={loadedFeatured[tempIndex].imageSrc}
-                                    productName={loadedFeatured[tempIndex].productName}
-                                />
-                            );
-                        })
-                    }
-                    <button className="text-2xl bg-blue-500 text-white rounded-full p-3 hover:bg-blue-700" onClick={handleRightClick}>→</button>
-                </div>
-            </section>
+        <section
 
-            <section className="mt-10">
-                <h2 className="text-2xl mb-6 text-center">Browse Categories</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 px-3 justify-center">
-                    <Link to="/search/category/Fresh-Produce">
-                        <CategoryCard imageSrc={freshProduce} categoryName="Fresh Produce" />
-                    </Link>
-                    <Link to="/search/category/Dairy-and-Eggs">
-                        <CategoryCard imageSrc={dairyAndEggs} categoryName="Dairy and Eggs" />
-                    </Link>
-                    <Link to="/search/category/Meat-and-Seafood">
-                        <CategoryCard imageSrc={meatAndSeafood} categoryName="Meat and Seafood" />
-                    </Link>
-                    <Link to="/search/category/Bakery-and-Bread">
-                        <CategoryCard imageSrc={bakeryAndBreadImage} categoryName="Bakery and Bread" />
-                    </Link>
-                    <Link to="/search/category/Pantry-Staples">
-                        <CategoryCard imageSrc={pantryStaples} categoryName="Pantry Staples" />
-                    </Link>
-                    <Link to="/search/category/Beverages">
-                        <CategoryCard imageSrc={beverages} categoryName="Beverages" />
-                    </Link>
-                    <Link to="/search/category/Snacks-and-Sweets">
-                        <CategoryCard imageSrc={snacksAndSweets} categoryName="Snacks and Sweets" />
-                    </Link>
-                    <Link to="/search/category/Health-and-Wellness">
-                        <CategoryCard imageSrc={healthAndWellness} categoryName="Health and Wellness" />
-                    </Link>
-                    <Link to="/search/category/Frozen-Foods">
-                        <CategoryCard imageSrc={frozenFoods} categoryName="Frozen Foods" />
-                    </Link>
-                </div>
-            </section>
+            className="w-full bg-cover bg-center bg-no-repeat"
+
+            style={{ backgroundImage: `url(${backdrop})` }}
+
+        >
+        
+        <div className="w-full max-w-[80%] mx-auto mt-10 mb-10 bg-white p-8 rounded-lg shadow-lg"
+            style={{
+                background: "linear-gradient(rgb(231, 204, 204),rgb(206, 200, 200))", // Gradient background
+              }}
+        >
+            {/* Dynamic Welcome Header */}
+            <h1 className="text-7xl mt-10 font-bold text-center mb-8">
+
+                {auth === "Employee"
+
+                    ? "Welcome to OFS Employee Dashboard"
+
+                    : auth === "Manager"
+
+                    ? "Welcome to OFS Manager Dashboard"
+
+                    : "Welcome to OFS!"}
+
+            </h1>
+    
+            {/* Featured Products Section for Customers */}
+            <Carousel auth = {auth}></Carousel>
+
+            {/* Categories Section */}
+            <Categories auth={auth} logout={logout} ></Categories>
+     
             <hr className="border-t border-gray-300 my-10" />
+    
+            {/* Robot Section */}
+            <RobotArea trigger = {trigger} setTrigger = {setTrigger} auth={auth} logout={logout} ></RobotArea>
+            
+            {auth === "Employee" || auth === "Manager"? (<hr className="border-t border-gray-300 my-10" />):null}
+
+            {/* Transactions Section for Employees and Managers */}
+            <TransactionArea trigger = {trigger} setTrigger = {setTrigger} auth={auth} logout={logout} ></TransactionArea>
+
+            {auth === "Employee" || auth === "Manager"? (<hr className="border-t border-gray-300 my-10" />):null}
+
+            {/* Employees Section for Managers */}
+            <SubordinatesArea auth={auth} logout={logout} ></SubordinatesArea>
+
+            {auth === "Manager"? (<hr className="border-t border-gray-300 my-10" />):null}
+
+            {/*Add Items */}
+            <AddItem auth={auth}></AddItem>
+
         </div>
+        </section>
+        
     );
+    
 }
 
 export default Welcome;

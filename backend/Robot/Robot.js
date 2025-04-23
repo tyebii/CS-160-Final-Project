@@ -1,16 +1,30 @@
 const express = require('express')
-const { authenticateToken, authorizeManager, authorizeEmployee} = require('../Auth/AuthenticationController')
+
+const {authorizeManager, authorizeEmployee} = require('../Utils/Authorization')
+
+const {authenticateToken} = require('../Utils/Authentication')
+
+const {validateRobot} = require('../Utils/Formatting')
+
 const {getRobot, addRobot, updateRobot, deleteRobot, getFaultyRobot} = require('./RobotController')
+
 const router = express.Router()
 
+router.use([express.json()]);
+
+//Get The Robots
 router.get('/robot', authenticateToken, authorizeEmployee, getRobot)
 
-router.get('/robot/Faulty', authenticateToken, authorizeEmployee, getFaultyRobot)
+//Get The Faulty Robots
+router.get('/robot/faulty', authenticateToken, authorizeEmployee, getFaultyRobot)
 
-router.post('robot', authenticateToken, authorizeManager, addRobot)
+//Add A Robot
+router.post('/robot', authenticateToken, authorizeManager, validateRobot, addRobot)
 
-router.put('/robot', authenticateToken, authorizeManager, updateRobot)
+//Update A Robot
+router.put('/robot', authenticateToken, authorizeManager, validateRobot, updateRobot)
 
+//Delete A Robot
 router.delete('/robot', authenticateToken, authorizeManager, deleteRobot)
 
 module.exports = router

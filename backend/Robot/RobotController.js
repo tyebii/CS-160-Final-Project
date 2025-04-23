@@ -1,78 +1,145 @@
 //Import the database connection pool
 const pool = require('../Database Pool/DBConnections')
-const { v4: uuidv4 } = require('uuid');
 
-//Get the robot
+const {validateRegularID, statusCode} = require('../Utils/Formatting')
+
+const {logger} = require('../Utils/Logger'); 
+
+//Get All Robots
 const getRobot = (req,res) => {
-    //Get the ID of the robot
-    const {RobotID} = req.body
-    
-    //Get the robot information
-    const sqlQuery = "Select * From robot where RobotID = ?"
-    pool.query(sqlQuery, RobotID, (err, results)=>{
-            if(err){
-                res.status(500).json({ err: err.message})
-                return;
+
+    logger.info("Getting Robots....")
+
+    const sqlQuery = "Select * From robot Where RobotStatus!='Retired' Order By RobotStatus Desc, RobotID Asc"
+
+    pool.query(sqlQuery, (error, results)=>{
+
+            if(error){
+
+                logger.error("Error Fetching Robots: " + error.message)
+
+                return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Fetching Robots'});
+
             }
-            res.status(200).json(results)
+
+            logger.info("Successfully Fetched Robot")
+
+            return res.status(statusCode.OK).json(results)
+
         }
     )
 }
 
-//Get the faulty robots
+//Get All Faulty Robots
 const getFaultyRobot = (req,res)=>{
-    //Get faulty robot from DB
-    const sqlQuery = "Select * From FaultyRobots"
-    pool.query(sqlQuery, (err, results)=>{
-            if(err){
-                res.status(500).json({ err: err.message})
-                return;
+
+    logger.info("Getting Faulty Robots")
+
+    const sqlQuery = "Select * From FaultyRobots Order By RobotID Asc"
+
+    pool.query(sqlQuery, (error, results)=>{
+
+            if(error){
+
+                logger.error("Error Fetching Faulty Robots: " + error.message)
+
+                return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Fetching Faulty Robots'});
+
             }
-            res.status(200).json(results)
+
+            logger.info("Successfully Fetched Faulty Robots")
+
+            return res.status(statusCode.OK).json(results)
+
         }
     )
 }
 
-//Add a robot 
+
 const addRobot = (req, res) => {
-    //Robot data
-    const {CurrentLoad,RobotAddress,RobotStatus, Maintanence, Speed,BatteryLife, EstimatedDelivery} = req.body
-    const RobotID = uuidv4();
-    const sqlQuery = "Insert Into Robot(RobotID, CurrentLoad, RobotAddress, RobotStatus, Maintanence, Speed, BatteryLife, EstimatedDelivery) Values(?,?,?,?,?,?,?,?)"
-    pool.query(sqlQuery, [RobotID,CurrentLoad,RobotAddress,RobotStatus,Maintanence,Speed,BatteryLife,EstimatedDelivery], (err, results)=>{
-            if(err){
-                res.status(500).json({ err: err.message})
-                return;
-            }
-            res.status(200).json({success:"True"})
+
+    logger.info("Adding Robot")
+
+    const {RobotID, CurrentLoad,RobotStatus, Maintanence} = req.body
+
+    const sqlQuery = "Insert Into Robot(RobotID, CurrentLoad, RobotStatus, Maintanence) Values(?,?,?,?)"
+    
+    pool.query(sqlQuery, [RobotID,CurrentLoad,RobotStatus,Maintanence], (error, results)=>{
+
+        if(error){
+
+            logger.error("Error Adding Robots: " + error.message)
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Adding Robots'});
+
         }
+
+        logger.info("Successfully Added Robot")
+
+        return res.sendStatus(statusCode.OK)
+
+        }  
     )
 }
 
 const updateRobot = (req, res) => {
-    const {RobotID, CurrentLoad,RobotAddress,RobotStatus, Maintanence, Speed,BatteryLife, EstimatedDelivery} = req.body
-    const sqlQuery = "Update robot set CurrentLoad = ?, RobotAddress = ?, RobotStatus = ?, Maintanence = ?, Speed = ?, BatteryLife = ?, EstimatedDelivery = ? Where RobotID = ?"
-    pool.query(sqlQuery, [CurrentLoad,RobotAddress,RobotStatus,Maintanence,Speed,BatteryLife,EstimatedDelivery, RobotID], (err, results)=>{
-        if(err){
-            res.status(500).json({ err: err.message})
-            return;
+
+    logger.info("Updating Robot...")
+
+    const {RobotID, CurrentLoad, RobotStatus, Maintanence} = req.body
+
+    const sqlQuery = "Update robot set CurrentLoad = ?, RobotStatus = ?, Maintanence = ? Where RobotID = ?"
+
+    pool.query(sqlQuery, [CurrentLoad,RobotStatus, Maintanence, RobotID], (error, results)=>{
+
+        if(error){
+
+            logger.error("Error Updating Robots: " + error.message)
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Updating Robots'});
+
         }
-        res.status(200).json({success:"True"})
-    }
-)
+
+        logger.info("Successfully Updated")
+
+        return res.sendStatus(statusCode.OK)
+        
+        }  
+    )
 }
 
 const deleteRobot = (req, res) => {
+
+    logger.info("Deleting Robot")
+
     const {RobotID} = req.body
-    const sqlQuery = "Delete From robot Where RobotID = ?"
-    pool.query(sqlQuery, [RobotID], (err, results)=>{
-        if(err){
-            res.status(500).json({ err: err.message})
-            return;
-        }
-        res.status(200).json({success:"True"})
+
+    if(!validateRegularID(RobotID)){
+
+        return res.status(statusCode.BAD_REQUEST).json({error:"RobotID Is Invalid"})
+
     }
-)
+
+    const sqlQuery = "Update robot Set RobotStatus = 'Retired' Where RobotID = ?"
+
+    pool.query(sqlQuery, [RobotID], (error, results)=>{
+
+            if(error){
+
+                logger.error("Error Deleting Robot: " + error.message)
+
+                return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Deleting Robot'});
+
+            }
+
+            logger.info("Successfully Deleted Robot")
+
+            return res.sendStatus(statusCode.OK)
+
+        }
+
+    )
+    
 }
 
 module.exports = {getRobot,addRobot,updateRobot,deleteRobot, getFaultyRobot}
