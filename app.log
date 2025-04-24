@@ -64,3 +64,36 @@
 2025-04-24T00:43:30.603Z [error] [Request ID: undefined]: Blacklisted Characters Detected
 2025-04-24T00:43:30.603Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
 2025-04-24T00:43:30.706Z [error] [Request ID: undefined]: Error Validating Address With Mapbox
+2025-04-24T00:43:39.773Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-24T00:43:39.776Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-24T00:43:39.776Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-24T00:43:39.777Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-24T00:43:39.777Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-24T00:43:39.778Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-24T00:43:39.779Z [error] [Request ID: undefined]: Address Not Found
+2025-04-24T00:43:39.779Z [error] [Request ID: undefined]: Address Not Found
+2025-04-24T00:43:39.780Z [error] [Request ID: undefined]: Address Too Short (Minimum 5 Characters)
+2025-04-24T00:43:39.780Z [error] [Request ID: undefined]: Address Must Be A String
+2025-04-24T00:43:39.781Z [error] [Request ID: undefined]: Address Must Be A String
+2025-04-24T00:43:39.781Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-24T00:43:39.781Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-24T00:43:39.782Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-24T00:43:39.864Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-24T00:43:39.864Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-24T00:43:39.864Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-24T00:43:39.865Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-24T00:43:39.865Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-24T00:43:39.866Z [error] [Request ID: undefined]: Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX
+2025-04-24T00:43:39.866Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-24T00:43:39.867Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-24T00:43:39.867Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-24T00:43:39.868Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-24T00:43:39.868Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-24T00:43:39.869Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-24T00:43:39.869Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-24T00:43:39.870Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-24T00:43:39.870Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-24T00:43:39.870Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-24T00:43:39.871Z [error] [Request ID: undefined]: Blacklisted Characters Detected
+2025-04-24T00:43:39.871Z [error] [Request ID: undefined]: Address Has Blacklisted Characters
+2025-04-24T00:43:40.029Z [error] [Request ID: undefined]: Error Validating Address With Mapbox
