@@ -9,9 +9,6 @@ import axios from "axios"
 //Import Custom Component 
 import { TransactionCard } from "./Components/TransactionCard"
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
@@ -19,31 +16,19 @@ import { useErrorResponse } from '../Utils/AxiosError';
 //List Of Transactions
 export function MyOrders (){
 
-    const validateToken = useValidateToken();
-
     const { handleError } = useErrorResponse(); 
 
     const [results, setResults] = useState([])
 
     useEffect(()=>{
 
-        const token = validateToken()
-
-        if(token == null){
-
-            return;
-
-        }
-
         axios
 
         .get("http://localhost:3301/api/transaction/transactions/customer", {
 
-            headers: {
+            withCredentials: true,
 
-                Authorization: `Bearer ${token}`,
-
-            },
+            headers: { 'Content-Type': 'application/json' }
 
         })
 

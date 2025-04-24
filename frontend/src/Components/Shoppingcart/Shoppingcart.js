@@ -12,16 +12,11 @@ import axios from 'axios';
 
 import { validateAddress, validateID, validateName} from '../Utils/Formatting';
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 //Shopping Cart Component
 function ShoppingCart() {
-
-  const validateToken = useValidateToken();
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -44,25 +39,15 @@ function ShoppingCart() {
   //Load The Shopping Cart And Addresses
   useEffect(() => {
 
-    const token = validateToken()
-
-    if(token == null){
-
-      return 
-      
-    }
-
     axios
 
       .get('http://localhost:3301/api/shoppingcart/shoppingcart', {
 
-        headers: {
+        withCredentials: true,
 
-          Authorization: `Bearer ${token}`,
+        headers: { 'Content-Type': 'application/json' }
 
-        },
-
-      })
+    })
 
       .then((response) => {
 
@@ -80,11 +65,9 @@ function ShoppingCart() {
 
       .get('http://localhost:3301/api/address/address', {
 
-        headers: {
+        withCredentials: true,
 
-          Authorization: `Bearer ${token}`,
-
-        },
+        headers: { 'Content-Type': 'application/json' }
 
       })
 
@@ -128,19 +111,13 @@ function ShoppingCart() {
   //Clear The Cart
   const handleClear = () => {
 
-    const token = validateToken()
-
-    if(token == null){
-
-      return 
-
-    }
-
     axios
 
       .delete('http://localhost:3301/api/shoppingcart/shoppingcart/clear', {
 
-        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+
+        headers: { 'Content-Type': 'application/json' }
 
       })
 
@@ -163,14 +140,6 @@ function ShoppingCart() {
   //Remove From The Cart
   const clickRemove = (itemid) => {
 
-    const token = validateToken()
-
-    if(token == null){
-      
-      return
-
-    }
-
     if(!validateID(itemid)){
 
       return res.status(statusCode.BAD_REQUEST).json({ error: "Item ID Is Invalid" });
@@ -180,10 +149,12 @@ function ShoppingCart() {
     axios
 
       .delete('http://localhost:3301/api/shoppingcart/shoppingcart', {
+        
+          withCredentials: true,
 
-        headers: { Authorization: `Bearer ${token}` },
+          headers: { 'Content-Type': 'application/json' },
 
-        data: { ItemID: itemid },
+          data: { ItemID: itemid },
 
       })
 
@@ -208,14 +179,6 @@ function ShoppingCart() {
     if (isProcessing) return;
   
     setIsProcessing(true);
-  
-    const token = validateToken();
-
-    if(token == null){
-
-      return 
-
-    }
   
     if (results.length === 0) {
 
@@ -261,7 +224,9 @@ function ShoppingCart() {
 
         {
 
-          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+
+          headers: { 'Content-Type': 'application/json' }
 
         }
 
@@ -283,14 +248,6 @@ function ShoppingCart() {
   const handleAddAddress = (e) => {
 
     e.preventDefault();
-  
-    const token = validateToken();
-
-    if(token == null){
-
-      return 
-
-    }
   
     const formData = new FormData(e.target);
 
@@ -328,11 +285,9 @@ function ShoppingCart() {
 
       {
 
-        headers: {
+        withCredentials: true,
 
-          Authorization: `Bearer ${token}`,
-
-        },
+        headers: { 'Content-Type': 'application/json' }
 
       }
 

@@ -12,15 +12,10 @@ import { validateRobot } from "../Utils/Formatting";
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
-//Import Formatter 
-import { useValidateToken } from "../Utils/TokenValidation";
-
 //RobotUpdate Component
 export function RobotUpdate({ robot }) {
 
     const navigate = useNavigate();
-
-    const validateToken = useValidateToken();
 
     const { handleError } = useErrorResponse(); 
 
@@ -42,14 +37,6 @@ export function RobotUpdate({ robot }) {
 
         }
 
-        const token = validateToken()
-
-        if(token == null){
-
-            return
-            
-        }
-
         axios.put('http://localhost:3301/api/robot/robot', {
 
             RobotID: RobotID,
@@ -62,11 +49,9 @@ export function RobotUpdate({ robot }) {
 
         }, {
 
-            headers: {
+            withCredentials: true,
 
-                'Authorization': `Bearer ${token}`
-
-            }
+            headers: { 'Content-Type': 'application/json' }
 
         })
 

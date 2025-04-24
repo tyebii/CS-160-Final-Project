@@ -8,7 +8,26 @@ const {validateRobot} = require('../Utils/Formatting')
 
 const {getRobot, addRobot, updateRobot, deleteRobot, getFaultyRobot} = require('./RobotController')
 
+const rateLimit = require('express-rate-limit');
+
 const router = express.Router()
+
+//Rate Limiter
+const robotLimiter = rateLimit({
+
+    windowMs: 60 * 1000 * 10, 
+
+    max: 50, 
+
+    message: { error: "Too many requests. Please try again later." },
+
+    standardHeaders: true, 
+
+    legacyHeaders: false,
+
+});
+
+router.use(robotLimiter)
 
 router.use([express.json()]);
 

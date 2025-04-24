@@ -14,16 +14,11 @@ import { useAuth } from '../../Context/AuthHook';
 //Backend Requests
 import axios from "axios";
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 //Search Result Component
 function SearchResults() {
-
-  const validateToken = useValidateToken();
 
   const { handleError } = useErrorResponse(); 
   
@@ -38,21 +33,11 @@ function SearchResults() {
 
     let endPoint = "";
 
-    let token;
-
     if(!auth || auth == "Customer"){
 
       endPoint = `http://localhost:3301/api/inventory/search/${searchType}/customer/${query}`
 
     }else{
-
-      token = validateToken();
-
-      if(token == null){
-
-        return
-
-      }
 
       endPoint = `http://localhost:3301/api/inventory/search/${searchType}/employee/${query}`
 
@@ -61,13 +46,11 @@ function SearchResults() {
     //This function will require an authentication header for employees
     axios.get(endPoint,{
 
-        headers: {
+      withCredentials: true,
 
-            'Authorization': `Bearer ${token}`
+      headers: { 'Content-Type': 'application/json' }
 
-        }
-
-      })
+     })
 
       .then((response) => {
 

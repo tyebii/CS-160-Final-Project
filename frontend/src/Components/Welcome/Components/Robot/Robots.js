@@ -9,9 +9,6 @@ import axios from "axios";
 //Error Message Hook
 import { useErrorResponse } from '../../../Utils/AxiosError';
 
-//Import Formatter 
-import { useValidateToken } from "../../../Utils/TokenValidation";
-
 //Robot Area 
 export default function RobotArea({trigger, setTrigger,  auth, logout}) {
 
@@ -66,8 +63,6 @@ export default function RobotArea({trigger, setTrigger,  auth, logout}) {
 function Robots ({trigger, setTrigger, logout, auth, trig}){
 
   const navigate = useNavigate()
-
-  const validateToken = useValidateToken();
   
   const { handleError } = useErrorResponse(); 
 
@@ -76,21 +71,11 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
   //Load The Robots
   useEffect(() => {
 
-    const token = validateToken()
-
-    if(token == null){
-
-      return
-
-    }
-
     axios.get("http://localhost:3301/api/robot/robot", {
 
-      headers: {
+      withCredentials: true,
 
-        Authorization: `Bearer ${token}`,
-
-      },
+      headers: { 'Content-Type': 'application/json' }
 
     })
 
@@ -111,14 +96,6 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
   //Schedule Robots
   const scheduleClick = () => {
 
-    const token = validateToken()
-
-    if(token == null){
-
-      return
-
-    }
-
     axios.put(
 
       "http://localhost:3301/api/delivery/schedule",
@@ -127,11 +104,9 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
 
       {
 
-        headers: {
+        withCredentials: true,
 
-          Authorization: `Bearer ${token}`,
-
-        },
+        headers: { 'Content-Type': 'application/json' }
 
       }
 
@@ -157,14 +132,6 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
   //Deploy Robots
   const deployRobots = () => {
 
-  const token = validateToken()
-
-  if(token == null){
-
-    return null
-
-  }
-
   axios.put(
 
     "http://localhost:3301/api/delivery/deploy",
@@ -173,11 +140,9 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
 
     {
 
-      headers: {
+      withCredentials: true,
 
-        Authorization: `Bearer ${token}`,
-
-      },
+      headers: { 'Content-Type': 'application/json' }
 
     }
 
@@ -202,23 +167,13 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
   //Function To Handle The Click Of The Delete Button
   const clickDelete = (RobotID) => {
 
-    const token = validateToken()
-
-    if(token == null){
-
-      return
-      
-    }
-
     axios.delete("http://localhost:3301/api/robot/robot", {
 
       data: { RobotID: RobotID },
 
-      headers: {
+      withCredentials: true,
 
-        Authorization: `Bearer ${token}`,
-
-      },
+      headers: { 'Content-Type': 'application/json' }
 
     })
 

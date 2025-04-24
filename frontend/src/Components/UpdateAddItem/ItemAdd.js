@@ -13,9 +13,6 @@ import TextEntryBox from "./TextBox";
 //Formatting Util
 import { insertFormat } from '../Utils/Formatting'
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
@@ -23,8 +20,6 @@ import { useErrorResponse } from '../Utils/AxiosError';
 export const ItemAdd = () => {
 
     const navigate = useNavigate();
-
-    const validateToken = useValidateToken();
 
     const { handleError } = useErrorResponse(); 
 
@@ -61,14 +56,6 @@ export const ItemAdd = () => {
 
         e.preventDefault();
 
-        const token = validateToken()
-
-        if(token == null){
-
-            return
-            
-        }
-
         if(!insertFormat(formData.Quantity, formData.Distributor, formData.Weight, formData.ProductName, formData.Category, formData.SupplierCost, formData.Cost, formData.Expiration, formData.StorageRequirement, formData.Description)){
 
             return false
@@ -89,11 +76,7 @@ export const ItemAdd = () => {
 
         axios.post('http://localhost:3301/api/inventory/insert/item', form, {
 
-            headers: {
-
-                'Authorization': `Bearer ${token}`
-
-            }
+            withCredentials: true,
 
         })
 

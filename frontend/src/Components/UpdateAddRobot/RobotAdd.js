@@ -3,9 +3,6 @@ import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
@@ -19,8 +16,6 @@ import axios from "axios";
 export function RobotAdd() {
 
     const navigate = useNavigate();
-
-    const validateToken = useValidateToken();
 
     const { handleError } = useErrorResponse(); 
 
@@ -40,14 +35,6 @@ export function RobotAdd() {
 
         }
 
-        const token = validateToken()
-
-        if(token == null){
-
-            return
-            
-        }
-
         axios.post('http://localhost:3301/api/robot/robot', {
 
             RobotID: RobotID,
@@ -60,11 +47,9 @@ export function RobotAdd() {
 
         }, {
 
-            headers: {
+            withCredentials: true,
 
-                'Authorization': `Bearer ${token}`
-
-            }
+            headers: { 'Content-Type': 'application/json' }
 
         })
 

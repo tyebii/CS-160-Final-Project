@@ -8,6 +8,25 @@ const {authorizeCustomer, authorizeEmployee} = require('../Utils/Authorization')
 
 const {getCustomer, getEmployee, updateCustomer, deleteCustomer} = require('./AccountInfoController')
 
+const rateLimit = require('express-rate-limit');
+
+//Rate Limits AccountInfo
+const accountLimiter = rateLimit({
+
+  windowMs: 60 * 1000 * 10, 
+
+  max: 40, 
+
+  message: { error: "Too many requests. Please try again later." },
+
+  standardHeaders: true, 
+
+  legacyHeaders: false,
+
+});
+
+router.use(accountLimiter)
+
 router.use(express.json());
 
 //Gets The Customer's Information
@@ -17,7 +36,7 @@ router.get('/customer', authenticateToken, authorizeCustomer, getCustomer)
 router.get('/employee', authenticateToken, authorizeEmployee, getEmployee)
 
 //Updates The Customers Account Details
-//router.put('/customer', authenticateToken, authorizeCustomer, updateCustomer)
+router.put('/customer', authenticateToken, authorizeCustomer, updateCustomer)
 
 //Delete The Customers Account
 router.delete('/customer', authenticateToken, authorizeCustomer, deleteCustomer)

@@ -6,9 +6,6 @@ import { useNavigate } from "react-router-dom";
 //Import Axios
 import axios from "axios";
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
@@ -16,8 +13,6 @@ import { employeeFormat, signUpFormatEmployee } from '../Utils/Formatting';
 
 //UpdateEmployee Component
 export function UpdateEmployee({ employee }) {
-
-    const validateToken = useValidateToken();
   
     const { handleError } = useErrorResponse(); 
 
@@ -69,14 +64,6 @@ export function UpdateEmployee({ employee }) {
 
         e.preventDefault()
 
-        const token = validateToken()
-
-        if(token == null){
-
-          return
-
-        }
-
         if(!employeeFormat(formData.UserID, formData.UserNameFirst, formData.UserNameLast, formData.UserPhoneNumber) || !signUpFormatEmployee(formData.EmployeeHireDate, formData.EmployeeStatus,formData.EmployeeBirthDate,formData.EmployeeDepartment,formData.EmployeeHourly, formData.SupervisorID)){
             
           return; 
@@ -109,11 +96,9 @@ export function UpdateEmployee({ employee }) {
 
           }, {
 
-            headers: {
+            withCredentials: true,
 
-                'Authorization': `Bearer ${token}`
-
-            }
+            headers: { 'Content-Type': 'application/json' }
 
         })
 

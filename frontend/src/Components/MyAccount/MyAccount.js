@@ -1,9 +1,6 @@
 //Import UseEffect
 import { useEffect, useState } from "react";
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
@@ -15,8 +12,6 @@ import axios from 'axios';
 
 //Gets And Present Account Information
 export function MyAccount (){
-    
-    const validateToken = useValidateToken();
 
     const { handleError } = useErrorResponse();
 
@@ -27,14 +22,6 @@ export function MyAccount (){
     const [result, setResult] = useState({})
 
     useEffect(() => {
-        
-        const token = validateToken()
-
-        if(token == null){
-
-            return
-
-        }
 
         const endpoints = {
 
@@ -64,27 +51,17 @@ export function MyAccount (){
 
             .get(endpoint, {
 
-                headers: {
+                withCredentials: true,
 
-                    Authorization: `Bearer ${token}`,
+                headers: { 'Content-Type': 'application/json' }
 
-                },
-                
             })
 
             .then((response) => {
 
-                if(response.data.length === 0){
-
-                    alert("No Results Found")
-
-                    navigate('/')
-
-                    return;
-
-                }
-
-                setResult(response.data[0])
+                console.log(response.data);  
+                
+                setResult(response.data[0]);  
                 
             })
 
@@ -100,22 +77,12 @@ export function MyAccount (){
 
     const handleDelete = () => {
 
-        const token = validateToken()
-
-        if(token == null){
-
-            return
-
-        }
-
         axios.delete("http://localhost:3301/api/customer/customer", {
 
-            headers: {
+            withCredentials: true,
 
-                Authorization: `Bearer ${token}`,
+            headers: { 'Content-Type': 'application/json' }
 
-            },
-            
         })
 
         .then((response) => {

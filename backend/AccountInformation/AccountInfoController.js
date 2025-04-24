@@ -1,99 +1,154 @@
-const { error, add } = require('winston')
 const pool = require('../Database Pool/DBConnections')
 
-const {validateID, statusCode} = require('../Utils/Formatting')
+const {validateID, statusCode, validateName, validatePhoneNumber} = require('../Utils/Formatting')
 
 const {logger} = require('../Utils/Logger')
 
 //Gets The Customer's Information
-const getCustomer = (req, res) => {
+const getCustomer = async (req, res) => {
 
-    const customerID = req.user?.CustomerID
+    const customerID = req.user?.CustomerID;
 
-    logger.info("Fetching The Customer's Information With ID: " + customerID)
+    logger.info(`Fetching the customer's information with ID: ${customerID}`);
 
-    if(!validateID(customerID)){
+    if (!req.user || !customerID) {
 
-        logger.error("The Format For Fetching Customer With ID " + customerID + " Information Is Invalid")
-        
-        return res.status(statusCode.BAD_REQUEST).json({error:"CustomerID Has Invalid Format"})
+        logger.warn("Unauthorized request - Missing user context");
+
+        return res.status(statusCode.UNAUTHORIZED).json({ error: "Unauthorized" });
 
     }
 
-    logger.info("Now Getting Customer Information For " + customerID + " From The Database")
+    if (!validateID(customerID)) {
 
-    const sqlQuery = "SELECT UserID, UserNameFirst, UserNameLast, UserPhoneNumber, c.CustomerID, c.JoinDate FROM customer c INNER JOIN users u ON c.CustomerID = u.CustomerID WHERE c.CustomerID = ?"
+        logger.error(`Invalid format for customer ID: ${customerID}`);
 
-    pool.query(sqlQuery, [customerID], (error, results)=>{
+        return res.status(statusCode.BAD_REQUEST).json({ error: "CustomerID has invalid format" });
 
-        if(error){
+    }
 
-            logger.error("Error Accessing Customer Information For Customer " + customerID + " :" + error.message)
+    const sqlQuery = `
 
-            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Fetching Customer Information"})
+        SELECT UserID, UserNameFirst, UserNameLast, UserPhoneNumber, c.CustomerID, c.JoinDate
+
+        FROM customer c
+
+        INNER JOIN users u ON c.CustomerID = u.CustomerID
+
+        WHERE c.CustomerID = ?
+
+    `;
+
+    try {
+
+        const [results] = await pool.promise().query(sqlQuery, [customerID]);
+
+        if (results.length === 0) {
+
+            logger.error("Customer was not found");
+
+            return res.status(statusCode.NOT_FOUND).json({ error: "Customer not found" });
 
         }
 
-        logger.info("Information For Customer " + customerID + " Has Been Fetched")
+        logger.info(`Information for customer ${customerID} has been fetched`);
 
-        return res.status(statusCode.OK).json(results)
+        return res.status(statusCode.OK).json(results);
 
-    })
-    
-}
+    } catch (error) {
+
+        logger.error(`Error accessing customer info for ID ${customerID}: ${error.message}`);
+
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error Fetching Customer Information" });
+
+    }
+
+};
 
 //Gets The Employees Information
-const getEmployee = (req, res) => {
+const getEmployee = async (req, res) => {
 
-    const employeeID = req.user?.EmployeeID
+    const employeeID = req.user?.EmployeeID;
 
-    logger.info("Fetching The Employee's Information With Employee ID: " + employeeID)
+    logger.info(`Fetching the employee's information with ID: ${employeeID}`);
 
-    if(!validateID(employeeID)){
+    if (!req.user || !employeeID) {
 
-        logger.error("The Format For Fetching Employee With ID " + employeeID + " Information Is Invalid")
+        logger.warn("Unauthorized request - Missing user context");
 
-        return res.status(statusCode.BAD_REQUEST).json({error:"Employee ID Is Invalid"})
+        return res.status(statusCode.UNAUTHORIZED).json({ error: "Unauthorized" });
 
     }
 
-    logger.info("Getting Customer Information For " + employeeID)
+    if (!validateID(employeeID)) {
 
-    const sqlQuery = "SELECT * FROM employee e INNER JOIN users u ON e.EmployeeID = u.EmployeeID WHERE e.EmployeeID = ?"
+        logger.error(`Invalid format for employee ID: ${employeeID}`);
 
-    pool.query(sqlQuery, [employeeID], (error, results)=>{
+        return res.status(statusCode.BAD_REQUEST).json({ error: "EmployeeID is invalid" });
 
-        if(error){
+    }
 
-            logger.error("Error Accessing Employee Information For ID " + employeeID + " : " + error.message)
+    const sqlQuery = `
 
-            return res.status(statusCode.SERVICE_UNAVAILABLE).json({error: "Internal Server Error Fetching Employee Information"})
+        SELECT *
+
+        FROM employee e
+
+        INNER JOIN users u ON e.EmployeeID = u.EmployeeID
+
+        WHERE e.EmployeeID = ?
+
+    `;
+
+    try {
+
+        const [results] = await pool.promise().query(sqlQuery, [employeeID]);
+
+        if (results.length === 0) {
+
+            logger.error("Employee was not found");
+
+            return res.status(statusCode.NOT_FOUND).json({ error: "Employee not found" });
 
         }
 
-        logger.info("Information For Employee " + employeeID + " Has Been Fetched")
+        logger.info(`Information for employee ${employeeID} has been fetched`);
+        
+        return res.status(statusCode.OK).json(results);
 
-        return res.status(statusCode.OK).json(results)
+    } catch (error) {
 
-    })
+        logger.error(`Error accessing employee info for ID ${employeeID}: ${error.message}`);
 
-}
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error Fetching Employee Information" });
 
-//Deletes User From The Database
+    }
+
+};
+
+// Deletes Customer From The Database
 const deleteCustomer = async (req, res) => {
 
     const customerID = req.user?.CustomerID;
 
-    if(!validateID(customerID)){
+    if (!req.user || !customerID) {
 
-        logger.error("Bad Format On CustomerID")
+        logger.warn("Unauthorized request - Missing user context");
 
-        return res.status(statusCode.BAD_REQUEST).json({error:"CustomerID Has Improper Format"})
+        return res.status(statusCode.UNAUTHORIZED).json({ error: "Unauthorized" });
 
     }
 
-    logger.info("Deleting Customer For Customer " + customerID);
+    if (!validateID(customerID)) {
 
+        logger.error("Bad format on CustomerID");
+
+        return res.status(statusCode.BAD_REQUEST).json({ error: "CustomerID has improper format" });
+
+    }
+
+    logger.info(`Starting deletion process for Customer ${customerID}`);
+    
     let connection;
 
     try {
@@ -102,7 +157,7 @@ const deleteCustomer = async (req, res) => {
 
         await connection.beginTransaction();
 
-        logger.info("Checking For Ongoing Transactions");
+        logger.info(`Checking for ongoing transactions for Customer ${customerID}`);
 
         const [transactions] = await connection.query(
 
@@ -114,23 +169,29 @@ const deleteCustomer = async (req, res) => {
 
         if (transactions.length !== 0) {
 
-            logger.error("Ongoing Transaction Occurring. Aborting Deletion");
+            logger.warn(`Customer ${customerID} has active transactions. Aborting deletion.`);
 
-            throw new Error("Cannot Delete Account With Ongoing Transactions");
+            await connection.rollback();
+
+            return res.status(statusCode.CONFLICT).json({
+
+                error: "Cannot delete account with ongoing transactions",
+
+            });
 
         }
 
-        logger.info("Get The Addresses Associated With Customer");
+        logger.info(`Fetching addresses for Customer ${customerID}`);
 
         const [addrs] = await connection.query(
 
-            "SELECT Address FROM CustomerAddress WHERE CustomerID = ?",
+            "SELECT Address FROM CustomerAddress WHERE CustomerID = ? FOR UPDATE",
 
             [customerID]
 
         );
 
-        logger.info("Deleting From Customer Table (Cascade Handles User Deletion)");
+        logger.info(`Deleting customer record (with cascading) for Customer ${customerID}`);
 
         await connection.query(
 
@@ -140,21 +201,29 @@ const deleteCustomer = async (req, res) => {
 
         );
 
-        logger.info("Deleting Addresses With No Association");
+        logger.info("Checking and cleaning up unused addresses");
 
-        for (const addrObj of addrs) {
+        for (const { Address: address } of addrs) {
 
-            const address = addrObj.Address;
+            const [addrRefs] = await connection.query(
 
-            const [exists] = await connection.query(
-
-                "SELECT * FROM CustomerAddress WHERE Address = ?",
+                "SELECT COUNT(*) AS count FROM CustomerAddress WHERE Address = ?",
 
                 [address]
 
             );
 
-            if (exists.length === 0) {
+            const [transRefs] = await connection.query(
+
+                "SELECT COUNT(*) AS count FROM Transactions WHERE TransactionAddress = ?",
+
+                [address]
+
+            );
+
+            if (addrRefs[0].count === 0 && transRefs[0].count === 0) {
+
+                logger.info(`Deleting unused address: ${address}`);
 
                 await connection.query(
 
@@ -170,110 +239,129 @@ const deleteCustomer = async (req, res) => {
 
         await connection.commit();
 
-        connection.release();
-
-        logger.info("Successful Account Deletion");
+        logger.info(`Successfully deleted Customer ${customerID}`);
 
         return res.sendStatus(statusCode.OK);
 
     } catch (error) {
 
-        logger.error("Error Deleting Customer: " + error.message);
+        logger.error(`Error deleting Customer ${customerID}: ${error.message}`);
 
         if (connection) {
 
             try {
 
-                logger.info("Rolling Back Transaction");
+                logger.info("Rolling back transaction");
 
                 await connection.rollback();
 
             } catch (rollbackError) {
 
-                logger.error("Error During Rollback: " + rollbackError.message);
+                logger.error("Rollback failed: " + rollbackError.message);
 
             }
 
+        }
+
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({
+
+            error: "Internal server error deleting customer",
+
+        });
+
+    } finally {
+
+        if (connection) {
+
             try {
 
-                logger.info("Releasing Connection");
+                logger.info("Releasing database connection");
 
                 connection.release();
 
             } catch (releaseError) {
 
-                logger.error("Error Releasing Connection: " + releaseError.message);
+                logger.error("Failed to release connection: " + releaseError.message);
 
             }
 
         }
 
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:error.message});
-
     }
 
 };
 
-//Updates The Customer User Information
-const updateCustomer = () => {
-
-    logger.info("Updating The Customer Account Information")
+//Updates Customer Data
+const updateCustomer = async (req, res) => {
 
     const userID = req.user?.UserID;
-    
-    const {FirstName, LastName, PhoneNumber} = req.body
 
-    if(!validateID(userID)){
+    if (!req.user || !userID) {
 
-        logger.error("Bad Format On UserID")
+        logger.warn("Unauthorized update attempt - Missing user context");
 
-        return res.status(statusCode.BAD_REQUEST).json({error:"UserID Has Improper Format"})
+        return res.status(statusCode.UNAUTHORIZED).json({ error: "Unauthorized" });
 
     }
 
-    if(!validateName(FirstName)){
+    const { FirstName, LastName, PhoneNumber } = req.body;
 
-        logger.error("First Name Format Invalid")
-    
-        return res.status(statusCode.BAD_REQUEST).json({error:"First Name Format Invalid"})
-    
+    if (!validateID(userID)) {
+
+        logger.error("Bad format on UserID");
+
+        return res.status(statusCode.BAD_REQUEST).json({ error: "UserID has improper format" });
+
     }
-    
-    if(!validateName(LastName)){
 
-        logger.error("Last Name Format Invalid")
+    if (!validateName(FirstName)) {
 
-        return res.status(statusCode.BAD_REQUEST).json({error:"Last Name Format Invalid"})
+        logger.error("First name format invalid");
+
+        return res.status(statusCode.BAD_REQUEST).json({ error: "First name format invalid" });
+
+    }
+
+    if (!validateName(LastName)) {
+
+        logger.error("Last name format invalid");
+
+        return res.status(statusCode.BAD_REQUEST).json({ error: "Last name format invalid" });
 
     }
 
     if (!validatePhoneNumber(PhoneNumber)) {
 
-        logger.error("Phone Number Format Invalid")
+        logger.error("Phone number format invalid");
 
-        return res.status(statusCode.BAD_REQUEST).json({error:"Phone Number Format Invalid"})
+        return res.status(statusCode.BAD_REQUEST).json({ error: "Phone number format invalid" });
 
     }
 
-    logger.info("Updating The User's Information For User " + userID)
+    logger.info(`Starting update for user ${userID}`);
 
-    pool.query("Update Users Set UserNameFirst = ?, UserNameLast = ?, UserPhoneNumber = ? Where UserID = ?", [FirstName,LastName,PhoneNumber,userID], (error)=>{
+    try {
 
-        if(error){
+        await pool.promise().query(
 
-            logger.error("Error Accessing Updating User Information For ID " + userID + " : " + error.message)
+            "UPDATE Users SET UserNameFirst = ?, UserNameLast = ?, UserPhoneNumber = ? WHERE UserID = ?",
 
-            return res.status(statusCode.SERVICE_UNAVAILABLE).json({error: "Internal Server Error updating Customer Information"})
+            [FirstName, LastName, PhoneNumber, userID]
 
-        }
+        );
 
-        logger.info("Information For Customer " + userID + " Has Been Updated")
+        logger.info(`Successfully updated user ${userID}`);
 
-        return res.status(statusCode.OK)
+        return res.status(statusCode.OK).json({ success: true, message: "Customer information updated" });
 
-    })
+    } catch (error) {
 
-}
+        logger.error(`Error updating user ${userID}: ${error.message}`);
 
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal server error updating customer information" });
+
+    }
+
+};
 
 module.exports = {getCustomer, getEmployee, deleteCustomer, updateCustomer}

@@ -9,9 +9,6 @@ import axios from "axios";
 //Error Message Hook
 import { useErrorResponse } from '../../../Utils/AxiosError';
 
-//Import Formatter 
-import { useValidateToken } from "../../../Utils/TokenValidation";
-
 export default function SubordinatesArea({ auth, logout }) {
 
   const navigate = useNavigate(); 
@@ -54,8 +51,6 @@ export default function SubordinatesArea({ auth, logout }) {
 
 //Import List Of Employees
 const Subordinates = ({logout}) => {
-
-  const validateToken = useValidateToken();
   
   const { handleError } = useErrorResponse(); 
 
@@ -65,24 +60,14 @@ const Subordinates = ({logout}) => {
 
   //Load The Employees
   useEffect(() => {
-
-    const token = validateToken();
-
-    if(token == null){
-
-      return
-
-    }
     
     axios
 
       .get(`http://localhost:3301/api/employee/employee/supervisor`, {
 
-        headers: {
+        withCredentials: true,
 
-          Authorization: `Bearer ${token}`,
-
-        },
+        headers: { 'Content-Type': 'application/json' }
 
       })
 
@@ -103,23 +88,13 @@ const Subordinates = ({logout}) => {
   //Clicking Delete On An Employee
   const clickTerminate = (employeeID)=>{
 
-    const token = validateToken();
-
-    if(token == null){
-
-      return
-      
-    }
-
     axios.delete("http://localhost:3301/api/employee/employee", {
 
         data: { EmployeeID: employeeID },
 
-        headers: {
+        withCredentials: true,
 
-          Authorization: `Bearer ${token}`,
-
-        },
+        headers: { 'Content-Type': 'application/json' }
 
       })
 

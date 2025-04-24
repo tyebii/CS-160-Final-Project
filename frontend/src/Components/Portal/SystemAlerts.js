@@ -7,16 +7,11 @@ import  axios  from "axios";
 //Import Custom Components
 import { TaggedItems } from "./TaggedItems";
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 //System alerts 
 const SystemAlerts = () => {
-
-  const validateToken = useValidateToken();
 
   const { handleError } = useErrorResponse(); 
 
@@ -30,21 +25,15 @@ const SystemAlerts = () => {
 
   useEffect(() => {
 
-      const token = validateToken()
-
-      if(token == null){
-
-        return
-        
-      }
-
     axios
 
       .get(`http://localhost:3301/api/inventory/lowstock`,{
 
-        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
 
-      })
+        headers: { 'Content-Type': 'application/json' }
+
+    })
 
       .then((response) => {
 
@@ -61,7 +50,9 @@ const SystemAlerts = () => {
     axios
       .get(`http://localhost:3301/api/robot/robot/faulty`,{
 
-        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+
+        headers: { 'Content-Type': 'application/json' }
 
       })
 
@@ -81,7 +72,9 @@ const SystemAlerts = () => {
 
       .get(`http://localhost:3301/api/inventory/expiration`,{
 
-        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+
+        headers: { 'Content-Type': 'application/json' }
 
       })
 
@@ -101,7 +94,9 @@ const SystemAlerts = () => {
 
       .get(`http://localhost:3301/api/inventory/featured`,{
 
-        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+
+        headers: { 'Content-Type': 'application/json' }
 
       })
 

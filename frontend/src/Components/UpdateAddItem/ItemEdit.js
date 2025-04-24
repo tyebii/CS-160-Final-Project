@@ -13,17 +13,12 @@ import TextEntryBox from "./TextBox";
 //Formatting Util
 import { insertFormat } from '../Utils/Formatting'
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 export const ItemEdit = ({ item }) => {
 
     const navigate = useNavigate();
-
-    const validateToken = useValidateToken();
 
     const { handleError } = useErrorResponse(); 
 
@@ -61,14 +56,6 @@ export const ItemEdit = ({ item }) => {
 
         e.preventDefault();
 
-        const token = validateToken()
-
-        if(token == null){
-
-            return
-            
-        }
-
         if(!insertFormat(formData.Quantity, formData.Distributor, formData.Weight, formData.ProductName, formData.Category, formData.SupplierCost, formData.Cost, formData.Expiration, formData.StorageRequirement, formData.Description)){
 
             return false
@@ -83,11 +70,7 @@ export const ItemEdit = ({ item }) => {
 
         axios.put('http://localhost:3301/api/inventory/update/item', form, {
 
-            headers: {
-
-                'Authorization': `Bearer ${token}`
-
-            }
+            withCredentials: true
 
         })
 

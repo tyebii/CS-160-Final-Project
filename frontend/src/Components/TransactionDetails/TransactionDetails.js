@@ -7,9 +7,6 @@ import { useState } from "react";
 
 import axios from "axios";
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
@@ -17,8 +14,6 @@ import { useErrorResponse } from '../Utils/AxiosError';
 export function TransactionDetails({transaction}) {
 
   const { auth} = useAuth();
-
-  const validateToken = useValidateToken();
 
   const { handleError } = useErrorResponse(); 
   
@@ -43,14 +38,6 @@ export function TransactionDetails({transaction}) {
   //Click Fullfill
   const handleFulfill = () => {
 
-    const token = validateToken()
-
-    if(token == null){
-
-      return
-      
-    }
-
     if(!validateID(transaction.TransactionID)){
 
       alert("Invalid Transaction ID")
@@ -68,11 +55,9 @@ export function TransactionDetails({transaction}) {
 
       {
 
-        headers: {
+        withCredentials: true,
 
-          Authorization: `Bearer ${token}`,
-
-        },
+        headers: { 'Content-Type': 'application/json' }
 
       })
 

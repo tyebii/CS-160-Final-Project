@@ -29,7 +29,7 @@ const signUpCustomer = async (req, res) => {
 
                 let { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber } = req.body;
 
-                logger.info("Recieved Assets " + UserID + ", " + Password + ", " + UserNameFirst + ", " + UserNameLast + ", " + UserPhoneNumber)
+                logger.info("Recieved Assets " + UserID + ", " + UserNameFirst + ", " + UserNameLast + ", " + UserPhoneNumber)
 
                 logger.info("Generating Hashed Password")
 
@@ -131,7 +131,7 @@ const signUpEmployee = async (req, res) => {
 
                 let { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID} = req.body;
 
-                logger.info("Recieved Assets " + UserID + ", " + Password + ", " + UserNameFirst + ", " + UserNameLast + ", " + UserPhoneNumber + ", " + EmployeeHireDate + ", " + EmployeeStatus + ", " + EmployeeBirthDate + ", " + EmployeeDepartment + ", " + EmployeeHourly + ", " + SupervisorID)
+                logger.info("Recieved Assets " + UserID + ", " + UserNameFirst + ", " + UserNameLast + ", " + UserPhoneNumber + ", " + EmployeeHireDate + ", " + EmployeeStatus + ", " + EmployeeBirthDate + ", " + EmployeeDepartment + ", " + EmployeeHourly + ", " + SupervisorID)
 
                 logger.info("Generating Password Hash")
 
@@ -232,7 +232,7 @@ const signUpManager = async (req, res) => {
 
             let { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, Secret} = req.body;
 
-            logger.info("Recieved Assets " + UserID + ", " + Password + ", " + UserNameFirst + ", " + UserNameLast + ", " + UserPhoneNumber + ", " + EmployeeHireDate + ", " + EmployeeStatus + ", " + EmployeeBirthDate + ", " + EmployeeDepartment + ", " + EmployeeHourly)
+            logger.info("Recieved Assets " + UserID + ", " + UserNameFirst + ", " + UserNameLast + ", " + UserPhoneNumber + ", " + EmployeeHireDate + ", " + EmployeeStatus + ", " + EmployeeBirthDate + ", " + EmployeeDepartment + ", " + EmployeeHourly)
 
             if(Secret!=process.env.Secret){
 
@@ -330,13 +330,15 @@ const login = async (req, res) => {
 
     logger.info("Login Starting...")
 
+    let connection;
+
     try {
 
         let {UserID, Password} = req.body;
 
-        logger.info("Recieved Assets " + UserID + ", " + Password)
+        logger.info("Recieved Assets " + UserID)
 
-        const connection = await pool.promise().getConnection();
+        connection = await pool.promise().getConnection();
 
             logger.info("Checking If The Account Exists")
 
@@ -392,9 +394,22 @@ const login = async (req, res) => {
 
         const accessToken = jwt.sign(user, process.env.Secret_Key, { expiresIn: '1h' });
 
+        res.cookie("token", accessToken, {
+
+            httpOnly: true,
+
+            secure: false,          
+
+            sameSite: "Lax",        
+
+            maxAge: 15 * 60 * 1000
+
+        });
+          
+
         logger.info("Successfully Logged In")
 
-        return res.status(statusCode.OK).json({ accessToken });
+        return res.sendStatus(statusCode.OK);
 
     } catch (error) {
 
@@ -434,4 +449,52 @@ const login = async (req, res) => {
 
 };
 
-module.exports = {login, signUpCustomer, signUpEmployee, signUpManager, }
+//Check Cookie 
+const checkCookie = (req, res) => {
+
+    logger.info("Checking The Cookie Role")
+
+    const { EmployeeID, SupervisorID } = req.user;
+
+    if (EmployeeID && !SupervisorID){
+
+        logger.info("Cookie Is Manager")
+
+        return res.status(statusCode.OK).json({ role: "Manager" });
+
+    } 
+
+    if (!EmployeeID){
+
+        logger.info("Cookie Is Customer")
+
+        return res.status(statusCode.OK).json({ role: "Customer" });
+
+    }
+    
+    logger.info("Cookie Is Employee")
+
+    return res.status(statusCode.OK).json({ role: "Employee" });
+
+}
+
+//Clear The Users Cookie
+const clearCookie = (req,res) => {
+
+    res.clearCookie("token", {
+
+        httpOnly: true,
+
+        secure: false, 
+
+        sameSite: "Lax"
+      
+    });
+
+   return res.sendStatus(statusCode.OK)
+
+}
+
+
+
+module.exports = {login, signUpCustomer, signUpEmployee, signUpManager, checkCookie, clearCookie}

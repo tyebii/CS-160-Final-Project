@@ -235,7 +235,9 @@ const validateAddress = async (address) => {
 
         const data = await response.json();
 
-        if (data.features.length === 0) {
+        console.log(data)
+
+        if (!data || data.features.length === 0) {
             
             logger.error("Address Not Found On Map");
 
@@ -1269,5 +1271,6 @@ module.exports = {
     validateWeight,
     validateFutureDate,
     validateDateTime,
-    validatePastDate
+    validatePastDate,
+    validatePhoneNumber
 }

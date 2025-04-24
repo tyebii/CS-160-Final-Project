@@ -2,16 +2,11 @@ import axios from "axios";
 
 import { validateAddress, validateName} from "../../Utils/Formatting";
 
-//Token Validation Hook
-import { useValidateToken } from '../../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../../Utils/AxiosError';
 
 //The Address Block Containing Information And Remove
 function AddressComponent({address,setAddress,}){
-
-    const validateToken = useValidateToken();
   
     const { handleError } = useErrorResponse(); 
 
@@ -33,14 +28,6 @@ function AddressComponent({address,setAddress,}){
 
         }
 
-        const token = validateToken()
-
-        if(token == null){
-
-          return
-
-        }
-
         if(!validateAddress(address.Address)){
           
           alert("Invalid Address")
@@ -55,11 +42,9 @@ function AddressComponent({address,setAddress,}){
 
           {
 
-            headers: {
+            withCredentials: true,
 
-              Authorization: `Bearer ${token}`
-
-            }
+            headers: { 'Content-Type': 'application/json' }
 
           }
 

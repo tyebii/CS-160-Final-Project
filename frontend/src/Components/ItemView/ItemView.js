@@ -9,9 +9,6 @@ import { useAuth } from '../../Context/AuthHook';
 // Import Formatter
 import { validateID, validateQuantity } from '../Utils/Formatting';
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
@@ -20,8 +17,6 @@ import axios from 'axios';
 
 // Item View Component
 const ItemView = () => {
-
-  const validateToken = useValidateToken();
 
   const { handleError } = useErrorResponse(); 
 
@@ -48,8 +43,6 @@ const ItemView = () => {
 
     }
 
-    let token;
-
     let endPoint = "";
 
     if (!auth || auth === "Customer") {
@@ -58,29 +51,25 @@ const ItemView = () => {
 
     } else {
 
-      token = validateToken()
-
-      if(token == null){
-
-        return;
-
-      }
-
       endPoint = `http://localhost:3301/api/inventory/search/itemID/employee/${itemid}`;
 
     }
 
     axios
 
-      .get(endPoint, {
-
+      .get(endPoint,{
+        
+        withCredentials: true,
+        
         headers: {
 
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
 
         }
 
-      })
+      }
+
+      )
 
       .then((response) => {
 
@@ -116,14 +105,6 @@ const ItemView = () => {
   const clickAdd = (e) => {
 
     e.preventDefault();
-
-    const token = validateToken()
-
-    if(token == null){
-      
-      return;
-
-    }
 
     if (!validateID(itemid)) {
 
@@ -162,13 +143,15 @@ const ItemView = () => {
         },
 
         {
-
+        
+          withCredentials: true,
+          
           headers: {
-
-            Authorization: `Bearer ${token}`,
-
-          },
-
+  
+            'Content-Type': 'application/json'
+  
+          }
+  
         }
 
       )
@@ -200,15 +183,6 @@ const ItemView = () => {
 
     if (window.confirm('Are you sure you want to delete this item?')) {
 
-
-      const token = validateToken();
-
-      if(token == null){
-
-        return
-
-      }
-
       if(!validateID(itemid)){
 
         return
@@ -222,13 +196,15 @@ const ItemView = () => {
           `http://localhost:3301/api/inventory/delete/item/${itemid}`,
 
           {
-
+        
+            withCredentials: true,
+            
             headers: {
-
-              Authorization: `Bearer ${token}`,
-
-            },
-
+    
+              'Content-Type': 'application/json'
+    
+            }
+    
           }
 
         )
@@ -264,14 +240,6 @@ const ItemView = () => {
 
     }
   
-    const token = validateToken();
-
-    if(token == null){
-
-      return null
-
-    }
-  
     axios
 
       .post(`http://localhost:3301/api/inventory/featured`,         {
@@ -281,12 +249,14 @@ const ItemView = () => {
       },
 
       {
-
+        
+        withCredentials: true,
+        
         headers: {
 
-          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
 
-        },
+        }
 
       })
 
@@ -319,25 +289,19 @@ const ItemView = () => {
 
     }
   
-    const token = validateToken()
-
-    if(token == null){
-      
-      return null
-
-    }
-  
     axios
 
       .delete(`http://localhost:3301/api/inventory/featured/${itemid}`,
 
       {
-
+      
+        withCredentials: true,
+        
         headers: {
 
-          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
 
-        },
+        }
 
       })
 

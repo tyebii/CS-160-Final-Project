@@ -5,9 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 import {useAuth} from '../../Context/AuthHook'
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
@@ -18,8 +15,6 @@ import { signUpFormat, signUpFormatEmployee } from '../Utils/Formatting';
 
 //Import Add Employee
 function AddEmployee() {
-
-  const validateToken = useValidateToken();
 
   const { handleError } = useErrorResponse(); 
 
@@ -77,14 +72,6 @@ function AddEmployee() {
       return; 
     
     }
-    
-    const token = validateToken()
-
-    if(token == null){
-
-      return
-      
-    }
 
     axios.post('http://localhost:3301/api/authentication/signup/employee', {
 
@@ -112,11 +99,9 @@ function AddEmployee() {
 
       }, {
 
-        headers: {
+        withCredentials: true,
 
-            'Authorization': `Bearer ${token}`
-
-        }
+        headers: { 'Content-Type': 'application/json' }
 
     })
 

@@ -11,9 +11,6 @@ import axios from 'axios';
 //Error Message Hook
 import { useErrorResponse } from '../../../Utils/AxiosError';
 
-//Import Formatter 
-import { useValidateToken } from "../../../Utils/TokenValidation";
-
 import { validateID } from '../../../Utils/Formatting';
 
 //Transaction Area
@@ -23,19 +20,9 @@ export default function TransactionArea({ trigger, setTrigger, auth, logout }) {
 
     const navigate = useNavigate();
 
-    const validateToken = useValidateToken();
-
     const { handleError } = useErrorResponse(); 
   
     var clickTransactionSearch = (e) => {
-
-        const token = validateToken();
-
-        if(token == null){
-
-            return
-
-        }
 
         if(!validateID(transactionSearchInput)) {
 
@@ -57,11 +44,9 @@ export default function TransactionArea({ trigger, setTrigger, auth, logout }) {
 
             {
 
-                headers: {
+                withCredentials: true,
 
-                    'Authorization': `Bearer ${token}`
-
-                }
+                headers: { 'Content-Type': 'application/json' }
 
             }
 
@@ -158,8 +143,6 @@ function TransactionsTable({trigger, logout}) {
 
     const navigate = useNavigate();
 
-    const validateToken = useValidateToken();
-
     const { handleError } = useErrorResponse(); 
   
     const [transactions, setTransactions] = useState([]);
@@ -199,22 +182,11 @@ function TransactionsTable({trigger, logout}) {
     //Query The Backend For The Transactions
     useEffect(() => {
 
-        const token = validateToken()
-
-        if(token==null){
-
-            return
-            
-        }
-
-
         axios.get('http://localhost:3301/api/transaction/transactions/pending', {
 
-            headers: {
+            withCredentials: true,
 
-                'Authorization': `Bearer ${token}`
-
-            }
+            headers: { 'Content-Type': 'application/json' }
 
         })
 
