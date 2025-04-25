@@ -2,10 +2,10 @@ const mysql = require('mysql2') //NPM install mysql12
 
 //Need to put these into env variables
 const pool = mysql.createPool({
-    host: 'localhost',   // Use 'localhost' 
+    host: 'mysql-db',   // Use 'localhost' 
     user: 'root', // Your MySQL username 
     password: 'password', // Your MySQL password
-    database: 'OFS', // Your database name
+    database: 'ofs', // Your database name
     port: 3306, // SQL Port
   });
   

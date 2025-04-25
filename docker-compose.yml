@@ -8,8 +8,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: ofs
-    volumes:
-      - ./sql/Create.sql:/docker-entrypoint-initdb.d/Create.sql
+    ##volumes:
+    ##  - ./sql/Create.sql:/docker-entrypoint-initdb.d/Create.sql
     ports:
       - "3307:3306"
     healthcheck:
@@ -22,6 +22,7 @@ services:
   backend:
     build: ./backend
     container_name: backend
+    restart: unless-stopped
     ports:
       - "5000:5000"
     depends_on:
