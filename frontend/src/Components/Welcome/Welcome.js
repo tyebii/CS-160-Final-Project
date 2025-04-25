@@ -88,22 +88,22 @@ function Welcome() {
             {/* Categories Section */}
             <Categories auth={auth} logout={logout} ></Categories>
      
-            <hr className="border-t border-gray-300 my-10" />
+            <hr className="border-t border-black my-20 " />
     
             {/* Robot Section */}
             <RobotArea trigger = {trigger} setTrigger = {setTrigger} auth={auth} logout={logout} ></RobotArea>
             
-            {auth === "Employee" || auth === "Manager"? (<hr className="border-t border-gray-300 my-10" />):null}
+            {auth === "Employee" || auth === "Manager"? (<hr className="border-t border-black mt-10 mb-20" />):null}
 
             {/* Transactions Section for Employees and Managers */}
             <TransactionArea trigger = {trigger} setTrigger = {setTrigger} auth={auth} logout={logout} ></TransactionArea>
 
-            {auth === "Employee" || auth === "Manager"? (<hr className="border-t border-gray-300 my-10" />):null}
+            {auth === "Employee" || auth === "Manager"? (<hr className="border-t border-black my-20" />):null}
 
             {/* Employees Section for Managers */}
             <SubordinatesArea auth={auth} logout={logout} ></SubordinatesArea>
 
-            {auth === "Manager"? (<hr className="border-t border-gray-300 my-10" />):null}
+            {auth === "Manager"? (<hr className="border-t border-black my-20" />):null}
 
             {/*Add Items */}
             <AddItem auth={auth}></AddItem>

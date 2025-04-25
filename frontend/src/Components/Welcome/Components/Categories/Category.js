@@ -67,9 +67,9 @@ export default function Categories({auth}) {
     //Return The JSX
     return(
 
-      <article className="mt-10">
+      <article className="mt-20">
 
-        <h2 className="text-center text-4xl mb-6 text-gray-800">
+        <h2 className="text-center text-5xl mb-20 font-extrabold text-black tracking-wide">
 
           {auth === "Employee" || auth === "Manager"
 

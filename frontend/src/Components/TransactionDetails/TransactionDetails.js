@@ -113,9 +113,9 @@ export function TransactionDetails({transaction}) {
 
           </>): null}
 
-          <DetailRow label="Transaction Cost" value={`$${transaction.TransactionCost}`} />
+          <DetailRow label="Transaction Cost" value={`$${transaction.TransactionCost.toFixed(2)}`} />
 
-          <DetailRow label="Transaction Weight" value={`${transaction.TransactionWeight} lbs`} />
+          <DetailRow label="Transaction Weight" value={`${transaction.TransactionWeight.toFixed(2)} lbs`} />
 
           <DetailRow label="Transaction Address" value={transaction.TransactionAddress} />
 
@@ -144,7 +144,7 @@ export function TransactionDetails({transaction}) {
 
           <DetailRow label="Currency" value={transaction.Currency} defaultValue="None" />
 
-          <DetailRow label="Amount Paid" value={transaction.AmountPaid} defaultValue="None" />
+          <DetailRow label="Amount Paid" value={`$${transaction.AmountPaid.toFixed(2)}`} defaultValue="None" />
 
         </div>
 

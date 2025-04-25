@@ -115,7 +115,7 @@ export default function Carousel({auth}) {
 
             <article className="text-center p-20">
 
-                <h2 className="text-center text-4xl mb-6 text-gray-800">Featured Products</h2>
+                <h2 className="text-center text-5xl mb-20 font-extrabold text-black tracking-wide">Featured Products</h2>
 
                 <div className="flex items-center justify-center gap-4 overflow-x-auto p-3">
 
