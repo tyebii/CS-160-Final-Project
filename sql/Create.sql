@@ -62,16 +62,16 @@ Create Table Inventory(
 CREATE INDEX inventory_category
 ON Inventory (Category);
 
-Alter Table inventory 
+Alter Table Inventory 
 Add Constraint CheckInventoryQuantity Check (Quantity >= 0);
 
-Alter Table inventory 
+Alter Table Inventory 
 Add Constraint CheckInventoryCost Check (Cost  >= 0);
 
-Alter Table inventory 
+Alter Table Inventory 
 Add Constraint CheckInventorySupplierCost Check (SupplierCost  >= 0);
 
-Alter Table inventory 
+Alter Table Inventory 
 Add Constraint CheckInventoryWeight Check (Weight  >= 0);
 
 
@@ -84,7 +84,7 @@ Create Table ShoppingCart(
     Primary Key(CustomerID,ItemID)
 );
 
-Alter Table shoppingcart
+Alter Table ShoppingCart
 Add Constraint CheckCartQuantity Check (OrderQuantity >= 0);
 
 Create Table Robot(
@@ -95,7 +95,7 @@ Create Table Robot(
     EstimatedDelivery DATETIME
 );
 
-Alter Table robot
+Alter Table Robot
 Add Constraint CheckRobotWeight Check (CurrentLoad<=200 and Currentload >= 0);
 
 CREATE INDEX robot_status
@@ -122,10 +122,10 @@ CREATE TABLE Transactions (
     FOREIGN KEY (RobotID) REFERENCES Robot(RobotID)
 );
 
-Alter Table transactions 
+Alter Table Transactions 
 Add Constraint CheckTransactionCost Check (TransactionCost>=0);
 
-Alter Table transactions 
+Alter Table Transactions 
 Add Constraint CheckTransactionWeight Check (TransactionWeight >= 0);
 
 CREATE INDEX transactions_address
@@ -162,7 +162,7 @@ Create Table FaultyRobots(
 	RobotID varchar(255) primary key,
     EventDate date not null,
     Cause varchar(255) not null,
-    Foreign Key(RobotID) References robot(RobotID) on delete cascade
+    Foreign Key(RobotID) References Robot(RobotID) on delete cascade
 );
 
 Create Table FeaturedItems( 
@@ -182,18 +182,18 @@ AFTER UPDATE ON Inventory
 FOR EACH ROW
 BEGIN
     IF NEW.Quantity < 5 THEN
-        IF NOT EXISTS (SELECT 1 FROM lowstocklog WHERE ItemID = NEW.ItemID) THEN
-            INSERT INTO lowstocklog (ItemID, EventDate)
+        IF NOT EXISTS (SELECT 1 FROM LowStockLog WHERE ItemID = NEW.ItemID) THEN
+            INSERT INTO LowStockLog (ItemID, EventDate)
             VALUES (NEW.ItemID, NOW());
         END IF;
     ELSEIF NEW.Quantity > 5 THEN
-        DELETE FROM lowstocklog
+        DELETE FROM LowStockLog
         WHERE ItemID = NEW.ItemID;
     END IF;
 END$$
 
 CREATE TRIGGER FaultyRobotUpdate
-AFTER UPDATE ON robot
+AFTER UPDATE ON Robot
 FOR EACH ROW
 BEGIN
     IF NEW.RobotStatus = 'Broken' THEN
@@ -217,18 +217,18 @@ AFTER INSERT ON Inventory
 FOR EACH ROW
 BEGIN
     IF NEW.Quantity < 5 THEN
-        IF NOT EXISTS (SELECT 1 FROM lowstocklog WHERE ItemID = NEW.ItemID) THEN
-            INSERT INTO lowstocklog (ItemID, EventDate)
+        IF NOT EXISTS (SELECT 1 FROM LowStockLog WHERE ItemID = NEW.ItemID) THEN
+            INSERT INTO LowStockLog (ItemID, EventDate)
             VALUES (NEW.ItemID, NOW());
         END IF;
     ELSEIF NEW.Quantity > 5 THEN
-        DELETE FROM lowstocklog
+        DELETE FROM LowStockLog
         WHERE ItemID = NEW.ItemID;
     END IF;
 END$$
 
 CREATE TRIGGER FaultyRobotInsert
-AFTER INSERT ON robot
+AFTER INSERT ON Robot
 FOR EACH ROW
 BEGIN
     IF NEW.RobotStatus = 'Broken' THEN
@@ -266,7 +266,6 @@ DELIMITER ;
 
 DELIMITER $$
 
-DELIMITER $$
 
 CREATE TRIGGER validate_supervisor_before_insert
 BEFORE INSERT ON Employee
