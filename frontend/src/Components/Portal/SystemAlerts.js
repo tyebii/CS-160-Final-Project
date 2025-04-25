@@ -91,7 +91,7 @@ const SystemAlerts = () => {
 
       <h2 className="text-2xl font-bold mb-3">System Alerts</h2>
 
-        <p>
+        <div>
 
           <strong>
 
@@ -101,31 +101,31 @@ const SystemAlerts = () => {
 
           { lowStockTriggers.length == 0 ? (<p className="mb-5">No Low Stock Items</p>) : (<TaggedItems items={lowStockTriggers} />)}
 
-        </p>
+        </div>
 
-        <p>
+        <div>
 
           <strong>Expiration Date Triggers: {expirationDateTriggers.length}</strong>
 
           { expirationDateTriggers.length == 0 ? (<p className="mb-5">No Expired Items</p>) : (<TaggedItems  items={expirationDateTriggers} />)}
 
-        </p>
+        </div>
 
-        <p>
+        <div>
 
           <strong>Featured Triggers: {featured.length}</strong>
 
           { featured.length == 0 ? (<p className="mb-5">No Featured Items</p>) : (<TaggedItems  items={featured} />)}
 
-        </p>
+        </div>
 
-        <p>
+        <div>
 
           <strong>Robot Malfunctions:  {robotMalfunctions.length}</strong>
 
           { robotMalfunctions.length == 0 ? (<p className="mb-5">No Faulty Robots</p>) : (<TaggedItems  robots={robotMalfunctions} />)}
 
-        </p>
+        </div>
 
     </section>
   );

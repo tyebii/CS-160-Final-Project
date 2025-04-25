@@ -4,7 +4,7 @@ const rateLimit = require('express-rate-limit');
 
 const router = express.Router()
 
-const {getTransactionID, getCurrentTransactions, getCustomerTransactions, fullfillOrder} = require('./TransactionController')
+const {getTransactionID, getCurrentTransactions, getCustomerTransactions, fullfillOrder, getCustomerItems} = require('./TransactionController')
 
 const {authorizeEmployee, authorizeCustomer, authorizeManager} = require('../Utils/Authorization')
 

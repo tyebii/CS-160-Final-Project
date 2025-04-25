@@ -13,6 +13,8 @@ import { useErrorResponse } from '../Utils/AxiosError';
 //Transaction Details Component
 export function TransactionDetails({transaction}) {
 
+  console.log(transaction)
+
   const { auth} = useAuth();
 
   const { handleError } = useErrorResponse(); 

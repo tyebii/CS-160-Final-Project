@@ -107,6 +107,14 @@ const handleClear = async () => {
 
   try {
 
+    if(results.length == 0){
+
+      alert("Nothing To Clear");
+
+      return
+
+    }
+
     await axios.delete('http://localhost:3301/api/shoppingcart/shoppingcart/clear', {
 
       withCredentials: true,
@@ -169,6 +177,12 @@ const clickRemove = async (itemid) => {
     if (isProcessing) return;
   
     setIsProcessing(true);
+
+    if(weight > 200 && selectedAddress.Address == addresses[0].Address){
+
+      alert("Cannot Have A Transaction Over 200 LBS Be Delivered")
+      
+    }
   
     if (results.length === 0) {
 
@@ -177,6 +191,18 @@ const clickRemove = async (itemid) => {
       setIsProcessing(false);
 
       return;
+
+    }
+
+    for(let i = 0; i < results.length; i++){
+
+      if (results[i].Quantity == 0) {
+
+        alert("Cannot Order Something Of Zero Quantity")
+
+        return
+
+      }
 
     }
   

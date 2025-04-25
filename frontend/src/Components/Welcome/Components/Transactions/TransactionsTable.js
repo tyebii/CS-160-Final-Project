@@ -250,7 +250,7 @@ function TransactionsTable({trigger, logout}) {
 
                                     <td className="px-2 py-2 border">${transaction.TransactionCost}</td>
 
-                                    <td className="px-2 py-2 border">{transaction.TransactionWeight} kg</td>
+                                    <td className="px-2 py-2 border">{transaction.TransactionWeight} lbs</td>
 
                                     <td className="px-2 py-2 border break-words">{transaction.TransactionAddress}</td>
 

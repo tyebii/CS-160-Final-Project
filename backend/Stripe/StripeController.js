@@ -70,7 +70,7 @@ const handleStripe = async (req, res) => {
 
                 product_data: { name: 'Delivery' },
 
-                unit_amount: weight < 20 || req.body.TransactionAddress == "272 E Santa Clara St, San Jose, CA 95112"? 0 : 1000, 
+                unit_amount: (weight < 20 || req.body.TransactionAddress == "272 E Santa Clara St, San Jose, CA 95112")? 0 : 1000, 
 
             },
             quantity: 1
@@ -99,7 +99,7 @@ const handleStripe = async (req, res) => {
 
                 transaction_id: req.body.TransactionID,  
                 
-                in_store: req.body.TransactionAddress == "272 E Santa Clara St, San Jose, CA 95112",
+                in_store: (req.body.TransactionAddress === "272 E Santa Clara St, San Jose, CA 95112" || weight > 200).toString(),
 
                 customer_id: req.user.CustomerID
 
@@ -125,161 +125,191 @@ const handleStripe = async (req, res) => {
 
 };
 
-//Add Transaction 
+//Adds A Transaction
 const addTransaction = async (req, res, next) => {
 
-    logger.info("Adding Transaction")
+    logger.info("Adding Transaction");
 
-    const {TransactionAddress} = req.body;
+    const { TransactionAddress } = req.body;
 
-    let customerID = req.user.CustomerID;
+    const customerID = req.user.CustomerID;
 
-    if(!validateID(customerID)){
+    if (!validateID(customerID)) {
 
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Invalid Customer ID"})
-
-    }
-
-    if(!validateAddress(TransactionAddress)){
-
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Invalid Transaction Address"})
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Invalid Customer ID" });
 
     }
 
-    logger.info("Transaction Address: " + TransactionAddress)
+    if (!validateAddress(TransactionAddress)) {
 
-    logger.info("CustomerID: " + customerID)
-    
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Invalid Transaction Address" });
+
+    }
+
     let transactionID;
-    
-    try{
+
+    let connection;
+
+    try {
 
         transactionID = await generateUniqueID(transactionIDExists);
 
-    }catch(error){
+    } catch (error) {
 
-        logger.error("Error Generating Transaction ID" + error.message)
+        logger.error("Error Generating Transaction ID: " + error.message);
 
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Creating Unique TransactionID"})
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error Creating Unique TransactionID" });
 
     }
 
     try {
 
-        const connection = await pool.promise().getConnection(); 
+        connection = await pool.promise().getConnection();
 
-        try {
+        await connection.beginTransaction();
 
-            await connection.beginTransaction();
+        const [items] = await connection.query(
 
-                const [items] = await connection.query(
+            `SELECT * FROM Inventory 
 
-                    "SELECT * FROM Inventory JOIN Shoppingcart ON Inventory.ItemID = Shoppingcart.ItemID WHERE Shoppingcart.CustomerID = ?",
-    
-                    [req.user.CustomerID]
-    
-                );
+             JOIN Shoppingcart ON Inventory.ItemID = Shoppingcart.ItemID 
 
-                console.log(items)
+             WHERE Shoppingcart.CustomerID = ?`,
 
-                let weight = 0
+            [customerID]
 
-                let cost = 0
+        );
 
-                for(let i = 0; i < items.length; i++){
+        if (items.length === 0) {
 
-                    weight += items[i].Weight * items[i].OrderQuantity;
+            logger.error("Empty Shopping Cart");
 
-                    cost += items[i].Cost * 100 * items[i].OrderQuantity
+            return res.status(statusCode.BAD_REQUEST).json({ error: "No shopping cart to transact" });
 
-                }
+        }
 
-                if(cost < 50){
+        let weight = 0;
 
-                    res.status(statusCode.BAD_REQUEST).json({error: "Transaction Must Be Greater Than $.5"})
+        let cost = 0;
 
-                }
+        for (const item of items) {
 
-                await connection.query(
+            weight += item.Weight * item.OrderQuantity;
 
-                    `INSERT INTO Transactions 
+            cost += item.Cost * 100 * item.OrderQuantity;
 
-                    (CustomerID, TransactionID, TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, TransactionDate) 
+        }
 
-                    VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        if (cost < 50) {
 
-                    [customerID, transactionID, cost / 100 , weight , TransactionAddress, "In Progress" , new Date()]
+            logger.error("Cost Too Low For A Stripe Transaction");
 
-                );
+            return res.status(statusCode.BAD_REQUEST).json({ error: "Transaction must be greater than $0.5" });
 
+        }
 
-                await connection.query(
+        await connection.query(
 
-                    `UPDATE Inventory 
+            `INSERT INTO Transactions 
 
-                    JOIN ShoppingCart ON Inventory.ItemID = ShoppingCart.ItemID 
+             (CustomerID, TransactionID, TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, TransactionDate) 
 
-                    SET Inventory.Quantity = Inventory.Quantity - ShoppingCart.OrderQuantity 
+             VALUES (?, ?, ?, ?, ?, ?, ?)`,
 
-                    WHERE ShoppingCart.CustomerID = ?`,
+            [customerID, transactionID, cost / 100, weight, TransactionAddress, "In Progress", new Date()]
 
-                    [customerID]
+        );
 
-                );
-            
-            req.body.TransactionID = transactionID;
+        await connection.query(
 
-            req.items = items
+            `UPDATE Inventory 
 
-            logger.info("Inventory Update And Transaction Addition Successful")
+             JOIN ShoppingCart ON Inventory.ItemID = ShoppingCart.ItemID 
 
-        await connection.commit()
+             SET Inventory.Quantity = Inventory.Quantity - ShoppingCart.OrderQuantity 
+
+             WHERE ShoppingCart.CustomerID = ?`,
+
+            [customerID]
+
+        );
+
+        const values = items.map(item => [
+
+            transactionID,
+
+            item.ItemID,
+
+            item.ProductName,
+
+            item.OrderQuantity,
+
+            item.Cost,
+
+            item.ImageLink
+
+        ]);
+
+        await connection.query(
+
+            `INSERT INTO TransactionItems 
+
+             (TransactionID, ItemID, ProductName, Quantity, PriceAtPurchase, ImageLink) 
+
+             VALUES ?`,
+
+            [values]
+
+        );
+
+        await connection.query("DELETE FROM shoppingcart WHERE customerid = ?", [customerID])
+
+        req.body.TransactionID = transactionID;
+
+        req.items = items;
+
+        logger.info("Inventory Update And Transaction Addition Successful");
+
+        await connection.commit();
 
         connection.release();
 
         next();
 
-        } catch (error) {
-
-            logger.error("Error While Adding Transaction And Updating Inventory: " + error.message)
-
-            if (connection) {
-    
-                try {
-    
-                    logger.info("Rolling Back Connection");
-    
-                    await connection.rollback();
-    
-                } catch (rollbackError) {
-    
-                    logger.error("Error During Rollback: " + rollbackError.message);
-    
-                }
-            
-                try {
-    
-                    logger.info("Releasing Connection");
-    
-                    connection.release();
-    
-                } catch (releaseError) {
-    
-                    logger.error("Error Releasing Connection: " + releaseError.message);
-    
-                }
-                
-            }
-
-            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Adding Transaction And Updating Inventory"});
-
-        } 
-
     } catch (error) {
 
-        logger.error("Database Connection Failed:" + error.message);
+        logger.error("Error While Adding Transaction And Updating Inventory: " + error.message);
 
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error Adding Transaction"});
+
+        if (connection) {
+
+            try {
+
+                logger.info("Rolling Back Connection");
+
+                await connection.rollback();
+
+            } catch (rollbackError) {
+
+                logger.error("Error During Rollback: " + rollbackError.message);
+
+            }
+
+            try {
+
+                logger.info("Releasing Connection");
+
+                connection.release();
+
+            } catch (releaseError) {
+
+                logger.error("Error Releasing Connection: " + releaseError.message);
+
+            }
+
+        }
+
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error Adding Transaction And Updating Inventory" });
 
     }
 
@@ -303,6 +333,7 @@ const handleHook = async (req, res) => {
         logger.error(`Webhook Signature Verification Failed: ${error.message}`);
 
         return res.status(statusCode.BAD_REQUEST).json({error:"Internal Server Error On Stripe Webhook"})
+
     }
 
     try {
@@ -327,9 +358,7 @@ const handleHook = async (req, res) => {
 
                         const transactionStatus = paymentIntent.status === 'succeeded'
 
-                            ? (session.metadata.in_store === 'true' ? 'Complete' : 'Pending Delivery')
-
-                            : 'Failed';
+                            ? (session.metadata.in_store === 'true' ? 'Complete' : 'Pending Delivery'):'In Progress';
 
                         const charges = await stripe.charges.list({ payment_intent: paymentIntent.id });
 
@@ -389,24 +418,24 @@ const handleHook = async (req, res) => {
 
                             await connection.query(
 
-                                `UPDATE Inventory 
+                                `UPDATE Inventory
 
-                                JOIN ShoppingCart ON Inventory.ItemID = ShoppingCart.ItemID 
+                                 JOIN TransactionItems ON Inventory.ItemID = TransactionItems.ItemID
 
-                                SET Inventory.Quantity = Inventory.Quantity + ShoppingCart.OrderQuantity 
+                                 JOIN Transactions ON TransactionItems.TransactionID = Transactions.TransactionID
 
-                                WHERE ShoppingCart.CustomerID = ?`,
+                                 SET Inventory.Quantity = Inventory.Quantity + TransactionItems.Quantity
 
-                                [session.metadata.customer_id]
+                                 WHERE Transactions.TransactionID = ?
 
-                            );
+                                   AND Transactions.TransactionStatus = 'In Progress'`,
 
-                        }else{
+                                [session.metadata.transaction_id]
 
-                            logger.info("The Payment Was Successful. Deleting Customer Shoppingcart")
+                            );        
 
-                            await connection.query("DELETE FROM shoppingcart WHERE customerid = ?", [session.metadata.customer_id])
-                        
+                            await connection.query('DELETE FROM Transactions WHERE TransactionID = ?', [session.metadata.transaction_id]);
+
                         }
 
                     await connection.commit(); 
@@ -469,6 +498,24 @@ const handleHook = async (req, res) => {
 
                 await connection.beginTransaction();
 
+                    await connection.query(
+
+                        `UPDATE Inventory
+
+                            JOIN TransactionItems ON Inventory.ItemID = TransactionItems.ItemID
+
+                            JOIN Transactions ON TransactionItems.TransactionID = Transactions.TransactionID
+
+                            SET Inventory.Quantity = Inventory.Quantity + TransactionItems.Quantity
+
+                            WHERE Transactions.TransactionID = ?
+
+                            AND Transactions.TransactionStatus = 'In Progress'`,
+
+                        [session.metadata.transaction_id]
+
+                    );
+
                     const sqlQueryFailed = `
 
                         DELETE FROM Transactions
@@ -480,20 +527,6 @@ const handleHook = async (req, res) => {
                     const valuesFailed = [session.metadata.transaction_id];
 
                     await connection.query(sqlQueryFailed, valuesFailed);
-
-                    await connection.query(
-
-                        `UPDATE Inventory 
-
-                        JOIN ShoppingCart ON Inventory.ItemID = ShoppingCart.ItemID 
-
-                        SET Inventory.Quantity = Inventory.Quantity + ShoppingCart.OrderQuantity 
-
-                        WHERE ShoppingCart.CustomerID = ?`,
-
-                        [session.metadata.customer_id]
-
-                    );
 
                 await connection.commit();
 
@@ -545,7 +578,7 @@ const handleHook = async (req, res) => {
 
     logger.info("Successful Handling Of The Webhook")
 
-    return res.status(statusCode.OK);
+    return res.sendStatus(statusCode.OK);
 
     } catch (error) {
 
@@ -554,6 +587,7 @@ const handleHook = async (req, res) => {
         return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error With Webhook"});
 
     }
+
 };
 
 

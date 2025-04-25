@@ -174,8 +174,31 @@ Create Table NearExpiration(
     Foreign Key(ItemID) References Inventory(ItemID) on delete cascade
 );
 
+CREATE TABLE TransactionItems (
+
+    TransactionID VARCHAR(255),
+    ItemID VARCHAR(255),
+    ProductName VARCHAR(255),
+    Quantity INT NOT NULL,
+    PriceAtPurchase DOUBLE NOT NULL,
+    ImageLink VARCHAR(255),
+    PRIMARY KEY (TransactionID, ItemID),
+    FOREIGN KEY (TransactionID) REFERENCES Transactions(TransactionID) On Delete Cascade
+
+);
+
+ALTER TABLE TransactionItems 
+ADD CONSTRAINT check_TransactionQuantity CHECK (Quantity >= 0);
+
+ALTER TABLE TransactionItems 
+ADD CONSTRAINT check_TransactionPrice CHECK (PriceAtPurchase >= 0);
+
+CREATE INDEX transactionitems_itemid
+ON TransactionItems (ItemID);
+
 DELIMITER $$
 
+-- Trigger: Log low stock after update
 CREATE TRIGGER LowStockUpdate
 AFTER UPDATE ON Inventory
 FOR EACH ROW
@@ -185,15 +208,27 @@ BEGIN
             INSERT INTO lowstocklog (ItemID, EventDate)
             VALUES (NEW.ItemID, NOW());
         END IF;
-    ELSEIF NEW.Quantity > 5 THEN
-        DELETE FROM lowstocklog
-        WHERE ItemID = NEW.ItemID;
+    ELSE
+        DELETE FROM lowstocklog WHERE ItemID = NEW.ItemID;
     END IF;
 END$$
 
+-- Trigger: Log low stock after insert
+CREATE TRIGGER LowStockInsert
+AFTER INSERT ON Inventory
+FOR EACH ROW
+BEGIN
+    IF NEW.Quantity < 5 THEN
+        IF NOT EXISTS (SELECT 1 FROM lowstocklog WHERE ItemID = NEW.ItemID) THEN
+            INSERT INTO lowstocklog (ItemID, EventDate)
+            VALUES (NEW.ItemID, NOW());
+        END IF;
+    END IF;
+END$$
 
+-- Trigger: Track faulty robots after update
 CREATE TRIGGER FaultyRobotUpdate
-AFTER UPDATE ON robot
+AFTER UPDATE ON Robot
 FOR EACH ROW
 BEGIN
     IF NEW.RobotStatus = 'Broken' THEN
@@ -207,53 +242,83 @@ BEGIN
         ON DUPLICATE KEY UPDATE EventDate = NOW(), Cause = 'Needs Maintenance';
 
     ELSE
-        DELETE FROM faultyrobots
-        WHERE RobotID = NEW.RobotID;
+        DELETE FROM faultyrobots WHERE RobotID = NEW.RobotID;
     END IF;
 END$$
 
-
-CREATE TRIGGER LowStockInsert
-AFTER INSERT ON Inventory
-FOR EACH ROW
-BEGIN
-    IF NEW.Quantity < 5 THEN
-        IF NOT EXISTS (SELECT 1 FROM lowstocklog WHERE ItemID = NEW.ItemID) THEN
-            INSERT INTO lowstocklog (ItemID, EventDate)
-            VALUES (NEW.ItemID, NOW());
-        END IF;
-    ELSEIF NEW.Quantity > 5 THEN
-        DELETE FROM lowstocklog
-        WHERE ItemID = NEW.ItemID;
-    END IF;
-END$$
-
+-- Trigger: Track faulty robots after insert
 CREATE TRIGGER FaultyRobotInsert
-AFTER INSERT ON robot
+AFTER INSERT ON Robot
 FOR EACH ROW
 BEGIN
     IF NEW.RobotStatus = 'Broken' THEN
-        IF NOT EXISTS (SELECT 1 FROM faultyrobots WHERE RobotID = NEW.RobotID AND Cause = 'Broken') THEN
+        IF NOT EXISTS (
+            SELECT 1 FROM faultyrobots 
+            WHERE RobotID = NEW.RobotID AND Cause = 'Broken'
+        ) THEN
             INSERT INTO faultyrobots (RobotID, EventDate, Cause)
             VALUES (NEW.RobotID, NOW(), 'Broken');
         END IF;
+
     ELSEIF NEW.RobotStatus = 'Maintenance' THEN
-        IF NOT EXISTS (SELECT 1 FROM faultyrobots WHERE RobotID = NEW.RobotID AND Cause = 'Needs Maintenance') THEN
+        IF NOT EXISTS (
+            SELECT 1 FROM faultyrobots 
+            WHERE RobotID = NEW.RobotID AND Cause = 'Needs Maintenance'
+        ) THEN
             INSERT INTO faultyrobots (RobotID, EventDate, Cause)
             VALUES (NEW.RobotID, NOW(), 'Needs Maintenance');
         END IF;
-    ELSEIF NEW.RobotStatus != 'Broken' AND NEW.RobotStatus != 'Maintenance' THEN
-        DELETE FROM faultyrobots
-        WHERE RobotID = NEW.RobotID;
+
+    ELSE
+        DELETE FROM faultyrobots WHERE RobotID = NEW.RobotID;
     END IF;
 END$$
 
+-- Trigger: Validate supervisor references before employee insert
+CREATE TRIGGER validate_supervisor_before_insert
+BEFORE INSERT ON Employee
+FOR EACH ROW
+BEGIN
+    IF NEW.SupervisorID IS NOT NULL THEN
+        IF NEW.SupervisorID = NEW.EmployeeID THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'An employee cannot be their own supervisor.';
+        END IF;
 
-DELIMITER ;
+        IF NOT EXISTS (
+            SELECT 1 FROM Employee 
+            WHERE EmployeeID = NEW.SupervisorID
+        ) THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'SupervisorID does not reference a valid employee.';
+        END IF;
+    END IF;
+END$$
 
-DELIMITER $$
+-- Event: Delete expired transactions and restore inventory
+CREATE EVENT IF NOT EXISTS delete_expired_transactions
+ON SCHEDULE EVERY 20 MINUTE
+DO
+BEGIN
+    UPDATE Inventory
+    JOIN TransactionItems ON Inventory.ItemID = TransactionItems.ItemID
+    JOIN Transactions ON TransactionItems.TransactionID = Transactions.TransactionID
+    SET Inventory.Quantity = Inventory.Quantity + TransactionItems.Quantity
+    WHERE Transactions.TransactionStatus = 'In Progress'
+      AND Transactions.TransactionDate < NOW() - INTERVAL 45 MINUTE;
 
-CREATE EVENT NearExpiration
+    DELETE FROM Transactions
+    WHERE TransactionStatus = 'In Progress'
+      AND TransactionDate < NOW() - INTERVAL 45 MINUTE;
+
+    DELETE FROM ShoppingCart
+    WHERE CustomerID NOT IN (
+        SELECT CustomerID FROM Transactions
+    );
+END$$
+
+-- Event: Log near-expiration items
+CREATE EVENT IF NOT EXISTS NearExpiration
 ON SCHEDULE EVERY 1 DAY
 DO
 BEGIN
@@ -261,85 +326,31 @@ BEGIN
     SELECT ItemID
     FROM Inventory
     WHERE DATEDIFF(Expiration, CURDATE()) <= 3;
-END;
-
-DELIMITER ;
-
-DELIMITER $$
-
-DELIMITER $$
-
-CREATE TRIGGER validate_supervisor_before_insert
-BEFORE INSERT ON Employee
-FOR EACH ROW
-BEGIN
-  IF NEW.SupervisorID IS NOT NULL THEN
-
-    IF NEW.SupervisorID = NEW.EmployeeID THEN
-      SIGNAL SQLSTATE '45000' 
-      SET MESSAGE_TEXT = 'An employee cannot be their own supervisor.';
-    END IF;
-
-    IF NOT EXISTS (
-      SELECT 1 FROM Employee 
-      WHERE EmployeeID = NEW.SupervisorID
-    ) THEN
-      SIGNAL SQLSTATE '45000' 
-      SET MESSAGE_TEXT = 'SupervisorID does not reference a valid employee.';
-    END IF;
-
-  END IF;
 END$$
 
-DELIMITER //
-
-CREATE EVENT IF NOT EXISTS delete_expired_transactions
-ON SCHEDULE EVERY 20 MINUTE
-DO
-BEGIN
-
-    UPDATE Inventory
-    JOIN ShoppingCart ON Inventory.ItemID = ShoppingCart.ItemID
-    JOIN Transactions ON ShoppingCart.CustomerID = Transactions.CustomerID
-    SET Inventory.Quantity = Inventory.Quantity + ShoppingCart.OrderQuantity
-    WHERE Transactions.TransactionStatus = 'In Progress'
-      AND Transactions.TransactionDate < NOW() - INTERVAL 35 MINUTE;
-
-    DELETE FROM Transactions
-    WHERE TransactionStatus = 'In Progress'
-      AND TransactionDate < NOW() - INTERVAL 35 MINUTE;
-END;
-//
-
-DELIMITER //
-
+-- Event: Mark overdue deliveries as fulfilled and reset robot status
 CREATE EVENT IF NOT EXISTS failed_robots
 ON SCHEDULE EVERY 5 MINUTE
 DO
 BEGIN
+    UPDATE Transactions
+    SET TransactionStatus = 'Fulfilled'
+    WHERE TransactionStatus = 'Pending Delivery'
+      AND RobotID IN (
+          SELECT RobotID 
+          FROM Robot 
+          WHERE EstimatedDelivery IS NOT NULL
+            AND EstimatedDelivery <= NOW()
+      );
 
     UPDATE Robot
     SET 
         RobotStatus = 'Free',
         EstimatedDelivery = NULL,
         CurrentLoad = 0
-        WHERE EstimatedDelivery IS NOT NULL
-        AND EstimatedDelivery <= NOW();
-
-        UPDATE Transactions
-        SET TransactionStatus = 'Fulfilled'
-        WHERE TransactionStatus = 'Pending Delivery'
-        AND RobotID IN (
-            SELECT RobotID 
-            FROM Robot 
-            WHERE EstimatedDelivery IS NULL 
-            AND RobotStatus = 'Free'
-        );
-
-END;
-//
-
-DELIMITER ;
+    WHERE EstimatedDelivery IS NOT NULL
+      AND EstimatedDelivery <= NOW();
+END$$
 
 DELIMITER ;
 
