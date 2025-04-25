@@ -34,7 +34,7 @@ export function TransactionCard({ transaction }) {
 
                     <p className="text-lg">
 
-                        <span className="font-semibold text-gray-800">Weight:</span> {transaction.TransactionWeight.toFixed(2)} LBS
+                        <span className="font-semibold text-gray-800">Weight:</span> {transaction.TransactionWeight?.toFixed(2)} LBS
 
                     </p>
 
