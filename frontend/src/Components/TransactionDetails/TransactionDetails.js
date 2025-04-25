@@ -144,7 +144,7 @@ export function TransactionDetails({transaction}) {
 
           <DetailRow label="Currency" value={transaction.Currency} defaultValue="None" />
 
-          <DetailRow label="Amount Paid" value={`$${transaction.AmountPaid?.toFixed(2)}`} defaultValue="None" />
+          <DetailRow label="Amount Paid" value={transaction.AmountPaid?`$${transaction.AmountPaid?.toFixed(2)}`: "None"} defaultValue="None" />
 
         </div>
 
