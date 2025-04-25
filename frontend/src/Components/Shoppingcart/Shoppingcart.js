@@ -471,6 +471,12 @@ const clickRemove = async (itemid) => {
 
           <h3>Total: $ {selectedAddress.Name === "In Store Pickup" ? cost : deliveryFee + cost} </h3>
 
+          <div className="mt-2 text-green-600 font-medium text-sm bg-green-100 px-4 py-2 rounded-md">
+            
+            Free Delivery on Orders Under 20 lbs!
+
+          </div>
+
         </div>
 
       </div>

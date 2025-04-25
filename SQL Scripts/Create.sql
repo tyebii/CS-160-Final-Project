@@ -300,6 +300,7 @@ CREATE EVENT IF NOT EXISTS delete_expired_transactions
 ON SCHEDULE EVERY 20 MINUTE
 DO
 BEGIN
+
     UPDATE Inventory
     JOIN TransactionItems ON Inventory.ItemID = TransactionItems.ItemID
     JOIN Transactions ON TransactionItems.TransactionID = Transactions.TransactionID
@@ -315,6 +316,7 @@ BEGIN
     WHERE CustomerID NOT IN (
         SELECT CustomerID FROM Transactions
     );
+
 END$$
 
 -- Event: Log near-expiration items

@@ -18,6 +18,8 @@ import { useState } from 'react';
 
 import backdrop from './backdrop.png';
 
+import landingpage from './LandingPage.png'
+
 //Welcome Page Component
 function Welcome() {
 
@@ -29,17 +31,40 @@ function Welcome() {
 
         <section
 
-            className="w-full bg-cover bg-center bg-no-repeat"
+            className="w-full bg-cover bg-no-repeat"
 
             style={{ backgroundImage: `url(${backdrop})` }}
 
         >
         
-        <div className="w-full max-w-[80%] mx-auto mt-10 mb-10 bg-white p-8 rounded-lg shadow-lg"
+        <div className="w-full max-w-[80%] mx-auto mt-10 mb-10 bg-white p-8  rounded-lg shadow-lg"
+            
             style={{
-                background: "linear-gradient(rgb(231, 204, 204),rgb(206, 200, 200))", // Gradient background
-              }}
+
+                background: "linear-gradient(rgb(231, 204, 204),rgb(206, 200, 200))", 
+              
+            }}
+            
         >
+
+            {!auth || auth === "Customer" ? null : (
+
+            <h1 className="text-7xl mt-10 font-bold text-center mb-8">
+
+                {auth === "Employee"
+
+                ? "Welcome to OFS Employee Dashboard"
+
+                : auth === "Manager"
+
+                ? "Welcome to OFS Manager Dashboard"
+
+                : ""}
+                
+            </h1>
+            
+            )}
+
             {/* Dynamic Welcome Header */}
             <h1 className="text-7xl mt-10 font-bold text-center mb-8">
 
@@ -49,11 +74,26 @@ function Welcome() {
 
                     : auth === "Manager"
 
-                    ? "Welcome to OFS Manager Dashboard"
-
-                    : "Welcome to OFS!"}
+                    ? "Welcome to OFS Manager Dashboard":""}
 
             </h1>
+
+
+            {!auth || auth === "Customer" ?(
+
+                <div
+
+                className="bg-cover bg-center rounded-lg shadow-xl mx-auto mb-20 w-10xl h-[900px] flex items-center justify-center"
+                
+                style={{ backgroundImage: `url(${landingpage})` }}
+
+                >
+                    
+                </div>
+
+            ):null}
+
+
     
             {/* Featured Products Section for Customers */}
             <Carousel auth = {auth}></Carousel>
