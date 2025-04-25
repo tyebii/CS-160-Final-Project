@@ -335,9 +335,10 @@ CREATE EVENT IF NOT EXISTS failed_robots
 ON SCHEDULE EVERY 5 MINUTE
 DO
 BEGIN
+
     UPDATE Transactions
     SET TransactionStatus = 'Fulfilled'
-    WHERE TransactionStatus = 'Pending Delivery'
+    WHERE TransactionStatus = 'Delivering'
       AND RobotID IN (
           SELECT RobotID 
           FROM Robot 
@@ -352,6 +353,7 @@ BEGIN
         CurrentLoad = 0
     WHERE EstimatedDelivery IS NOT NULL
       AND EstimatedDelivery <= NOW();
+
 END$$
 
 DELIMITER ;

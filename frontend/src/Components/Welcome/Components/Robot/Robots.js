@@ -60,7 +60,7 @@ export default function RobotArea({trigger, setTrigger,  auth, logout}) {
 }
 
 //Robot Component
-function Robots ({trigger, setTrigger, logout, auth, trig}){
+function Robots ({trigger, setTrigger, logout, auth}){
 
   const navigate = useNavigate()
   
@@ -117,7 +117,7 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
 
       alert("Successfully Scheduled");
 
-      setTrigger(trig+1)
+      setTrigger(prev => prev + 1);
 
     })
 
@@ -152,7 +152,7 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
 
     alert("Successfully Deployed");
 
-    setTrigger(trig+1)
+    setTrigger(prev => prev + 1);
 
   })
 
