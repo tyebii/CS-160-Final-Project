@@ -13,7 +13,7 @@ const {authenticateToken} = require('../Utils/Authentication')
 //Rate Limiter
 const transactionLimiter = rateLimit({
 
-    windowMs: 60 * 1000 * 5, 
+    windowMs: 60 * 1000 * 2, 
 
     max: 50, 
 

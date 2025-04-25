@@ -39,59 +39,52 @@ function ShoppingCart() {
   //Load The Shopping Cart And Addresses
   useEffect(() => {
 
-    axios
+    (async () => {
 
-      .get('http://localhost:3301/api/shoppingcart/shoppingcart', {
+      try {
 
-        withCredentials: true,
+        const [cartRes, addressRes] = await Promise.all([
 
-        headers: { 'Content-Type': 'application/json' }
+          axios.get('http://localhost:3301/api/shoppingcart/shoppingcart', {
 
-    })
+            withCredentials: true,
 
-      .then((response) => {
+            headers: { 'Content-Type': 'application/json' }
 
-        setResults(response.data); 
+          }),
 
-      })
+          axios.get('http://localhost:3301/api/address/address', {
 
-      .catch((error) => {
+            withCredentials: true,
 
-          handleError(error)
+            headers: { 'Content-Type': 'application/json' }
 
-    });
+          })
 
-    axios
-
-      .get('http://localhost:3301/api/address/address', {
-
-        withCredentials: true,
-
-        headers: { 'Content-Type': 'application/json' }
-
-      })
-
-      .then((response) => {
-
+        ]);
+  
+        setResults(cartRes.data);
+  
         setAddresses(prev => {
 
           const existingAddresses = new Set(prev.map(addr => addr.Address));
-          
-          const newUniqueAddresses = response.data.filter(addr => !existingAddresses.has(addr.Address));
+
+          const newUniqueAddresses = addressRes.data.filter(addr => !existingAddresses.has(addr.Address));
 
           return [...prev, ...newUniqueAddresses];
-        
+
         });
-        
-      })
+  
+      } catch (error) {
 
-      .catch((error) => {
+        handleError(error);
 
-        handleError(error)
+      }
 
-      });
-
+    })();
+    
   }, []);
+  
 
   //Load The Total
   useEffect(() => {
@@ -108,70 +101,67 @@ function ShoppingCart() {
 
   }, [results, selectedAddress]);
 
-  //Clear The Cart
-  const handleClear = () => {
 
-    axios
+// Clear The Cart
+const handleClear = async () => {
 
-      .delete('http://localhost:3301/api/shoppingcart/shoppingcart/clear', {
+  try {
 
-        withCredentials: true,
+    await axios.delete('http://localhost:3301/api/shoppingcart/shoppingcart/clear', {
 
-        headers: { 'Content-Type': 'application/json' }
+      withCredentials: true,
 
-      })
+      headers: { 'Content-Type': 'application/json' }
 
-      .then(() => {
+    });
 
-        alert("Cleared Your Shoppingcart!")
+    alert("Cleared Your Shoppingcart!");
 
-        setResults([]);
+    setResults([]);
 
-      })
-  
-      .catch((error) => {
-        
-        handleError(error)
+  } catch (error) {
 
-      })
+    handleError(error);
 
-  };
+  }
 
-  //Remove From The Cart
-  const clickRemove = (itemid) => {
+};
 
-    if(!validateID(itemid)){
 
-      return res.status(statusCode.BAD_REQUEST).json({ error: "Item ID Is Invalid" });
 
-    }
+//Remove From The Cart
+const clickRemove = async (itemid) => {
 
-    axios
+  if (!validateID(itemid)) {
 
-      .delete('http://localhost:3301/api/shoppingcart/shoppingcart', {
-        
-          withCredentials: true,
+    return;
 
-          headers: { 'Content-Type': 'application/json' },
+  }
 
-          data: { ItemID: itemid },
+  try {
 
-      })
+    await axios.delete('http://localhost:3301/api/shoppingcart/shoppingcart', {
 
-      .then(() => {
+      withCredentials: true,
 
-        alert("Deleted The Item!")
+      headers: { 'Content-Type': 'application/json' },
 
-        setResults((prevItems) => prevItems.filter((item) => item.ItemID !== itemid));
+      data: { ItemID: itemid },
 
-      })
-      .catch((error) => {
-        
-        handleError(error);
+    });
 
-      })
+    alert("Removed The Item!");
 
-  };
+    setResults((prevItems) => prevItems.filter((item) => item.ItemID !== itemid));
+
+  } catch (error) {
+
+    handleError(error); 
+
+  }
+
+};
+
 
   //Click Checkout
   const clickCheckout = async () => {
@@ -190,9 +180,7 @@ function ShoppingCart() {
 
     }
   
-    if (!validateAddress(selectedAddress?.Address)) {
-
-      alert("Select Address!");
+    if (! await validateAddress(selectedAddress?.Address)) {
 
       setIsProcessing(false);
 
@@ -245,7 +233,8 @@ function ShoppingCart() {
   };
   
 
-  const handleAddAddress = (e) => {
+  //Enables Users To Add Addresses
+  const handleAddAddress = async (e) => {
 
     e.preventDefault();
   
@@ -254,71 +243,64 @@ function ShoppingCart() {
     const name = formData.get("Name");
 
     const address = formData.get("Address");
-
-    const zip = formData.get("Zip");
   
-    const composedAddress = `${address}, San Jose, CA ${zip}`;
+    const composedAddress = address
+  
+    const isAddressValid = await validateAddress(composedAddress);
 
-    if (!validateAddress(composedAddress)) {
+    const isNameValid = validateName(name);
+  
+    if (!isAddressValid || !isNameValid) {
 
       return;
 
     }
   
-    if (!validateName(name)) {
+    try {
 
-      return;
+      const response = await axios.post(
 
-    }
+        `http://localhost:3301/api/address/address`,
+
+        {
+
+          address: composedAddress,
+
+          name: name,
+
+        },
+
+        {
+
+          withCredentials: true,
+
+          headers: { 'Content-Type': 'application/json' },
+
+        }
+
+      );
   
-    axios.post(
-
-      `http://localhost:3301/api/address/address`,
-
-      {
-
-        address: composedAddress,
-
-        name: name
-
-      },
-
-      {
-
-        withCredentials: true,
-
-        headers: { 'Content-Type': 'application/json' }
-
-      }
-
-    )
-
-    .then((response) => {
-
       alert("Address Added!");
+  
+      setAddresses((prevAddresses) => [
 
-      setAddresses((prevAddresses) => [...prevAddresses, {
+        ...prevAddresses,
 
-        Address: composedAddress,
+        { Address: composedAddress, Name: name },
 
-        Name: name
+      ]);
+  
+      setAddressModalOpen(false);
 
-      }]);
+    } catch (error) {
+
+      handleError(error);
 
       setAddressModalOpen(false);
 
-    })
-
-    .catch((error) => {
-
-      handleError(error)
-
-      setAddressModalOpen(false);
-
-    });
+    }
 
   };
-  
 
   return (
     <section className="w-full max-w-4xl mx-auto my-10 p-8 bg-gray-100 rounded-lg shadow-lg">
@@ -455,9 +437,9 @@ function ShoppingCart() {
 
         <div className="p-6 border-2 border-gray-300 rounded-lg bg-white shadow-md text-lg">
 
-          <h3>Raw Cost: ${cost}</h3>
+          <h3>Raw Cost: ${cost.toFixed(2)}</h3>
 
-          <h3>Weight: {weight} lbs</h3>
+          <h3>Weight: {weight.toFixed(2)} lbs</h3>
 
           <h3>Delivery Fee: ${selectedAddress.Name === "In Store Pickup" ? 0 : deliveryFee} </h3>
 

@@ -35,44 +35,42 @@ const ItemView = () => {
   //Pull Item Information
   useEffect(() => {
 
-    if (!validateID(itemid)) {
+    const fetchInventory = async () => {
 
-      navigate('/');
+      if (!validateID(itemid)) {
 
-      return;
+        navigate('/');
 
-    }
-
-    let endPoint = "";
-
-    if (!auth || auth === "Customer") {
-
-      endPoint = `http://localhost:3301/api/inventory/search/itemID/customer/${itemid}`;
-
-    } else {
-
-      endPoint = `http://localhost:3301/api/inventory/search/itemID/employee/${itemid}`;
-
-    }
-
-    axios
-
-      .get(endPoint,{
-        
-        withCredentials: true,
-        
-        headers: {
-
-          'Content-Type': 'application/json'
-
-        }
+        return;
 
       }
+  
+      try {
 
-      )
+        let endPoint = "";
+  
+        if (!auth || auth === "Customer") {
 
-      .then((response) => {
+          endPoint = `http://localhost:3301/api/inventory/search/itemID/customer/${itemid}`;
+       
+        } else {
 
+          endPoint = `http://localhost:3301/api/inventory/search/itemID/employee/${itemid}`;
+        
+        }
+  
+        const response = await axios.get(endPoint, {
+
+          withCredentials: true,
+
+          headers: {
+
+            'Content-Type': 'application/json',
+
+          },
+
+        });
+  
         if (response.data.length === 0) {
 
           alert("No Results Found");
@@ -82,27 +80,25 @@ const ItemView = () => {
           return;
 
         }
-
+  
         setResults(response.data[0]);
 
-        setFeatured(response.data[0].FeaturedID != null)
+        setFeatured(response.data[0].FeaturedID != null);
+  
+      } catch (error) {
 
-        return;
+        handleError(error);
 
-      })
-      .catch((error) => {
+      }
 
-        handleError(error)
+    };
+  
+    fetchInventory();
 
-        return
-
-      });
-
-
-  }, [itemid]);
+  }, [itemid]);  
 
   // Adding The Item To Shopping Cart
-  const clickAdd = (e) => {
+  const clickAdd = async (e) => {
 
     e.preventDefault();
 
@@ -114,23 +110,23 @@ const ItemView = () => {
 
     if (isNaN(quantity)) {
 
-      alert("Quantity Must Be A Number")
-      
-      return false;
+      alert("Quantity Must Be A Number");
+
+      return;
 
     }
 
     const numericQty = Number(quantity);
 
     if (!validateQuantity(numericQty)) {
-
+      
       return;
 
     }
 
-    axios
+    try {
 
-      .post(
+      await axios.post(
 
         `http://localhost:3301/api/shoppingcart/shoppingcart`,
 
@@ -143,145 +139,124 @@ const ItemView = () => {
         },
 
         {
-        
+
           withCredentials: true,
-          
+
           headers: {
-  
-            'Content-Type': 'application/json'
-  
-          }
-  
+
+            'Content-Type': 'application/json',
+
+          },
+
         }
 
-      )
+      );
 
-      .then(() => {
+      alert("Item added to shopping cart!");
 
-        alert("Item added to shopping cart!");
+      navigate("/");
 
-        navigate("/");
+    } catch (error) {
 
-        return
+      handleError(error);
 
-      })
-
-      .catch((error) => {
-
-        handleError(error);
-
-        return
-
-      });
-
+    }
+    
   };
-
-
 
   // Handle Delete Functionality
   const handleDelete = async () => {
 
-    if (window.confirm('Are you sure you want to delete this item?')) {
+    if (!window.confirm('Are you sure you want to delete this item?')) {
 
-      if(!validateID(itemid)){
-
-        return
-
-      }
-
-      axios
-
-        .delete(
-
-          `http://localhost:3301/api/inventory/delete/item/${itemid}`,
-
-          {
-        
-            withCredentials: true,
-            
-            headers: {
-    
-              'Content-Type': 'application/json'
-    
-            }
-    
-          }
-
-        )
-
-        .then(() => {
-
-          alert('Item Deleted Successfully!');
-
-          navigate('/');
-
-          return;
-
-        })
-
-        .catch((error) => {
-
-          handleError(error)
-
-          return;
-
-        });
+      return;
 
     }
-
-  };
-
-  //Handle Add To Featured
-  const handleAddFeatured = ()=>{
-
+  
     if (!validateID(itemid)) {
 
       return;
 
     }
   
-    axios
+    try {
 
-      .post(`http://localhost:3301/api/inventory/featured`,         {
+      await axios.delete(
 
-        ItemID: itemid,
+        `http://localhost:3301/api/inventory/delete/item/${itemid}`,
 
-      },
+        {
 
-      {
-        
-        withCredentials: true,
-        
-        headers: {
+          withCredentials: true,
 
-          'Content-Type': 'application/json'
+          headers: {
+
+            'Content-Type': 'application/json',
+
+          },
 
         }
 
-      })
+      );
+  
+      alert('Item Deleted Successfully!');
 
-      .then(() => {
+      navigate('/');
+  
+    } catch (error) {
 
-        alert('Item Added To Featured');
+      handleError(error);
 
-        setFeatured(true);
+    }
 
-        return;
+  };
+  
+  //Handle Add To Featured
+  const handleAddFeatured = async () => {
 
-      })
+    if (!validateID(itemid)) {
 
-      .catch((error) => {
+      return;
 
-        handleError(error);
+    }
 
-        return;
+    try {
 
-      });
+      await axios.post(
 
-  };   
+        `http://localhost:3301/api/inventory/featured`,
+
+        { ItemID: itemid },
+
+        {
+
+          withCredentials: true,
+
+          headers: {
+
+            'Content-Type': 'application/json',
+
+          },
+
+        }
+
+      );
+
+      alert('Item Added To Featured');
+
+      setFeatured(true);
+
+    } catch (error) {
+
+      handleError(error);
+
+    }
+
+  };
+
 
   //Handle Delete From Featured
-  const handleDeleteFeatured = () => {
+  const handleDeleteFeatured = async () => {
 
     if (!validateID(itemid)) {
 
@@ -289,42 +264,38 @@ const ItemView = () => {
 
     }
   
-    axios
+    try {
 
-      .delete(`http://localhost:3301/api/inventory/featured/${itemid}`,
+      await axios.delete(
 
-      {
-      
-        withCredentials: true,
-        
-        headers: {
+        `http://localhost:3301/api/inventory/featured/${itemid}`,
 
-          'Content-Type': 'application/json'
+        {
+
+          withCredentials: true,
+
+          headers: {
+
+            'Content-Type': 'application/json',
+
+          },
 
         }
 
-      })
+      );
+  
+      alert('Item Deleted From Featured');
 
-      .then(() => {
+      setFeatured(false);
+  
+    } catch (error) {
 
-        alert('Item Deleted From Featured');
+      handleError(error);
 
-        setFeatured(false);
-
-        return;
-
-      })
-
-      .catch((error) => {
-
-        handleError(error)
-
-        return;
-
-      });
+    }
 
   };
-   
+  
   return (
 
     <section className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-8 mt-12 mb-12 flex flex-col space-y-8">

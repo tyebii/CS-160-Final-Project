@@ -30,41 +30,45 @@ function SearchResults() {
 
   //Renders based on changes to searchType and Query 
   useEffect(() => {
-
-    let endPoint = "";
-
-    if(!auth || auth == "Customer"){
-
-      endPoint = `http://localhost:3301/api/inventory/search/${searchType}/customer/${query}`
-
-    }else{
-
-      endPoint = `http://localhost:3301/api/inventory/search/${searchType}/employee/${query}`
-
-    }
-
-    //This function will require an authentication header for employees
-    axios.get(endPoint,{
-
-      withCredentials: true,
-
-      headers: { 'Content-Type': 'application/json' }
-
-     })
-
-      .then((response) => {
-
-        setResults(response.data);
-
-      })
-
-      .catch((error) => {
-
-        handleError(error)
-
-      });
     
-  },[searchType, query]);
+    const fetchSearchResults = async () => {
+
+      try {
+
+        let endPoint = "";
+  
+        if (!auth || auth === "Customer") {
+
+          endPoint = `http://localhost:3301/api/inventory/search/${searchType}/customer/${query}`;
+        
+        } else {
+
+          endPoint = `http://localhost:3301/api/inventory/search/${searchType}/employee/${query}`;
+        
+        }
+  
+        const response = await axios.get(endPoint, {
+
+          withCredentials: true,
+
+          headers: { 'Content-Type': 'application/json' },
+
+        });
+  
+        setResults(response.data);
+  
+      } catch (error) {
+
+        handleError(error);
+
+      }
+
+    };
+  
+    fetchSearchResults();
+
+  }, [searchType, query]);
+  
   
   //Filtering the results based on demmand
   const handleFilterSelect = (filterType) => {

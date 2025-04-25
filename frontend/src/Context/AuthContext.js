@@ -9,7 +9,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
   
-  const [auth, setAuth] = useState("");
+  const [auth, setAuth] = useState(null);
 
   const logout = () => {
 
@@ -44,8 +44,6 @@ export const AuthProvider = ({children}) => {
         withCredentials: true,
 
       });
-
-      console.log(response.data.role)
 
       setAuth(response.data.role);
 

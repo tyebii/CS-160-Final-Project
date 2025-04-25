@@ -10,9 +10,9 @@ export const useErrorResponse = () => {
 
   const handleError = (error) => {
 
-    if (error?.response?.status === 401) {
+    if (error?.response?.status === 401 || error?.response?.status === 403) {
 
-      alert("You need to log in again.");
+      alert("Login");
 
       logout();  
 

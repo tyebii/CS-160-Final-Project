@@ -15,7 +15,7 @@ const router = express.Router();
 //Rate Limiter
 const authLimiter = rateLimit({
 
-    windowMs: 60 * 1000 * 10, 
+    windowMs: 60 * 1000 * 5, 
 
     max: 10, 
 

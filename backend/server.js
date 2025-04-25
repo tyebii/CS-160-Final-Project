@@ -37,7 +37,7 @@ const rateLimit = require('express-rate-limit');
 //Cross Origin Resource Sharing
 app.use(cors({
 
-  origin: 'http://localhost:3300',
+  origin: ['http://localhost:3300','http://192.168.1.210:3300'],
 
   credentials: true,
 
@@ -46,25 +46,6 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
   
 }));
-
-
-//Rate Limiter On Each Route
-const generalLimiter = rateLimit({
-
-  windowMs: 60 * 1000 * 3, 
-
-  max: 200, 
-
-  message: { error: "Too many requests. Please try again later." },
-
-  standardHeaders: true, 
-
-  legacyHeaders: false,
-
-});
-
-//Apply Limiter
-app.use(generalLimiter)
 
 //Parses The Cookie
 app.use(cookieParser());

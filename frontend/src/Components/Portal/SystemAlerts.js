@@ -25,94 +25,66 @@ const SystemAlerts = () => {
 
   useEffect(() => {
 
-    axios
+    const fetchAllDashboardData = async () => {
 
-      .get(`http://localhost:3301/api/inventory/lowstock`,{
+      try {
 
-        withCredentials: true,
+        const [lowStockRes, faultyRobotRes, expirationRes, featuredRes] = await Promise.all([
+          
+          axios.get(`http://localhost:3301/api/inventory/lowstock`, {
+            
+            withCredentials: true,
 
-        headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
 
-    })
+          }),
 
-      .then((response) => {
+          axios.get(`http://localhost:3301/api/robot/robot/faulty`, {
 
-        setLowStockTriggers(response.data);
+            withCredentials: true,
 
-      })
+            headers: { 'Content-Type': 'application/json' },
 
-      .catch((error) => {
+          }),
 
-        handleError(error)
+          axios.get(`http://localhost:3301/api/inventory/expiration`, {
 
-      });
+            withCredentials: true,
 
-    axios
-      .get(`http://localhost:3301/api/robot/robot/faulty`,{
+            headers: { 'Content-Type': 'application/json' },
 
-        withCredentials: true,
+          }),
 
-        headers: { 'Content-Type': 'application/json' }
+          axios.get(`http://localhost:3301/api/inventory/featured`, {
 
-      })
+            withCredentials: true,
 
-      .then((response) => {
+            headers: { 'Content-Type': 'application/json' },
 
-        setRobotMalfunctions(response.data);
+          }),
 
-      })
+        ]);
+  
+        setLowStockTriggers(lowStockRes.data);
 
-      .catch((error) => {
+        setRobotMalfunctions(faultyRobotRes.data);
 
-        handleError(error)
+        setExpirationDateTriggers(expirationRes.data);
 
-      });
-
-      axios
-
-      .get(`http://localhost:3301/api/inventory/expiration`,{
-
-        withCredentials: true,
-
-        headers: { 'Content-Type': 'application/json' }
-
-      })
-
-      .then((response) => {
-
-        setExpirationDateTriggers(response.data);
-        
-      })
-
-      .catch((error) => {
+        setFeatured(featuredRes.data);
+  
+      } catch (error) {
 
         handleError(error);
 
-      });
+      }
 
-      axios
-
-      .get(`http://localhost:3301/api/inventory/featured`,{
-
-        withCredentials: true,
-
-        headers: { 'Content-Type': 'application/json' }
-
-      })
-
-      .then((response) => {
-
-        setFeatured(response.data);
-
-      })
-
-      .catch((error) => {
-
-        handleError(error)
-
-      });
-
+    };
+  
+    fetchAllDashboardData();
+    
   }, []);
+  
 
   return (
     <section className="max-w-4xl mx-auto bg-white p-4 border shadow-lg mb-6">

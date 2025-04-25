@@ -20,45 +20,42 @@ export function MyOrders (){
 
     const [results, setResults] = useState([])
 
-    useEffect(()=>{
+    useEffect(() => {
+        
+        const fetchTransactions = async () => {
 
-        axios
+          try {
 
-        .get("http://localhost:3301/api/transaction/transactions/customer", {
+            const response = await axios.get("http://localhost:3301/api/transaction/transactions/customer", {
+              
+                withCredentials: true,
 
-            withCredentials: true,
+              headers: { 'Content-Type': 'application/json' },
 
-            headers: { 'Content-Type': 'application/json' }
+            });
+      
+            if (response.data.length === 0) {
 
-        })
+              alert("No Results Found");
 
-        .then((response) => {
-
-            if(response.length === 0){
-
-                alert("No Results Found")
-
-                return;
-
-            }else{
-
-                setResults(response.data)
-
-                return;
+              return;
 
             }
+      
+            setResults(response.data);
+      
+          } catch (error) {
 
-        })
+            handleError(error);
 
-        .catch((error) => {
+          }
 
-            handleError(error)
+        };
+      
+        fetchTransactions();
 
-            return;
-
-        });
-
-    },[])
+      }, []);
+      
 
     return(
 

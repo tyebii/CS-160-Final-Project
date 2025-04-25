@@ -23,51 +23,49 @@ export function RobotAdd() {
 
     const [Maintanence, setMaintanence] = useState("");
 
-    //Maybe Try Catch on Type Conversion
     //Submit The Form 
-    const handleSubmit = (e) => {
-        
+    const handleSubmit = async (e) => {
+
         e.preventDefault();
-
-        if(!validateRobot(RobotID, 0, "Free", Maintanence)){
-
-            return; 
-
+      
+        if (!validateRobot(RobotID, 0, "Free", Maintanence)) {
+      
+          return;
+      
         }
-
-        axios.post('http://localhost:3301/api/robot/robot', {
-
-            RobotID: RobotID,
-
-            CurrentLoad: 0,
-
-            RobotStatus: "Free",
-
-            Maintanence: Maintanence,
-
-        }, {
-
-            withCredentials: true,
-
-            headers: { 'Content-Type': 'application/json' }
-
-        })
-
-        .then((response) => {
-
-            alert("Robot Added")
-
-            navigate("/");
-
-        })
-
-        .catch((error) => {
-
-            handleError(error)
-
-        });
-
-    }
+      
+        try {
+      
+          await axios.post(
+            'http://localhost:3301/api/robot/robot',
+            {
+              RobotID: RobotID,
+      
+              CurrentLoad: 0,
+      
+              RobotStatus: "Free",
+      
+              Maintanence: Maintanence,
+            },
+            {
+              withCredentials: true,
+              headers: { 'Content-Type': 'application/json' },
+            }
+          );
+      
+      
+          alert("Robot Added");
+      
+          navigate("/");
+      
+        } catch (error) {
+      
+          handleError(error);
+      
+        }
+      
+    };
+      
 
     return (
 

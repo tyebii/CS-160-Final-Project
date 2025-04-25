@@ -17,7 +17,7 @@ const router = express.Router()
 //Rate Limiter
 const employeeLimiter = rateLimit({
 
-    windowMs: 60 * 1000 * 10, 
+    windowMs: 60 * 1000 * 2, 
 
     max: 50, 
 

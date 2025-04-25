@@ -38,7 +38,7 @@ export function UpdateEmployee({ employee }) {
 
           EmployeeDepartment: employee.EmployeeDepartment,
 
-          EmployeeHourly: employee.EmployeeHourly || 0,
+          EmployeeHourly: employee.EmployeeHourly,
 
           SupervisorID: employee.SupervisorID
 
@@ -60,316 +60,332 @@ export function UpdateEmployee({ employee }) {
     };
 
     //Clicking Submit Function
-    const clickSubmit = (e) => {
+    const clickSubmit = async (e) => {
 
-        e.preventDefault()
-
-        if(!employeeFormat(formData.UserID, formData.UserNameFirst, formData.UserNameLast, formData.UserPhoneNumber) || !signUpFormatEmployee(formData.EmployeeHireDate, formData.EmployeeStatus,formData.EmployeeBirthDate,formData.EmployeeDepartment,formData.EmployeeHourly, formData.SupervisorID)){
-            
-          return; 
-
-        }
-
-        axios.put('http://localhost:3301/api/employee/employee', {
-
-            "UserID": formData.UserID,
-
-            "EmployeeID": formData.EmployeeID,
-
-            "UserNameFirst": formData.UserNameFirst,
-
-            "UserNameLast": formData.UserNameLast,
-
-            "UserPhoneNumber": formData.UserPhoneNumber,
-
-            "EmployeeHireDate": formData.EmployeeHireDate,
-
-            "EmployeeStatus": formData.EmployeeStatus,
-
-            "EmployeeBirthDate": formData.EmployeeBirthDate,
-
-            "EmployeeDepartment": formData.EmployeeDepartment.trim(),
-
-            "EmployeeHourly": Number(formData.EmployeeHourly),
-
-            "SupervisorID": formData.SupervisorID
-
-          }, {
-
-            withCredentials: true,
-
-            headers: { 'Content-Type': 'application/json' }
-
-        })
-
-        .then((response) => {
-
-            alert("Employee Updated");
-
-            navigate("/");
-
-        })
-
-        .catch((error) => {
-
-          handleError(error)
-
-        });
-
-    }
+      e.preventDefault();
     
-      return (
+    
+      if (
+        !employeeFormat(
+          formData.UserID,
+          formData.UserNameFirst,
+          formData.UserNameLast,
+          formData.UserPhoneNumber
+        ) ||
+        !signUpFormatEmployee(
+          formData.EmployeeHireDate,
+          formData.EmployeeStatus,
+          formData.EmployeeBirthDate,
+          formData.EmployeeDepartment,
+          Number(formData.EmployeeHourly),
+          formData.SupervisorID
+        )
+      ) {
+    
+        return;
+    
+      }
+    
+    
+      try {
+    
+        await axios.put(
+          'http://localhost:3301/api/employee/employee',
+          {
+            "UserID": formData.UserID,
+    
+            "EmployeeID": formData.EmployeeID,
+    
+            "UserNameFirst": formData.UserNameFirst,
+    
+            "UserNameLast": formData.UserNameLast,
+    
+            "UserPhoneNumber": formData.UserPhoneNumber,
+    
+            "EmployeeHireDate": formData.EmployeeHireDate,
+    
+            "EmployeeStatus": formData.EmployeeStatus,
+    
+            "EmployeeBirthDate": formData.EmployeeBirthDate,
+    
+            "EmployeeDepartment": formData.EmployeeDepartment.trim(),
+    
+            "EmployeeHourly": Number(formData.EmployeeHourly),
+    
+            "SupervisorID": formData.SupervisorID,
+          },
+          {
+            withCredentials: true,
+            headers: { 'Content-Type': 'application/json' },
+          }
+        );
+    
+    
+        alert("Employee Updated");
+    
+        navigate("/");
+    
+      } catch (error) {
+    
+        handleError(error);
+    
+      }
+    
+    };
+    
+    
+    return (
 
-        <section>
+      <section>
 
-          <form onSubmit={clickSubmit} className="m-auto mb-10 bg-white p-6 rounded-2xl shadow-lg w-96 mt-10">
+        <form onSubmit={clickSubmit} className="m-auto mb-10 bg-white p-6 rounded-2xl shadow-lg w-96 mt-10">
 
-            <h2 className="text-2xl font-semibold text-center mb-4">Update Employee</h2>
+          <h2 className="text-2xl font-semibold text-center mb-4">Update Employee</h2>
 
-            <label className="block mb-2 text-gray-700">Username</label>
+          <label className="block mb-2 text-gray-700">Username</label>
 
-            <input 
+          <input 
 
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
 
-              id="User-ID" 
+            id="User-ID" 
 
-              name="UserID" 
+            name="UserID" 
 
-              type="text" 
+            type="text" 
 
-              value={formData.UserID} 
+            value={formData.UserID} 
 
-              readOnly
+            readOnly
 
-              required 
+            required 
 
-              minLength={5}
+            minLength={5}
 
-              maxLength={255}
+            maxLength={255}
 
-            />
+          />
+          
+          <label className="block mb-2 text-gray-700">First Name</label>
+
+          <input 
+
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
+
+            id="First-Name" 
+
+            name="UserNameFirst" 
+
+            type="text" 
+
+            minLength={2}
+
+            maxLength={255}
+
+            value={formData.UserNameFirst} 
+
+            onChange={handleChange} 
+
+            placeholder="Enter First Name" 
+
+            required 
+
+          />
+          
+          <label className="block mb-2 text-gray-700">Last Name</label>
+
+          <input 
+
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
+
+            id="Last-Name" 
+
+            name="UserNameLast" 
+
+            type="text" 
+
+            value={formData.UserNameLast} 
+
+            onChange={handleChange} 
+
+            placeholder="Enter Last Name" 
+
+            required 
+
+            minLength={2}
             
-            <label className="block mb-2 text-gray-700">First Name</label>
+            maxLength={255}
 
-            <input 
+          />
+          
+          <label className="block mb-2 text-gray-700">Phone Number</label>
 
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
+          <input 
 
-              id="First-Name" 
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
 
-              name="UserNameFirst" 
+            id="Phone-Number"
 
-              type="text" 
+            name="UserPhoneNumber" 
 
-              minLength={2}
+            type="text"
 
-              maxLength={255}
+            value={formData.UserPhoneNumber} 
 
-              value={formData.UserNameFirst} 
+            onChange={handleChange}
 
-              onChange={handleChange} 
+            placeholder="Enter Phone Number: 1-xxx-xxx-xxxx" 
 
-              placeholder="Enter First Name" 
+            required 
 
-              required 
+          />
+          
+          <label className="block mb-2 text-gray-700">Hire Date</label>
 
-            />
+          <input 
+
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
+
+            id="Employee-HireDate" 
+
+            name="EmployeeHireDate" 
+
+            type="date" 
+
+            value={formData.EmployeeHireDate} 
+
+            onChange={handleChange} 
+
+            required 
+
+          />
+          
+          <label className="block mb-2 text-gray-700">Employee Status</label>
+
+          <select 
+
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
+
+            id="Employee-Status" 
+
+            name="EmployeeStatus" 
+
+            value={formData.EmployeeStatus} 
+
+            onChange={handleChange} 
+
+            required
+
+          >
+
+            <option value="">Select Status</option>
+
+            <option value="Employed">Employed</option>
+
+            <option value="Absence">Absence</option>
+
+            <option value="Fired">Fired</option>
+
+          </select>
+          
+          <label className="block mb-2 text-gray-700">Birth Date</label>
+
+          <input 
+
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
+
+            id="Employee-BirthDate" 
+
+            name="EmployeeBirthDate" 
+
+            type="date" 
+
+            value={formData.EmployeeBirthDate} 
+
+            onChange={handleChange} 
+
+            required 
+
+          />
+          
+          <label className="block mb-2 text-gray-700">Department</label>
+
+          <input 
+
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
+
+            id="Employee-Department" 
+
+            name="EmployeeDepartment" 
+
+            type="text" 
+
+            minLength={2}
             
-            <label className="block mb-2 text-gray-700">Last Name</label>
+            maxLength={255}
 
-            <input 
+            value={formData.EmployeeDepartment} 
 
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
+            onChange={handleChange} 
 
-              id="Last-Name" 
+            placeholder="Enter Department" 
 
-              name="UserNameLast" 
+            required 
 
-              type="text" 
+          />
+          
+          <label className="block mb-2 text-gray-700">Hourly Wage</label>
 
-              value={formData.UserNameLast} 
+          <input 
 
-              onChange={handleChange} 
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
 
-              placeholder="Enter Last Name" 
+            id="Employee-Hourly" 
 
-              required 
+            name="EmployeeHourly" 
 
-              minLength={2}
-              
-              maxLength={255}
+            type="number" 
 
-            />
-            
-            <label className="block mb-2 text-gray-700">Phone Number</label>
+            min="0"
 
-            <input 
+            value={formData.EmployeeHourly} 
 
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
+            onChange={handleChange} 
 
-              id="Phone-Number"
+            placeholder="Enter Hourly Wage" 
 
-              name="UserPhoneNumber" 
+            required 
 
-              type="text"
+          />
+          
+          <label className="block mb-2 text-gray-700">Supervisor ID</label>
 
-              value={formData.UserPhoneNumber} 
+          <input 
 
-              onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
 
-              placeholder="Enter Phone Number: 1-xxx-xxx-xxxx" 
+            id="Supervisor-ID" 
 
-              required 
+            name="SupervisorID" 
 
-            />
-            
-            <label className="block mb-2 text-gray-700">Hire Date</label>
+            type="text" 
 
-            <input 
+            value={formData.SupervisorID} 
 
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
+            onChange={handleChange} 
 
-              id="Employee-HireDate" 
+            placeholder="Enter Supervisor ID" 
 
-              name="EmployeeHireDate" 
+            required 
 
-              type="date" 
+          />
+          
+          <button className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200">Update</button>
 
-              value={formData.EmployeeHireDate} 
+        </form>
 
-              onChange={handleChange} 
+      </section>
 
-              required 
+    );
 
-            />
-            
-            <label className="block mb-2 text-gray-700">Employee Status</label>
-
-            <select 
-
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
-
-              id="Employee-Status" 
-
-              name="EmployeeStatus" 
-
-              value={formData.EmployeeStatus} 
-
-              onChange={handleChange} 
-
-              required
-
-            >
-
-              <option value="">Select Status</option>
-
-              <option value="Employed">Employed</option>
-
-              <option value="Absence">Absence</option>
-
-              <option value="Fired">Fired</option>
-
-            </select>
-            
-            <label className="block mb-2 text-gray-700">Birth Date</label>
-
-            <input 
-
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
-
-              id="Employee-BirthDate" 
-
-              name="EmployeeBirthDate" 
-
-              type="date" 
-
-              value={formData.EmployeeBirthDate} 
-
-              onChange={handleChange} 
-
-              required 
-
-            />
-            
-            <label className="block mb-2 text-gray-700">Department</label>
-
-            <input 
-
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
-
-              id="Employee-Department" 
-
-              name="EmployeeDepartment" 
-
-              type="text" 
-
-              minLength={2}
-              
-              maxLength={255}
-
-              value={formData.EmployeeDepartment} 
-
-              onChange={handleChange} 
-
-              placeholder="Enter Department" 
-
-              required 
-
-            />
-            
-            <label className="block mb-2 text-gray-700">Hourly Wage</label>
-
-            <input 
-
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
-
-              id="Employee-Hourly" 
-
-              name="EmployeeHourly" 
-
-              type="number" 
-
-              min="0"
-
-              value={formData.EmployeeHourly} 
-
-              onChange={handleChange} 
-
-              placeholder="Enter Hourly Wage" 
-
-              required 
-
-            />
-            
-            <label className="block mb-2 text-gray-700">Supervisor ID</label>
-
-            <input 
-
-              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" 
-
-              id="Supervisor-ID" 
-
-              name="SupervisorID" 
-
-              type="text" 
-
-              value={formData.SupervisorID} 
-
-              onChange={handleChange} 
-
-              placeholder="Enter Supervisor ID" 
-
-              required 
-
-            />
-            
-            <button className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200">Update</button>
-
-          </form>
-
-        </section>
-
-      );
-
-    }
+  }

@@ -13,7 +13,7 @@ const rateLimit = require('express-rate-limit');
 //Rate Limiter For Address
 const addressLimiter = rateLimit({
 
-    windowMs: 60 * 1000 * 10, 
+    windowMs: 60 * 1000 * 2, 
 
     max: 20, 
 

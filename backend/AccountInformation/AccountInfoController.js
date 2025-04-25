@@ -173,7 +173,7 @@ const deleteCustomer = async (req, res) => {
 
             await connection.rollback();
 
-            return res.status(statusCode.CONFLICT).json({
+            return res.status(statusCode.RESOURCE_CONFLICT).json({
 
                 error: "Cannot delete account with ongoing transactions",
 
@@ -205,35 +205,17 @@ const deleteCustomer = async (req, res) => {
 
         for (const { Address: address } of addrs) {
 
-            const [addrRefs] = await connection.query(
+            await connection.query(`
 
-                "SELECT COUNT(*) AS count FROM CustomerAddress WHERE Address = ?",
+                DELETE FROM Address 
 
-                [address]
+                WHERE Address = ? 
 
-            );
+                  AND NOT EXISTS (SELECT 1 FROM CustomerAddress WHERE Address = ?)
 
-            const [transRefs] = await connection.query(
+                  AND NOT EXISTS (SELECT 1 FROM Transactions WHERE TransactionAddress = ?)
 
-                "SELECT COUNT(*) AS count FROM Transactions WHERE TransactionAddress = ?",
-
-                [address]
-
-            );
-
-            if (addrRefs[0].count === 0 && transRefs[0].count === 0) {
-
-                logger.info(`Deleting unused address: ${address}`);
-
-                await connection.query(
-
-                    "DELETE FROM Address WHERE Address = ?",
-
-                    [address]
-
-                );
-
-            }
+              `, [address, address, address]);
 
         }
 
@@ -291,7 +273,7 @@ const deleteCustomer = async (req, res) => {
 
 };
 
-//Updates Customer Data
+//Updates Customer Data :: Not Implemented In Front End
 const updateCustomer = async (req, res) => {
 
     const userID = req.user?.UserID;

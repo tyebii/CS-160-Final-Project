@@ -211,11 +211,11 @@ const validateAddress = async (address) => {
 
     }
 
-    const regex = /^\d{1,5}\s[A-Za-z0-9\s.'-]+,\sSan\sJose,\sCA\s95\d{3}(-\d{4})?$/;
+    const regex = /,\s*San\s+Jose,\s*(California|CA)/i;
 
     if (!regex.test(address)) {
 
-        logger.error("Improper Address Format. Expected format: [number] [street name], San Jose, California 95XXX");
+        logger.error("Must Be In San Jose California");
         
         return false;
 
@@ -234,8 +234,6 @@ const validateAddress = async (address) => {
         );
 
         const data = await response.json();
-
-        console.log(data)
 
         if (!data || data.features.length === 0) {
             

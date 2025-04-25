@@ -2,7 +2,6 @@ import axios from "axios";
 
 import { validateAddress, validateName} from "../../Utils/Formatting";
 
-//Error Message Hook
 import { useErrorResponse } from '../../Utils/AxiosError';
 
 //The Address Block Containing Information And Remove
@@ -10,33 +9,32 @@ function AddressComponent({address,setAddress,}){
   
     const { handleError } = useErrorResponse(); 
 
-    const clickAddressRemove = () => {
-        
-        if(address.Name=="In Store Pickup"){
+    //Removes The Address
+    const clickAddressRemove = async () => {
 
-          alert("Can't delete store")
+      try {
 
-          return; 
+        if (address.Name === "In Store Pickup") {
 
-        }
+          alert("Can't delete store");
 
-        if(!validateName(address.Name)){
-
-          alert("Invalid Input")
-
-          return; 
+          return;
 
         }
+  
+        if (!validateName(address.Name)) {
 
-        if(!validateAddress(address.Address)){
-          
-          alert("Invalid Address")
-          
-          return
+          return;
 
         }
+  
+        if (!validateAddress(address.Address)) {
 
-        axios.delete(
+          return;
+
+        }
+  
+        await axios.delete(
 
           `http://localhost:3301/api/address/address/${address.Address}`,
 
@@ -48,27 +46,23 @@ function AddressComponent({address,setAddress,}){
 
           }
 
-        )
+        );
+  
+        alert("Address Removed");
+  
+        setAddress((addressList) => 
 
-          .then((response) => {
+          addressList.filter((a) => a.Address !== address.Address)
 
-            alert("Address Removed");
-            
-            setAddress(addressList => {
+        );
+  
+      } catch (error) {
 
-                return addressList.filter((a) => a.Address !== address.Address);
+        handleError(error);
 
-            });
+      }
 
-          })
-
-          .catch((error) => {
-
-            handleError(error)
-
-          });
-
-      };
+    };
       
 
     return (

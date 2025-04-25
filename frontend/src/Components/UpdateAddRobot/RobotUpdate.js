@@ -25,51 +25,53 @@ export function RobotUpdate({ robot }) {
 
     const [RobotStatus, setRobotStatus] = useState(robot.RobotStatus || 0); 
 
-    //May Want To Use Try Catch
     //Handle Form Submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
-
-        if(!validateRobot(RobotID, 0, RobotStatus, Maintanence)){
-
-            return; 
-
+      
+        if (!validateRobot(RobotID, 0, RobotStatus, Maintanence)) {
+      
+          return;
+      
         }
+      
+        try {
+      
+          await axios.put(
+            'http://localhost:3301/api/robot/robot',
+            {
+              RobotID: RobotID,
+      
+              CurrentLoad: 0,
+      
+              RobotStatus: RobotStatus,
+      
+              Maintanence: Maintanence,
+            },
 
-        axios.put('http://localhost:3301/api/robot/robot', {
+            {
 
-            RobotID: RobotID,
+              withCredentials: true,
 
-            CurrentLoad: 0,
+              headers: { 'Content-Type': 'application/json' },
 
-            RobotStatus: RobotStatus,
+            }
 
-            Maintanence: Maintanence,
-
-        }, {
-
-            withCredentials: true,
-
-            headers: { 'Content-Type': 'application/json' }
-
-        })
-
-        .then((response) => {
-
-            alert("Updated Robot");
-
-            navigate("/");
-
-        })
-
-        .catch((error) => {
-
-            handleError(error)
-
-        });
-
-    }
+          );
+      
+          alert("Updated Robot");
+      
+          navigate("/");
+      
+        } catch (error) {
+      
+          handleError(error);
+      
+        }
+      
+    };
+      
 
     return (
 

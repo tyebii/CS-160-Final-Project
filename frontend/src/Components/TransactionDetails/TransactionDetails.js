@@ -36,47 +36,52 @@ export function TransactionDetails({transaction}) {
   const [visibility,setVisibility] = useState(true)
 
   //Click Fullfill
-  const handleFulfill = () => {
+  const handleFulfill = async () => {
 
-    if(!validateID(transaction.TransactionID)){
-
-      alert("Invalid Transaction ID")
-
-      return
-
+    if (!validateID(transaction.TransactionID)) {
+  
+      alert("Invalid Transaction ID");
+  
+      return;
+  
     }
+  
+    try {
+  
+      await axios.post(
 
-    axios
-      .post(`http://localhost:3301/api/transaction//transactions/fulfill`,         {
+        `http://localhost:3301/api/transaction//transactions/fulfill`,
 
-        TransactionID: transaction.TransactionID,
+        {
 
-      },
+          TransactionID: transaction.TransactionID,
 
-      {
+        },
 
-        withCredentials: true,
+        {
 
-        headers: { 'Content-Type': 'application/json' }
+          withCredentials: true,
 
-      })
+          headers: { 'Content-Type': 'application/json' },
 
-      .then(() => {
-
-        alert("Successfully Fulfilled")
-
-        setVisibility(false)
+        }
         
-        setTransactionStatus("Fulfilled")
-
-      })
-      .catch((error) => {
-
-        handleError(error)
-
-      });
-
-  }
+      );
+  
+      alert("Successfully Fulfilled");
+  
+      setVisibility(false);
+  
+      setTransactionStatus("Fulfilled");
+  
+    } catch (error) {
+  
+      handleError(error);
+  
+    }
+  
+  };
+  
 
   return (
 

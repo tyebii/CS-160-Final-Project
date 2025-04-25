@@ -13,7 +13,7 @@ const router = express.Router()
 //Rate Limiter
 const shoppingcartLimiter = rateLimit({
 
-    windowMs: 60 * 1000 * 5, 
+    windowMs: 60 * 1000 * 2, 
 
     max: 50, 
 

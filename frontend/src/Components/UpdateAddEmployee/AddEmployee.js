@@ -3,8 +3,6 @@ import React, { useState} from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import {useAuth} from '../../Context/AuthHook'
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
@@ -62,65 +60,80 @@ function AddEmployee() {
   };
 
   //Submission of the form
-  const clickSubmit = (e) => {
+  const clickSubmit = async (e) => {
 
-    e.preventDefault()
-
-
-    if(!signUpFormat(formData.UserID, formData.Password, formData.UserNameFirst, formData.UserNameLast, formData.UserPhoneNumber) || !signUpFormatEmployee(formData.EmployeeHireDate, formData.EmployeeStatus,formData.EmployeeBirthDate,formData.EmployeeDepartment,formData.EmployeeHourly, formData.SupervisorID)){
-        
-      return; 
-    
+    e.preventDefault();
+  
+  
+    if (
+      !signUpFormat(
+        formData.UserID,
+        formData.Password,
+        formData.UserNameFirst,
+        formData.UserNameLast,
+        formData.UserPhoneNumber
+      ) ||
+      !signUpFormatEmployee(
+        formData.EmployeeHireDate,
+        formData.EmployeeStatus,
+        formData.EmployeeBirthDate,
+        formData.EmployeeDepartment,
+        formData.EmployeeHourly,
+        formData.SupervisorID
+      )
+    ) {
+  
+      return;
+  
     }
-
-    axios.post('http://localhost:3301/api/authentication/signup/employee', {
-
-        "UserID": formData.UserID,
-
-        "Password": formData.Password,
-
-        "UserNameFirst": formData.UserNameFirst,
-
-        "UserNameLast": formData.UserNameLast,
-
-        "UserPhoneNumber": formData.UserPhoneNumber,
-
-        "EmployeeHireDate": formData.EmployeeHireDate,
-
-        "EmployeeStatus": formData.EmployeeStatus,
-
-        "EmployeeBirthDate": formData.EmployeeBirthDate,
-
-        "EmployeeDepartment": formData.EmployeeDepartment.trim(),
-
-        "EmployeeHourly": Number(formData.EmployeeHourly),
-
-        "SupervisorID": formData.SupervisorID
-
-      }, {
-
-        withCredentials: true,
-
-        headers: { 'Content-Type': 'application/json' }
-
-    })
-
-    .then((response) => {
-
-        alert("Employee Added");
-
-        navigate("/");
-
-    })
-
-
-    .catch((error) => {
-
-        handleError(error)
-
-    });
-
-  }
+  
+  
+    try {
+  
+      await axios.post(
+        'http://localhost:3301/api/authentication/signup/employee',
+        {
+          "UserID": formData.UserID,
+  
+          "Password": formData.Password,
+  
+          "UserNameFirst": formData.UserNameFirst,
+  
+          "UserNameLast": formData.UserNameLast,
+  
+          "UserPhoneNumber": formData.UserPhoneNumber,
+  
+          "EmployeeHireDate": formData.EmployeeHireDate,
+  
+          "EmployeeStatus": formData.EmployeeStatus,
+  
+          "EmployeeBirthDate": formData.EmployeeBirthDate,
+  
+          "EmployeeDepartment": formData.EmployeeDepartment.trim(),
+  
+          "EmployeeHourly": Number(formData.EmployeeHourly),
+  
+          "SupervisorID": formData.SupervisorID
+        },
+        {
+          withCredentials: true,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+  
+  
+      alert("Employee Added");
+  
+      navigate("/");
+  
+    } catch (error) {
+  
+      handleError(error);
+  
+    }
+  
+  };
+  
 
   return (
 

@@ -23,88 +23,87 @@ export function MyAccount (){
 
     useEffect(() => {
 
-        const endpoints = {
+        const fetchAccount = async () => {
 
-            Customer: "http://localhost:3301/api/customer/customer",
+            if(!auth){
 
-            Employee: "http://localhost:3301/api/customer/employee",
+                return
 
-            Manager: "http://localhost:3301/api/customer/employee",
+            }
 
-        };
+            const endpoints = {
 
-        const endpoint = endpoints[auth];
+                Customer: "http://localhost:3301/api/customer/customer",
 
-        if (!endpoint) {
+                Employee: "http://localhost:3301/api/customer/employee",
 
-            alert("Invalid user role");
+                Manager: "http://localhost:3301/api/customer/employee",
 
-            logout();
+            };
+        
+            const endpoint = endpoints[auth];
+        
+            if (!endpoint) {
 
-            navigate("/login");
+                alert("Invalid user role");
+                
+                logout();
 
-            return;
+                navigate("/login");
 
-        }
+                return;
 
-        axios
+            }
+        
+            try {
 
-            .get(endpoint, {
+                const response = await axios.get(endpoint, {
 
                 withCredentials: true,
 
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json' },
 
-            })
+                });
 
-            .then((response) => {
+                setResult(response.data[0]);
+        
+            } catch (error) {
 
-                console.log(response.data);  
-                
-                setResult(response.data[0]);  
-                
-            })
+                handleError(error);
 
-            .catch((error) => {
+            }
 
-                handleError(error)
-                
-                return; 
+        };
+      
+        fetchAccount();
 
-            });
+      }, [auth]);
+      
 
-    }, []);
+    const handleDelete = async () => {
 
-    const handleDelete = () => {
+        try {
 
-        axios.delete("http://localhost:3301/api/customer/customer", {
+            await axios.delete("http://localhost:3301/api/customer/customer", {
 
             withCredentials: true,
 
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
 
-        })
+            });
 
-        .then((response) => {
+            logout();
 
-            logout()
+            navigate("/");
 
-            navigate("/")
+        } catch (error) {
 
-            return 
-            
-        })
+            handleError(error);
 
-        .catch((error) => {
+        }
 
-            handleError(error)
+    };
 
-            return;
-
-        });
-
-
-    }
     
     return (
         

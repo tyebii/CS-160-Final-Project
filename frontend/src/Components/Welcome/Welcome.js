@@ -82,6 +82,7 @@ function Welcome() {
             <AddItem auth={auth}></AddItem>
 
         </div>
+        
         </section>
         
     );
