@@ -8,7 +8,7 @@ export const TaggedItems = ({items, robots}) => {
 
     return (
 
-      <div  className="bg-white p-4 mb-5 border shadow-lg">
+      <div  className="bg-white p-4 mb-5 ">
 
           {items.map((item) => (
 

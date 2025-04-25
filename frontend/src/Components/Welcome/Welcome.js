@@ -65,19 +65,6 @@ function Welcome() {
             
             )}
 
-            {/* Dynamic Welcome Header */}
-            <h1 className="text-7xl mt-10 font-bold text-center mb-8">
-
-                {auth === "Employee"
-
-                    ? "Welcome to OFS Employee Dashboard"
-
-                    : auth === "Manager"
-
-                    ? "Welcome to OFS Manager Dashboard":""}
-
-            </h1>
-
 
             {!auth || auth === "Customer" ?(
 
