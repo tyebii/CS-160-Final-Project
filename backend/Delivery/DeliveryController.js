@@ -160,6 +160,18 @@ const scheduleRobots = async (req, res) => {
             
         }
 
+        if(error.message === "No Free Robots"){
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "No Robots To Schedule"})
+
+        }
+
+        if(error.message === "No Transactions To Deliver"){
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:"No Transactions To Schedule"})
+
+        }
+
         return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Error While Scheduling Robots"})
 
     }
@@ -198,7 +210,7 @@ const deployRobots = async (req, res) => {
 
         if (transactions.length === 0) {
 
-            logger.error("There Are No Robot To Deploy")
+            logger.error("There Are No Robots To Deploy")
 
             throw new Error("There Are No Robots To Deploy");
 
@@ -311,7 +323,7 @@ const deployRobots = async (req, res) => {
 
                             await connectionAsync.query(
                                 
-                                'UPDATE Robot SET RobotStatus = "Free", EstimatedDelivery = NULL, CurrentLoad = "0" WHERE RobotID = ?',
+                                'UPDATE Robot SET RobotStatus = "Free", CurrentLoad = "0" WHERE RobotID = ?',
                                 
                                 [robotID]
 
@@ -387,13 +399,9 @@ const deployRobots = async (req, res) => {
 
         connection.release();
 
-        logger.info("Failed Robots: " + failedRobots)
-
     } catch (error) {
 
         logger.error("Deployment Error: " + error.message);
-
-        logger.error("Failed Robots: " + failedRobots)
 
         if (connection) {
 
@@ -411,7 +419,19 @@ const deployRobots = async (req, res) => {
 
         }
 
+        if(error.message === "There Are No Robots To Deploy"){
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "No Robots To Deploy"})
+
+        }
+        
+        if(error.message === "")
+
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error On Robot Deployment"})
+
     }
+
+    return res.sendStatus(statusCode.OK)
 
 };
 

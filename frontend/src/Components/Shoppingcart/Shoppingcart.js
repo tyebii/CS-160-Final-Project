@@ -12,16 +12,11 @@ import axios from 'axios';
 
 import { validateAddress, validateID, validateName} from '../Utils/Formatting';
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 //Shopping Cart Component
 function ShoppingCart() {
-
-  const validateToken = useValidateToken();
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -44,71 +39,52 @@ function ShoppingCart() {
   //Load The Shopping Cart And Addresses
   useEffect(() => {
 
-    const token = validateToken()
+    (async () => {
 
-    if(token == null){
+      try {
 
-      return 
-      
-    }
+        const [cartRes, addressRes] = await Promise.all([
 
-    axios
+          axios.get('http://localhost:3301/api/shoppingcart/shoppingcart', {
 
-      .get('http://localhost:3301/api/shoppingcart/shoppingcart', {
+            withCredentials: true,
 
-        headers: {
+            headers: { 'Content-Type': 'application/json' }
 
-          Authorization: `Bearer ${token}`,
+          }),
 
-        },
+          axios.get('http://localhost:3301/api/address/address', {
 
-      })
+            withCredentials: true,
 
-      .then((response) => {
+            headers: { 'Content-Type': 'application/json' }
 
-        setResults(response.data); 
+          })
 
-      })
-
-      .catch((error) => {
-
-          handleError(error)
-
-    });
-
-    axios
-
-      .get('http://localhost:3301/api/address/address', {
-
-        headers: {
-
-          Authorization: `Bearer ${token}`,
-
-        },
-
-      })
-
-      .then((response) => {
-
+        ]);
+  
+        setResults(cartRes.data);
+  
         setAddresses(prev => {
 
           const existingAddresses = new Set(prev.map(addr => addr.Address));
-          
-          const newUniqueAddresses = response.data.filter(addr => !existingAddresses.has(addr.Address));
+
+          const newUniqueAddresses = addressRes.data.filter(addr => !existingAddresses.has(addr.Address));
 
           return [...prev, ...newUniqueAddresses];
-        
+
         });
-        
-      })
+  
+      } catch (error) {
 
-      .catch((error) => {
+        handleError(error);
 
-        handleError(error)
+      }
 
-      });
-
+    })();
+    
   }, []);
+  
 
   //Load The Total
   useEffect(() => {
@@ -125,82 +101,67 @@ function ShoppingCart() {
 
   }, [results, selectedAddress]);
 
-  //Clear The Cart
-  const handleClear = () => {
 
-    const token = validateToken()
+// Clear The Cart
+const handleClear = async () => {
 
-    if(token == null){
+  try {
 
-      return 
+    await axios.delete('http://localhost:3301/api/shoppingcart/shoppingcart/clear', {
 
-    }
+      withCredentials: true,
 
-    axios
+      headers: { 'Content-Type': 'application/json' }
 
-      .delete('http://localhost:3301/api/shoppingcart/shoppingcart/clear', {
+    });
 
-        headers: { Authorization: `Bearer ${token}` },
+    alert("Cleared Your Shoppingcart!");
 
-      })
+    setResults([]);
 
-      .then(() => {
+  } catch (error) {
 
-        alert("Cleared Your Shoppingcart!")
+    handleError(error);
 
-        setResults([]);
+  }
 
-      })
-  
-      .catch((error) => {
-        
-        handleError(error)
+};
 
-      })
 
-  };
 
-  //Remove From The Cart
-  const clickRemove = (itemid) => {
+//Remove From The Cart
+const clickRemove = async (itemid) => {
 
-    const token = validateToken()
+  if (!validateID(itemid)) {
 
-    if(token == null){
-      
-      return
+    return;
 
-    }
+  }
 
-    if(!validateID(itemid)){
+  try {
 
-      return res.status(statusCode.BAD_REQUEST).json({ error: "Item ID Is Invalid" });
+    await axios.delete('http://localhost:3301/api/shoppingcart/shoppingcart', {
 
-    }
+      withCredentials: true,
 
-    axios
+      headers: { 'Content-Type': 'application/json' },
 
-      .delete('http://localhost:3301/api/shoppingcart/shoppingcart', {
+      data: { ItemID: itemid },
 
-        headers: { Authorization: `Bearer ${token}` },
+    });
 
-        data: { ItemID: itemid },
+    alert("Removed The Item!");
 
-      })
+    setResults((prevItems) => prevItems.filter((item) => item.ItemID !== itemid));
 
-      .then(() => {
+  } catch (error) {
 
-        alert("Deleted The Item!")
+    handleError(error); 
 
-        setResults((prevItems) => prevItems.filter((item) => item.ItemID !== itemid));
+  }
 
-      })
-      .catch((error) => {
-        
-        handleError(error);
+};
 
-      })
-
-  };
 
   //Click Checkout
   const clickCheckout = async () => {
@@ -208,14 +169,6 @@ function ShoppingCart() {
     if (isProcessing) return;
   
     setIsProcessing(true);
-  
-    const token = validateToken();
-
-    if(token == null){
-
-      return 
-
-    }
   
     if (results.length === 0) {
 
@@ -227,9 +180,7 @@ function ShoppingCart() {
 
     }
   
-    if (!validateAddress(selectedAddress?.Address)) {
-
-      alert("Select Address!");
+    if (! await validateAddress(selectedAddress?.Address)) {
 
       setIsProcessing(false);
 
@@ -261,7 +212,9 @@ function ShoppingCart() {
 
         {
 
-          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+
+          headers: { 'Content-Type': 'application/json' }
 
         }
 
@@ -280,90 +233,74 @@ function ShoppingCart() {
   };
   
 
-  const handleAddAddress = (e) => {
+  //Enables Users To Add Addresses
+  const handleAddAddress = async (e) => {
 
     e.preventDefault();
-  
-    const token = validateToken();
-
-    if(token == null){
-
-      return 
-
-    }
   
     const formData = new FormData(e.target);
 
     const name = formData.get("Name");
 
     const address = formData.get("Address");
-
-    const zip = formData.get("Zip");
   
-    const composedAddress = `${address}, San Jose, CA ${zip}`;
+    const composedAddress = address
+  
+    const isAddressValid = await validateAddress(composedAddress);
 
-    if (!validateAddress(composedAddress)) {
+    const isNameValid = validateName(name);
+  
+    if (!isAddressValid || !isNameValid) {
 
       return;
 
     }
   
-    if (!validateName(name)) {
+    try {
 
-      return;
+      const response = await axios.post(
 
-    }
-  
-    axios.post(
+        `http://localhost:3301/api/address/address`,
 
-      `http://localhost:3301/api/address/address`,
+        {
 
-      {
+          address: composedAddress,
 
-        address: composedAddress,
-
-        name: name
-
-      },
-
-      {
-
-        headers: {
-
-          Authorization: `Bearer ${token}`,
+          name: name,
 
         },
 
-      }
+        {
 
-    )
+          withCredentials: true,
 
-    .then((response) => {
+          headers: { 'Content-Type': 'application/json' },
 
+        }
+
+      );
+  
       alert("Address Added!");
+  
+      setAddresses((prevAddresses) => [
 
-      setAddresses((prevAddresses) => [...prevAddresses, {
+        ...prevAddresses,
 
-        Address: composedAddress,
+        { Address: composedAddress, Name: name },
 
-        Name: name
+      ]);
+  
+      setAddressModalOpen(false);
 
-      }]);
+    } catch (error) {
+
+      handleError(error);
 
       setAddressModalOpen(false);
 
-    })
-
-    .catch((error) => {
-
-      handleError(error)
-
-      setAddressModalOpen(false);
-
-    });
+    }
 
   };
-  
 
   return (
     <section className="w-full max-w-4xl mx-auto my-10 p-8 bg-gray-100 rounded-lg shadow-lg">
@@ -500,9 +437,9 @@ function ShoppingCart() {
 
         <div className="p-6 border-2 border-gray-300 rounded-lg bg-white shadow-md text-lg">
 
-          <h3>Raw Cost: ${cost}</h3>
+          <h3>Raw Cost: ${cost.toFixed(2)}</h3>
 
-          <h3>Weight: {weight} lbs</h3>
+          <h3>Weight: {weight.toFixed(2)} lbs</h3>
 
           <h3>Delivery Fee: ${selectedAddress.Name === "In Store Pickup" ? 0 : deliveryFee} </h3>
 

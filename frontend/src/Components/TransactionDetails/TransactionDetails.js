@@ -7,9 +7,6 @@ import { useState } from "react";
 
 import axios from "axios";
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
@@ -17,8 +14,6 @@ import { useErrorResponse } from '../Utils/AxiosError';
 export function TransactionDetails({transaction}) {
 
   const { auth} = useAuth();
-
-  const validateToken = useValidateToken();
 
   const { handleError } = useErrorResponse(); 
   
@@ -41,57 +36,52 @@ export function TransactionDetails({transaction}) {
   const [visibility,setVisibility] = useState(true)
 
   //Click Fullfill
-  const handleFulfill = () => {
+  const handleFulfill = async () => {
 
-    const token = validateToken()
-
-    if(token == null){
-
-      return
-      
+    if (!validateID(transaction.TransactionID)) {
+  
+      alert("Invalid Transaction ID");
+  
+      return;
+  
     }
+  
+    try {
+  
+      await axios.post(
 
-    if(!validateID(transaction.TransactionID)){
+        `http://localhost:3301/api/transaction//transactions/fulfill`,
 
-      alert("Invalid Transaction ID")
+        {
 
-      return
-
-    }
-
-    axios
-      .post(`http://localhost:3301/api/transaction//transactions/fulfill`,         {
-
-        TransactionID: transaction.TransactionID,
-
-      },
-
-      {
-
-        headers: {
-
-          Authorization: `Bearer ${token}`,
+          TransactionID: transaction.TransactionID,
 
         },
 
-      })
+        {
 
-      .then(() => {
+          withCredentials: true,
 
-        alert("Successfully Fulfilled")
+          headers: { 'Content-Type': 'application/json' },
 
-        setVisibility(false)
+        }
         
-        setTransactionStatus("Fulfilled")
-
-      })
-      .catch((error) => {
-
-        handleError(error)
-
-      });
-
-  }
+      );
+  
+      alert("Successfully Fulfilled");
+  
+      setVisibility(false);
+  
+      setTransactionStatus("Fulfilled");
+  
+    } catch (error) {
+  
+      handleError(error);
+  
+    }
+  
+  };
+  
 
   return (
 

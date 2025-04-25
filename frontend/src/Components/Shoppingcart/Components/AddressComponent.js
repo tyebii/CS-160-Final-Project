@@ -2,88 +2,67 @@ import axios from "axios";
 
 import { validateAddress, validateName} from "../../Utils/Formatting";
 
-//Token Validation Hook
-import { useValidateToken } from '../../Utils/TokenValidation';
-
-//Error Message Hook
 import { useErrorResponse } from '../../Utils/AxiosError';
 
 //The Address Block Containing Information And Remove
 function AddressComponent({address,setAddress,}){
-
-    const validateToken = useValidateToken();
   
     const { handleError } = useErrorResponse(); 
 
-    const clickAddressRemove = () => {
-        
-        if(address.Name=="In Store Pickup"){
+    //Removes The Address
+    const clickAddressRemove = async () => {
 
-          alert("Can't delete store")
+      try {
 
-          return; 
+        if (address.Name === "In Store Pickup") {
 
-        }
+          alert("Can't delete store");
 
-        if(!validateName(address.Name)){
-
-          alert("Invalid Input")
-
-          return; 
+          return;
 
         }
+  
+        if (!validateName(address.Name)) {
 
-        const token = validateToken()
-
-        if(token == null){
-
-          return
+          return;
 
         }
+  
+        if (!validateAddress(address.Address)) {
 
-        if(!validateAddress(address.Address)){
-          
-          alert("Invalid Address")
-          
-          return
+          return;
 
         }
-
-        axios.delete(
+  
+        await axios.delete(
 
           `http://localhost:3301/api/address/address/${address.Address}`,
 
           {
 
-            headers: {
+            withCredentials: true,
 
-              Authorization: `Bearer ${token}`
-
-            }
+            headers: { 'Content-Type': 'application/json' }
 
           }
 
-        )
+        );
+  
+        alert("Address Removed");
+  
+        setAddress((addressList) => 
 
-          .then((response) => {
+          addressList.filter((a) => a.Address !== address.Address)
 
-            alert("Address Removed");
-            
-            setAddress(addressList => {
+        );
+  
+      } catch (error) {
 
-                return addressList.filter((a) => a.Address !== address.Address);
+        handleError(error);
 
-            });
+      }
 
-          })
-
-          .catch((error) => {
-
-            handleError(error)
-
-          });
-
-      };
+    };
       
 
     return (

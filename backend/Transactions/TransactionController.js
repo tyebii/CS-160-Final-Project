@@ -42,7 +42,7 @@ const fullfillOrder = (req, res) => {
 
     }
 
-    pool.query('Update transactions Set TransactionStatus = "Fulfilled" Where TransactionID = ?', TransactionID, (error,results) => {
+    pool.query('Update transactions Set TransactionStatus = "Fulfilled" Where TransactionID = ? AND TransactionStatus = "Complete" ', TransactionID, (error,results) => {
         
         if(error){
 

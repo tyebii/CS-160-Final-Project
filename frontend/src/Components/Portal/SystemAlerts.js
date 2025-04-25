@@ -7,16 +7,11 @@ import  axios  from "axios";
 //Import Custom Components
 import { TaggedItems } from "./TaggedItems";
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 //System alerts 
 const SystemAlerts = () => {
-
-  const validateToken = useValidateToken();
 
   const { handleError } = useErrorResponse(); 
 
@@ -30,94 +25,66 @@ const SystemAlerts = () => {
 
   useEffect(() => {
 
-      const token = validateToken()
+    const fetchAllDashboardData = async () => {
 
-      if(token == null){
+      try {
 
-        return
-        
-      }
+        const [lowStockRes, faultyRobotRes, expirationRes, featuredRes] = await Promise.all([
+          
+          axios.get(`http://localhost:3301/api/inventory/lowstock`, {
+            
+            withCredentials: true,
 
-    axios
+            headers: { 'Content-Type': 'application/json' },
 
-      .get(`http://localhost:3301/api/inventory/lowstock`,{
+          }),
 
-        headers: { Authorization: `Bearer ${token}` },
+          axios.get(`http://localhost:3301/api/robot/robot/faulty`, {
 
-      })
+            withCredentials: true,
 
-      .then((response) => {
+            headers: { 'Content-Type': 'application/json' },
 
-        setLowStockTriggers(response.data);
+          }),
 
-      })
+          axios.get(`http://localhost:3301/api/inventory/expiration`, {
 
-      .catch((error) => {
+            withCredentials: true,
 
-        handleError(error)
+            headers: { 'Content-Type': 'application/json' },
 
-      });
+          }),
 
-    axios
-      .get(`http://localhost:3301/api/robot/robot/faulty`,{
+          axios.get(`http://localhost:3301/api/inventory/featured`, {
 
-        headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true,
 
-      })
+            headers: { 'Content-Type': 'application/json' },
 
-      .then((response) => {
+          }),
 
-        setRobotMalfunctions(response.data);
+        ]);
+  
+        setLowStockTriggers(lowStockRes.data);
 
-      })
+        setRobotMalfunctions(faultyRobotRes.data);
 
-      .catch((error) => {
+        setExpirationDateTriggers(expirationRes.data);
 
-        handleError(error)
-
-      });
-
-      axios
-
-      .get(`http://localhost:3301/api/inventory/expiration`,{
-
-        headers: { Authorization: `Bearer ${token}` },
-
-      })
-
-      .then((response) => {
-
-        setExpirationDateTriggers(response.data);
-        
-      })
-
-      .catch((error) => {
+        setFeatured(featuredRes.data);
+  
+      } catch (error) {
 
         handleError(error);
 
-      });
+      }
 
-      axios
-
-      .get(`http://localhost:3301/api/inventory/featured`,{
-
-        headers: { Authorization: `Bearer ${token}` },
-
-      })
-
-      .then((response) => {
-
-        setFeatured(response.data);
-
-      })
-
-      .catch((error) => {
-
-        handleError(error)
-
-      });
-
+    };
+  
+    fetchAllDashboardData();
+    
   }, []);
+  
 
   return (
     <section className="max-w-4xl mx-auto bg-white p-4 border shadow-lg mb-6">

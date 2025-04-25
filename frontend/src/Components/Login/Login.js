@@ -30,51 +30,54 @@ function Login() {
 
     const {login} = useAuth();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
-
-        if(!loginFormat(username,password)){
+    
+        if (!loginFormat(username, password)) {
 
             return;
 
         }
+    
+        try {
 
-        axios.post(
+            await axios.post(
 
-            "http://localhost:3301/api/authentication/login", 
+                "http://localhost:3301/api/authentication/login",
 
-            { 
-                UserID: username,
+                {
 
-                Password: password
+                    UserID: username,
 
-            }
+                    Password: password
 
-        )
+                },
 
-        .then((results) => {
 
-            let token = results.data?.accessToken
+                {
+                    withCredentials: true, 
 
-            localStorage.setItem("accessToken", token);
+                    headers: {
 
-            login()
+                        'Content-Type': 'application/json'
+
+                    }
+
+                }
+
+            );
+    
+            await login(); 
 
             navigate("/");
+    
+        } catch (error) {
 
-            return;
+            handleError(error);
 
-        })
-
-        .catch((error) => {
-
-            handleError(error)
-
-            return ;
-
-        });
-
+        }
+        
     };
 
     const clickSignUp = () => {

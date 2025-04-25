@@ -1,4 +1,4 @@
-//Product Component
+//Product Component to display product
 function ProductComponent({ result }) {
   
   return (

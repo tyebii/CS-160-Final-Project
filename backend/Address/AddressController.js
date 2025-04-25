@@ -36,6 +36,7 @@ const getAddress = (req, res) => {
         return res.status(statusCode.OK).json(results)
 
     })
+
 }   
 
 //Adding Customer-Address Relationship
@@ -58,10 +59,6 @@ const addAddress = async (req, res) => {
         }
 
         let {address, name} = req.body;
-
-        logger.info("Address Recieved As " + address)
-
-        logger.info("Name Recieved As " + name)
             
         if(! await validateAddress(address)){
 
@@ -146,6 +143,14 @@ const addAddress = async (req, res) => {
             }
             
         }
+
+        if (error.code === 'ER_DUP_ENTRY') {
+
+            logger.warn("Duplicate address entry for customer");
+
+            return res.status(statusCode.RESOURCE_CONFLICT).json({ error: "You have already added this address"});
+
+          }
 
         return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error On Addition Of Address" });
     

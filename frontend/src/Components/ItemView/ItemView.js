@@ -9,9 +9,6 @@ import { useAuth } from '../../Context/AuthHook';
 // Import Formatter
 import { validateID, validateQuantity } from '../Utils/Formatting';
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
@@ -20,8 +17,6 @@ import axios from 'axios';
 
 // Item View Component
 const ItemView = () => {
-
-  const validateToken = useValidateToken();
 
   const { handleError } = useErrorResponse(); 
 
@@ -40,50 +35,42 @@ const ItemView = () => {
   //Pull Item Information
   useEffect(() => {
 
-    if (!validateID(itemid)) {
+    const fetchInventory = async () => {
 
-      navigate('/');
+      if (!validateID(itemid)) {
 
-      return;
-
-    }
-
-    let token;
-
-    let endPoint = "";
-
-    if (!auth || auth === "Customer") {
-
-      endPoint = `http://localhost:3301/api/inventory/search/itemID/customer/${itemid}`;
-
-    } else {
-
-      token = validateToken()
-
-      if(token == null){
+        navigate('/');
 
         return;
 
       }
+  
+      try {
 
-      endPoint = `http://localhost:3301/api/inventory/search/itemID/employee/${itemid}`;
+        let endPoint = "";
+  
+        if (!auth || auth === "Customer") {
 
-    }
+          endPoint = `http://localhost:3301/api/inventory/search/itemID/customer/${itemid}`;
+       
+        } else {
 
-    axios
-
-      .get(endPoint, {
-
-        headers: {
-
-          'Authorization': `Bearer ${token}`
-
+          endPoint = `http://localhost:3301/api/inventory/search/itemID/employee/${itemid}`;
+        
         }
+  
+        const response = await axios.get(endPoint, {
 
-      })
+          withCredentials: true,
 
-      .then((response) => {
+          headers: {
 
+            'Content-Type': 'application/json',
+
+          },
+
+        });
+  
         if (response.data.length === 0) {
 
           alert("No Results Found");
@@ -93,37 +80,27 @@ const ItemView = () => {
           return;
 
         }
-
+  
         setResults(response.data[0]);
 
-        setFeatured(response.data[0].FeaturedID != null)
+        setFeatured(response.data[0].FeaturedID != null);
+  
+      } catch (error) {
 
-        return;
+        handleError(error);
 
-      })
-      .catch((error) => {
+      }
 
-        handleError(error)
+    };
+  
+    fetchInventory();
 
-        return
-
-      });
-
-
-  }, [itemid]);
+  }, [itemid]);  
 
   // Adding The Item To Shopping Cart
-  const clickAdd = (e) => {
+  const clickAdd = async (e) => {
 
     e.preventDefault();
-
-    const token = validateToken()
-
-    if(token == null){
-      
-      return;
-
-    }
 
     if (!validateID(itemid)) {
 
@@ -133,23 +110,23 @@ const ItemView = () => {
 
     if (isNaN(quantity)) {
 
-      alert("Quantity Must Be A Number")
-      
-      return false;
+      alert("Quantity Must Be A Number");
+
+      return;
 
     }
 
     const numericQty = Number(quantity);
 
     if (!validateQuantity(numericQty)) {
-
+      
       return;
 
     }
 
-    axios
+    try {
 
-      .post(
+      await axios.post(
 
         `http://localhost:3301/api/shoppingcart/shoppingcart`,
 
@@ -163,155 +140,123 @@ const ItemView = () => {
 
         {
 
+          withCredentials: true,
+
           headers: {
 
-            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
 
           },
 
         }
 
-      )
+      );
 
-      .then(() => {
+      alert("Item added to shopping cart!");
 
-        alert("Item added to shopping cart!");
+      navigate("/");
 
-        navigate("/");
+    } catch (error) {
 
-        return
+      handleError(error);
 
-      })
-
-      .catch((error) => {
-
-        handleError(error);
-
-        return
-
-      });
-
+    }
+    
   };
-
-
 
   // Handle Delete Functionality
   const handleDelete = async () => {
 
-    if (window.confirm('Are you sure you want to delete this item?')) {
+    if (!window.confirm('Are you sure you want to delete this item?')) {
 
-
-      const token = validateToken();
-
-      if(token == null){
-
-        return
-
-      }
-
-      if(!validateID(itemid)){
-
-        return
-
-      }
-
-      axios
-
-        .delete(
-
-          `http://localhost:3301/api/inventory/delete/item/${itemid}`,
-
-          {
-
-            headers: {
-
-              Authorization: `Bearer ${token}`,
-
-            },
-
-          }
-
-        )
-
-        .then(() => {
-
-          alert('Item Deleted Successfully!');
-
-          navigate('/');
-
-          return;
-
-        })
-
-        .catch((error) => {
-
-          handleError(error)
-
-          return;
-
-        });
+      return;
 
     }
-
-  };
-
-  //Handle Add To Featured
-  const handleAddFeatured = ()=>{
-
+  
     if (!validateID(itemid)) {
 
       return;
 
     }
   
-    const token = validateToken();
+    try {
 
-    if(token == null){
+      await axios.delete(
 
-      return null
+        `http://localhost:3301/api/inventory/delete/item/${itemid}`,
+
+        {
+
+          withCredentials: true,
+
+          headers: {
+
+            'Content-Type': 'application/json',
+
+          },
+
+        }
+
+      );
+  
+      alert('Item Deleted Successfully!');
+
+      navigate('/');
+  
+    } catch (error) {
+
+      handleError(error);
 
     }
+
+  };
   
-    axios
+  //Handle Add To Featured
+  const handleAddFeatured = async () => {
 
-      .post(`http://localhost:3301/api/inventory/featured`,         {
+    if (!validateID(itemid)) {
 
-        ItemID: itemid,
+      return;
 
-      },
+    }
 
-      {
+    try {
 
-        headers: {
+      await axios.post(
 
-          Authorization: `Bearer ${token}`,
+        `http://localhost:3301/api/inventory/featured`,
 
-        },
+        { ItemID: itemid },
 
-      })
+        {
 
-      .then(() => {
+          withCredentials: true,
 
-        alert('Item Added To Featured');
+          headers: {
 
-        setFeatured(true);
+            'Content-Type': 'application/json',
 
-        return;
+          },
 
-      })
+        }
 
-      .catch((error) => {
+      );
 
-        handleError(error);
+      alert('Item Added To Featured');
 
-        return;
+      setFeatured(true);
 
-      });
+    } catch (error) {
 
-  };   
+      handleError(error);
+
+    }
+
+  };
+
 
   //Handle Delete From Featured
-  const handleDeleteFeatured = () => {
+  const handleDeleteFeatured = async () => {
 
     if (!validateID(itemid)) {
 
@@ -319,48 +264,38 @@ const ItemView = () => {
 
     }
   
-    const token = validateToken()
+    try {
 
-    if(token == null){
-      
-      return null
+      await axios.delete(
+
+        `http://localhost:3301/api/inventory/featured/${itemid}`,
+
+        {
+
+          withCredentials: true,
+
+          headers: {
+
+            'Content-Type': 'application/json',
+
+          },
+
+        }
+
+      );
+  
+      alert('Item Deleted From Featured');
+
+      setFeatured(false);
+  
+    } catch (error) {
+
+      handleError(error);
 
     }
-  
-    axios
-
-      .delete(`http://localhost:3301/api/inventory/featured/${itemid}`,
-
-      {
-
-        headers: {
-
-          Authorization: `Bearer ${token}`,
-
-        },
-
-      })
-
-      .then(() => {
-
-        alert('Item Deleted From Featured');
-
-        setFeatured(false);
-
-        return;
-
-      })
-
-      .catch((error) => {
-
-        handleError(error)
-
-        return;
-
-      });
 
   };
-   
+  
   return (
 
     <section className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-8 mt-12 mb-12 flex flex-col space-y-8">

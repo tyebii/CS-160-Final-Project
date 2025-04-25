@@ -132,6 +132,8 @@ function Navbar() {
 
     logout()
 
+    navigate("/")
+
   }
 
   //Click shopping cart

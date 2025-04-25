@@ -74,7 +74,6 @@ Add Constraint CheckInventorySupplierCost Check (SupplierCost  >= 0);
 Alter Table Inventory 
 Add Constraint CheckInventoryWeight Check (Weight  >= 0);
 
-
 Create Table ShoppingCart(
 	CustomerID varchar(255) ,
     ItemID varchar(255) ,
@@ -192,25 +191,27 @@ BEGIN
     END IF;
 END$$
 
+
 CREATE TRIGGER FaultyRobotUpdate
 AFTER UPDATE ON Robot
 FOR EACH ROW
 BEGIN
     IF NEW.RobotStatus = 'Broken' THEN
-        IF NOT EXISTS (SELECT 1 FROM faultyrobots WHERE RobotID = NEW.RobotID AND Cause = 'Broken') THEN
-            INSERT INTO faultyrobots (RobotID, EventDate, Cause)
-            VALUES (NEW.RobotID, NOW(), 'Broken');
-        END IF;
+        INSERT INTO faultyrobots (RobotID, EventDate, Cause)
+        VALUES (NEW.RobotID, NOW(), 'Broken')
+        ON DUPLICATE KEY UPDATE EventDate = NOW(), Cause = 'Broken';
+
     ELSEIF NEW.RobotStatus = 'Maintenance' THEN
-        IF NOT EXISTS (SELECT 1 FROM faultyrobots WHERE RobotID = NEW.RobotID AND Cause = 'Needs Maintenance') THEN
-            INSERT INTO faultyrobots (RobotID, EventDate, Cause)
-            VALUES (NEW.RobotID, NOW(), 'Needs Maintenance');
-        END IF;
-    ELSEIF NEW.RobotStatus != 'Broken' AND NEW.RobotStatus != 'Maintenance' THEN
+        INSERT INTO faultyrobots (RobotID, EventDate, Cause)
+        VALUES (NEW.RobotID, NOW(), 'Needs Maintenance')
+        ON DUPLICATE KEY UPDATE EventDate = NOW(), Cause = 'Needs Maintenance';
+
+    ELSE
         DELETE FROM faultyrobots
         WHERE RobotID = NEW.RobotID;
     END IF;
 END$$
+
 
 CREATE TRIGGER LowStockInsert
 AFTER INSERT ON Inventory
@@ -295,7 +296,7 @@ CREATE EVENT IF NOT EXISTS delete_expired_transactions
 ON SCHEDULE EVERY 20 MINUTE
 DO
 BEGIN
-    -- Restore the inventory from expired transactions
+
     UPDATE Inventory
     JOIN ShoppingCart ON Inventory.ItemID = ShoppingCart.ItemID
     JOIN Transactions ON ShoppingCart.CustomerID = Transactions.CustomerID
@@ -303,12 +304,41 @@ BEGIN
     WHERE Transactions.TransactionStatus = 'In Progress'
       AND Transactions.TransactionDate < NOW() - INTERVAL 35 MINUTE;
 
-    -- Delete only the expired transactions
     DELETE FROM Transactions
     WHERE TransactionStatus = 'In Progress'
       AND TransactionDate < NOW() - INTERVAL 35 MINUTE;
 END;
 //
+
+DELIMITER //
+
+CREATE EVENT IF NOT EXISTS failed_robots
+ON SCHEDULE EVERY 5 MINUTE
+DO
+BEGIN
+
+    UPDATE Robot
+    SET 
+        RobotStatus = 'Free',
+        EstimatedDelivery = NULL,
+        CurrentLoad = 0
+        WHERE EstimatedDelivery IS NOT NULL
+        AND EstimatedDelivery <= NOW();
+
+        UPDATE Transactions
+        SET TransactionStatus = 'Fulfilled'
+        WHERE TransactionStatus = 'Pending Delivery'
+        AND RobotID IN (
+            SELECT RobotID 
+            FROM Robot 
+            WHERE EstimatedDelivery IS NULL 
+            AND RobotStatus = 'Free'
+        );
+
+END;
+//
+
+DELIMITER ;
 
 DELIMITER ;
 
@@ -497,20 +527,20 @@ VALUES
 
 INSERT INTO FeaturedItems (ItemID) VALUES
 
-('d2f24db5-70f2-4e7d-9a96-4a387a858a1e'),  -- Green Apple
-('59ff0a4a-1a15-4961-8a9e-89b062f60a7d'),  -- Mango
+('d2f24db5-70f2-4e7d-9a96-4a387a858a1e'),  
+('59ff0a4a-1a15-4961-8a9e-89b062f60a7d'), 
 
-('3e4c9fc9-1af1-4c3f-9953-7e4c2597bc21'),  -- Eggs
-('c2017f6c-8fc3-4f2d-bdc1-49ce1d973b9c'),  -- Cheese
+('3e4c9fc9-1af1-4c3f-9953-7e4c2597bc21'), 
+('c2017f6c-8fc3-4f2d-bdc1-49ce1d973b9c'),  
 
-('19a1878c-7be3-4d7e-a6e7-89cd10998be0'),  -- Tuna
-('7102d3f3-8c6f-41f2-aac6-4a05907e0ea1'),  -- Bacon
+('19a1878c-7be3-4d7e-a6e7-89cd10998be0'),  
+('7102d3f3-8c6f-41f2-aac6-4a05907e0ea1'),  
 
-('5b8ab365-bd98-4e31-88a2-d39607c9c0a7'),  -- Croissant
-('0c1a91e1-f148-4c11-8121-4371c03a56d3'),  -- Cheesecake
+('5b8ab365-bd98-4e31-88a2-d39607c9c0a7'),  
+('0c1a91e1-f148-4c11-8121-4371c03a56d3'),  
 
-('af57e96d-5566-4765-b733-4fbb7861c401'),  -- Coffee
-('efde2609-5d6e-47c2-b14e-fc234c49a138');  -- Rice
+('af57e96d-5566-4765-b733-4fbb7861c401'),  
+('efde2609-5d6e-47c2-b14e-fc234c49a138');  
 
 
 INSERT INTO Customer(CustomerID, JoinDate) VALUES 

@@ -12,15 +12,10 @@ import { validateRobot } from "../Utils/Formatting";
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
-//Import Formatter 
-import { useValidateToken } from "../Utils/TokenValidation";
-
 //RobotUpdate Component
 export function RobotUpdate({ robot }) {
 
     const navigate = useNavigate();
-
-    const validateToken = useValidateToken();
 
     const { handleError } = useErrorResponse(); 
 
@@ -30,61 +25,53 @@ export function RobotUpdate({ robot }) {
 
     const [RobotStatus, setRobotStatus] = useState(robot.RobotStatus || 0); 
 
-    //May Want To Use Try Catch
     //Handle Form Submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
-
-        if(!validateRobot(RobotID, 0, RobotStatus, Maintanence)){
-
-            return; 
-
+      
+        if (!validateRobot(RobotID, 0, RobotStatus, Maintanence)) {
+      
+          return;
+      
         }
+      
+        try {
+      
+          await axios.put(
+            'http://localhost:3301/api/robot/robot',
+            {
+              RobotID: RobotID,
+      
+              CurrentLoad: 0,
+      
+              RobotStatus: RobotStatus,
+      
+              Maintanence: Maintanence,
+            },
 
-        const token = validateToken()
+            {
 
-        if(token == null){
+              withCredentials: true,
 
-            return
-            
-        }
-
-        axios.put('http://localhost:3301/api/robot/robot', {
-
-            RobotID: RobotID,
-
-            CurrentLoad: 0,
-
-            RobotStatus: RobotStatus,
-
-            Maintanence: Maintanence,
-
-        }, {
-
-            headers: {
-
-                'Authorization': `Bearer ${token}`
+              headers: { 'Content-Type': 'application/json' },
 
             }
 
-        })
-
-        .then((response) => {
-
-            alert("Updated Robot");
-
-            navigate("/");
-
-        })
-
-        .catch((error) => {
-
-            handleError(error)
-
-        });
-
-    }
+          );
+      
+          alert("Updated Robot");
+      
+          navigate("/");
+      
+        } catch (error) {
+      
+          handleError(error);
+      
+        }
+      
+    };
+      
 
     return (
 

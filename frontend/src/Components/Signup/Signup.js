@@ -49,38 +49,54 @@ export function Signup() {
     };
 
     // Handler function on submit
-    const clickSubmit = (e) => {
+    const clickSubmit = async (e) => {
 
         e.preventDefault();
+      
+        if (
 
-        if(signUpFormat(formData.UserID, formData.Password, formData.UserNameFirst, formData.UserNameLast, formData.UserPhoneNumber ) === false){
+          signUpFormat(
 
-            return
+            formData.UserID,
 
+            formData.Password,
+
+            formData.UserNameFirst,
+
+            formData.UserNameLast,
+
+            formData.UserPhoneNumber
+
+          ) === false
+
+        ) {
+      
+          return;
+      
         }
+      
+        try {
+      
+          await axios.post(
 
-        axios.post(
-
-            "http://localhost:3301/api/authentication/signup/customer", 
+            "http://localhost:3301/api/authentication/signup/customer",
 
             formData
 
-        )
-
-        .then((results) => {
-
-            alert("Successful Signup");
-
-            navigate("/");
-
-        })
-        .catch((error) => {
-
-            handleError(error)
-
-        });
-
+          );
+      
+          alert("Successful Signup");
+      
+          navigate("/");
+      
+        } catch (error) {
+      
+          handleError(error);
+      
+        }
+      
     };
+      
 
     return (
 

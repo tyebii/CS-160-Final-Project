@@ -1,9 +1,6 @@
 //Import UseEffect
 import { useEffect, useState } from "react";
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
@@ -15,8 +12,6 @@ import axios from 'axios';
 
 //Gets And Present Account Information
 export function MyAccount (){
-    
-    const validateToken = useValidateToken();
 
     const { handleError } = useErrorResponse();
 
@@ -27,117 +22,88 @@ export function MyAccount (){
     const [result, setResult] = useState({})
 
     useEffect(() => {
+
+        const fetchAccount = async () => {
+
+            if(!auth){
+
+                return
+
+            }
+
+            const endpoints = {
+
+                Customer: "http://localhost:3301/api/customer/customer",
+
+                Employee: "http://localhost:3301/api/customer/employee",
+
+                Manager: "http://localhost:3301/api/customer/employee",
+
+            };
         
-        const token = validateToken()
+            const endpoint = endpoints[auth];
+        
+            if (!endpoint) {
 
-        if(token == null){
+                alert("Invalid user role");
+                
+                logout();
 
-            return
+                navigate("/login");
 
-        }
+                return;
 
-        const endpoints = {
+            }
+        
+            try {
 
-            Customer: "http://localhost:3301/api/customer/customer",
+                const response = await axios.get(endpoint, {
 
-            Employee: "http://localhost:3301/api/customer/employee",
+                withCredentials: true,
 
-            Manager: "http://localhost:3301/api/customer/employee",
+                headers: { 'Content-Type': 'application/json' },
+
+                });
+
+                setResult(response.data[0]);
+        
+            } catch (error) {
+
+                handleError(error);
+
+            }
 
         };
+      
+        fetchAccount();
 
-        const endpoint = endpoints[auth];
+      }, [auth]);
+      
 
-        if (!endpoint) {
+    const handleDelete = async () => {
 
-            alert("Invalid user role");
+        try {
 
-            logout();
+            await axios.delete("http://localhost:3301/api/customer/customer", {
 
-            navigate("/login");
+            withCredentials: true,
 
-            return;
-
-        }
-
-        axios
-
-            .get(endpoint, {
-
-                headers: {
-
-                    Authorization: `Bearer ${token}`,
-
-                },
-                
-            })
-
-            .then((response) => {
-
-                if(response.data.length === 0){
-
-                    alert("No Results Found")
-
-                    navigate('/')
-
-                    return;
-
-                }
-
-                setResult(response.data[0])
-                
-            })
-
-            .catch((error) => {
-
-                handleError(error)
-                
-                return; 
+            headers: { 'Content-Type': 'application/json' },
 
             });
 
-    }, []);
+            logout();
 
-    const handleDelete = () => {
+            navigate("/");
 
-        const token = validateToken()
+        } catch (error) {
 
-        if(token == null){
-
-            return
+            handleError(error);
 
         }
 
-        axios.delete("http://localhost:3301/api/customer/customer", {
+    };
 
-            headers: {
-
-                Authorization: `Bearer ${token}`,
-
-            },
-            
-        })
-
-        .then((response) => {
-
-            logout()
-
-            navigate("/")
-
-            return 
-            
-        })
-
-        .catch((error) => {
-
-            handleError(error)
-
-            return;
-
-        });
-
-
-    }
     
     return (
         

@@ -9,9 +9,6 @@ import axios from "axios"
 //Import Custom Component 
 import { TransactionCard } from "./Components/TransactionCard"
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
@@ -19,61 +16,46 @@ import { useErrorResponse } from '../Utils/AxiosError';
 //List Of Transactions
 export function MyOrders (){
 
-    const validateToken = useValidateToken();
-
     const { handleError } = useErrorResponse(); 
 
     const [results, setResults] = useState([])
 
-    useEffect(()=>{
+    useEffect(() => {
+        
+        const fetchTransactions = async () => {
 
-        const token = validateToken()
+          try {
 
-        if(token == null){
+            const response = await axios.get("http://localhost:3301/api/transaction/transactions/customer", {
+              
+                withCredentials: true,
 
-            return;
+              headers: { 'Content-Type': 'application/json' },
 
-        }
+            });
+      
+            if (response.data.length === 0) {
 
-        axios
+              alert("No Results Found");
 
-        .get("http://localhost:3301/api/transaction/transactions/customer", {
-
-            headers: {
-
-                Authorization: `Bearer ${token}`,
-
-            },
-
-        })
-
-        .then((response) => {
-
-            if(response.length === 0){
-
-                alert("No Results Found")
-
-                return;
-
-            }else{
-
-                setResults(response.data)
-
-                return;
+              return;
 
             }
+      
+            setResults(response.data);
+      
+          } catch (error) {
 
-        })
+            handleError(error);
 
-        .catch((error) => {
+          }
 
-            handleError(error)
+        };
+      
+        fetchTransactions();
 
-            return;
-
-        });
-
-    },[])
+      }, []);
+      
 
     return(
 
