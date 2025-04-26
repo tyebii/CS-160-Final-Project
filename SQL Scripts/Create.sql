@@ -4,6 +4,11 @@ Create Database OFS;
 -- Use The Created DB
 Use OFS;
 
+-- Address Table
+Create Table Address(
+	Address varchar(255) primary key
+);
+
 -- Employee Table That Stores Employee Related Information
 Create Table Employee(
 	EmployeeID varchar(255) primary key,
@@ -14,6 +19,12 @@ Create Table Employee(
     EmployeeHourly double not null, 
     SupervisorID varchar(255),
     Foreign Key(SupervisorID) References Employee(EmployeeID) on delete cascade
+);
+
+-- Customer Table Stores Customer Information
+Create Table Customer(
+	CustomerID varchar(255) primary key, 
+    JoinDate date not null
 );
 
 -- User Table Stores User Information
@@ -27,12 +38,6 @@ CREATE TABLE Users(
     CustomerID varchar(255),
     Foreign Key(EmployeeID) References Employee(EmployeeID) on delete cascade,
     Foreign Key(CustomerID) References Customer(CustomerID) on delete cascade
-);
-
--- Customer Table Stores Customer Information
-Create Table Customer(
-	CustomerID varchar(255) primary key, 
-    JoinDate date not null
 );
 
 -- Inventory Table Stores Item Data
@@ -106,14 +111,14 @@ Create Table CustomerAddress(
 -- Stores Low Stock Items
 Create Table LowStockLog(
 	ItemID varchar(255) primary key,
-    EventDate date not null,
+    EventDate Datetime not null,
     Foreign Key(ItemID) References Inventory(ItemID) on delete cascade
 );
 
 -- Stores Faulty Robot Data
 Create Table FaultyRobots(
 	RobotID varchar(255) primary key,
-    EventDate date not null,
+    EventDate Datetime not null,
     Cause varchar(255) not null,
     Foreign Key(RobotID) References robot(RobotID) on delete cascade
 );
@@ -121,14 +126,14 @@ Create Table FaultyRobots(
 -- Featured Items On Home Page
 Create Table FeaturedItems( 
     ItemID varchar(255) primary key,
-    EventDate date not null,
+    EventDate Datetime not null,
     Foreign Key(ItemID) References Inventory(ItemID) on delete cascade
 );
 
 -- Items Near Expiration
 Create Table NearExpiration( 
     ItemID varchar(255) primary key,
-    EventDate date not null,
+    EventDate Datetime not null,
     Foreign Key(ItemID) References Inventory(ItemID) on delete cascade
 );
 
@@ -146,10 +151,6 @@ CREATE TABLE TransactionItems (
 
 );
 
--- Address Table
-Create Table Address(
-	Address varchar(255) primary key
-);
 
 
 -- Constraints
@@ -570,22 +571,22 @@ VALUES
 ('f5e3e3d7-d8fe-4ad7-b464-eeb82b8e2e9a', 120, 'WellnessInc', 0.40, 'Vitamin C', 'Health and Wellness', 2.00, '2025-09-01', 3.00, 'Room Temperature', '2025-04-18', 'vitaminc.jpg', 'Vitamin C supplement for immunity support');
 
 -- Insert Into Featured
-INSERT INTO FeaturedItems (ItemID) VALUES
+INSERT INTO FeaturedItems (ItemID, EventDate) VALUES
 
-('d2f24db5-70f2-4e7d-9a96-4a387a858a1e'),  
-('59ff0a4a-1a15-4961-8a9e-89b062f60a7d'), 
+('d2f24db5-70f2-4e7d-9a96-4a387a858a1e', '2025-04-18'),  
+('59ff0a4a-1a15-4961-8a9e-89b062f60a7d', '2025-04-18'), 
 
-('3e4c9fc9-1af1-4c3f-9953-7e4c2597bc21'), 
-('c2017f6c-8fc3-4f2d-bdc1-49ce1d973b9c'),  
+('3e4c9fc9-1af1-4c3f-9953-7e4c2597bc21', '2025-04-18'), 
+('c2017f6c-8fc3-4f2d-bdc1-49ce1d973b9c', '2025-04-18'),  
 
-('19a1878c-7be3-4d7e-a6e7-89cd10998be0'),  
-('7102d3f3-8c6f-41f2-aac6-4a05907e0ea1'),  
+('19a1878c-7be3-4d7e-a6e7-89cd10998be0', '2025-04-18'),  
+('7102d3f3-8c6f-41f2-aac6-4a05907e0ea1', '2025-04-18'),  
 
-('5b8ab365-bd98-4e31-88a2-d39607c9c0a7'),  
-('0c1a91e1-f148-4c11-8121-4371c03a56d3'),  
+('5b8ab365-bd98-4e31-88a2-d39607c9c0a7', '2025-04-18'),  
+('0c1a91e1-f148-4c11-8121-4371c03a56d3', '2025-04-18'),  
 
-('af57e96d-5566-4765-b733-4fbb7861c401'),  
-('efde2609-5d6e-47c2-b14e-fc234c49a138');  
+('af57e96d-5566-4765-b733-4fbb7861c401', '2025-04-18'),  
+('efde2609-5d6e-47c2-b14e-fc234c49a138', '2025-04-18');   
 
 -- Insert Customer Account
 INSERT INTO Customer(CustomerID, JoinDate) VALUES 
@@ -603,8 +604,8 @@ INSERT INTO Users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumbe
   ('employeeaccount', '$2b$10$qshO7B9Lge.sVLTF3XHwpePyloSIi1fbe7clrwSGzzh9YTQhDkxdi', 'Jane', 'Smither', '1-987-654-3212', '4cedc688-2ef6-424c-9e14-c72cd3f45b29', NULL);
 
 -- Insert The Items That Are Near Expiration Into The Near Expiration Table
-INSERT INTO NearExpiration(ItemID)
-SELECT ItemID
+INSERT INTO NearExpiration(ItemID, EventDate)
+SELECT ItemID, Now()
 FROM Inventory
 WHERE DATEDIFF(Expiration, CURDATE()) <= 3
 AND ItemID NOT IN (SELECT ItemID FROM NearExpiration);
