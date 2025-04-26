@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 //Import Auth Context
 import { useAuth } from '../../Context/AuthHook';
 
+import { useCart } from '../../Context/ShoppingcartContext';
+
 // Images for the Navbar
 import ofsLogo from './NavbarImages/ofsLogo.png';
 
@@ -31,6 +33,8 @@ function Navbar() {
   const [searchText, setSearchText] = useState("")
 
   const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const { cartItems } = useCart();
 
   //Set Dropdown Visibility
   const toggleDropdown = () => {
@@ -359,6 +363,16 @@ function Navbar() {
             className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 rounded-lg cursor-pointer transition duration-200"
 
           >
+
+            {cartItems.size > 0 && (
+
+            <span className="bg-red-500 text-white text-sm font-bold px-2 py-1 rounded-full">
+
+              {cartItems.size}
+
+            </span>
+
+            )}
 
             <img
 

@@ -16,7 +16,7 @@ const FlaggedItem = ({ item, robots }) => {
 
           <h3 className="text-xl font-semibold text-gray-800 mb-2">Item ID: {item.ItemID}</h3>
 
-          <p className="text-sm text-gray-500">Date of Event Add: {item.EventDate}</p>
+          <p className="text-sm text-gray-500">Date of Event Add: {item.EventDate?.slice(0,10)}</p>
 
         </div>
   

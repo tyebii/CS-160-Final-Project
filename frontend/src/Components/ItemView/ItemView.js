@@ -13,11 +13,15 @@ import { validateID, validateQuantity } from '../Utils/Formatting';
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
+import { useCart } from '../../Context/ShoppingcartContext';
+
 // Import Axios For Backend Queries
 import axios from 'axios';
 
 // Item View Component
 const ItemView = ({ searchType, query }) => {
+
+  const { addItem } = useCart();
 
   const { handleError } = useErrorResponse(); 
 
@@ -155,6 +159,10 @@ const ItemView = ({ searchType, query }) => {
         }
 
       );
+
+      console.log(itemid)
+      
+      addItem(itemid)
 
       if(!searchType || !query){
         

@@ -15,8 +15,12 @@ import { validateAddress, validateID, validateName} from '../Utils/Formatting';
 //Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
+import { useCart } from '../../Context/ShoppingcartContext';
+
 //Shopping Cart Component
 function ShoppingCart() {
+
+  const {removeItem, clearItems} = useCart()
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -62,7 +66,7 @@ function ShoppingCart() {
           })
 
         ]);
-  
+        
         setResults(cartRes.data);
   
         setAddresses(prev => {
@@ -83,21 +87,6 @@ function ShoppingCart() {
 
     })();
     
-  }, []);
-
-  //Refresh Page
-  useEffect(() => {
-    const handlePageShow = (event) => {
-      if (event.persisted) {
-        window.location.reload();
-      }
-    };
-  
-    window.addEventListener('pageshow', handlePageShow);
-  
-    return () => {
-      window.removeEventListener('pageshow', handlePageShow);
-    };
   }, []);
 
   //Load The Total
@@ -137,6 +126,8 @@ const handleClear = async () => {
 
     });
 
+    clearItems();
+
     setResults([]);
 
   } catch (error) {
@@ -169,6 +160,8 @@ const clickRemove = async (itemid) => {
       data: { ItemID: itemid },
 
     });
+
+    removeItem(itemid)
 
     setResults((prevItems) => prevItems.filter((item) => item.ItemID !== itemid));
 

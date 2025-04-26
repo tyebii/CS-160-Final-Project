@@ -996,7 +996,7 @@ const featuredAdd = (req,res)=>{
 
     }
 
-    pool.query('Insert Into FeaturedItems(ItemID) Values (?)', ItemID, (error,results)=>{
+    pool.query('Insert Into FeaturedItems(ItemID, EventDate) Values (?, NOW())', ItemID, (error,results)=>{
 
         if (error) {
 
