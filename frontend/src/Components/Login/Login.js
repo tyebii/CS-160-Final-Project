@@ -76,8 +76,6 @@ function Login() {
 
             alert('Failed Login')
 
-            handleError(error);
-
         }
         
     };

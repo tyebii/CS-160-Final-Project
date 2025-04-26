@@ -159,8 +159,6 @@ const ItemView = ({ searchType, query }) => {
         }
 
       );
-
-      console.log(itemid)
       
       addItem(itemid)
 

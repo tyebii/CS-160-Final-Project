@@ -2,11 +2,15 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 import axios from 'axios';
 
+import { useAuth } from './AuthHook';
+
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
 
     const [cartItems, setCartItems] = useState(new Set()); 
+
+    const {auth} = useAuth()
 
     const addItem = (item) => {
 
@@ -46,6 +50,12 @@ export const CartProvider = ({ children }) => {
 
     useEffect(() => {
 
+        if(!auth || auth === "Manager" || auth === "Employee"){
+
+          return
+          
+        }
+
         const fetchCartItems = async () => {
 
           try {
@@ -70,7 +80,7 @@ export const CartProvider = ({ children }) => {
       
         fetchCartItems();
 
-    }, []);
+    }, [auth]);
 
     return (
 

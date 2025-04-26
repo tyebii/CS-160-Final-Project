@@ -60,7 +60,7 @@ export default function RobotArea({trigger, setTrigger,  auth, logout}) {
 }
 
 //Robot Component
-function Robots ({trigger, setTrigger, logout, auth}){
+function Robots ({trigger, setTrigger, auth}){
 
   const navigate = useNavigate()
   
@@ -70,6 +70,12 @@ function Robots ({trigger, setTrigger, logout, auth}){
 
   //Load The Robots
   useEffect(() => {
+
+    if(!auth){
+
+      return 
+      
+    }
 
     axios.get("http://localhost:3301/api/robot/robot", {
 
@@ -91,7 +97,7 @@ function Robots ({trigger, setTrigger, logout, auth}){
 
     });
 
-  }, [trigger]);
+  }, [trigger, auth]);
 
   //Schedule Robots
   const scheduleClick = () => {

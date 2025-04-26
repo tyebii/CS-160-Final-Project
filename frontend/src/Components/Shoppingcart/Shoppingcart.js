@@ -262,6 +262,8 @@ const clickRemove = async (itemid) => {
         }
 
       );
+
+      clearItems();
   
       window.location.href = response.data.url;
   
