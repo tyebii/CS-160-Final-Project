@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   mysql:
@@ -13,6 +13,7 @@ services:
       - ./sql/Triggers.sql:/docker-entrypoint-initdb.d/02_Triggers.sql
     ports:
       - "3307:3306"
+    command: --lower_case_table_names=1
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 30s

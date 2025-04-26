@@ -41,7 +41,7 @@ const signUpCustomer = async (req, res) => {
 
                 logger.info("Inserting Into Customer")
     
-                const sqlQueryOne = 'INSERT INTO customer (CustomerID, JoinDate) VALUES (?, ?)'
+                const sqlQueryOne = 'INSERT INTO Customer (CustomerID, JoinDate) VALUES (?, ?)'
 
                 await connection.query(
 
@@ -53,7 +53,7 @@ const signUpCustomer = async (req, res) => {
 
                 logger.info("Inserting Into Users")
 
-                const sqlQueryTwo = 'INSERT INTO users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, NULL, ?)'
+                const sqlQueryTwo = 'INSERT INTO Users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, NULL, ?)'
                 
                 await connection.query(
 
@@ -155,7 +155,7 @@ const signUpEmployee = async (req, res) => {
 
                 logger.info("Inserting Into User's Table")
 
-                const sqlQueryTwo = 'INSERT INTO users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, ?, Null)'
+                const sqlQueryTwo = 'INSERT INTO Users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, ?, Null)'
                 
                 await connection.query(
 
@@ -264,7 +264,7 @@ const signUpManager = async (req, res) => {
 
             logger.info("Inserting Into Users")
 
-            const sqlQueryTwo = 'INSERT INTO users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, ?, Null)'
+            const sqlQueryTwo = 'INSERT INTO Users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, ?, Null)'
 
             await connection.query(
 
@@ -342,7 +342,7 @@ const login = async (req, res) => {
 
             logger.info("Checking If The Account Exists")
 
-            const sqlQueryOne =  `SELECT users.password, users.employeeid, users.customerid, employee.supervisorid FROM users LEFT JOIN employee ON users.EmployeeId = employee.EmployeeID WHERE users.UserID = ?`
+            const sqlQueryOne =  `SELECT Users.password, Users.employeeid, Users.customerid, Employee.supervisorid FROM Users LEFT JOIN Employee ON Users.EmployeeId = Employee.EmployeeID WHERE Users.UserID = ?`
 
             const [rows] = await connection.query(sqlQueryOne, [UserID]);
 

@@ -1,3 +1,6 @@
+-- Drop IF It Exists
+DROP DATABASE IF EXISTS OFS;
+
 -- Create The DB
 Create Database OFS;
 
@@ -266,34 +269,34 @@ INSERT INTO Inventory (
 	Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description
 ) VALUES
 ('b3c1f0e8-9e43-40b2-9318-7f0f8a3c141a', 45, 'OceanFresh Ltd.', 0.67, 'Clams', 'Meat and Seafood', 2.50,
-'2025-05-10', 4.00, 'Deep Frozen', '2025-04-18', 'clams.JPG', 'Freshly harvested Atlantic clams'),
+'2025-05-10', 4.00, 'Deep Frozen', '2025-04-18', 'clams.jpg', 'Freshly harvested Atlantic clams'),
 
 ('21a7d06d-c45d-49b8-b4a5-8a27c9f9d91e', 30, 'Crustacean Co.', 1.10, 'Lobster', 'Meat and Seafood', 8.00,
- '2025-04-28', 12.00, 'Cryogenic', '2025-04-18', 'lobster.JPG', 'Wild-caught Maine lobster'),
+ '2025-04-28', 12.00, 'Cryogenic', '2025-04-18', 'lobster.jpg', 'Wild-caught Maine lobster'),
 
 ('b19d8919-fd3a-4137-b04a-c04fdad9f5a4', 50, 'SeaHarvest Inc.', 0.53, 'Crab', 'Meat and Seafood', 3.25,
- '2025-05-05', 5.75, 'Frozen', '2025-04-18', 'crab.JPG', 'Snow crab meat, shelled'),
+ '2025-05-05', 5.75, 'Frozen', '2025-04-18', 'crab.jpg', 'Snow crab meat, shelled'),
 
 ('a2c9b5ec-f1b4-4a26-a504-6a74797b69e0', 20, 'ShrimpShack', 0.54, 'Shrimp Pack 2', 'Meat and Seafood', 3.10,
- '2025-04-25', 4.99, 'Frozen', '2025-04-18', 'shrimpTwo.JPG', 'Peeled and deveined shrimp'),
+ '2025-04-25', 4.99, 'Frozen', '2025-04-18', 'shrimpTwo.jpg', 'Peeled and deveined shrimp'),
 
 ('19a1878c-7be3-4d7e-a6e7-89cd10998be0', 40, 'Pacific Bluefish', 0.83, 'Tuna', 'Meat and Seafood', 6.00,
- '2025-04-30', 9.25, 'Refrigerated', '2025-04-18', 'tuna.JPG', 'Yellowfin tuna steaks'),
+ '2025-04-30', 9.25, 'Refrigerated', '2025-04-18', 'tuna.jpg', 'Yellowfin tuna steaks'),
 
 ('47e83cd1-943e-44d3-b9b6-9bcdac2d1706', 25, 'Atlantic Cuts', 1.54, 'Salmon Pack 2', 'Meat and Seafood', 5.00,
- '2025-04-26', 7.50, 'Frozen', '2025-04-18', 'salmonTwo.JPG', 'Wild-caught Atlantic salmon'),
+ '2025-04-26', 7.50, 'Frozen', '2025-04-18', 'salmonTwo.jpg', 'Wild-caught Atlantic salmon'),
 
 ('4a5cf262-78e1-45ec-8e29-cd39662a7a42', 10, 'Barnyard Brothers', 0.01, 'Goat Sample', 'Meat and Seafood', 0.25,
- '2025-04-20', 0.50, 'Refrigerated', '2025-04-18', 'goat.JPG', 'Testing sample of goat meat'),
+ '2025-04-20', 0.50, 'Refrigerated', '2025-04-18', 'goat.jpg', 'Testing sample of goat meat'),
 
 ('0a48c8f9-e022-4328-9287-c0cf22d1d96d', 15, 'WildGame Meats', 2.18, 'Venison', 'Meat and Seafood', 9.25,
- '2025-05-15', 13.50, 'Frozen', '2025-04-18', 'venison.JPG', 'Premium venison loin cuts'),
+ '2025-05-15', 13.50, 'Frozen', '2025-04-18', 'venison.jpg', 'Premium venison loin cuts'),
 
 ('7102d3f3-8c6f-41f2-aac6-4a05907e0ea1', 60, 'Porkify LLC', 1.10, 'Bacon', 'Meat and Seafood', 2.75,
- '2025-04-24', 4.00, 'Refrigerated', '2025-04-18', 'bacon.JPG', 'Applewood smoked bacon'),
+ '2025-04-24', 4.00, 'Refrigerated', '2025-04-18', 'bacon.jpg', 'Applewood smoked bacon'),
 
 ('a9a13255-f0c5-4ff8-9481-f2e75c8cdcbc', 35, 'Shepherd Supply', 0.71, 'Lamb', 'Meat and Seafood', 6.25,
- '2025-05-08', 9.00, 'Frozen', '2025-04-18', 'lamb.JPG', 'Grass-fed lamb leg portion');
+ '2025-05-08', 9.00, 'Frozen', '2025-04-18', 'lamb.jpg', 'Grass-fed lamb leg portion');
 
 -- Insert Into Bakery And Bread
 INSERT INTO Inventory (
@@ -301,34 +304,34 @@ INSERT INTO Inventory (
 	Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description
 ) VALUES
 ('fe028ef6-d14d-4b13-94d4-2f87f1c9f53e', 25, 'Danish Delights Co.', 1.05, 'Danish', 'Bakery and Bread', 2.75,
- '2025-04-23', 4.25, 'Room Temperature', '2025-04-18', 'danish.JPG', 'Buttery danish with fruit filling'),
+ '2025-04-23', 4.25, 'Room Temperature', '2025-04-18', 'danish.jpg', 'Buttery danish with fruit filling'),
 
 ('3c0e6e1b-13e0-4646-b2db-320206e26f91', 40, 'FreshLoaf Distributors', 1.45, 'Bread Pack 2', 'Bakery and Bread', 1.80,
- '2025-04-21', 3.25, 'Cool', '2025-04-18', 'breadTwo.JPG', 'Soft multigrain bread loaves'),
+ '2025-04-21', 3.25, 'Cool', '2025-04-18', 'breadTwo.jpg', 'Soft multigrain bread loaves'),
 
 ('654ea8b3-87c2-4b07-9c35-c557f52e007c', 38, 'FreshLoaf Distributors', 0.92, 'Bread Pack 3', 'Bakery and Bread', 1.60,
- '2025-04-21', 2.90, 'Cool', '2025-04-18', 'breadThree.JPG', 'Classic white sandwich bread'),
+ '2025-04-21', 2.90, 'Cool', '2025-04-18', 'breadThree.jpg', 'Classic white sandwich bread'),
 
 ('7d420da2-635c-48cd-8ff9-8c5cb679ad6c', 20, 'Pie & Co.', 1.49, 'Pie', 'Bakery and Bread', 3.90,
- '2025-04-24', 5.50, 'Room Temperature', '2025-04-18', 'pie.JPG', 'Homestyle apple pie'),
+ '2025-04-24', 5.50, 'Room Temperature', '2025-04-18', 'pie.jpg', 'Homestyle apple pie'),
 
 ('38c6eac0-0d69-43db-b6db-55d2cdb48e14', 50, 'SweetTreats Inc.', 1.33, 'Cookie', 'Bakery and Bread', 1.25,
- '2025-04-26', 2.25, 'Room Temperature', '2025-04-18', 'cookie.JPG', 'Chocolate chip cookies'),
+ '2025-04-26', 2.25, 'Room Temperature', '2025-04-18', 'cookie.jpg', 'Chocolate chip cookies'),
 
 ('cf2d8e2c-85ea-4147-a1d4-e7a8a0be38cc', 45, 'Muffin Magic', 0.63, 'Muffin', 'Bakery and Bread', 1.00,
- '2025-04-22', 1.99, 'Room Temperature', '2025-04-18', 'muffin.JPG', 'Blueberry breakfast muffin'),
+ '2025-04-22', 1.99, 'Room Temperature', '2025-04-18', 'muffin.jpg', 'Blueberry breakfast muffin'),
 
 ('4ae50e68-f17f-4c29-8a8a-c6dbce45ec8f', 35, 'Baker’s Basket', 3.18, 'Scone', 'Bakery and Bread', 2.90,
- '2025-04-23', 4.50, 'Cool', '2025-04-18', 'scone.JPG', 'British-style butter scones'),
+ '2025-04-23', 4.50, 'Cool', '2025-04-18', 'scone.jpg', 'British-style butter scones'),
 
 ('0c1a91e1-f148-4c11-8121-4371c03a56d3', 28, 'Cheesecake Central', 1.05, 'Cheesecake', 'Bakery and Bread', 4.25,
- '2025-04-27', 6.75, 'Refrigerated', '2025-04-18', 'cheesecake.JPG', 'New York-style cheesecake'),
+ '2025-04-27', 6.75, 'Refrigerated', '2025-04-18', 'cheesecake.jpg', 'New York-style cheesecake'),
 
 ('5b8ab365-bd98-4e31-88a2-d39607c9c0a7', 22, 'French Pastry Supply', 1.76, 'Croissant', 'Bakery and Bread', 2.25,
- '2025-04-21', 3.95, 'Room Temperature', '2025-04-18', 'croissant.JPG', 'Flaky buttery croissants'),
+ '2025-04-21', 3.95, 'Room Temperature', '2025-04-18', 'croissant.jpg', 'Flaky buttery croissants'),
 
 ('ac5a3d77-1c0e-429e-bc3b-0cb4ea84fc27', 30, 'ChocoCraft Ltd.', 0.66, 'Chocolate Cake', 'Bakery and Bread', 3.25,
- '2025-04-25', 5.50, 'Refrigerated', '2025-04-18', 'chocolatecake.JPG', 'Rich double-layer chocolate cake');
+ '2025-04-25', 5.50, 'Refrigerated', '2025-04-18', 'chocolatecake.jpg', 'Rich double-layer chocolate cake');
 
 -- Insert Into Pantry Staples
 INSERT INTO Inventory (
@@ -336,46 +339,46 @@ INSERT INTO Inventory (
 	Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description
 ) VALUES
 ('50230ec7-12b3-4dbb-8ec9-9d113191e474', 100, 'PantryPro Supplies', 5.80, 'Beans', 'Pantry Staples', 2.50,
- '2026-04-18', 4.00, 'Dry', '2025-04-18', 'beans.JPG', 'Dried mixed beans for cooking'),
+ '2026-04-18', 4.00, 'Dry', '2025-04-18', 'beans.jpg', 'Dried mixed beans for cooking'),
 
 ('1ac4f144-9967-4702-99e1-34a1a00c4b28', 90, 'PantryPro Supplies', 1.32, 'Black Beans', 'Pantry Staples', 1.75,
- '2026-04-18', 3.20, 'Dry', '2025-04-18', 'blackbeans.JPG', 'Organic black beans'),
+ '2026-04-18', 3.20, 'Dry', '2025-04-18', 'blackbeans.jpg', 'Organic black beans'),
 
 ('af57e96d-5566-4765-b733-4fbb7861c401', 60, 'CafeBasics Inc.', 0.56, 'Coffee', 'Pantry Staples', 3.10,
- '2025-10-01', 5.50, 'Dry', '2025-04-18', 'coffee.JPG', 'Instant ground coffee'),
+ '2025-10-01', 5.50, 'Dry', '2025-04-18', 'coffee.jpg', 'Instant ground coffee'),
 
 ('af9b7aa1-9c3a-4f6b-9bfc-7dc4cd40e4b7', 50, 'CafeBasics Inc.', 0.62, 'Coffee Beans', 'Pantry Staples', 4.25,
- '2026-01-12', 6.75, 'Dry', '2025-04-18', 'coffeeBeans.JPG', 'Whole roasted arabica beans'),
+ '2026-01-12', 6.75, 'Dry', '2025-04-18', 'coffeeBeans.jpg', 'Whole roasted arabica beans'),
 
 ('b6b36954-f61e-41b4-a274-3b1774aeab61', 52, 'CafeBasics Inc.', 0.83, 'Coffee Beans Pack 2', 'Pantry Staples', 4.00,
- '2026-01-12', 6.25, 'Dry', '2025-04-18', 'coffeebeansTwo.JPG', 'Dark roast coffee beans'),
+ '2026-01-12', 6.25, 'Dry', '2025-04-18', 'coffeebeansTwo.jpg', 'Dark roast coffee beans'),
 
 ('92b73a7d-6814-4c69-9a9f-e3a1b7c2e3f2', 75, 'BakersBulk Goods', 1.54, 'Flour', 'Pantry Staples', 2.10,
- '2025-12-30', 3.50, 'Dry', '2025-04-18', 'flour.JPG', 'All-purpose wheat flour'),
+ '2025-12-30', 3.50, 'Dry', '2025-04-18', 'flour.jpg', 'All-purpose wheat flour'),
 
 ('9cf633e0-9d96-47fc-bf66-f84891111902', 85, 'OatHarvest Ltd.', 1.59, 'Oats', 'Pantry Staples', 1.95,
- '2025-11-18', 3.10, 'Dry', '2025-04-18', 'oats.JPG', 'Rolled oats for breakfast and baking'),
+ '2025-11-18', 3.10, 'Dry', '2025-04-18', 'oats.jpg', 'Rolled oats for breakfast and baking'),
 
 ('7c49d3f7-c905-4f2b-831d-d86cd6639f31', 120, 'PastaTime Suppliers', 0.75, 'Pasta', 'Pantry Staples', 1.30,
- '2026-03-10', 2.50, 'Dry', '2025-04-18', 'pasta.JPG', 'Dry spaghetti pasta'),
+ '2026-03-10', 2.50, 'Dry', '2025-04-18', 'pasta.jpg', 'Dry spaghetti pasta'),
 
 ('35bff248-68b6-4c62-9d51-0887b7eb845e', 110, 'PastaTime Suppliers', 0.29, 'Pasta Pack 2', 'Pantry Staples', 1.10,
- '2026-03-10', 2.20, 'Dry', '2025-04-18', 'pastaTwo.JPG', 'Macaroni-style pasta'),
+ '2026-03-10', 2.20, 'Dry', '2025-04-18', 'pastaTwo.jpg', 'Macaroni-style pasta'),
 
 ('efde2609-5d6e-47c2-b14e-fc234c49a138', 130, 'GrainMasters', 1.60, 'Rice', 'Pantry Staples', 2.40,
- '2026-05-01', 4.00, 'Dry', '2025-04-18', 'rice.JPG', 'White long grain rice'),
+ '2026-05-01', 4.00, 'Dry', '2025-04-18', 'rice.jpg', 'White long grain rice'),
 
 ('296265b5-15ac-4ecf-87c5-07db27939cf6', 100, 'GrainMasters', 1.16, 'Rice Pack 2', 'Pantry Staples', 2.10,
- '2026-05-01', 3.60, 'Dry', '2025-04-18', 'riceTwo.JPG', 'Short grain rice for sticky dishes'),
+ '2026-05-01', 3.60, 'Dry', '2025-04-18', 'riceTwo.jpg', 'Short grain rice for sticky dishes'),
 
 ('0aa8006f-f57a-46c5-a99c-273cf3ff16cc', 95, 'SoyHarvest USA', 2.73, 'Soybeans', 'Pantry Staples', 2.95,
- '2025-12-15', 4.80, 'Dry', '2025-04-18', 'soybeans.JPG', 'Raw soybeans for cooking'),
+ '2025-12-15', 4.80, 'Dry', '2025-04-18', 'soybeans.jpg', 'Raw soybeans for cooking'),
 
 ('c3ddfc6d-626c-406f-9377-c96a04e90e5a', 105, 'SweetCo Ltd.', 0.60, 'Sugar', 'Pantry Staples', 1.50,
- '2026-01-20', 2.75, 'Dry', '2025-04-18', 'sugar.JPG', 'Granulated white sugar'),
+ '2026-01-20', 2.75, 'Dry', '2025-04-18', 'sugar.jpg', 'Granulated white sugar'),
 
 ('e15a6df4-d4bc-4740-9b71-90678d183e91', 65, 'GrainMasters', 1.83, 'Wild Rice', 'Pantry Staples', 3.75,
- '2026-03-18', 6.25, 'Dry', '2025-04-18', 'wildRice.JPG', 'Nutty-flavored wild rice blend');
+ '2026-03-18', 6.25, 'Dry', '2025-04-18', 'wildRice.jpg', 'Nutty-flavored wild rice blend');
 
 -- Insert Into Snacks And Sweets
 INSERT INTO Inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description) 
