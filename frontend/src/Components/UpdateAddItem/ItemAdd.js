@@ -93,9 +93,6 @@ export const ItemAdd = () => {
             withCredentials: true,
           });
       
-      
-          alert("Added The Item");
-      
           navigate("/");
       
         } catch (error) {

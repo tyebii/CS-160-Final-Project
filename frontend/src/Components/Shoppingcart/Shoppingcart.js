@@ -30,7 +30,7 @@ function ShoppingCart() {
 
   const [cost, setCost] = useState(0);
 
-  const [selectedAddress, setSelectedAddress] = useState({Name: "In Store Pickup", Address: "272 E Santa Clara St, San Jose, CA 95112"}); 
+  const [selectedAddress, setSelectedAddress] = useState(null); 
 
   const [addressModalOpen, setAddressModalOpen] = useState(false);
 
@@ -84,7 +84,21 @@ function ShoppingCart() {
     })();
     
   }, []);
+
+  //Refresh Page
+  useEffect(() => {
+    const handlePageShow = (event) => {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    };
   
+    window.addEventListener('pageshow', handlePageShow);
+  
+    return () => {
+      window.removeEventListener('pageshow', handlePageShow);
+    };
+  }, []);
 
   //Load The Total
   useEffect(() => {
@@ -107,6 +121,14 @@ const handleClear = async () => {
 
   try {
 
+    if(results.length == 0){
+
+      alert("Nothing To Clear");
+
+      return
+
+    }
+
     await axios.delete('http://localhost:3301/api/shoppingcart/shoppingcart/clear', {
 
       withCredentials: true,
@@ -114,8 +136,6 @@ const handleClear = async () => {
       headers: { 'Content-Type': 'application/json' }
 
     });
-
-    alert("Cleared Your Shoppingcart!");
 
     setResults([]);
 
@@ -150,8 +170,6 @@ const clickRemove = async (itemid) => {
 
     });
 
-    alert("Removed The Item!");
-
     setResults((prevItems) => prevItems.filter((item) => item.ItemID !== itemid));
 
   } catch (error) {
@@ -169,6 +187,26 @@ const clickRemove = async (itemid) => {
     if (isProcessing) return;
   
     setIsProcessing(true);
+
+    if(selectedAddress == null){
+
+      alert("Must Select Address")
+
+      setIsProcessing(false);
+
+      return
+
+    }
+
+    if(weight > 200 && selectedAddress.Address != addresses[0].Address){
+
+      alert("Cannot Have A Transaction Over 200 LBS Be Delivered")
+
+      setIsProcessing(false);
+
+      return
+      
+    }
   
     if (results.length === 0) {
 
@@ -177,6 +215,18 @@ const clickRemove = async (itemid) => {
       setIsProcessing(false);
 
       return;
+
+    }
+
+    for(let i = 0; i < results.length; i++){
+
+      if (results[i].Quantity == 0) {
+
+        alert("Cannot Order Something Of Zero Quantity")
+
+        return
+
+      }
 
     }
   
@@ -255,6 +305,14 @@ const clickRemove = async (itemid) => {
       return;
 
     }
+
+    if(address === "272 East Santa Clara Street, San Jose, California 95113, United States" || address === "272 E Santa Clara St, San Jose, CA 95112"){
+
+      alert("Cannot Add Store")
+      
+      return
+
+    }
   
     try {
 
@@ -279,8 +337,6 @@ const clickRemove = async (itemid) => {
         }
 
       );
-  
-      alert("Address Added!");
   
       setAddresses((prevAddresses) => [
 
@@ -441,9 +497,15 @@ const clickRemove = async (itemid) => {
 
           <h3>Weight: {weight.toFixed(2)} lbs</h3>
 
-          <h3>Delivery Fee: ${selectedAddress.Name === "In Store Pickup" ? 0 : deliveryFee} </h3>
+          <h3>Delivery Fee: ${selectedAddress == null || selectedAddress.Name === "In Store Pickup" ? 0 : deliveryFee} </h3>
 
-          <h3>Total: $ {selectedAddress.Name === "In Store Pickup" ? cost : deliveryFee + cost} </h3>
+          <h3>Total: $ {selectedAddress == null || selectedAddress.Name === "In Store Pickup" ? cost : deliveryFee + cost} </h3>
+
+          <div className="mt-2 text-green-600 font-medium text-sm bg-green-100 px-4 py-2 rounded-md">
+            
+            Free Delivery on Orders Under 20 lbs!
+
+          </div>
 
         </div>
 

@@ -1,3 +1,4 @@
+const { add } = require('winston');
 const pool = require('../Database Pool/DBConnections')
 
 const {validateID, statusCode, validateAddress, validateName} = require('../Utils/Formatting')
@@ -65,6 +66,16 @@ const addAddress = async (req, res) => {
             logger.error("Address Is Invalid")
 
             return res.status(statusCode.BAD_REQUEST).json({error:"Address Is Invalid"})
+
+        }
+
+        console.log(address)
+
+        if(address === "272 East Santa Clara Street, San Jose, California 95113, United States" || address === "272 E Santa Clara St, San Jose, CA 95112"){
+
+            logger.error("Cannot Add The Store")
+
+            return res.status(statusCode.BAD_REQUEST).json({error:"Cannot Add The Store"})
 
         }
 
@@ -190,6 +201,13 @@ const deleteAddress =  async (req,res)=>{
             return res.status(statusCode.BAD_REQUEST).json({error:"Address Is Invalid"})
 
         }
+
+        if(address === "272 E Santa Clara St, San Jose, CA 95112"){
+
+            logger.error("Cannot Delete The Store")
+
+            return res.status(statusCode.BAD_REQUEST).json({error:"Store Address Cannot Be Deleted"})
+        }
             
         connection = await pool.promise().getConnection(); 
 
@@ -209,11 +227,11 @@ const deleteAddress =  async (req,res)=>{
 
             logger.info("Deleting From Address Table If Hanging")
         
-            const sqlQueryTwo = `DELETE FROM Address WHERE NOT EXISTS (SELECT 1 FROM customeraddress WHERE customeraddress.address = Address.address) AND NOT EXISTS (SELECT 1 FROM transactions WHERE transactions.TransactionAddress = Address.address);`;
+            const sqlQueryTwo = `DELETE FROM Address WHERE Address = ? AND NOT EXISTS (SELECT 1 FROM customeraddress WHERE customeraddress.address = Address.address) AND NOT EXISTS (SELECT 1 FROM transactions WHERE transactions.TransactionAddress = Address.address);`;
             
             await connection.query(
 
-                sqlQueryTwo, 
+                sqlQueryTwo, [address] 
 
             );
     

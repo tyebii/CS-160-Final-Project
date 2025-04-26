@@ -108,7 +108,7 @@ const getCustomerTransactions = (req, res) => {
 
     }
 
-    const sqlQuery = "Select * From Transactions Where CustomerID = ? Order By TransactionDate Desc"
+    const sqlQuery = "Select * From Transactions Where CustomerID = ? And TransactionStatus != 'In Progress' Order By TransactionDate Desc"
 
     pool.query(sqlQuery, [customerID], (error,results) => {
 

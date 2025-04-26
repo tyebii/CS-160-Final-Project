@@ -189,33 +189,35 @@ function Navbar() {
         </li>
 
         {/* Dropdown */}
-        <li
 
-          className="relative flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 rounded-xl cursor-pointer transition duration-200"
-
-          onClick={toggleDropdown}
-
-        >
-        
           {auth !== "Employee" && auth !== "Manager" ? (    
 
-          <div className="text-2xl font-medium">
+            <li
 
-            <span className="flex items-center gap-2">
+            className="relative flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 rounded-xl cursor-pointer transition duration-200"
 
-              Browse
+            onClick={toggleDropdown}
 
-              <img src={dropDownIcon} alt="dropdownIcon" className="mt-1 w-6 h-6" />
+            >
 
-            </span>
+            <div className="text-2xl font-medium">
 
-            {renderDropdown(dropdownVisible)}
-            
-          </div>
+              <span className="flex items-center gap-2">
+
+                Browse
+
+                <img src={dropDownIcon} alt="dropdownIcon" className="mt-1 w-6 h-6" />
+
+              </span>
+
+              {renderDropdown(dropdownVisible)}
+              
+            </div>
+          </li>
 
           ) : null}
 
-        </li>
+        
 
       </ul>
 
@@ -225,39 +227,51 @@ function Navbar() {
 
         {/* Search Bar */}
 
-        <li className="flex items-center bg-white border border-gray-400 rounded-lg overflow-hidden">
+        <form 
+          onSubmit={(e) => {
 
-          <input
-
-            onChange={(e) => setSearchText(e.target.value)}
+            e.preventDefault(); 
             
-            required
+            clickSearch();      
 
-            value={searchText}
+          }}
 
-            maxLength={255}
+        >
+          <li className="flex items-center bg-white border border-gray-400 rounded-lg overflow-hidden">
 
-            type="text"
+            <input
 
-            placeholder="Search"
+              onChange={(e) => setSearchText(e.target.value)}
 
-            className="w-64 h-10 px-4 text-2xl outline-none"
+              required
 
-          />
+              value={searchText}
 
-          <div
+              maxLength={255}
 
-            className="px-3 py-2 border-l border-gray-400 hover:bg-gray-200 cursor-pointer transition duration-200"
+              type="search"
 
-            onClick={clickSearch}
+              placeholder="Search"
 
-          >
+              className="w-64 h-10 px-4 text-2xl outline-none"
 
-            <img src={searchIcon} alt="search icon" className="w-6 h-6" />
+            />
 
-          </div>
+            <div
 
-        </li>
+              className="px-3 py-2 border-l border-gray-400 hover:bg-gray-200 cursor-pointer transition duration-200"
+
+              onClick={clickSearch}
+
+            >
+
+              <img src={searchIcon} alt="search icon" className="w-6 h-6" />
+
+            </div>
+
+          </li>
+
+        </form>
 
         {/* Login / Logout */}
         <li

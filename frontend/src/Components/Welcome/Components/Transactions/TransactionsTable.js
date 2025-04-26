@@ -26,8 +26,6 @@ export default function TransactionArea({ trigger, setTrigger, auth, logout }) {
 
         if(!validateID(transactionSearchInput)) {
 
-            alert("Please enter a transaction ID.");
-
             return
 
         }
@@ -71,6 +69,7 @@ export default function TransactionArea({ trigger, setTrigger, auth, logout }) {
             handleError(error)
 
         });
+
     }
 
     return (
@@ -92,35 +91,56 @@ export default function TransactionArea({ trigger, setTrigger, auth, logout }) {
 
                             <h2 className="text-center text-2xl font-bold text-gray-800 mb-4">Transaction Search</h2>
 
-                            <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
-                                
-                                <input
+                            <div className="flex items-center rounded-lg overflow-hidden">
+                            
+                                <form 
+                                        onSubmit={(e) => {
 
-                                    onChange={(e) => setTransactionSearchInput(e.target.value)}
+                                            e.preventDefault(); 
+                                            
+                                            clickTransactionSearch();      
 
-                                    value={transactionSearchInput}
+                                        }}
 
-                                    type="text"
+                                        className='mx-auto'
 
-                                    placeholder="Search Transactions"
+                                >
+                                        <li className="flex items-center bg-white border border-gray-400 rounded-lg overflow-hidden">
 
-                                    className="flex-grow px-4 py-2 text-lg focus:outline-none"
+                                            <input
 
-                                    required
+                                            onChange={(e) => setTransactionSearchInput(e.target.value)}
 
-                                />
+                                            required
 
-                                <img
+                                            value={transactionSearchInput}
 
-                                    onClick={clickTransactionSearch}
+                                            maxLength={255}
 
-                                    src={WelcomesearchIcon}
+                                            type="search"
 
-                                    alt="search icon"
+                                            placeholder="Search"
 
-                                    className="w-5 h-5"
+                                            className="w-64 h-10 px-4 text-2xl outline-none"
 
-                                />
+                                            />
+
+                                            <div
+
+                                            className="px-3 py-2 border-l border-gray-400 hover:bg-gray-200 cursor-pointer transition duration-200"
+
+                                            onClick={clickTransactionSearch}
+
+                                            >
+
+                                            <img src={WelcomesearchIcon} alt="search icon" className="w-6 h-6" />
+
+                                            </div>
+
+                                        </li>
+
+                                </form>
+
 
                             </div>
 
@@ -248,9 +268,9 @@ function TransactionsTable({trigger, logout}) {
 
                                     <td className="px-2 py-2 border break-words">{transaction.CustomerID}</td>
 
-                                    <td className="px-2 py-2 border">${transaction.TransactionCost}</td>
+                                    <td className="px-2 py-2 border">${transaction.TransactionCost.toFixed(2)}</td>
 
-                                    <td className="px-2 py-2 border">{transaction.TransactionWeight} kg</td>
+                                    <td className="px-2 py-2 border">{transaction.TransactionWeight.toFixed(2)} lbs</td>
 
                                     <td className="px-2 py-2 border break-words">{transaction.TransactionAddress}</td>
 
@@ -264,7 +284,7 @@ function TransactionsTable({trigger, logout}) {
 
                                     <td className="px-2 py-2 border">{transaction.Currency || "N/A"}</td>
 
-                                    <td className="px-2 py-2 border">{transaction.AmountPaid ? `$${transaction.AmountPaid}` : "N/A"}</td>
+                                    <td className="px-2 py-2 border">{transaction.AmountPaid ? `$${transaction.AmountPaid.toFixed(2)}` : "N/A"}</td>
 
                                     <td className="px-2 py-2 border">{transaction.ChargeStatus || "N/A"}</td>
 

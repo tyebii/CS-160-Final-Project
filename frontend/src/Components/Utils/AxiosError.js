@@ -12,8 +12,6 @@ export const useErrorResponse = () => {
 
     if (error?.response?.status === 401 || error?.response?.status === 403) {
 
-      alert("Login");
-
       logout();  
 
       navigate('/login');  

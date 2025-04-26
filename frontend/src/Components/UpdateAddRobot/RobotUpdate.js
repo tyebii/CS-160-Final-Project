@@ -60,8 +60,6 @@ export function RobotUpdate({ robot }) {
 
           );
       
-          alert("Updated Robot");
-      
           navigate("/");
       
         } catch (error) {
@@ -146,7 +144,7 @@ export function RobotUpdate({ robot }) {
 
                 <div>
 
-                    <label htmlFor="Maintanence" className="block text-sm font-medium text-gray-700">Maintenance Date</label>
+                    <label htmlFor="Maintanence" className="block text-sm font-medium text-gray-700">Next Maintenance Date</label>
 
                     <input
 

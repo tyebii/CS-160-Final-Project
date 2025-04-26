@@ -50,7 +50,7 @@ const SearchResultsFilter = ({ onFilterSelect }) => {
 
           >
 
-            Low to High Weight
+            Weight Ascending
 
           </button>
 
@@ -62,7 +62,7 @@ const SearchResultsFilter = ({ onFilterSelect }) => {
 
           >
 
-            High to Low Weight
+            Weight Descending
 
           </button>
 
@@ -74,7 +74,7 @@ const SearchResultsFilter = ({ onFilterSelect }) => {
 
           >
 
-            Low to High Cost
+            Cost Ascending
 
           </button>
 
@@ -86,7 +86,7 @@ const SearchResultsFilter = ({ onFilterSelect }) => {
 
           >
 
-            High to Low Cost
+            Cost Descending
 
           </button>
 

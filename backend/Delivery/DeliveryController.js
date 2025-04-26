@@ -98,7 +98,7 @@ const scheduleRobots = async (req, res) => {
 
                 if (transactionIDList.length > 0) {
 
-                    const placeholders = transactionIDList.map(() => '?').join(', '); // => "?, ?"
+                    const placeholders = transactionIDList.map(() => '?').join(', ');
                 
                     await connection.query(
 

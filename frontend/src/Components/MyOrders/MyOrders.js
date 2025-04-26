@@ -36,8 +36,6 @@ export function MyOrders (){
       
             if (response.data.length === 0) {
 
-              alert("No Results Found");
-
               return;
 
             }

@@ -402,7 +402,7 @@ const login = async (req, res) => {
 
             sameSite: "Lax",        
 
-            maxAge: 15 * 60 * 1000
+            maxAge: 60 * 60 * 1000
 
         });
           

@@ -87,48 +87,83 @@ const SystemAlerts = () => {
   
 
   return (
-    <section className="max-w-4xl mx-auto bg-white p-4 border shadow-lg mb-6">
+    <section className="w-[80%] mx-auto bg-white p-6 border shadow-lg mb-10 mt-10">
 
-      <h2 className="text-2xl font-bold mb-3">System Alerts</h2>
+      {/* Main Title */}
+      <h2 className="text-4xl font-bold mb-10 text-center text-gray-800">System Alerts</h2>
 
-        <p>
+      {/* Low Stock Section */}
+      <div className="mb-20">
 
-          <strong>
+        <h3 className="text-2xl font-semibold text-center mb-2">
 
-            Low Stock Triggers: {lowStockTriggers.length}
+          Low Stock Triggers: {lowStockTriggers.length}
 
-          </strong>
+        </h3>
 
-          { lowStockTriggers.length == 0 ? (<p className="mb-5">No Low Stock Items</p>) : (<TaggedItems items={lowStockTriggers} />)}
+        {lowStockTriggers.length === 0 
 
-        </p>
+          ? (<p className="text-center mb-5">No Low Stock Items</p>) 
 
-        <p>
+          : (<TaggedItems items={lowStockTriggers} />)}
 
-          <strong>Expiration Date Triggers: {expirationDateTriggers.length}</strong>
+      </div>
 
-          { expirationDateTriggers.length == 0 ? (<p className="mb-5">No Expired Items</p>) : (<TaggedItems  items={expirationDateTriggers} />)}
+      {/* Expiration Date Section */}
+      <div className="mb-20">
 
-        </p>
+        <h3 className="text-2xl font-semibold text-center mb-2">
 
-        <p>
+          Expiration Date Triggers: {expirationDateTriggers.length}
 
-          <strong>Featured Triggers: {featured.length}</strong>
+        </h3>
 
-          { featured.length == 0 ? (<p className="mb-5">No Featured Items</p>) : (<TaggedItems  items={featured} />)}
+        {expirationDateTriggers.length === 0 
 
-        </p>
+          ? (<p className="text-center mb-5">No Expired Items</p>) 
 
-        <p>
+          : (<TaggedItems items={expirationDateTriggers} />)}
 
-          <strong>Robot Malfunctions:  {robotMalfunctions.length}</strong>
+      </div>
 
-          { robotMalfunctions.length == 0 ? (<p className="mb-5">No Faulty Robots</p>) : (<TaggedItems  robots={robotMalfunctions} />)}
+      {/* Featured Items Section */}
+      <div className="mb-20">
 
-        </p>
+        <h3 className="text-2xl font-semibold text-center mb-2">
+
+          Featured Triggers: {featured.length}
+
+        </h3>
+
+        {featured.length === 0 
+
+          ? (<p className="text-center mb-5">No Featured Items</p>) 
+
+          : (<TaggedItems items={featured} />)}
+
+      </div>
+
+      {/* Robot Malfunctions Section */}
+      <div className="mb-20">
+
+        <h3 className="text-2xl font-semibold text-center mb-2">
+
+          Robot Malfunctions: {robotMalfunctions.length}
+
+        </h3>
+
+        {robotMalfunctions.length === 0 
+
+          ? (<p className="text-center mb-5">No Faulty Robots</p>) 
+
+          : (<TaggedItems robots={robotMalfunctions} />)}
+
+      </div>
 
     </section>
+
   );
+
 };
 
 export default SystemAlerts;

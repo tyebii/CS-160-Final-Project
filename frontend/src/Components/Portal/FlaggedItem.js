@@ -9,7 +9,7 @@ const FlaggedItem = ({ item, robots }) => {
 
     return (
 
-      <div onClick = {()=>{navigate(`/itemview/${item.ItemID}`)}} className="flex items-center border p-5 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+      <div onClick = {()=>{navigate(`/itemview/${item.ItemID}`)}} className="flex items-center border p-5 mb-3 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 hover:cursor-pointer">
   
         {/* Product Details */}
         <div className="ml-6">
@@ -36,7 +36,7 @@ const FlaggedItem = ({ item, robots }) => {
 
     return (
 
-      <div onClick = {()=>{navigate(`/`)}} className="flex items-center border p-5 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+      <div onClick = {()=>{navigate(`/`)}} className="flex items-center border hover:cursor-pointer p-5 mb-3 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
   
         {/* Product Details */}
         <div className="ml-6">

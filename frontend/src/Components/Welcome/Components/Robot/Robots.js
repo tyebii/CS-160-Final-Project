@@ -60,7 +60,7 @@ export default function RobotArea({trigger, setTrigger,  auth, logout}) {
 }
 
 //Robot Component
-function Robots ({trigger, setTrigger, logout, auth, trig}){
+function Robots ({trigger, setTrigger, logout, auth}){
 
   const navigate = useNavigate()
   
@@ -115,9 +115,7 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
 
     .then((response) => {
 
-      alert("Successfully Scheduled");
-
-      setTrigger(trig+1)
+      setTrigger(prev => prev + 1);
 
     })
 
@@ -150,9 +148,7 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
   
   .then((response) => {
 
-    alert("Successfully Deployed");
-
-    setTrigger(trig+1)
+    setTrigger(prev => prev + 1);
 
   })
 
@@ -178,8 +174,6 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
     })
 
     .then((response) => {
-
-      alert("Successfully Deleted");
 
       setRobots(robots.filter(robot => robot.RobotID !== RobotID));
 
@@ -217,13 +211,13 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
             {/* Robot Details */}
             <div className="w-full text-sm text-gray-600 space-y-1 mb-4">
 
-              <p><strong>Load:</strong> {robot.CurrentLoad} kg</p>
+              <p><strong>Load:</strong> {robot.CurrentLoad} LBS</p>
 
               <p><strong>ETA:</strong> {robot.EstimatedDelivery ? `${new Date(robot.EstimatedDelivery).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })} mins` : "N/A"}</p>
 
               <p>
 
-                <strong>Maintenance:</strong> 
+                <strong>Next Maintenance Date: </strong> 
 
                 {robot.Maintanence ? new Date(robot.Maintanence).toLocaleDateString() : "N/A"}
 

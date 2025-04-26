@@ -205,6 +205,14 @@ const deleteCustomer = async (req, res) => {
 
         for (const { Address: address } of addrs) {
 
+            if(address === "272 E Santa Clara St, San Jose, CA 95112"){
+
+                logger.warn("Cannot Delete Store")
+
+                continue
+                
+            }
+
             await connection.query(`
 
                 DELETE FROM Address 
@@ -214,6 +222,8 @@ const deleteCustomer = async (req, res) => {
                   AND NOT EXISTS (SELECT 1 FROM CustomerAddress WHERE Address = ?)
 
                   AND NOT EXISTS (SELECT 1 FROM Transactions WHERE TransactionAddress = ?)
+
+                  AND Address != '272 E Santa Clara St, San Jose, CA 95112'
 
               `, [address, address, address]);
 
