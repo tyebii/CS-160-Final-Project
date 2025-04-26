@@ -60,8 +60,6 @@ export function RobotUpdate({ robot }) {
 
           );
       
-          alert("Updated Robot");
-      
           navigate("/");
       
         } catch (error) {

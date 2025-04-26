@@ -70,8 +70,6 @@ export function TransactionDetails({transaction}) {
         
       );
   
-      alert("Successfully Fulfilled");
-  
       setVisibility(false);
   
       setTransactionStatus("Fulfilled");

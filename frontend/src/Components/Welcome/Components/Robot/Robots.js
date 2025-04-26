@@ -115,8 +115,6 @@ function Robots ({trigger, setTrigger, logout, auth}){
 
     .then((response) => {
 
-      alert("Successfully Scheduled");
-
       setTrigger(prev => prev + 1);
 
     })
@@ -150,8 +148,6 @@ function Robots ({trigger, setTrigger, logout, auth}){
   
   .then((response) => {
 
-    alert("Successfully Deployed");
-
     setTrigger(prev => prev + 1);
 
   })
@@ -178,8 +174,6 @@ function Robots ({trigger, setTrigger, logout, auth}){
     })
 
     .then((response) => {
-
-      alert("Successfully Deleted");
 
       setRobots(robots.filter(robot => robot.RobotID !== RobotID));
 

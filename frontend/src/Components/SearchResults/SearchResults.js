@@ -124,12 +124,20 @@ function SearchResults() {
 
             results.map((result) => (
 
-              <Link key={result.ItemID} to={`/itemview/${result.ItemID}`}>
+              <Link
+
+                key={result.ItemID}
+
+                to={`/itemview/${result.ItemID}`}
+
+                state={{ searchType, query }}
+
+              >
 
                 <SearchResultsItem result={result} />
 
               </Link>
-
+      
             ))
 
           )}

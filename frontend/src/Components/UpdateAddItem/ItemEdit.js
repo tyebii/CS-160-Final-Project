@@ -91,9 +91,6 @@ export const ItemEdit = ({ item }) => {
             }
           );
       
-      
-          alert("Updated Item");
-      
           navigate("/itemview/" + formData.ItemID);
       
         } catch (error) {

@@ -85,8 +85,6 @@ export function Signup() {
 
           );
       
-          alert("Successful Signup");
-      
           navigate("/");
       
         } catch (error) {

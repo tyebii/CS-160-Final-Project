@@ -84,7 +84,6 @@ function ShoppingCart() {
     })();
     
   }, []);
-  
 
   //Load The Total
   useEffect(() => {
@@ -123,8 +122,6 @@ const handleClear = async () => {
 
     });
 
-    alert("Cleared Your Shoppingcart!");
-
     setResults([]);
 
   } catch (error) {
@@ -157,8 +154,6 @@ const clickRemove = async (itemid) => {
       data: { ItemID: itemid },
 
     });
-
-    alert("Removed The Item!");
 
     setResults((prevItems) => prevItems.filter((item) => item.ItemID !== itemid));
 
@@ -313,8 +308,6 @@ const clickRemove = async (itemid) => {
         }
 
       );
-  
-      alert("Address Added!");
   
       setAddresses((prevAddresses) => [
 

@@ -53,9 +53,6 @@ export function RobotAdd() {
             }
           );
       
-      
-          alert("Robot Added");
-      
           navigate("/");
       
         } catch (error) {

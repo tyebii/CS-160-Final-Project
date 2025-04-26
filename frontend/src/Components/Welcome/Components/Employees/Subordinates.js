@@ -100,8 +100,6 @@ const Subordinates = ({logout}) => {
 
       .then((response) => {
 
-        alert("Successfully Deleted");
-
         setSubordinates(subordinates.filter(subordinate => subordinate.EmployeeID !== employeeID));
 
       })

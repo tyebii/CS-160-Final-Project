@@ -44,8 +44,6 @@ export function MyAccount (){
             const endpoint = endpoints[auth];
         
             if (!endpoint) {
-
-                alert("Invalid user role");
                 
                 logout();
 

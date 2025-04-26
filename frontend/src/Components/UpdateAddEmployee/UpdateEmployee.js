@@ -120,9 +120,6 @@ export function UpdateEmployee({ employee }) {
           }
         );
     
-    
-        alert("Employee Updated");
-    
         navigate("/");
     
       } catch (error) {

@@ -121,9 +121,6 @@ function AddEmployee() {
         }
       );
   
-  
-      alert("Employee Added");
-  
       navigate("/");
   
     } catch (error) {

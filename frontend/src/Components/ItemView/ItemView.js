@@ -16,7 +16,9 @@ import { useErrorResponse } from '../Utils/AxiosError';
 import axios from 'axios';
 
 // Item View Component
-const ItemView = () => {
+const ItemView = ({ searchType, query }) => {
+
+  console.log(searchType, query)
 
   const { handleError } = useErrorResponse(); 
 
@@ -72,8 +74,6 @@ const ItemView = () => {
         });
   
         if (response.data.length === 0) {
-
-          alert("No Results Found");
 
           navigate('/');
 
@@ -152,9 +152,7 @@ const ItemView = () => {
 
       );
 
-      alert("Item added to shopping cart!");
-
-      navigate("/");
+      navigate(`/search/${searchType}/${query}`);
 
     } catch (error) {
 
@@ -198,8 +196,6 @@ const ItemView = () => {
         }
 
       );
-  
-      alert('Item Deleted Successfully!');
 
       navigate('/');
   
@@ -242,8 +238,6 @@ const ItemView = () => {
 
       );
 
-      alert('Item Added To Featured');
-
       setFeatured(true);
 
     } catch (error) {
@@ -283,8 +277,6 @@ const ItemView = () => {
         }
 
       );
-  
-      alert('Item Deleted From Featured');
 
       setFeatured(false);
   
