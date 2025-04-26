@@ -281,6 +281,14 @@ const clickRemove = async (itemid) => {
       return;
 
     }
+
+    if(address === "272 East Santa Clara Street, San Jose, California 95113, United States" || address === "272 E Santa Clara St, San Jose, CA 95112"){
+
+      alert("Cannot Add Store")
+      
+      return
+
+    }
   
     try {
 

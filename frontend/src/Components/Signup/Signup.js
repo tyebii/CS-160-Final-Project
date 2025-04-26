@@ -102,7 +102,7 @@ export function Signup() {
 
         <section>
 
-            <form onSubmit={clickSubmit} className="m-auto bg-white p-6 rounded-2xl shadow-lg w-96 mt-10">
+            <form onSubmit={clickSubmit} className="m-auto bg-white p-6 rounded-2xl shadow-lg w-96 mt-10 mb-10">
 
                 <h2 className="text-2xl font-semibold text-center mb-4">Sign Up</h2>
                 
