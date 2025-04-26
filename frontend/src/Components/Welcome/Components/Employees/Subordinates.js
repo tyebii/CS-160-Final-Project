@@ -21,7 +21,7 @@ export default function SubordinatesArea({ auth, logout }) {
 
         <h2 className="text-center text-2xl font-bold text-gray-800 mb-4">Employees</h2>
 
-        <Subordinates logout={logout} />
+        <Subordinates auth = {auth} />
                 
         <h2 className="text-center text-2xl font-bold text-gray-800 mb-4">Add Employee</h2>
 
@@ -61,7 +61,7 @@ const Subordinates = ({auth}) => {
   //Load The Employees
   useEffect(() => {
 
-    if(!auth){
+    if(auth == null){
 
       return 
       

@@ -54,7 +54,9 @@ const logger = winston.createLogger({
 
 // Middleware to generate unique requestId for each request
 const logWithRequestId = (req, res, next) => {
+
   const requestId = uuidv4(); 
+  
   req.requestId = requestId;  
 
   logger.defaultMeta = { requestId };
