@@ -473,7 +473,7 @@ const productInsert = async (req, res) => {
         }
     
                     
-        pool.query('INSERT IGNORE INTO inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, StorageRequirement, LastModification, ImageLink, Cost, Description) Values (?,?,?,?,?,?,?,?,?,?,?,?,?)', [InventoryID, Number(Quantity), Distributor, Number(Weight), ProductName, Category, Number(SupplierCost), new Date(Expiration), StorageRequirement, new Date(), fileName, Number(Cost), Description], (error, results) => {
+        pool.query('INSERT IGNORE INTO inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, StorageRequirement, LastModification, ImageLink, Cost, Description) Values (?,?,?,?,?,?,?,?,?,?,?,?,?)', [InventoryID, Number(Quantity), Distributor, Number(Weight), ProductName, Category, Number(SupplierCost), Expiration, StorageRequirement, new Date(), fileName, Number(Cost), Description], (error, results) => {
     
             if (error) {
     
@@ -628,7 +628,7 @@ const productUpdate = async (req, res) => {
 
                         ProductName, Category, Number(SupplierCost),
 
-                        new Date(Expiration), StorageRequirement,
+                        Expiration, StorageRequirement,
 
                         fileName, Number(Cost), Description, ItemID
 
@@ -666,7 +666,7 @@ const productUpdate = async (req, res) => {
 
                     Number(Quantity), Distributor, Number(Weight), ProductName, 
 
-                    Category, Number(SupplierCost), new Date(Expiration), 
+                    Category, Number(SupplierCost), Expiration, 
 
                     StorageRequirement, Number(Cost), Description, ItemID
 

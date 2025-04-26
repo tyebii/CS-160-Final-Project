@@ -144,7 +144,7 @@ export function RobotUpdate({ robot }) {
 
                 <div>
 
-                    <label htmlFor="Maintanence" className="block text-sm font-medium text-gray-700">Maintenance Date</label>
+                    <label htmlFor="Maintanence" className="block text-sm font-medium text-gray-700">Next Maintenance Date</label>
 
                     <input
 

@@ -74,7 +74,7 @@ export function TransactionCard({ transaction }) {
 
                     <p className="text-lg">
 
-                        <span className="font-semibold text-gray-800">Date:</span> {new Date(transaction.TransactionDate).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })}
+                        <span className="font-semibold text-gray-800">Date:</span> {transaction.TransactionDate?new Date(transaction.TransactionDate).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }):null} 
 
                     </p>
 

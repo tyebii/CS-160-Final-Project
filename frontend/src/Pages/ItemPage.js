@@ -7,8 +7,6 @@ function ItemPage() {
     const location = useLocation();
 
     const { searchType, query } = location.state || {};
-
-    console.log(searchType, query)
   
     return (
 

@@ -1,6 +1,7 @@
 // Import React Functions
 import React, { useState, useEffect } from 'react';
 
+// Navigation Elements
 import { useParams, useNavigate } from 'react-router-dom';
 
 // Import Auth Context
@@ -73,6 +74,8 @@ const ItemView = ({ searchType, query }) => {
   
         if (response.data.length === 0) {
 
+          alert("No Item Found")
+
           navigate('/');
 
           return;
@@ -82,6 +85,8 @@ const ItemView = ({ searchType, query }) => {
         setResults(response.data[0]);
 
         setFeatured(response.data[0].FeaturedID != null);
+
+        return
   
       } catch (error) {
 
@@ -93,7 +98,8 @@ const ItemView = ({ searchType, query }) => {
   
     fetchInventory();
 
-  }, [itemid]);  
+  }, [itemid, auth]);  
+
 
   // Adding The Item To Shopping Cart
   const clickAdd = async (e) => {
@@ -150,7 +156,17 @@ const ItemView = ({ searchType, query }) => {
 
       );
 
+      if(!searchType || !query){
+        
+        navigate("/")
+
+        return 
+
+      }
+
       navigate(`/search/${searchType}/${query}`);
+
+      return 
 
     } catch (error) {
 
@@ -196,10 +212,14 @@ const ItemView = ({ searchType, query }) => {
       );
 
       navigate('/');
+
+      return
   
     } catch (error) {
 
       handleError(error);
+      
+      return
 
     }
 
@@ -237,6 +257,8 @@ const ItemView = ({ searchType, query }) => {
       );
 
       setFeatured(true);
+
+      return
 
     } catch (error) {
 
@@ -277,6 +299,8 @@ const ItemView = ({ searchType, query }) => {
       );
 
       setFeatured(false);
+
+      return
   
     } catch (error) {
 
@@ -315,7 +339,7 @@ const ItemView = ({ searchType, query }) => {
 
             <div className="space-y-1 text-gray-700">
 
-              <p><span className="font-semibold">Last Modified:</span> {results.LastModification?.slice(0,10)}</p>
+              <p><span className="font-semibold">Last Modified:</span> {results.LastModification? new Date(results.LastModification).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }).slice(0,9):null}</p>
 
               <p><span className="font-semibold">Item ID:</span> {results.ItemID}</p>
 
@@ -334,7 +358,7 @@ const ItemView = ({ searchType, query }) => {
 
             <p><span className="font-semibold">Availability:</span> {results.Quantity}</p>
 
-            <p><span className="font-semibold">Expiration:</span> {results.Expiration?.slice(0,10)}</p>
+            <p><span className="font-semibold">Expiration:</span> {results.Expiration? new Date(results.Expiration).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }).slice(0,9):null}</p>
 
             <p><span className="font-semibold">Storage Type:</span> {results.StorageRequirement}</p>
 

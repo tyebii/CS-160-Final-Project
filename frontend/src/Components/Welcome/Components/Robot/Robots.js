@@ -217,7 +217,7 @@ function Robots ({trigger, setTrigger, logout, auth}){
 
               <p>
 
-                <strong>Maintenance:</strong> 
+                <strong>Next Maintenance Date: </strong> 
 
                 {robot.Maintanence ? new Date(robot.Maintanence).toLocaleDateString() : "N/A"}
 

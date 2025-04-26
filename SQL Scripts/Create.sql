@@ -1,7 +1,10 @@
+-- Create The DB
 Create Database OFS;
 
+-- Use The Created DB
 Use OFS;
 
+-- Employee Table That Stores Employee Related Information
 Create Table Employee(
 	EmployeeID varchar(255) primary key,
     EmployeeHireDate date Not Null,
@@ -13,14 +16,7 @@ Create Table Employee(
     Foreign Key(SupervisorID) References Employee(EmployeeID) on delete cascade
 );
 
-Alter Table Employee
-Add Constraint CheckEmployeeHourly Check (EmployeeHourly >= 0);
-
-Create Table Customer(
-	CustomerID varchar(255) primary key, 
-    JoinDate date not null
-);
-
+-- User Table Stores User Information
 CREATE TABLE Users(
 	UserID varchar(255) Primary Key,
     Password varchar(255) Not null,
@@ -33,16 +29,13 @@ CREATE TABLE Users(
     Foreign Key(CustomerID) References Customer(CustomerID) on delete cascade
 );
 
-CREATE INDEX user_customer
-ON Users (CustomerID);
-
-CREATE INDEX user_employee
-ON Users (EmployeeID);
-
-Create Table Address(
-	Address varchar(255) primary key
+-- Customer Table Stores Customer Information
+Create Table Customer(
+	CustomerID varchar(255) primary key, 
+    JoinDate date not null
 );
-    
+
+-- Inventory Table Stores Item Data
 Create Table Inventory(
 	ItemID varchar(255) primary key,
     Quantity int not null, 
@@ -59,21 +52,7 @@ Create Table Inventory(
     Description varchar(255) not null
 );
 
-CREATE INDEX inventory_category
-ON Inventory (Category);
-
-Alter Table inventory 
-Add Constraint CheckInventoryQuantity Check (Quantity >= 0);
-
-Alter Table inventory 
-Add Constraint CheckInventoryCost Check (Cost  >= 0);
-
-Alter Table inventory 
-Add Constraint CheckInventorySupplierCost Check (SupplierCost  >= 0);
-
-Alter Table inventory 
-Add Constraint CheckInventoryWeight Check (Weight  >= 0);
-
+-- Stores The Items In Customer Shopping Cart
 Create Table ShoppingCart(
 	CustomerID varchar(255) ,
     ItemID varchar(255) ,
@@ -83,9 +62,7 @@ Create Table ShoppingCart(
     Primary Key(CustomerID,ItemID)
 );
 
-Alter Table shoppingcart
-Add Constraint CheckCartQuantity Check (OrderQuantity >= 0);
-
+-- Stores The Robot Data
 Create Table Robot(
 	RobotID varchar(255) primary key,
     CurrentLoad double not null,
@@ -94,12 +71,7 @@ Create Table Robot(
     EstimatedDelivery DATETIME
 );
 
-Alter Table robot
-Add Constraint CheckRobotWeight Check (CurrentLoad<=200 and Currentload >= 0);
-
-CREATE INDEX robot_status
-ON Robot (RobotStatus);
-
+-- Stores The Transaction Data Of Each Purchase
 CREATE TABLE Transactions (
     CustomerID varchar(255) NOT NULL,
     TransactionID varchar(255) PRIMARY KEY,
@@ -121,24 +93,7 @@ CREATE TABLE Transactions (
     FOREIGN KEY (RobotID) REFERENCES Robot(RobotID)
 );
 
-Alter Table transactions 
-Add Constraint CheckTransactionCost Check (TransactionCost>=0);
-
-Alter Table transactions 
-Add Constraint CheckTransactionWeight Check (TransactionWeight >= 0);
-
-CREATE INDEX transactions_address
-ON Transactions (TransactionAddress);
-
-CREATE INDEX transactions_status
-ON Transactions (TransactionStatus);
-
-CREATE INDEX transactions_robot
-ON Transactions (RobotID);
-
-CREATE INDEX transactions_customer
-ON Transactions (CustomerID);
-
+-- Stores The Customers Custom Addresses
 Create Table CustomerAddress(
 	Address varchar(255) ,
     CustomerID varchar(255) ,
@@ -148,15 +103,14 @@ Create Table CustomerAddress(
     Primary Key(CustomerID,Address)
 );
 
-CREATE INDEX customer_address
-ON CustomerAddress (Address);
-
+-- Stores Low Stock Items
 Create Table LowStockLog(
 	ItemID varchar(255) primary key,
     EventDate date not null,
     Foreign Key(ItemID) References Inventory(ItemID) on delete cascade
 );
 
+-- Stores Faulty Robot Data
 Create Table FaultyRobots(
 	RobotID varchar(255) primary key,
     EventDate date not null,
@@ -164,16 +118,21 @@ Create Table FaultyRobots(
     Foreign Key(RobotID) References robot(RobotID) on delete cascade
 );
 
+-- Featured Items On Home Page
 Create Table FeaturedItems( 
     ItemID varchar(255) primary key,
+    EventDate date not null,
     Foreign Key(ItemID) References Inventory(ItemID) on delete cascade
 );
 
+-- Items Near Expiration
 Create Table NearExpiration( 
     ItemID varchar(255) primary key,
+    EventDate date not null,
     Foreign Key(ItemID) References Inventory(ItemID) on delete cascade
 );
 
+-- Copy Of Inventory Items At Time Of Purchase. There Are Multiple Unique Entries For Each Transaction
 CREATE TABLE TransactionItems (
 
     TransactionID VARCHAR(255),
@@ -187,18 +146,84 @@ CREATE TABLE TransactionItems (
 
 );
 
+-- Address Table
+Create Table Address(
+	Address varchar(255) primary key
+);
+
+
+-- Constraints
+
+Alter Table Employee
+Add Constraint CheckEmployeeHourly Check (EmployeeHourly >= 0);
+
+Alter Table inventory 
+Add Constraint CheckInventoryQuantity Check (Quantity >= 0);
+
+Alter Table inventory 
+Add Constraint CheckInventoryCost Check (Cost  >= 0);
+
+Alter Table inventory 
+Add Constraint CheckInventorySupplierCost Check (SupplierCost  >= 0);
+
+Alter Table inventory 
+Add Constraint CheckInventoryWeight Check (Weight  >= 0);
+
+Alter Table shoppingcart
+Add Constraint CheckCartQuantity Check (OrderQuantity >= 0);
+
+Alter Table robot
+Add Constraint CheckRobotWeight Check (CurrentLoad<=200 and Currentload >= 0);
+
+Alter Table transactions 
+Add Constraint CheckTransactionCost Check (TransactionCost>=0);
+
+Alter Table transactions 
+Add Constraint CheckTransactionWeight Check (TransactionWeight >= 0);
+
 ALTER TABLE TransactionItems 
 ADD CONSTRAINT check_TransactionQuantity CHECK (Quantity >= 0);
 
 ALTER TABLE TransactionItems 
 ADD CONSTRAINT check_TransactionPrice CHECK (PriceAtPurchase >= 0);
 
+-- Indexes 
+
+CREATE INDEX user_customer
+ON Users (CustomerID);
+
+CREATE INDEX user_employee
+ON Users (EmployeeID);
+
+CREATE INDEX inventory_category
+ON Inventory (Category);
+
+CREATE INDEX robot_status
+ON Robot (RobotStatus);
+
+CREATE INDEX transactions_address
+ON Transactions (TransactionAddress);
+
+CREATE INDEX transactions_status
+ON Transactions (TransactionStatus);
+
+CREATE INDEX transactions_robot
+ON Transactions (RobotID);
+
+CREATE INDEX transactions_customer
+ON Transactions (CustomerID);
+
+CREATE INDEX customer_address
+ON CustomerAddress (Address);
+
 CREATE INDEX transactionitems_itemid
 ON TransactionItems (ItemID);
 
+-- Triggers For Logging Tables
+
 DELIMITER $$
 
--- Trigger: Log low stock after update
+-- Log low stock after update
 CREATE TRIGGER LowStockUpdate
 AFTER UPDATE ON Inventory
 FOR EACH ROW
@@ -213,7 +238,7 @@ BEGIN
     END IF;
 END$$
 
--- Trigger: Log low stock after insert
+-- Log low stock after insert
 CREATE TRIGGER LowStockInsert
 AFTER INSERT ON Inventory
 FOR EACH ROW
@@ -226,6 +251,7 @@ BEGIN
     END IF;
 END$$
 
+-- Remove Items That Are Within Three Day Expiration Window After Update
 CREATE TRIGGER RemoveFromNearExpiration
 AFTER UPDATE ON Inventory
 FOR EACH ROW
@@ -236,7 +262,7 @@ BEGIN
     END IF;
 END$$
 
--- Trigger: Track faulty robots after update
+-- Track Faulty Robots After Update
 CREATE TRIGGER FaultyRobotUpdate
 AFTER UPDATE ON Robot
 FOR EACH ROW
@@ -256,7 +282,7 @@ BEGIN
     END IF;
 END$$
 
--- Trigger: Track faulty robots after insert
+-- Track Faulty Robots After Insert
 CREATE TRIGGER FaultyRobotInsert
 AFTER INSERT ON Robot
 FOR EACH ROW
@@ -284,28 +310,10 @@ BEGIN
     END IF;
 END$$
 
--- Trigger: Validate supervisor references before employee insert
-CREATE TRIGGER validate_supervisor_before_insert
-BEFORE INSERT ON Employee
-FOR EACH ROW
-BEGIN
-    IF NEW.SupervisorID IS NOT NULL THEN
-        IF NEW.SupervisorID = NEW.EmployeeID THEN
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'An employee cannot be their own supervisor.';
-        END IF;
+-- Turn On The Event Scheduler
+SET GLOBAL event_scheduler = ON;
 
-        IF NOT EXISTS (
-            SELECT 1 FROM Employee 
-            WHERE EmployeeID = NEW.SupervisorID
-        ) THEN
-            SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'SupervisorID does not reference a valid employee.';
-        END IF;
-    END IF;
-END$$
-
--- Event: Delete expired transactions and restore inventory
+-- Delete Expired Transactions If Stripe Failed Webhook Post
 CREATE EVENT IF NOT EXISTS delete_expired_transactions
 ON SCHEDULE EVERY 20 MINUTE
 DO
@@ -329,7 +337,7 @@ BEGIN
 
 END$$
 
--- Event: Log near-expiration items
+-- Every Day Check For Expired Items
 CREATE EVENT IF NOT EXISTS NearExpiration
 ON SCHEDULE EVERY 1 DAY
 DO
@@ -341,7 +349,7 @@ BEGIN
     AND ItemID NOT IN (SELECT ItemID FROM NearExpiration);
 END$$
 
--- Event: Mark overdue deliveries as fulfilled and reset robot status
+-- Every Five Minutes Make Sure That The Robot Optmistically Finishes Delivery
 CREATE EVENT IF NOT EXISTS failed_robots
 ON SCHEDULE EVERY 5 MINUTE
 DO
@@ -369,16 +377,17 @@ END$$
 
 DELIMITER ;
 
-SET GLOBAL event_scheduler = ON;
-
+-- Insert The Default Store Address
 INSERT INTO Address (Address) VALUES
 ('272 E Santa Clara St, San Jose, CA 95112');
 
+-- Insert Sample Robots 
 INSERT INTO Robot (RobotID, CurrentLoad, RobotStatus, Maintanence, EstimatedDelivery) VALUES
-('robot001', 0,  'Free', '2025-04-29', NULL),
-('robot002', 0,  'Free', '2025-04-29', NULL),
-('robot003', 0,  'Free', '2025-04-29', NULL);
+('Robot One', 0,  'Free', '2025-05-29', NULL),
+('Robot Two', 0,  'Free', '2025-05-29', NULL),
+('Robot Three', 0,  'Free', '2025-05-29', NULL);
 
+-- Insert Fresh Produce
 INSERT INTO Inventory VALUES 
 ('d2f24db5-70f2-4e7d-9a96-4a387a858a1e', 120, 'SunFresh Farms', 0.25, 'Green Apple', 'Fresh Produce', 0.30, '2025-05-15', 0.50, 'Cool', '2025-04-18', 'appleGreen.jpg', 'Crisp and tart green apples perfect for snacking.'),
 ('fa5c3cb8-abc2-4e30-9504-bc5e15315b6d', 200, 'Tropic Harvest', 0.22, 'Banana', 'Fresh Produce', 0.18, '2025-04-25', 0.40, 'Room Temperature', '2025-04-18', 'bannana.jpg', 'Sweet ripe bananas, ideal for smoothies or snacks.'),
@@ -395,6 +404,7 @@ INSERT INTO Inventory VALUES
 ('85d1b51e-4ae9-4f99-a33c-25b369e2e981', 100, 'BerryBest Co.', 0.06, 'Strawberry', 'Fresh Produce', 0.35, '2025-04-23', 0.70, 'Refrigerated', '2025-04-18', 'strawberryTwo.jpg', 'Second batch of strawberries, just as sweet.'),
 ('27b15cfc-d4de-49ae-8cc7-24f51e2ff52d', 45, 'MelonCo Inc.', 1.50, 'Watermelon', 'Fresh Produce', 2.00, '2025-05-12', 3.50, 'Cool', '2025-04-18', 'watermelon.jpg', 'Refreshing watermelon, perfect for warm days.');
 
+-- Insert Dairy And Eggs
 INSERT INTO Inventory VALUES 
 ('3e4c9fc9-1af1-4c3f-9953-7e4c2597bc21', 150, 'Golden Farm Co.', 0.05, 'Eggs', 'Dairy and Eggs', 0.12, '2025-04-30', 0.30, 'Refrigerated', '2025-04-18', 'eggs.jpg', 'Farm-fresh eggs, rich in protein and flavor.'),
 ('ae4f6a9e-8f8d-4626-bfcf-8f9aa81a0b9a', 80, 'SweetChill', 0.50, 'Ice Cream', 'Dairy and Eggs', 1.00, '2025-08-15', 2.50, 'Frozen', '2025-04-18', 'icecream.jpg', 'Creamy vanilla ice cream, perfect for desserts.'),
@@ -407,6 +417,7 @@ INSERT INTO Inventory VALUES
 ('a3504351-0cc4-44e8-8d80-b19d7b8c19fc', 70, 'DairyFresh Ltd.', 1.00, 'Milk', 'Dairy and Eggs', 0.85, '2025-04-22', 1.50, 'Refrigerated', '2025-04-18', 'milkTwo.jpg', 'Fresh whole milk from grass-fed cows.'),
 ('ea6e47b8-85ff-4964-b038-4c7a0f4044f7', 65, 'DairyFresh Ltd.', 1.00, 'Milk', 'Dairy and Eggs', 0.85, '2025-04-22', 1.50, 'Refrigerated', '2025-04-18', 'milkThree.jpg', 'Additional lot of organic fresh milk.');
 
+-- Insert Into Meat And Seafood
 INSERT INTO Inventory (
 	ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost,
 	Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description
@@ -441,6 +452,7 @@ INSERT INTO Inventory (
 ('a9a13255-f0c5-4ff8-9481-f2e75c8cdcbc', 35, 'Shepherd Supply', 0.71, 'Lamb', 'Meat and Seafood', 6.25,
  '2025-05-08', 9.00, 'Frozen', '2025-04-18', 'lamb.JPG', 'Grass-fed lamb leg portion');
 
+-- Insert Into Bakery And Bread
 INSERT INTO Inventory (
 	ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost,
 	Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description
@@ -475,6 +487,7 @@ INSERT INTO Inventory (
 ('ac5a3d77-1c0e-429e-bc3b-0cb4ea84fc27', 30, 'ChocoCraft Ltd.', 0.66, 'Chocolate Cake', 'Bakery and Bread', 3.25,
  '2025-04-25', 5.50, 'Refrigerated', '2025-04-18', 'chocolatecake.JPG', 'Rich double-layer chocolate cake');
 
+-- Insert Into Pantry Staples
 INSERT INTO Inventory (
 	ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost,
 	Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description
@@ -521,6 +534,7 @@ INSERT INTO Inventory (
 ('e15a6df4-d4bc-4740-9b71-90678d183e91', 65, 'GrainMasters', 1.83, 'Wild Rice', 'Pantry Staples', 3.75,
  '2026-03-18', 6.25, 'Dry', '2025-04-18', 'wildRice.JPG', 'Nutty-flavored wild rice blend');
 
+-- Insert Into Snacks And Sweets
 INSERT INTO Inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description) 
 VALUES
 ('f52d7758-b065-41b5-9594-f2578f315d28', 100, 'SnackCo', 0.45, 'Candy', 'Snacks and Sweets', 1.50, '2025-07-01', 2.50, 'Room Temperature', '2025-04-18', 'candy.jpg', 'Delicious candy in various flavors'),
@@ -531,6 +545,7 @@ VALUES
 ('8d1eecb4-97f2-47e2-928d-6c5b2019a042', 180, 'NutHouse', 0.40, 'Nuts', 'Snacks and Sweets', 1.80, '2025-09-10', 2.60, 'Room Temperature', '2025-04-18', 'nuts.jpg', 'Mixed nuts for a healthy snack'),
 ('d7db2716-b2f2-4d90-bd29-40e7670c0e7e', 140, 'PretzelWorld', 0.30, 'Pretzel', 'Snacks and Sweets', 1.50, '2025-06-01', 2.50, 'Room Temperature', '2025-04-18', 'pretzel.jpg', 'Soft pretzels with salt and butter coating');
 
+-- Insert Into Beverages
 INSERT INTO Inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description) 
 VALUES
 ('b13b9271-a02f-4909-b967-b10d4b472b72', 100, 'BrewMasters', 0.75, 'Beer', 'Beverages', 3.00, '2025-12-01', 5.00, 'Room Temperature', '2025-04-18', 'beer.jpg', 'Craft beer with a smooth finish'),
@@ -538,6 +553,7 @@ VALUES
 ('d98c375a-bbdf-4328-9df4-04042062e3a0', 120, 'WineCellar', 0.60, 'Wine', 'Beverages', 6.00, '2025-10-10', 10.00, 'Room Temperature', '2025-04-18', 'wine.jpg', 'Red wine with rich, smooth flavors'),
 ('e0f7c1be-455e-4f53-b707-b7f9b4d1b213', 180, 'WineCraft', 0.55, 'Wine Two', 'Beverages', 6.50, '2025-10-15', 9.00, 'Room Temperature', '2025-04-18', 'wineTwo.jpg', 'A refined white wine with floral notes');
 
+-- Insert Frozen Foods
 INSERT INTO Inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description) 
 VALUES
 ('b59d0b13-d2b1-4e0a-b4a3-7c1d2227f4d1', 100, 'FrozenDelights', 0.45, 'Acai', 'Frozen Foods', 2.00, '2025-06-01', 4.00, 'Frozen', '2025-04-18', 'acai.jpg', 'Frozen acai berry puree, perfect for smoothies'),
@@ -546,12 +562,14 @@ VALUES
 ('e84c3d57-4c12-4e1f-9298-28376b3584a5', 80, 'SweetTreats', 0.30, 'Gelato', 'Frozen Foods', 2.50, '2025-09-30', 4.50, 'Frozen', '2025-04-18', 'gelato.jpg', 'Rich, creamy frozen gelato in assorted flavors'),
 ('c2d93ff1-d2b9-4df4-8366-577f3d61fe5e', 90, 'PizzaWorld', 1.00, 'Pizza', 'Frozen Foods', 5.00, '2025-12-10', 8.00, 'Frozen', '2025-04-18', 'pizza.jpg', 'Frozen pizza with delicious toppings');
 
+-- Insert Health And Wellness
 INSERT INTO Inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description) 
 VALUES
 ('b23d8d9d-070f-46fc-85e0-4f0b402f49f7', 100, 'HealthCorp', 0.50, 'Fish Oil', 'Health and Wellness', 5.00, '2025-12-01', 8.00, 'Room Temperature', '2025-04-18', 'fishoil.jpg', 'Fish oil supplement for heart and joint health'),
 ('8e7dbed8-9e18-4d9f-b575-f5678237503b', 150, 'JuicyHealth', 0.60, 'Healthy Juice', 'Health and Wellness', 3.50, '2025-07-15', 5.50, 'Room Temperature', '2025-04-18', 'healthyjuice.jpg', 'Fresh and organic healthy juice blend'),
 ('f5e3e3d7-d8fe-4ad7-b464-eeb82b8e2e9a', 120, 'WellnessInc', 0.40, 'Vitamin C', 'Health and Wellness', 2.00, '2025-09-01', 3.00, 'Room Temperature', '2025-04-18', 'vitaminc.jpg', 'Vitamin C supplement for immunity support');
 
+-- Insert Into Featured
 INSERT INTO FeaturedItems (ItemID) VALUES
 
 ('d2f24db5-70f2-4e7d-9a96-4a387a858a1e'),  
@@ -569,28 +587,33 @@ INSERT INTO FeaturedItems (ItemID) VALUES
 ('af57e96d-5566-4765-b733-4fbb7861c401'),  
 ('efde2609-5d6e-47c2-b14e-fc234c49a138');  
 
-
+-- Insert Customer Account
 INSERT INTO Customer(CustomerID, JoinDate) VALUES 
 ('29bde254-1295-4faa-9c63-c5a721173f9f', '2025-04-18');
 
+-- Insert Employee And Manager Account
 INSERT INTO Employee (EmployeeID, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID) VALUES
 ('41919578-dc21-41db-9988-64af08b72656', '2025-03-20', 'Employed', '1985-09-10', 'Marketing', 30, NULL ),
 ('4cedc688-2ef6-424c-9e14-c72cd3f45b29', '2025-04-03', 'Employed', '2025-04-02', 'Meat', 10, '41919578-dc21-41db-9988-64af08b72656');
 
+-- Customer, Manager, And Employee Account
 INSERT INTO Users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES
   ('manageraccount', '$2b$10$EnkK1LIZkFwfvH7j1exJ2OMt.sUUqPYZbr2GGK5DpLR.ryLdirWUa', 'Jane', 'Smith', '1-987-654-3210', '41919578-dc21-41db-9988-64af08b72656', NULL),
   ('customeraccount', '$2b$10$nCJXHSEss9weo1YWzK6hv.1VI3ua2Ee7SOkdiAkDUrBexEoo4YImW', 'customer', 'account', '1-408-499-0857', NULL, '29bde254-1295-4faa-9c63-c5a721173f9f'),
   ('employeeaccount', '$2b$10$qshO7B9Lge.sVLTF3XHwpePyloSIi1fbe7clrwSGzzh9YTQhDkxdi', 'Jane', 'Smither', '1-987-654-3212', '4cedc688-2ef6-424c-9e14-c72cd3f45b29', NULL);
 
+-- Insert The Items That Are Near Expiration Into The Near Expiration Table
 INSERT INTO NearExpiration(ItemID)
 SELECT ItemID
 FROM Inventory
 WHERE DATEDIFF(Expiration, CURDATE()) <= 3
 AND ItemID NOT IN (SELECT ItemID FROM NearExpiration);
 
+-- Insert The Items That Are Low Stock Into The Lowstock Table
 INSERT INTO lowstocklog (ItemID, EventDate)
 SELECT ItemID, NOW() FROM inventory WHERE Quantity < 5;
 
+-- Insert Faulty Robots Into The Faulty Robots Table
 INSERT INTO faultyrobots (RobotID, EventDate, Cause)
 SELECT 
     RobotID,

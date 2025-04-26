@@ -13,8 +13,6 @@ import { useErrorResponse } from '../Utils/AxiosError';
 //Transaction Details Component
 export function TransactionDetails({transaction}) {
 
-  console.log(transaction)
-
   const { auth} = useAuth();
 
   const { handleError } = useErrorResponse(); 
@@ -127,7 +125,7 @@ export function TransactionDetails({transaction}) {
 
           />
 
-          <DetailRow label="Transaction Date" value={new Date(transaction.TransactionDate).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })} />
+          <DetailRow label="Transaction Date" value={transaction.TransactionDate?new Date(transaction.TransactionDate).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }):null} />
 
           <DetailRow label="Transaction Arrival Date" value={transaction.TransactionTime ? new Date(transaction.TransactionTime).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }) : "N/A"} />
 

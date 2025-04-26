@@ -57,7 +57,7 @@ export const ItemEdit = ({ item }) => {
         e.preventDefault();
 
         const dateObj = new Date(formData.Expiration);
-        
+
         formData.Expiration = dateObj.toISOString().slice(0, 10); 
       
         if (
