@@ -1,5 +1,6 @@
 //Import React Functions
 import { useState, useEffect } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 
 //The Search Icon
@@ -80,7 +81,7 @@ export default function TransactionArea({ trigger, setTrigger, auth, logout }) {
 
                 <h2 className="text-center text-3xl font-bold mb-6 text-gray-800">Current Transactions</h2>
 
-                <TransactionsTable trigger = {trigger} setTrigger = {setTrigger} logout={logout} />
+                <TransactionsTable auth = {auth} trigger = {trigger} setTrigger = {setTrigger} logout={logout} />
 
                 {/* Manager-Only Search */}
                 {auth === "Manager" && (
@@ -159,7 +160,7 @@ export default function TransactionArea({ trigger, setTrigger, auth, logout }) {
 }
 
 //Transaction Table Component
-function TransactionsTable({trigger, logout}) {
+function TransactionsTable({trigger, auth}) {
 
     const navigate = useNavigate();
 
@@ -201,6 +202,12 @@ function TransactionsTable({trigger, logout}) {
 
     //Query The Backend For The Transactions
     useEffect(() => {
+
+        if(!auth){
+
+            return 
+            
+        }
 
         axios.get('http://localhost:3301/api/transaction/transactions/pending', {
 

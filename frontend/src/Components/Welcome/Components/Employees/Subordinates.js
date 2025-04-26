@@ -50,7 +50,7 @@ export default function SubordinatesArea({ auth, logout }) {
 }
 
 //Import List Of Employees
-const Subordinates = ({logout}) => {
+const Subordinates = ({auth}) => {
   
   const { handleError } = useErrorResponse(); 
 
@@ -60,6 +60,12 @@ const Subordinates = ({logout}) => {
 
   //Load The Employees
   useEffect(() => {
+
+    if(!auth){
+
+      return 
+      
+    }
     
     axios
 
@@ -83,7 +89,7 @@ const Subordinates = ({logout}) => {
 
       });
 
-    }, []);
+    }, [auth]);
 
   //Clicking Delete On An Employee
   const clickTerminate = (employeeID)=>{
