@@ -57,25 +57,7 @@ Create Table Inventory(
     Description varchar(255) not null
 );
 
-<<<<<<< HEAD:sql/Create.sql
-CREATE INDEX inventory_category
-ON Inventory (Category);
-
-Alter Table Inventory 
-Add Constraint CheckInventoryQuantity Check (Quantity >= 0);
-
-Alter Table Inventory 
-Add Constraint CheckInventoryCost Check (Cost  >= 0);
-
-Alter Table Inventory 
-Add Constraint CheckInventorySupplierCost Check (SupplierCost  >= 0);
-
-Alter Table Inventory 
-Add Constraint CheckInventoryWeight Check (Weight  >= 0);
-
-=======
 -- Stores The Items In Customer Shopping Cart
->>>>>>> f5972ee29e889a8441734b7cd1c89ef49a45bb22:SQL Scripts/Create.sql
 Create Table ShoppingCart(
 	CustomerID varchar(255) ,
     ItemID varchar(255) ,
@@ -85,13 +67,7 @@ Create Table ShoppingCart(
     Primary Key(CustomerID,ItemID)
 );
 
-<<<<<<< HEAD:sql/Create.sql
-Alter Table ShoppingCart
-Add Constraint CheckCartQuantity Check (OrderQuantity >= 0);
-
-=======
 -- Stores The Robot Data
->>>>>>> f5972ee29e889a8441734b7cd1c89ef49a45bb22:SQL Scripts/Create.sql
 Create Table Robot(
 	RobotID varchar(255) primary key,
     CurrentLoad double not null,
@@ -100,16 +76,7 @@ Create Table Robot(
     EstimatedDelivery DATETIME
 );
 
-<<<<<<< HEAD:sql/Create.sql
-Alter Table Robot
-Add Constraint CheckRobotWeight Check (CurrentLoad<=200 and Currentload >= 0);
-
-CREATE INDEX robot_status
-ON Robot (RobotStatus);
-
-=======
 -- Stores The Transaction Data Of Each Purchase
->>>>>>> f5972ee29e889a8441734b7cd1c89ef49a45bb22:SQL Scripts/Create.sql
 CREATE TABLE Transactions (
     CustomerID varchar(255) NOT NULL,
     TransactionID varchar(255) PRIMARY KEY,
@@ -131,9 +98,6 @@ CREATE TABLE Transactions (
     FOREIGN KEY (RobotID) REFERENCES Robot(RobotID)
 );
 
-<<<<<<< HEAD:sql/Create.sql
-Alter Table Transactions 
-=======
 -- Stores The Customers Custom Addresses
 Create Table CustomerAddress(
 	Address varchar(255) ,
@@ -213,10 +177,9 @@ Alter Table robot
 Add Constraint CheckRobotWeight Check (CurrentLoad<=200 and Currentload >= 0);
 
 Alter Table transactions 
->>>>>>> f5972ee29e889a8441734b7cd1c89ef49a45bb22:SQL Scripts/Create.sql
 Add Constraint CheckTransactionCost Check (TransactionCost>=0);
 
-Alter Table Transactions 
+Alter Table transactions 
 Add Constraint CheckTransactionWeight Check (TransactionWeight >= 0);
 
 ALTER TABLE TransactionItems 
@@ -257,48 +220,20 @@ ON CustomerAddress (Address);
 CREATE INDEX transactionitems_itemid
 ON TransactionItems (ItemID);
 
-<<<<<<< HEAD:sql/Create.sql
-Create Table FaultyRobots(
-	RobotID varchar(255) primary key,
-    EventDate date not null,
-    Cause varchar(255) not null,
-    Foreign Key(RobotID) References Robot(RobotID) on delete cascade
-);
-
-Create Table FeaturedItems( 
-    ItemID varchar(255) primary key,
-    Foreign Key(ItemID) References Inventory(ItemID) on delete cascade
-);
-
-Create Table NearExpiration( 
-    ItemID varchar(255) primary key,
-    Foreign Key(ItemID) References Inventory(ItemID) on delete cascade
-);
-
-=======
 -- Triggers For Logging Tables
 
 DELIMITER $$
 
 -- Log low stock after update
->>>>>>> f5972ee29e889a8441734b7cd1c89ef49a45bb22:SQL Scripts/Create.sql
 CREATE TRIGGER LowStockUpdate
 AFTER UPDATE ON Inventory
 FOR EACH ROW
 BEGIN
     IF NEW.Quantity < 5 THEN
-        IF NOT EXISTS (SELECT 1 FROM LowStockLog WHERE ItemID = NEW.ItemID) THEN
-            INSERT INTO LowStockLog (ItemID, EventDate)
+        IF NOT EXISTS (SELECT 1 FROM lowstocklog WHERE ItemID = NEW.ItemID) THEN
+            INSERT INTO lowstocklog (ItemID, EventDate)
             VALUES (NEW.ItemID, NOW());
         END IF;
-<<<<<<< HEAD:sql/Create.sql
-    ELSEIF NEW.Quantity > 5 THEN
-        DELETE FROM LowStockLog
-        WHERE ItemID = NEW.ItemID;
-    END IF;
-END;
-
-=======
     ELSE
         DELETE FROM lowstocklog WHERE ItemID = NEW.ItemID;
     END IF;
@@ -329,43 +264,24 @@ BEGIN
 END$$
 
 -- Track Faulty Robots After Update
->>>>>>> f5972ee29e889a8441734b7cd1c89ef49a45bb22:SQL Scripts/Create.sql
 CREATE TRIGGER FaultyRobotUpdate
 AFTER UPDATE ON Robot
 FOR EACH ROW
 BEGIN
     IF NEW.RobotStatus = 'Broken' THEN
-        INSERT INTO FaultyRobots (RobotID, EventDate, Cause)
+        INSERT INTO faultyrobots (RobotID, EventDate, Cause)
         VALUES (NEW.RobotID, NOW(), 'Broken')
         ON DUPLICATE KEY UPDATE EventDate = NOW(), Cause = 'Broken';
+
     ELSEIF NEW.RobotStatus = 'Maintenance' THEN
-        INSERT INTO FaultyRobots (RobotID, EventDate, Cause)
+        INSERT INTO faultyrobots (RobotID, EventDate, Cause)
         VALUES (NEW.RobotID, NOW(), 'Needs Maintenance')
         ON DUPLICATE KEY UPDATE EventDate = NOW(), Cause = 'Needs Maintenance';
-    ELSE
-<<<<<<< HEAD:sql/Create.sql
-        DELETE FROM FaultyRobots
-        WHERE RobotID = NEW.RobotID;
-    END IF;
-END;
 
-CREATE TRIGGER LowStockInsert
-AFTER INSERT ON Inventory
-FOR EACH ROW
-BEGIN
-    IF NEW.Quantity < 5 THEN
-        IF NOT EXISTS (SELECT 1 FROM LowStockLog WHERE ItemID = NEW.ItemID) THEN
-            INSERT INTO LowStockLog (ItemID, EventDate)
-            VALUES (NEW.ItemID, NOW());
-        END IF;
-    ELSEIF NEW.Quantity > 5 THEN
-        DELETE FROM LowStockLog
-        WHERE ItemID = NEW.ItemID;
-=======
+    ELSE
         DELETE FROM faultyrobots WHERE RobotID = NEW.RobotID;
->>>>>>> f5972ee29e889a8441734b7cd1c89ef49a45bb22:SQL Scripts/Create.sql
     END IF;
-END;
+END$$
 
 -- Track Faulty Robots After Insert
 CREATE TRIGGER FaultyRobotInsert
@@ -373,61 +289,15 @@ AFTER INSERT ON Robot
 FOR EACH ROW
 BEGIN
     IF NEW.RobotStatus = 'Broken' THEN
-<<<<<<< HEAD:sql/Create.sql
-        IF NOT EXISTS (SELECT 1 FROM FaultyRobots WHERE RobotID = NEW.RobotID AND Cause = 'Broken') THEN
-            INSERT INTO FaultyRobots (RobotID, EventDate, Cause)
-=======
         IF NOT EXISTS (
             SELECT 1 FROM faultyrobots 
             WHERE RobotID = NEW.RobotID AND Cause = 'Broken'
         ) THEN
             INSERT INTO faultyrobots (RobotID, EventDate, Cause)
->>>>>>> f5972ee29e889a8441734b7cd1c89ef49a45bb22:SQL Scripts/Create.sql
             VALUES (NEW.RobotID, NOW(), 'Broken');
         END IF;
 
     ELSEIF NEW.RobotStatus = 'Maintenance' THEN
-<<<<<<< HEAD:sql/Create.sql
-        IF NOT EXISTS (SELECT 1 FROM FaultyRobots WHERE RobotID = NEW.RobotID AND Cause = 'Needs Maintenance') THEN
-            INSERT INTO FaultyRobots (RobotID, EventDate, Cause)
-            VALUES (NEW.RobotID, NOW(), 'Needs Maintenance');
-        END IF;
-    ELSEIF NEW.RobotStatus != 'Broken' AND NEW.RobotStatus != 'Maintenance' THEN
-        DELETE FROM FaultyRobots
-        WHERE RobotID = NEW.RobotID;
-    END IF;
-END;
-
-CREATE EVENT NearExpiration
-ON SCHEDULE EVERY 1 DAY
-DO
-BEGIN
-    INSERT IGNORE INTO NearExpiration(ItemID)
-    SELECT ItemID
-    FROM Inventory
-    WHERE DATEDIFF(Expiration, CURDATE()) <= 3;
-END;
-
-CREATE TRIGGER validate_supervisor_before_insert
-BEFORE INSERT ON Employee
-FOR EACH ROW
-BEGIN
-    IF NEW.SupervisorID IS NOT NULL THEN
-        IF NEW.SupervisorID = NEW.EmployeeID THEN
-            SIGNAL SQLSTATE '45000' 
-            SET MESSAGE_TEXT = 'An employee cannot be their own supervisor.';
-        END IF;
-        IF NOT EXISTS (
-            SELECT 1 FROM Employee 
-            WHERE EmployeeID = NEW.SupervisorID
-        ) THEN
-            SIGNAL SQLSTATE '45000' 
-            SET MESSAGE_TEXT = 'SupervisorID does not reference a valid employee.';
-        END IF;
-    END IF;
-END;
-
-=======
         IF NOT EXISTS (
             SELECT 1 FROM faultyrobots 
             WHERE RobotID = NEW.RobotID AND Cause = 'Needs Maintenance'
@@ -445,23 +315,16 @@ END$$
 SET GLOBAL event_scheduler = ON;
 
 -- Delete Expired Transactions If Stripe Failed Webhook Post
->>>>>>> f5972ee29e889a8441734b7cd1c89ef49a45bb22:SQL Scripts/Create.sql
 CREATE EVENT IF NOT EXISTS delete_expired_transactions
 ON SCHEDULE EVERY 20 MINUTE
 DO
 BEGIN
+
     UPDATE Inventory
     JOIN TransactionItems ON Inventory.ItemID = TransactionItems.ItemID
     JOIN Transactions ON TransactionItems.TransactionID = Transactions.TransactionID
     SET Inventory.Quantity = Inventory.Quantity + TransactionItems.Quantity
     WHERE Transactions.TransactionStatus = 'In Progress'
-<<<<<<< HEAD:sql/Create.sql
-      AND Transactions.TransactionDate < NOW() - INTERVAL 35 MINUTE;
-    DELETE FROM Transactions
-    WHERE TransactionStatus = 'In Progress'
-      AND TransactionDate < NOW() - INTERVAL 35 MINUTE;
-END;
-=======
       AND Transactions.TransactionDate < NOW() - INTERVAL 45 MINUTE;
 
     DELETE FROM Transactions
@@ -472,7 +335,6 @@ END;
     WHERE CustomerID NOT IN (
         SELECT CustomerID FROM Transactions
     );
->>>>>>> f5972ee29e889a8441734b7cd1c89ef49a45bb22:SQL Scripts/Create.sql
 
 END$$
 
@@ -493,8 +355,6 @@ CREATE EVENT IF NOT EXISTS failed_robots
 ON SCHEDULE EVERY 5 MINUTE
 DO
 BEGIN
-<<<<<<< HEAD:sql/Create.sql
-=======
 
     UPDATE Transactions
     SET TransactionStatus = 'Fulfilled'
@@ -506,7 +366,6 @@ BEGIN
             AND EstimatedDelivery <= NOW()
       );
 
->>>>>>> f5972ee29e889a8441734b7cd1c89ef49a45bb22:SQL Scripts/Create.sql
     UPDATE Robot
     SET 
         RobotStatus = 'Free',
@@ -515,27 +374,11 @@ BEGIN
     WHERE EstimatedDelivery IS NOT NULL
       AND EstimatedDelivery <= NOW();
 
-<<<<<<< HEAD:sql/Create.sql
-    UPDATE Transactions
-    SET TransactionStatus = 'Fulfilled'
-    WHERE TransactionStatus = 'Pending Delivery'
-      AND RobotID IN (
-          SELECT RobotID 
-          FROM Robot 
-          WHERE EstimatedDelivery IS NULL 
-          AND RobotStatus = 'Free'
-      );
-END;
-
-SET GLOBAL event_scheduler = ON;
-
-=======
 END$$
 
 DELIMITER ;
 
 -- Insert The Default Store Address
->>>>>>> f5972ee29e889a8441734b7cd1c89ef49a45bb22:SQL Scripts/Create.sql
 INSERT INTO Address (Address) VALUES
 ('272 E Santa Clara St, San Jose, CA 95112');
 
@@ -783,4 +626,3 @@ SELECT
 FROM robot
 WHERE RobotStatus IN ('Broken', 'Maintenance')
 AND RobotID NOT IN (SELECT RobotID FROM faultyrobots);
-
