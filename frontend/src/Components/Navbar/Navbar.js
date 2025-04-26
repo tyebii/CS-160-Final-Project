@@ -189,33 +189,35 @@ function Navbar() {
         </li>
 
         {/* Dropdown */}
-        <li
 
-          className="relative flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 rounded-xl cursor-pointer transition duration-200"
-
-          onClick={toggleDropdown}
-
-        >
-        
           {auth !== "Employee" && auth !== "Manager" ? (    
 
-          <div className="text-2xl font-medium">
+            <li
 
-            <span className="flex items-center gap-2">
+            className="relative flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 rounded-xl cursor-pointer transition duration-200"
 
-              Browse
+            onClick={toggleDropdown}
 
-              <img src={dropDownIcon} alt="dropdownIcon" className="mt-1 w-6 h-6" />
+            >
 
-            </span>
+            <div className="text-2xl font-medium">
 
-            {renderDropdown(dropdownVisible)}
-            
-          </div>
+              <span className="flex items-center gap-2">
+
+                Browse
+
+                <img src={dropDownIcon} alt="dropdownIcon" className="mt-1 w-6 h-6" />
+
+              </span>
+
+              {renderDropdown(dropdownVisible)}
+              
+            </div>
+          </li>
 
           ) : null}
 
-        </li>
+        
 
       </ul>
 

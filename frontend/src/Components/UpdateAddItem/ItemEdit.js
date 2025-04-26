@@ -55,6 +55,10 @@ export const ItemEdit = ({ item }) => {
     const handleSubmit = async (e) => {
 
         e.preventDefault();
+
+        const dateObj = new Date(formData.Expiration);
+        
+        formData.Expiration = dateObj.toISOString().slice(0, 10); 
       
         if (
           !insertFormat(

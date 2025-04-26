@@ -18,8 +18,6 @@ import axios from 'axios';
 // Item View Component
 const ItemView = ({ searchType, query }) => {
 
-  console.log(searchType, query)
-
   const { handleError } = useErrorResponse(); 
 
   const { auth} = useAuth();

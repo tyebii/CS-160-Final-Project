@@ -226,6 +226,16 @@ BEGIN
     END IF;
 END$$
 
+CREATE TRIGGER RemoveFromNearExpiration
+AFTER UPDATE ON Inventory
+FOR EACH ROW
+BEGIN
+    IF DATEDIFF(NEW.Expiration, CURDATE()) > 3 THEN
+        DELETE FROM NearExpiration
+        WHERE ItemID = NEW.ItemID;
+    END IF;
+END$$
+
 -- Trigger: Track faulty robots after update
 CREATE TRIGGER FaultyRobotUpdate
 AFTER UPDATE ON Robot
@@ -324,10 +334,11 @@ CREATE EVENT IF NOT EXISTS NearExpiration
 ON SCHEDULE EVERY 1 DAY
 DO
 BEGIN
-    INSERT IGNORE INTO NearExpiration(ItemID)
+    INSERT INTO NearExpiration(ItemID)
     SELECT ItemID
     FROM Inventory
-    WHERE DATEDIFF(Expiration, CURDATE()) <= 3;
+    WHERE DATEDIFF(Expiration, CURDATE()) <= 3
+    AND ItemID NOT IN (SELECT ItemID FROM NearExpiration);
 END$$
 
 -- Event: Mark overdue deliveries as fulfilled and reset robot status
@@ -570,3 +581,25 @@ INSERT INTO Users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumbe
   ('manageraccount', '$2b$10$EnkK1LIZkFwfvH7j1exJ2OMt.sUUqPYZbr2GGK5DpLR.ryLdirWUa', 'Jane', 'Smith', '1-987-654-3210', '41919578-dc21-41db-9988-64af08b72656', NULL),
   ('customeraccount', '$2b$10$nCJXHSEss9weo1YWzK6hv.1VI3ua2Ee7SOkdiAkDUrBexEoo4YImW', 'customer', 'account', '1-408-499-0857', NULL, '29bde254-1295-4faa-9c63-c5a721173f9f'),
   ('employeeaccount', '$2b$10$qshO7B9Lge.sVLTF3XHwpePyloSIi1fbe7clrwSGzzh9YTQhDkxdi', 'Jane', 'Smither', '1-987-654-3212', '4cedc688-2ef6-424c-9e14-c72cd3f45b29', NULL);
+
+INSERT INTO NearExpiration(ItemID)
+SELECT ItemID
+FROM Inventory
+WHERE DATEDIFF(Expiration, CURDATE()) <= 3
+AND ItemID NOT IN (SELECT ItemID FROM NearExpiration);
+
+INSERT INTO lowstocklog (ItemID, EventDate)
+SELECT ItemID, NOW() FROM inventory WHERE Quantity < 5;
+
+INSERT INTO faultyrobots (RobotID, EventDate, Cause)
+SELECT 
+    RobotID,
+    NOW(),
+    CASE 
+        WHEN RobotStatus = 'Broken' THEN 'Broken'
+        WHEN RobotStatus = 'Maintenance' THEN 'Needs Maintenance'
+    END
+FROM robot
+WHERE RobotStatus IN ('Broken', 'Maintenance')
+AND RobotID NOT IN (SELECT RobotID FROM faultyrobots);
+
