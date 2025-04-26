@@ -1,3 +1,5 @@
+Use OFS;
+
 -- Triggers For Logging Tables
 
 DELIMITER $$

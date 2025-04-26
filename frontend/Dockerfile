@@ -11,8 +11,11 @@ RUN npm install
 # Copy frontend source
 COPY . .
 
+# Set environment variable for frontend dev server port
+ENV PORT=3300
+
 # Expose frontend port
-EXPOSE 3000
+EXPOSE 3300
 
 # Start the frontend dev server
 CMD ["npm", "start"]

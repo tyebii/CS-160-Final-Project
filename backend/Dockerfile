@@ -16,7 +16,7 @@ COPY scripts/wait-for-it.sh /usr/src/app/wait-for-it.sh
 RUN chmod +x /usr/src/app/wait-for-it.sh
 
 # Expose backend port
-EXPOSE 5000
+EXPOSE 3301
 
 # Use wait-for-it.sh to wait for MySQL before starting the backend
 CMD ["sh", "-c", "./wait-for-it.sh mysql:3306 -- npm start"]

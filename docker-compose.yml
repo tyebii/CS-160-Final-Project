@@ -7,10 +7,10 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: ofs
+      MYSQL_DATABASE: OFS
     volumes:
-      - ./sql/Create.sql:/docker-entrypoint-initdb.d/Create.sql
-      - ./sql/Triggers.sql:/docker-entrypoint-initdb.d/Triggers.sql
+      - ./sql/Create.sql:/docker-entrypoint-initdb.d/01_Create.sql
+      - ./sql/Triggers.sql:/docker-entrypoint-initdb.d/02_Triggers.sql
     ports:
       - "3307:3306"
     healthcheck:
@@ -25,14 +25,14 @@ services:
     container_name: backend
     restart: unless-stopped
     ports:
-      - "5000:5000"
+      - "3301:3301"
     depends_on:
       - mysql
     environment:
       DB_HOST: mysql-db
       DB_USER: root
       DB_PASSWORD: password
-      DB_NAME: ofs
+      DB_NAME: OFS
     env_file:
       - ./backend/.env
 
@@ -40,6 +40,6 @@ services:
     build: ./frontend
     container_name: frontend
     ports:
-      - "3000:3000"
+      - "3300:3300"
     depends_on:
       - backend
