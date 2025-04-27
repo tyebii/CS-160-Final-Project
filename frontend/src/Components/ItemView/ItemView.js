@@ -82,8 +82,6 @@ const ItemView = ({ searchType, query }) => {
           },
 
         });
-
-        console.log(endPoint)
   
         if (response.data.length === 0) {
 

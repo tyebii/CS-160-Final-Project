@@ -63,6 +63,17 @@ BEGIN
     END IF;
 END$$
 
+-- Make Sure The Quantity Doesn't Go Negative
+CREATE TRIGGER Inventory_Quantity_NonNegative 
+BEFORE UPDATE ON Inventory
+FOR EACH ROW
+BEGIN
+    IF NEW.Quantity < 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Quantity cannot be negative';
+    END IF;
+END$$
+
 -- Track Faulty Robots After Insert
 CREATE TRIGGER FaultyRobotInsert
 AFTER INSERT ON Robot
@@ -104,7 +115,7 @@ BEGIN
     JOIN TransactionItems ON Inventory.ItemID = TransactionItems.ItemID
     JOIN Transactions ON TransactionItems.TransactionID = Transactions.TransactionID
     SET Inventory.Quantity = Inventory.Quantity + TransactionItems.Quantity
-    WHERE Transactions.TransactionStatus = 'In Progress'
+    WHERE (Transactions.TransactionStatus = 'In Progress')
       AND Transactions.TransactionDate < NOW() - INTERVAL 45 MINUTE;
 
     DELETE FROM Transactions

@@ -52,6 +52,8 @@ export const CartProvider = ({ children }) => {
 
         if(!auth || auth === "Manager" || auth === "Employee"){
 
+          setCartItems(new Set())
+
           return
           
         }

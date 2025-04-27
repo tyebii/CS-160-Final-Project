@@ -125,6 +125,11 @@ export function TransactionDetails({transaction}) {
 
           />
 
+          {transaction.TransactionFailure? (<DetailRow label="Transaction Failure" value={transaction.TransactionFailure} />):null}
+
+
+
+
           <DetailRow label="Transaction Date" value={transaction.TransactionDate?new Date(transaction.TransactionDate).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }):null} />
 
           <DetailRow label="Transaction Arrival Date" value={transaction.TransactionTime ? new Date(transaction.TransactionTime).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }) : "N/A"} />
@@ -187,15 +192,21 @@ const DetailRow = ({ label, value, defaultValue = "", isBadge = false }) => {
 
             className={`ml-2 px-2 py-1 rounded text-white text-sm ${
 
-              value === "Complete"
+              value === 'Complete'
 
-                ? "bg-green-500"
+              ? 'bg-green-600'
 
-                : value === "In progress"
+              : value === 'In progress'
 
-                ? "bg-yellow-500"
+              ? 'bg-yellow-500'
 
-                : "bg-blue-500"
+              : value === 'Pending Delivery'
+
+              ? 'bg-orange-500': value === 'Failed'?
+
+              'bg-red-500'
+
+              : 'bg-blue-600'
 
             }`}
 

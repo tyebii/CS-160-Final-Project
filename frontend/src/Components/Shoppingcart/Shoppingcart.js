@@ -221,6 +221,14 @@ const clickRemove = async (itemid) => {
 
       }
 
+      if(results[i].Quantity < results[i].OrderQuantity){
+
+        alert("Not Enough Supply")
+
+        return
+
+      }
+
     }
   
     if (! await validateAddress(selectedAddress?.Address)) {

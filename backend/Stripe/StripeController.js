@@ -25,7 +25,7 @@ const handleStripe = async (req, res) => {
 
         }
 
-        let weight = 0;
+        let weight = req.weight;
 
         let lineItems = [];
         
@@ -36,8 +36,6 @@ const handleStripe = async (req, res) => {
         for (let i = 0; i < items.length; i++) {
 
             const item = items[i];
-            
-            weight += item.Weight * item.OrderQuantity;
             
             lineItems.push({
 
@@ -73,6 +71,7 @@ const handleStripe = async (req, res) => {
                 unit_amount: (weight < 20 || req.body.TransactionAddress == "272 E Santa Clara St, San Jose, CA 95112")? 0 : 1000, 
 
             },
+
             quantity: 1
 
         });
@@ -93,15 +92,15 @@ const handleStripe = async (req, res) => {
 
             success_url: 'http://localhost:3300/orders',
 
-            cancel_url: 'http://localhost:3300/orders',
+            cancel_url: 'http://localhost:3300/shoppingcart',
 
             metadata: {
-
-                transaction_id: req.body.TransactionID,  
                 
                 in_store: (req.body.TransactionAddress === "272 E Santa Clara St, San Jose, CA 95112" || weight > 200).toString(),
 
-                customer_id: req.user.CustomerID
+                customer_id: req.user.CustomerID,
+
+                transaction_id: req.transactionID
 
             },
 
@@ -146,21 +145,9 @@ const addTransaction = async (req, res, next) => {
 
     }
 
-    let transactionID;
-
     let connection;
 
-    try {
-
-        transactionID = await generateUniqueID(transactionIDExists);
-
-    } catch (error) {
-
-        logger.error("Error Generating Transaction ID: " + error.message);
-
-        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error Creating Unique TransactionID" });
-
-    }
+    let transactionID
 
     try {
 
@@ -208,65 +195,63 @@ const addTransaction = async (req, res, next) => {
 
         }
 
+        try {
+
+            transactionID = await generateUniqueID(transactionIDExists);
+        
+        } catch (error) {
+        
+            logger.error("Error Generating Transaction ID: " + error.message);
+        
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error Creating Unique TransactionID" });
+        
+        }
+
         await connection.query(
 
             `INSERT INTO Transactions 
-
+        
              (CustomerID, TransactionID, TransactionCost, TransactionWeight, TransactionAddress, TransactionStatus, TransactionDate) 
-
+        
              VALUES (?, ?, ?, ?, ?, ?, ?)`,
-
+        
             [customerID, transactionID, cost / 100, weight, TransactionAddress, "In Progress", new Date()]
-
-        );
-
-        await connection.query(
-
-            `UPDATE Inventory 
-
-             JOIN ShoppingCart ON Inventory.ItemID = ShoppingCart.ItemID 
-
-             SET Inventory.Quantity = Inventory.Quantity - ShoppingCart.OrderQuantity 
-
-             WHERE ShoppingCart.CustomerID = ?`,
-
-            [customerID]
-
+        
         );
 
         const values = items.map(item => [
 
             transactionID,
-
+        
             item.ItemID,
-
+        
             item.ProductName,
-
+        
             item.OrderQuantity,
-
+        
             item.Cost,
-
+        
             item.ImageLink
-
+        
         ]);
-
+        
         await connection.query(
-
+        
             `INSERT INTO TransactionItems 
-
+        
              (TransactionID, ItemID, ProductName, Quantity, PriceAtPurchase, ImageLink) 
-
+        
              VALUES ?`,
-
+        
             [values]
-
+        
         );
 
-        await connection.query("DELETE FROM shoppingcart WHERE customerid = ?", [customerID])
-
-        req.body.TransactionID = transactionID;
-
         req.items = items;
+
+        req.transactionID = transactionID
+
+        req.weight = weight
 
         logger.info("Inventory Update And Transaction Addition Successful");
 
@@ -356,6 +341,51 @@ const handleHook = async (req, res) => {
 
                         const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent);
 
+                        if (paymentIntent.status !== 'succeeded'){
+
+                            const sqlQueryFailed = `
+
+                                UPDATE Transactions
+
+                                SET TransactionStatus = 'Failed', TransactionFailure = 'Payment Was Not Processed Correctly'
+
+                                WHERE TransactionID = ?;
+        
+                            `;
+        
+                            const valuesFailed = [session.metadata.transaction_id];
+        
+                            await connection.query(sqlQueryFailed, valuesFailed);
+
+                            logger.error("Checkout Complete But Failed Payment")
+
+                            await connection.commit(); 
+
+                            connection.release();
+
+                            try {
+
+                                logger.info("Attempting to refund due to payment failure...");
+                        
+                                const refund = await stripe.refunds.create({
+
+                                    payment_intent: session.payment_intent
+
+                                });
+
+                                logger.info("Refund issued. Refund ID: " + refund.id);
+
+                            } catch (refundError) {
+
+                                logger.error("Error refunding after failed payment: " + refundError.message);
+
+                            }
+
+                            return res.sendStatus(200);
+
+
+                        }
+
                         const transactionStatus = paymentIntent.status === 'succeeded'
 
                             ? (session.metadata.in_store === 'true' ? 'Complete' : 'Pending Delivery'):'In Progress';
@@ -412,31 +442,41 @@ const handleHook = async (req, res) => {
 
                         await connection.query(sqlQuery, values);
 
-                        if (paymentIntent.status !== 'succeeded') {
+                        await connection.query(
 
-                            logger.error("The Payment Was Not Successful. Updating Inventory")
+                            `UPDATE Inventory
 
-                            await connection.query(
+                            JOIN TransactionItems ON Inventory.ItemID = TransactionItems.ItemID
 
-                                `UPDATE Inventory
+                            JOIN Transactions ON TransactionItems.TransactionID = Transactions.TransactionID
 
-                                 JOIN TransactionItems ON Inventory.ItemID = TransactionItems.ItemID
+                            SET Inventory.Quantity = Inventory.Quantity - TransactionItems.Quantity
 
-                                 JOIN Transactions ON TransactionItems.TransactionID = Transactions.TransactionID
+                            WHERE Transactions.TransactionID = ?`,
+                        
+                            [session.metadata.transaction_id]
+                        
+                        );
 
-                                 SET Inventory.Quantity = Inventory.Quantity + TransactionItems.Quantity
+                        await connection.query(
 
-                                 WHERE Transactions.TransactionID = ?
+                            `DELETE FROM ShoppingCart
 
-                                   AND Transactions.TransactionStatus = 'In Progress'`,
+                             WHERE CustomerID = ?
 
-                                [session.metadata.transaction_id]
+                               AND ItemID IN (
 
-                            );        
+                                 SELECT TI.ItemID
 
-                            await connection.query('DELETE FROM Transactions WHERE TransactionID = ?', [session.metadata.transaction_id]);
+                                 FROM TransactionItems TI
 
-                        }
+                                 WHERE TI.TransactionID = ?
+                                 
+                               )`,
+
+                            [session.metadata.customer_id, session.metadata.transaction_id]
+
+                        );
 
                     await connection.commit(); 
 
@@ -478,7 +518,102 @@ const handleHook = async (req, res) => {
                         
                     }
 
-                    return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Error Updating Transaction And Inventory"})
+                    try {
+
+                        logger.info("Attempting to refund payment due to error...");
+                    
+                        if (session.payment_intent) {
+
+                            const refund = await stripe.refunds.create({
+
+                                payment_intent: session.payment_intent
+
+                            });
+
+                            logger.info("Refund issued. Refund ID: " + refund.id);
+                            
+                        } else {
+
+                            logger.error("No PaymentIntent found in session to refund.");
+
+                        }
+                    
+                    } catch (refundError) {
+
+                        logger.error("Error refunding payment: " + refundError.message);
+
+                        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Error Refunding After DB Error" });
+
+                    }
+
+                    
+                    if (
+
+                        error.code === 'ER_SIGNAL_EXCEPTION' ||
+                         
+                        error.sqlState === '45000' ||      
+
+                        error.errno === 3819       
+                                      
+                      ) {
+
+                        logger.error("Inventory quantity constraint violated - not enough stock");
+                
+                        try {
+
+                            logger.info("Updating Transaction to Failed due to Inventory Constraint");
+                        
+                            const newConnection = await pool.promise().getConnection();
+                        
+                            try {
+
+                                await newConnection.beginTransaction();
+                        
+                                await newConnection.query(`
+
+                                    UPDATE Transactions
+
+                                    SET TransactionStatus = 'Failed', TransactionFailure = 'Not Enough Stock'
+
+                                    WHERE TransactionID = ?;
+
+                                `, [session.metadata.transaction_id]);
+                        
+                                await newConnection.commit();
+
+                                logger.info("Transaction marked as Failed");
+                        
+                            } catch (innerError) {
+
+                                logger.error("Error Updating Transaction Status After Constraint Violation: " + innerError.message);
+                        
+                                try {
+
+                                    await newConnection.rollback();
+
+                                    logger.info("Rolled back after failure during marking failed");
+
+                                } catch (rollbackInnerError) {
+
+                                    logger.error("Error rolling back after update failure: " + rollbackInnerError.message);
+
+                                }
+                        
+                            } finally {
+
+                                newConnection.release();
+
+                            }
+                        
+                        } catch (connError) {
+
+                            logger.error("Error getting new connection to mark Transaction Failed: " + connError.message);
+
+                        }
+                
+                    }
+
+                    return res.sendStatus(200);
 
                 }
 
@@ -498,28 +633,10 @@ const handleHook = async (req, res) => {
 
                 await connection.beginTransaction();
 
-                    await connection.query(
-
-                        `UPDATE Inventory
-
-                            JOIN TransactionItems ON Inventory.ItemID = TransactionItems.ItemID
-
-                            JOIN Transactions ON TransactionItems.TransactionID = Transactions.TransactionID
-
-                            SET Inventory.Quantity = Inventory.Quantity + TransactionItems.Quantity
-
-                            WHERE Transactions.TransactionID = ?
-
-                            AND Transactions.TransactionStatus = 'In Progress'`,
-
-                        [session.metadata.transaction_id]
-
-                    );
-
                     const sqlQueryFailed = `
-
-                        DELETE FROM Transactions
-
+                            
+                        Delete From Transactions"
+        
                         WHERE TransactionID = ?;
 
                     `;
@@ -568,7 +685,7 @@ const handleHook = async (req, res) => {
                     
                 }
 
-                return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:"Internal Server Removing Transaction And Updating Inventory"})
+                return res.sendStatus(200);
 
             } 
 
@@ -593,3 +710,7 @@ const handleHook = async (req, res) => {
 
 
 module.exports = { handleStripe, addTransaction, handleHook };
+
+
+
+
