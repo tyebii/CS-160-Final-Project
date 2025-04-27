@@ -58,8 +58,13 @@ MySQL database: accessible via localhost:3307 (MySQL clients)
 **5. Install and setup Stripe CLI**
 ```
 - Install Stripe CLI: https://docs.stripe.com/stripe-cli
+
+- Login to Stripe CLI in the command prompt
   
 - Run: stripe listen --forward-to localhost:3301/api/stripe/webhook
+
+- Go to the .env file in the backend folder and replace STRIPE_WEBHOOK_SECRET with the one Stripe CLI provided you
+
 ```
 
 ## Authors
