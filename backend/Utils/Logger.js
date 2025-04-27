@@ -56,7 +56,7 @@ const logger = winston.createLogger({
 const logWithRequestId = (req, res, next) => {
 
   const requestId = uuidv4(); 
-  
+
   req.requestId = requestId;  
 
   logger.defaultMeta = { requestId };

@@ -50,6 +50,8 @@ export const AuthProvider = ({children}) => {
 
     } catch (error) {
 
+      setAuth(null)
+
       return
 
     }

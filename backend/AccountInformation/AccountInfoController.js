@@ -161,8 +161,8 @@ const deleteCustomer = async (req, res) => {
 
         const [transactions] = await connection.query(
 
-            "SELECT * FROM Transactions WHERE CustomerID = ? AND TransactionStatus != 'Fulfilled'",
-
+            "SELECT * FROM Transactions WHERE CustomerID = ? AND (TransactionStatus = 'Complete' OR TransactionStatus = 'Pending Delivery' OR TransactionStatus = 'Delivering')",
+        
             [customerID]
 
         );
