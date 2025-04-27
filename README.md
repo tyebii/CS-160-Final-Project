@@ -55,6 +55,11 @@ Backend (API server): http://localhost:3301
 
 MySQL database: accessible via localhost:3307 (MySQL clients)
 ```
+**5. Install and setup Stripe CLI**
+
+- Install Stripe CLI: https://docs.stripe.com/stripe-cli
+  
+- Run: stripe listen --forward-to localhost:3301/api/stripe/webhook
 
 ## Authors
 **Austin Nguyen** <br />
