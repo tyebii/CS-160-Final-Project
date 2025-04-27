@@ -354,8 +354,8 @@ function Navbar() {
 
           </li>
 
-        ) : (
-
+        ) : auth === "Customer" ? (
+          
           <li
 
             onClick={auth ? clickShoppingCart : clickLogin}
@@ -366,11 +366,11 @@ function Navbar() {
 
             {cartItems.size > 0 && (
 
-            <span className="bg-red-500 text-white text-sm font-bold px-2 py-1 rounded-full">
+              <span className="bg-red-500 text-white text-sm font-bold px-2 py-1 rounded-full">
 
-              {cartItems.size}
+                {cartItems.size}
 
-            </span>
+              </span>
 
             )}
 
@@ -388,7 +388,8 @@ function Navbar() {
 
           </li>
 
-        )}
+
+        ):null}
 
       </ul>
 

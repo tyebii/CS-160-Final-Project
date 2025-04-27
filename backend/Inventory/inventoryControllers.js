@@ -226,6 +226,8 @@ const productQueryNameEmployee = (req, res) => {
 
     }
 
+    const item = name
+
     try{
 
         name = name.replace(/-/g, " "); 
@@ -240,7 +242,7 @@ const productQueryNameEmployee = (req, res) => {
 
     logger.info(`Fetching The Items Associated With The Product: ${name}`)
 
-    pool.query('SELECT * FROM inventory WHERE ProductName like ? or Category like ?', ["%" + name + "%", "%" + name + "%"], (error, results) => {
+    pool.query('SELECT * FROM inventory WHERE (ItemID = ? OR ProductName LIKE ? OR Category LIKE ?)', [item, "%" + name + "%", "%" + name + "%"], (error, results) => {
 
         if (error) {
 

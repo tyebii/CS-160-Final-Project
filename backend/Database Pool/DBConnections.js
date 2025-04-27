@@ -7,6 +7,7 @@ const pool = mysql.createPool({
     password: 'password', // Your MySQL password
     database: 'OFS', // Your database name
     port: 3306, // SQL Port
+    timezone: 'America/Los_Angeles',
   });
   
   // Check the connection and handle errors

@@ -230,9 +230,9 @@ INSERT INTO Address (Address) VALUES
 
 -- Insert Sample Robots 
 INSERT INTO Robot (RobotID, CurrentLoad, RobotStatus, Maintanence, EstimatedDelivery) VALUES
-('Robot One', 0,  'Free', '2025-05-29', NULL),
-('Robot Two', 0,  'Free', '2025-05-29', NULL),
-('Robot Three', 0,  'Free', '2025-05-29', NULL);
+('RobotOne', 0,  'Free', '2025-05-29', NULL),
+('RobotTwo', 0,  'Free', '2025-05-29', NULL),
+('RobotThree', 0,  'Free', '2025-05-29', NULL);
 
 -- Insert Fresh Produce
 INSERT INTO Inventory VALUES 

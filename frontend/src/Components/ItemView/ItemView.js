@@ -352,7 +352,7 @@ const ItemView = ({ searchType, query }) => {
 
             <div className="space-y-1 text-gray-700">
 
-              <p><span className="font-semibold">Last Modified:</span> {results.LastModification? new Date(results.LastModification).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }).slice(0,9):null}</p>
+              <p><span className="font-semibold">Last Modified:</span> {results.LastModification? results.LastModification.slice(0,10):null}</p>
 
               <p><span className="font-semibold">Item ID:</span> {results.ItemID}</p>
 
@@ -371,7 +371,7 @@ const ItemView = ({ searchType, query }) => {
 
             <p><span className="font-semibold">Availability:</span> {results.Quantity}</p>
 
-            <p><span className="font-semibold">Expiration:</span> {results.Expiration? new Date(results.Expiration).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }).slice(0,9):null}</p>
+            <p><span className="font-semibold">Expiration:</span> {results.Expiration? results.Expiration.slice(0,10):null}</p>
 
             <p><span className="font-semibold">Storage Type:</span> {results.StorageRequirement}</p>
 

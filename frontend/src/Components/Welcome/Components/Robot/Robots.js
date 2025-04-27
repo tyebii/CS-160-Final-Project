@@ -225,7 +225,7 @@ function Robots ({trigger, setTrigger, auth}){
 
                 <strong>Next Maintenance Date: </strong> 
 
-                {robot.Maintanence ? new Date(robot.Maintanence).toLocaleDateString() : "N/A"}
+                {robot.Maintanence ? robot.Maintanence?.slice(0,10) : "N/A"}
 
               </p>
 

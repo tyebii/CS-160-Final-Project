@@ -131,21 +131,33 @@ export function TransactionDetails({transaction}) {
 
 
           <DetailRow label="Transaction Date" value={transaction.TransactionDate?new Date(transaction.TransactionDate).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }):null} />
+          
+          {
+            transaction.TransactionStatus !== "Failed" ? (
 
-          <DetailRow label="Transaction Arrival Date" value={transaction.TransactionTime ? new Date(transaction.TransactionTime).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }) : "N/A"} />
+              <>
+
+                <DetailRow label="Transaction Arrival Date" value={transaction.TransactionTime ? new Date(transaction.TransactionTime).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }) : "None"} />
+
+                <DetailRow label="Robot ID" value={transaction.RobotID} defaultValue="None" />
+
+                <DetailRow label="Payment Method" value={transaction.PaymentMethod} defaultValue="None" />
+
+                <DetailRow label="Charge Status" value={transaction.ChargeStatus} defaultValue="None" />
+
+                <DetailRow label="Receipt URL" value={transaction.ReceiptURL} defaultValue="None" />
+
+                <DetailRow label="Currency" value={transaction.Currency} defaultValue="None" />
+
+                <DetailRow label="Amount Paid" value={transaction.AmountPaid ? `$${transaction.AmountPaid.toFixed(2)}` : "None"} />
+              
+              </>
+
+            ) : null
+
+          }
 
 
-          <DetailRow label="Robot ID" value={transaction.RobotID} defaultValue="None" />
-
-          <DetailRow label="Payment Method" value={transaction.PaymentMethod} defaultValue="None" />
-
-          <DetailRow label="Charge Status" value={transaction.ChargeStatus} defaultValue="None" />
-
-          <DetailRow label="Receipt URL" value={transaction.ReceiptURL} defaultValue="None" />
-
-          <DetailRow label="Currency" value={transaction.Currency} defaultValue="None" />
-
-          <DetailRow label="Amount Paid" value={transaction.AmountPaid?`$${transaction.AmountPaid?.toFixed(2)}`: "None"} defaultValue="None" />
 
         </div>
 

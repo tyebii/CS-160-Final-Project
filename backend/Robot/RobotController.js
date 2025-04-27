@@ -55,7 +55,7 @@ const getFaultyRobot = (req,res)=>{
     )
 }
 
-
+//Add Robot
 const addRobot = (req, res) => {
 
     logger.info("Adding Robot")
@@ -63,6 +63,8 @@ const addRobot = (req, res) => {
     const {RobotID, CurrentLoad,RobotStatus, Maintanence} = req.body
 
     const sqlQuery = "Insert Into Robot(RobotID, CurrentLoad, RobotStatus, Maintanence) Values(?,?,?,?)"
+
+    logger.info(Maintanence)
     
     pool.query(sqlQuery, [RobotID,CurrentLoad,RobotStatus,Maintanence], (error, results)=>{
 
