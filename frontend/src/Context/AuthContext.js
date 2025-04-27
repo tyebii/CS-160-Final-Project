@@ -9,15 +9,18 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
   
-  const [auth, setAuth] = useState(null);
+  const [auth, setAuth] = useState();
 
   const logout = () => {
+
+    setAuth(null)
 
     axios.delete("http://localhost:3301/api/authentication/signout",{
 
       withCredentials: true,
 
     })
+
     .then(()=>{
 
       console.log("Cookie Cleared")
@@ -29,8 +32,6 @@ export const AuthProvider = ({children}) => {
       console.warn(error.message);
 
     })
-
-    setAuth(null)
 
   }
 

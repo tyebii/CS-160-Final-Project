@@ -85,7 +85,7 @@ export function Signup() {
 
           );
       
-          navigate("/");
+          navigate("/login");
       
         } catch (error) {
       

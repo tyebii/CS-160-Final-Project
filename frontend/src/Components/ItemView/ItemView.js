@@ -25,7 +25,7 @@ const ItemView = ({ searchType, query }) => {
 
   const { handleError } = useErrorResponse(); 
 
-  const { auth} = useAuth();
+  const { auth } = useAuth();
 
   const [quantity, setQuantity] = useState(1);
 
@@ -42,6 +42,13 @@ const ItemView = ({ searchType, query }) => {
 
     const fetchInventory = async () => {
 
+      if (auth === undefined){
+
+        return; 
+
+      }
+
+
       if (!validateID(itemid)) {
 
         navigate('/');
@@ -54,7 +61,7 @@ const ItemView = ({ searchType, query }) => {
 
         let endPoint = "";
   
-        if (!auth || auth === "Customer") {
+        if (auth == null || auth === "Customer") {
 
           endPoint = `http://localhost:3301/api/inventory/search/itemID/customer/${itemid}`;
        
@@ -75,6 +82,8 @@ const ItemView = ({ searchType, query }) => {
           },
 
         });
+
+        console.log(endPoint)
   
         if (response.data.length === 0) {
 

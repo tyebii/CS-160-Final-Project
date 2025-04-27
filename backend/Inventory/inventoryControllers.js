@@ -112,7 +112,7 @@ const productQueryName = (req, res) => {
 
     logger.info(`Fetching The Items Associated With The Product: ${name}`)
 
-    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE ProductName like ?  or Category like ? and Expiration > Now()', ["%" + name + "%", "%" + name + "%"], (error, results) => {
+    pool.query('SELECT ... FROM inventory WHERE (ProductName LIKE ? OR Category LIKE ?) AND Expiration > NOW()', ["%" + name + "%", "%" + name + "%"], (error, results) => {
 
         if (error) {
 
@@ -996,7 +996,7 @@ const featuredAdd = (req,res)=>{
 
     }
 
-    pool.query('Insert Into FeaturedItems(ItemID, EventDate) Values (?, NOW())', ItemID, (error,results)=>{
+    pool.query('Insert Into FeaturedItems(ItemID, EventDate) Values (?, NOW())', [ItemID], (error,results)=>{
 
         if (error) {
 
@@ -1029,7 +1029,7 @@ const featuredDelete = (req,res) => {
 
     }
 
-    pool.query('Delete From FeaturedItems Where ItemID = ?', itemid, (error,results)=>{
+    pool.query('Delete From FeaturedItems Where ItemID = ?', [itemid], (error,results)=>{
 
         if (error) {
 
