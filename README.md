@@ -57,7 +57,7 @@ cd CS-160-Final-Project
 
 **4. Build and start the containers**
 ```
-docker-compose up -build
+docker-compose up -build or docker compose up --build
 ```
 **5. Application access** <br />
 ```
