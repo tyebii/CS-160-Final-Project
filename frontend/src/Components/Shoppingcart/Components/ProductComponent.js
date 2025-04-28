@@ -1,19 +1,11 @@
-//Product Component
+//Product Component To Display Product
 function ProductComponent({ result }) {
   
   return (
     
     <div className="flex items-center border-b p-4 bg-white mx-auto">
 
-      <img
-
-        src={result.ImageLink}
-
-        alt={result.ProductName}
-
-        className="w-32 h-32 object-cover rounded-md border-2 border-gray-300"
-
-      />
+      <img src={result.ImageLink} alt={result.ProductName} className="w-32 h-32 object-cover rounded-md border-2 border-gray-300"/>
 
       <div className="ml-6 flex-1 space-y-2">
 

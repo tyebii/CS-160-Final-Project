@@ -1,88 +1,69 @@
-//React funtions
 import { useState, useEffect } from "react";
 
 import { Link, useParams } from "react-router-dom";
 
-//Custom Components
 import SearchResultsItem from "./SearchResultsItem";
 
 import SearchResultsFilter from "./SearchResultsFilter";
 
-//Custom Context
 import { useAuth } from '../../Context/AuthHook';
 
-//Backend Requests
 import axios from "axios";
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 //Search Result Component
 function SearchResults() {
 
-  const validateToken = useValidateToken();
-
-  const { handleError } = useErrorResponse();
-
-  const { auth } = useAuth()
+  const { handleError } = useErrorResponse(); 
+  
+  const {auth} = useAuth()
 
   const { searchType, query } = useParams();
 
   const [results, setResults] = useState([]);
 
-  //Renders based on changes to searchType and Query 
+  //Fetches The Results Of The Queries
   useEffect(() => {
+    
+    const fetchSearchResults = async () => {
 
-    let endPoint = "";
+      try {
 
-    let token;
+        let endPoint = "";
+  
+        if (!auth || auth === "Customer") {
 
-    if (!auth || auth == "Customer") {
+          endPoint = `http://localhost:3301/api/inventory/search/${searchType}/customer/${query}`;
+        
+        } else {
 
-      endPoint = `http://localhost:3301/api/inventory/search/${searchType}/customer/${query}`
+          endPoint = `http://localhost:3301/api/inventory/search/${searchType}/employee/${query}`;
+        
+        }
+  
+        const response = await axios.get(endPoint, {
 
-    } else {
+          withCredentials: true,
 
-      token = validateToken();
+          headers: { 'Content-Type': 'application/json' },
 
-      if (token == null) {
-
-        return
-
-      }
-
-      endPoint = `http://localhost:3301/api/inventory/search/${searchType}/employee/${query}`
-
-    }
-
-    //This function will require an authentication header for employees
-    axios.get(endPoint, {
-
-      headers: {
-
-        'Authorization': `Bearer ${token}`
-
-      }
-
-    })
-
-      .then((response) => {
-
+        });
+  
         setResults(response.data);
+  
+      } catch (error) {
 
-      })
+        handleError(error);
 
-      .catch((error) => {
+      }
 
-        handleError(error)
-
-      });
+    };
+  
+    fetchSearchResults();
 
   }, [searchType, query]);
-
+  
   //Filtering the results based on demmand
   const handleFilterSelect = (filterType) => {
 
@@ -98,11 +79,11 @@ function SearchResults() {
 
     } else if (filterType === "Low to High Cost") {
 
-      sortedResults.sort((a, b) => a.SupplierCost - b.SupplierCost);
+        sortedResults.sort((a, b) => a.Cost - b.Cost);
 
     } else if (filterType === "High to Low Cost") {
 
-      sortedResults.sort((a, b) => b.SupplierCost - a.SupplierCost);
+        sortedResults.sort((a, b) => b.Cost - a.Cost);
 
     }
 
@@ -142,12 +123,20 @@ function SearchResults() {
 
             results.map((result) => (
 
-              <Link key={result.ItemID} to={`/itemview/${result.ItemID}`}>
+              <Link
+
+                key={result.ItemID}
+
+                to={`/itemview/${result.ItemID}`}
+
+                state={{ searchType, query }}
+
+              >
 
                 <SearchResultsItem result={result} />
 
               </Link>
-
+      
             ))
 
           )}

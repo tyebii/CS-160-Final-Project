@@ -207,13 +207,11 @@ export const validateAddress = async (address) => {
 
     }
 
-    console.log(address)
-    
-    const regex = /^\d{1,5}\s[A-Za-z0-9\s.'-]+,\sSan\sJose,\sCA\s95\d{3}(-\d{4})?$/;
+    const regex = /,\s*San\s+Jose,\s*(California|CA)/i;
 
     if (!regex.test(address)) {
 
-        alert("Improper Address Format. Expected format: [number] [street name], San Jose, CA 95XXX");
+        alert("Must Be In San Jose");
         
         return false;
 
@@ -636,7 +634,6 @@ export const validatePassword = (input) => {
 
 }
 
-
 export const loginFormat = (UserID,Password) => {
 
     if (!validateRegularID(UserID)){
@@ -702,7 +699,6 @@ export const validateTransactionStatus = (input) => {
     return true;
 }
 
-
 export const validateEmployeeStatus = (input) => {
 
     const validStatuses = ["Employed", "Absence", "Fired"];
@@ -735,7 +731,6 @@ export const validateEmployeeStatus = (input) => {
 
 }
 
-
 export const validateEmployeeHourly = (input) => {
 
     if (input == null) {
@@ -765,7 +760,6 @@ export const validateEmployeeHourly = (input) => {
     return true;
 
 }
-
 
 export const signUpFormatEmployee = (
     EmployeeHireDate,
@@ -815,7 +809,6 @@ export const signUpFormatEmployee = (
     return true;
 
 }
-
 
 export const signUpFormatManager = (
     EmployeeHireDate,
@@ -890,7 +883,6 @@ export const validateCategory = (input) => {
 
 }
 
-
 export const validateProduct = (input) => {
 
     if (input == null) {
@@ -945,7 +937,6 @@ export const validateProduct = (input) => {
 
 }
 
-
 export const validateWeight = (input) => {
 
     if (input == null) {
@@ -976,7 +967,6 @@ export const validateWeight = (input) => {
 
 }
 
-
 export const validateCost = (input) => {
     if (input == null) {
         alert("Cost Not Provided");
@@ -995,7 +985,6 @@ export const validateCost = (input) => {
 
     return true;
 }
-
 
 export const validateStorageRequirement = (input) => {
 
@@ -1099,5 +1088,3 @@ export const insertFormat = (Quantity, Distributor, Weight, ProductName, Categor
     return true
     
 }
-
-

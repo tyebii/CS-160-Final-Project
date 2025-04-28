@@ -1,16 +1,10 @@
-//Import React Functions
 import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-//Import Axios
 import axios from "axios";
 
-//Error Message Hook
 import { useErrorResponse } from '../../../Utils/AxiosError';
-
-//Import Formatter 
-import { useValidateToken } from "../../../Utils/TokenValidation";
 
 //Robot Area 
 export default function RobotArea({trigger, setTrigger,  auth, logout}) {
@@ -63,11 +57,9 @@ export default function RobotArea({trigger, setTrigger,  auth, logout}) {
 }
 
 //Robot Component
-function Robots ({trigger, setTrigger, logout, auth, trig}){
+function Robots ({trigger, setTrigger, auth}){
 
   const navigate = useNavigate()
-
-  const validateToken = useValidateToken();
   
   const { handleError } = useErrorResponse(); 
 
@@ -76,21 +68,17 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
   //Load The Robots
   useEffect(() => {
 
-    const token = validateToken()
+    if(!auth){
 
-    if(token == null){
-
-      return
-
+      return 
+      
     }
 
     axios.get("http://localhost:3301/api/robot/robot", {
 
-      headers: {
+      withCredentials: true,
 
-        Authorization: `Bearer ${token}`,
-
-      },
+      headers: { 'Content-Type': 'application/json' }
 
     })
 
@@ -106,18 +94,10 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
 
     });
 
-  }, [trigger]);
+  }, [trigger, auth]);
 
   //Schedule Robots
   const scheduleClick = () => {
-
-    const token = validateToken()
-
-    if(token == null){
-
-      return
-
-    }
 
     axios.put(
 
@@ -127,11 +107,9 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
 
       {
 
-        headers: {
+        withCredentials: true,
 
-          Authorization: `Bearer ${token}`,
-
-        },
+        headers: { 'Content-Type': 'application/json' }
 
       }
 
@@ -140,9 +118,7 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
 
     .then((response) => {
 
-      alert("Successfully Scheduled");
-
-      setTrigger(trig+1)
+      setTrigger(prev => prev + 1);
 
     })
 
@@ -157,14 +133,6 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
   //Deploy Robots
   const deployRobots = () => {
 
-  const token = validateToken()
-
-  if(token == null){
-
-    return null
-
-  }
-
   axios.put(
 
     "http://localhost:3301/api/delivery/deploy",
@@ -173,11 +141,9 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
 
     {
 
-      headers: {
+      withCredentials: true,
 
-        Authorization: `Bearer ${token}`,
-
-      },
+      headers: { 'Content-Type': 'application/json' }
 
     }
 
@@ -185,9 +151,7 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
   
   .then((response) => {
 
-    alert("Successfully Deployed");
-
-    setTrigger(trig+1)
+    setTrigger(prev => prev + 1);
 
   })
 
@@ -202,29 +166,17 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
   //Function To Handle The Click Of The Delete Button
   const clickDelete = (RobotID) => {
 
-    const token = validateToken()
-
-    if(token == null){
-
-      return
-      
-    }
-
     axios.delete("http://localhost:3301/api/robot/robot", {
 
       data: { RobotID: RobotID },
 
-      headers: {
+      withCredentials: true,
 
-        Authorization: `Bearer ${token}`,
-
-      },
+      headers: { 'Content-Type': 'application/json' }
 
     })
 
     .then((response) => {
-
-      alert("Successfully Deleted");
 
       setRobots(robots.filter(robot => robot.RobotID !== RobotID));
 
@@ -262,15 +214,15 @@ function Robots ({trigger, setTrigger, logout, auth, trig}){
             {/* Robot Details */}
             <div className="w-full text-sm text-gray-600 space-y-1 mb-4">
 
-              <p><strong>Load:</strong> {robot.CurrentLoad} kg</p>
+              <p><strong>Load:</strong> {robot.CurrentLoad} LBS</p>
 
               <p><strong>ETA:</strong> {robot.EstimatedDelivery ? `${new Date(robot.EstimatedDelivery).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })} mins` : "N/A"}</p>
 
               <p>
 
-                <strong>Maintenance:</strong> 
+                <strong>Next Maintenance Date: </strong> 
 
-                {robot.Maintanence ? new Date(robot.Maintanence).toLocaleDateString() : "N/A"}
+                {robot.Maintanence ? robot.Maintanence?.slice(0,10) : "N/A"}
 
               </p>
 

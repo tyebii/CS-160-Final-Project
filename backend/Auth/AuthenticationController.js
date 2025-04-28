@@ -29,7 +29,7 @@ const signUpCustomer = async (req, res) => {
 
                 let { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber } = req.body;
 
-                logger.info("Recieved Assets " + UserID + ", " + Password + ", " + UserNameFirst + ", " + UserNameLast + ", " + UserPhoneNumber)
+                logger.info("Recieved Assets " + UserID + ", " + UserNameFirst + ", " + UserNameLast + ", " + UserPhoneNumber)
 
                 logger.info("Generating Hashed Password")
 
@@ -41,7 +41,7 @@ const signUpCustomer = async (req, res) => {
 
                 logger.info("Inserting Into Customer")
     
-                const sqlQueryOne = 'INSERT INTO customer (CustomerID, JoinDate) VALUES (?, ?)'
+                const sqlQueryOne = 'INSERT INTO Customer (CustomerID, JoinDate) VALUES (?, ?)'
 
                 await connection.query(
 
@@ -53,7 +53,7 @@ const signUpCustomer = async (req, res) => {
 
                 logger.info("Inserting Into Users")
 
-                const sqlQueryTwo = 'INSERT INTO users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, NULL, ?)'
+                const sqlQueryTwo = 'INSERT INTO Users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, NULL, ?)'
                 
                 await connection.query(
 
@@ -131,7 +131,7 @@ const signUpEmployee = async (req, res) => {
 
                 let { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, SupervisorID} = req.body;
 
-                logger.info("Recieved Assets " + UserID + ", " + Password + ", " + UserNameFirst + ", " + UserNameLast + ", " + UserPhoneNumber + ", " + EmployeeHireDate + ", " + EmployeeStatus + ", " + EmployeeBirthDate + ", " + EmployeeDepartment + ", " + EmployeeHourly + ", " + SupervisorID)
+                logger.info("Recieved Assets " + UserID + ", " + UserNameFirst + ", " + UserNameLast + ", " + UserPhoneNumber + ", " + EmployeeHireDate + ", " + EmployeeStatus + ", " + EmployeeBirthDate + ", " + EmployeeDepartment + ", " + EmployeeHourly + ", " + SupervisorID)
 
                 logger.info("Generating Password Hash")
 
@@ -155,7 +155,7 @@ const signUpEmployee = async (req, res) => {
 
                 logger.info("Inserting Into User's Table")
 
-                const sqlQueryTwo = 'INSERT INTO users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, ?, Null)'
+                const sqlQueryTwo = 'INSERT INTO Users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, ?, Null)'
                 
                 await connection.query(
 
@@ -232,7 +232,7 @@ const signUpManager = async (req, res) => {
 
             let { UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeHireDate, EmployeeStatus, EmployeeBirthDate, EmployeeDepartment, EmployeeHourly, Secret} = req.body;
 
-            logger.info("Recieved Assets " + UserID + ", " + Password + ", " + UserNameFirst + ", " + UserNameLast + ", " + UserPhoneNumber + ", " + EmployeeHireDate + ", " + EmployeeStatus + ", " + EmployeeBirthDate + ", " + EmployeeDepartment + ", " + EmployeeHourly)
+            logger.info("Recieved Assets " + UserID + ", " + UserNameFirst + ", " + UserNameLast + ", " + UserPhoneNumber + ", " + EmployeeHireDate + ", " + EmployeeStatus + ", " + EmployeeBirthDate + ", " + EmployeeDepartment + ", " + EmployeeHourly)
 
             if(Secret!=process.env.Secret){
 
@@ -264,7 +264,7 @@ const signUpManager = async (req, res) => {
 
             logger.info("Inserting Into Users")
 
-            const sqlQueryTwo = 'INSERT INTO users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, ?, Null)'
+            const sqlQueryTwo = 'INSERT INTO Users (UserID, Password, UserNameFirst, UserNameLast, UserPhoneNumber, EmployeeID, CustomerID) VALUES (?, ?, ?, ?, ?, ?, Null)'
 
             await connection.query(
 
@@ -330,17 +330,19 @@ const login = async (req, res) => {
 
     logger.info("Login Starting...")
 
+    let connection;
+
     try {
 
         let {UserID, Password} = req.body;
 
-        logger.info("Recieved Assets " + UserID + ", " + Password)
+        logger.info("Recieved Assets " + UserID)
 
-        const connection = await pool.promise().getConnection();
+        connection = await pool.promise().getConnection();
 
             logger.info("Checking If The Account Exists")
 
-            const sqlQueryOne =  `SELECT users.password, users.employeeid, users.customerid, employee.supervisorid FROM users LEFT JOIN employee ON users.EmployeeId = employee.EmployeeID WHERE users.UserID = ?`
+            const sqlQueryOne =  `SELECT Users.password, Users.employeeid, Users.customerid, Employee.supervisorid FROM Users LEFT JOIN Employee ON Users.EmployeeId = Employee.EmployeeID WHERE Users.UserID = ?`
 
             const [rows] = await connection.query(sqlQueryOne, [UserID]);
 
@@ -392,9 +394,22 @@ const login = async (req, res) => {
 
         const accessToken = jwt.sign(user, process.env.Secret_Key, { expiresIn: '1h' });
 
+        res.cookie("token", accessToken, {
+
+            httpOnly: true,
+
+            secure: false,          
+
+            sameSite: "Lax",        
+
+            maxAge: 60 * 60 * 1000
+
+        });
+          
+
         logger.info("Successfully Logged In")
 
-        return res.status(statusCode.OK).json({ accessToken });
+        return res.sendStatus(statusCode.OK);
 
     } catch (error) {
 
@@ -434,4 +449,50 @@ const login = async (req, res) => {
 
 };
 
-module.exports = {login, signUpCustomer, signUpEmployee, signUpManager, }
+//Check Cookie 
+const checkCookie = (req, res) => {
+
+    logger.info("Checking The Cookie Role")
+
+    const { EmployeeID, SupervisorID } = req.user;
+
+    if (EmployeeID && !SupervisorID){
+
+        logger.info("Cookie Is Manager")
+
+        return res.status(statusCode.OK).json({ role: "Manager" });
+
+    } 
+
+    if (!EmployeeID){
+
+        logger.info("Cookie Is Customer")
+
+        return res.status(statusCode.OK).json({ role: "Customer" });
+
+    }
+    
+    logger.info("Cookie Is Employee")
+
+    return res.status(statusCode.OK).json({ role: "Employee" });
+
+}
+
+//Clear The Users Cookie
+const clearCookie = (req,res) => {
+
+    res.clearCookie("token", {
+
+        httpOnly: true,
+
+        secure: false, 
+
+        sameSite: "Lax"
+      
+    });
+
+   return res.sendStatus(statusCode.OK)
+
+}
+
+module.exports = {login, signUpCustomer, signUpEmployee, signUpManager, checkCookie, clearCookie}

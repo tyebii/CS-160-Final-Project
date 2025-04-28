@@ -1,4 +1,3 @@
-//Custom Context
 import { useAuth } from '../../Context/AuthHook';
 
 //Search Results Card

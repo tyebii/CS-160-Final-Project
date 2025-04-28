@@ -6,6 +6,8 @@ require('dotenv').config();
 
 const cors = require('cors');
 
+const cookieParser = require('cookie-parser');
+
 const app = express();
 
 const PORT = 3301;
@@ -35,31 +37,18 @@ const rateLimit = require('express-rate-limit');
 //Cross Origin Resource Sharing
 app.use(cors({
 
-  origin: '*',
+  origin: ['http://localhost:3300'],
 
-  methods: 'GET,POST,DELETE,PUT,OPTIONS',
+  credentials: true,
+
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+
+  allowedHeaders: ['Content-Type', 'Authorization']
   
-  allowedHeaders: 'Content-Type, Authorization',
-
 }));
 
-//Rate Limiter On Each Route
-const generalLimiter = rateLimit({
-
-  windowMs: 60 * 1000, 
-
-  max: 200, 
-
-  message: { error: "Too many requests. Please try again later." },
-
-  standardHeaders: true, 
-
-  legacyHeaders: false,
-
-});
-
-//Apply Limiter
-app.use(generalLimiter)
+//Parses The Cookie
+app.use(cookieParser());
 
 //Apply Unique ID To Logger
 app.use(logWithRequestId);

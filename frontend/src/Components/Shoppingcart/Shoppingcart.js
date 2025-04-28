@@ -19,16 +19,14 @@ import axios from 'axios';
 
 import { validateAddress, validateID, validateName } from '../Utils/Formatting';
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
+
+import { useCart } from '../../Context/ShoppingcartContext';
 
 //Shopping Cart Component
 function ShoppingCart() {
 
-  const validateToken = useValidateToken();
+  const {removeItem, clearItems} = useCart()
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -42,7 +40,7 @@ function ShoppingCart() {
 
   const [cost, setCost] = useState(0);
 
-  const [selectedAddress, setSelectedAddress] = useState({ Name: "In Store Pickup", Address: "272 E Santa Clara St, San Jose, CA 95112" });
+  const [selectedAddress, setSelectedAddress] = useState(null); 
 
   const [addressModalOpen, setAddressModalOpen] = useState(false);
 
@@ -51,70 +49,50 @@ function ShoppingCart() {
   //Load The Shopping Cart And Addresses
   useEffect(() => {
 
-    const token = validateToken()
+    (async () => {
 
-    if (token == null) {
+      try {
 
-      return
+        const [cartRes, addressRes] = await Promise.all([
 
-    }
+          axios.get('http://localhost:3301/api/shoppingcart/shoppingcart', {
 
-    axios
+            withCredentials: true,
 
-      .get('http://localhost:3301/api/shoppingcart/shoppingcart', {
+            headers: { 'Content-Type': 'application/json' }
 
-        headers: {
+          }),
 
-          Authorization: `Bearer ${token}`,
+          axios.get('http://localhost:3301/api/address/address', {
 
-        },
+            withCredentials: true,
 
-      })
+            headers: { 'Content-Type': 'application/json' }
 
-      .then((response) => {
+          })
 
-        setResults(response.data);
-
-      })
-
-      .catch((error) => {
-
-        handleError(error)
-
-      });
-
-    axios
-
-      .get('http://localhost:3301/api/address/address', {
-
-        headers: {
-
-          Authorization: `Bearer ${token}`,
-
-        },
-
-      })
-
-      .then((response) => {
-
+        ]);
+        
+        setResults(cartRes.data);
+  
         setAddresses(prev => {
 
           const existingAddresses = new Set(prev.map(addr => addr.Address));
 
-          const newUniqueAddresses = response.data.filter(addr => !existingAddresses.has(addr.Address));
+          const newUniqueAddresses = addressRes.data.filter(addr => !existingAddresses.has(addr.Address));
 
           return [...prev, ...newUniqueAddresses];
 
         });
+  
+      } catch (error) {
 
-      })
+        handleError(error);
 
-      .catch((error) => {
+      }
 
-        handleError(error)
-
-      });
-
+    })();
+    
   }, []);
 
   //Load The Total
@@ -132,80 +110,69 @@ function ShoppingCart() {
 
   }, [results, selectedAddress]);
 
-  //Clear The Cart
-  const handleClear = () => {
+  // Clear The Cart
+  const handleClear = async () => {
 
-    const token = validateToken()
+    try {
 
-    if (token == null) {
+      if(results.length == 0){
 
-      return
+        alert("Nothing To Clear");
+
+        return
+
+      }
+
+      await axios.delete('http://localhost:3301/api/shoppingcart/shoppingcart/clear', {
+
+        withCredentials: true,
+
+        headers: { 'Content-Type': 'application/json' }
+
+      });
+
+      clearItems();
+
+      setResults([]);
+
+    } catch (error) {
+
+      handleError(error);
 
     }
-
-    axios
-
-      .delete('http://localhost:3301/api/shoppingcart/shoppingcart/clear', {
-
-        headers: { Authorization: `Bearer ${token}` },
-
-      })
-
-      .then(() => {
-
-        alert("Cleared Your Shoppingcart!")
-
-        setResults([]);
-
-      })
-
-      .catch((error) => {
-
-        handleError(error)
-
-      })
 
   };
 
   //Remove From The Cart
-  const clickRemove = (itemid) => {
-
-    const token = validateToken()
-
-    if (token == null) {
-
-      return
-
-    }
+  const clickRemove = async (itemid) => {
 
     if (!validateID(itemid)) {
 
-      return res.status(statusCode.BAD_REQUEST).json({ error: "Item ID Is Invalid" });
+      return;
 
     }
 
-    axios
+    try {
 
-      .delete('http://localhost:3301/api/shoppingcart/shoppingcart', {
+      await axios.delete('http://localhost:3301/api/shoppingcart/shoppingcart', {
 
-        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+
+        headers: { 'Content-Type': 'application/json' },
 
         data: { ItemID: itemid },
 
-      })
+      });
 
-      .then(() => {
+      removeItem(itemid)
 
-        alert("Deleted The Item!")
+      setResults((prevItems) => prevItems.filter((item) => item.ItemID !== itemid));
 
-        setResults((prevItems) => prevItems.filter((item) => item.ItemID !== itemid));
+    } catch (error) {
 
-      })
-      .catch((error) => {
+      handleError(error); 
 
-        handleError(error);
-
-      })
+    }
 
   };
 
@@ -216,14 +183,26 @@ function ShoppingCart() {
 
     setIsProcessing(true);
 
-    const token = validateToken();
+    if(selectedAddress == null){
 
-    if (token == null) {
+      alert("Must Select Address")
+
+      setIsProcessing(false);
 
       return
 
     }
 
+    if(weight > 200 && selectedAddress.Address != addresses[0].Address){
+
+      alert("Cannot Have A Transaction Over 200 LBS Be Delivered")
+
+      setIsProcessing(false);
+
+      return
+      
+    }
+  
     if (results.length === 0) {
 
       alert("Cannot checkout. There are no items");
@@ -234,9 +213,27 @@ function ShoppingCart() {
 
     }
 
-    if (!validateAddress(selectedAddress?.Address)) {
+    for(let i = 0; i < results.length; i++){
 
-      alert("Select Address!");
+      if (results[i].Quantity == 0) {
+
+        alert("Cannot Order Something Of Zero Quantity")
+
+        return
+
+      }
+
+      if(results[i].Quantity < results[i].OrderQuantity){
+
+        alert("Not Enough Supply")
+
+        return
+
+      }
+
+    }
+  
+    if (! await validateAddress(selectedAddress?.Address)) {
 
       setIsProcessing(false);
 
@@ -268,12 +265,16 @@ function ShoppingCart() {
 
         {
 
-          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+
+          headers: { 'Content-Type': 'application/json' }
 
         }
 
       );
 
+      clearItems();
+  
       window.location.href = response.data.url;
 
     } catch (error) {
@@ -285,94 +286,84 @@ function ShoppingCart() {
     }
 
   };
-
-
-  const handleAddAddress = (e) => {
+  
+  //Enables Users To Add Addresses
+  const handleAddAddress = async (e) => {
 
     e.preventDefault();
-
-    const token = validateToken();
-
-    if (token == null) {
-
-      return
-
-    }
-
+  
     const formData = new FormData(e.target);
 
     const name = formData.get("Name");
 
     const address = formData.get("Address");
+  
+    const composedAddress = address
+  
+    const isAddressValid = await validateAddress(composedAddress);
 
-    const zip = formData.get("Zip");
-
-    const composedAddress = `${address}, San Jose, CA ${zip}`;
-
-    if (!validateAddress(composedAddress)) {
-
-      return;
-
-    }
-
-    if (!validateName(name)) {
+    const isNameValid = validateName(name);
+  
+    if (!isAddressValid || !isNameValid) {
 
       return;
 
     }
 
-    axios.post(
+    if(address === "272 East Santa Clara Street, San Jose, California 95113, United States" || address === "272 E Santa Clara St, San Jose, CA 95112"){
 
-      `http://localhost:3301/api/address/address`,
+      alert("Cannot Add Store")
+      
+      return
 
-      {
+    }
+  
+    try {
 
-        address: composedAddress,
+      const response = await axios.post(
 
-        name: name
+        `http://localhost:3301/api/address/address`,
 
-      },
+        {
 
-      {
+          address: composedAddress,
 
-        headers: {
-
-          Authorization: `Bearer ${token}`,
+          name: name,
 
         },
 
-      }
+        {
 
-    )
+          withCredentials: true,
 
-      .then((response) => {
+          headers: { 'Content-Type': 'application/json' },
 
-        alert("Address Added!");
+        }
 
-        setAddresses((prevAddresses) => [...prevAddresses, {
+      );
+  
+      setAddresses((prevAddresses) => [
 
-          Address: composedAddress,
+        ...prevAddresses,
 
-          Name: name
+        { Address: composedAddress, Name: name },
 
-        }]);
+      ]);
+  
+      setAddressModalOpen(false);
+
+    } catch (error) {
+
+      handleError(error);
 
         setAddressModalOpen(false);
 
-      })
-
-      .catch((error) => {
-
-        handleError(error)
-
-        setAddressModalOpen(false);
-
-      });
+    }
 
   };
 
-
   return (
+    
     <section className="md:flex w-full p-8 bg-white">
 
       <div className="flex md:w-2/3 md:flex-row justify-between mb-8">
@@ -431,7 +422,7 @@ function ShoppingCart() {
 
                 <h3>Subtotal:</h3>
 
-                <h3>Weight:</h3>
+                <h3>Weight: {weight.toFixed(2)}</h3>
 
                 <h3>Delivery Fee:</h3>
 

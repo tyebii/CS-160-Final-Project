@@ -8,6 +8,24 @@ const {authorizeEmployee, authorizeManager} = require('../Utils/Authorization.js
 
 const {upload, featuredSearch, featuredAdd, featuredDelete, productCustomerQueryID, productQueryID, productQueryName, productQueryNameEmployee, categoryQuery, categoryQueryEmployee,  productInsert, productUpdate, deleteProduct, lowStockSearch, expirationSearch} = require('./inventoryControllers.js')
 
+const rateLimit = require('express-rate-limit');
+
+//Rate Limiter
+const inventoryLimiter = rateLimit({
+
+    windowMs: 60 * 1000, 
+
+    max: 50, 
+
+    message: { error: "Too many requests. Please try again later." },
+
+    standardHeaders: true, 
+
+    legacyHeaders: false,
+
+});
+
+router.use(inventoryLimiter)
 
 //Get Search Category Item Information As A Customer
 router.get('/search/category/customer/:name',express.json(), categoryQuery);

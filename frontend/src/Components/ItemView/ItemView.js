@@ -1,9 +1,7 @@
-// Import React Functions
 import React, { useState, useEffect } from 'react';
 
 import { useParams, useNavigate } from 'react-router-dom';
 
-// Import Auth Context
 import { useAuth } from '../../Context/AuthHook';
 
 // Redirect Modal
@@ -12,19 +10,16 @@ import { RedirectModal } from '../ItemView/RedirectModal';
 // Import Formatter
 import { validateID, validateQuantity } from '../Utils/Formatting';
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
-// Import Axios For Backend Queries
+import { useCart } from '../../Context/ShoppingcartContext';
+
 import axios from 'axios';
 
 // Item View Component
-const ItemView = () => {
+const ItemView = ({ searchType, query }) => {
 
-  const validateToken = useValidateToken();
+  const { addItem } = useCart();
 
   const { handleError } = useErrorResponse();
 
@@ -45,90 +40,81 @@ const ItemView = () => {
   //Pull Item Information
   useEffect(() => {
 
-    if (!validateID(itemid)) {
+    const fetchInventory = async () => {
 
-      navigate('/');
+      if (auth === undefined){
 
-      return;
+        return; 
 
-    }
+      }
 
-    let token;
 
-    let endPoint = "";
+      if (!validateID(itemid)) {
 
-    if (!auth || auth === "Customer") {
-
-      endPoint = `http://localhost:3301/api/inventory/search/itemID/customer/${itemid}`;
-
-    } else {
-
-      token = validateToken()
-
-      if (token == null) {
+        navigate('/');
 
         return;
 
       }
+  
+      try {
 
-      endPoint = `http://localhost:3301/api/inventory/search/itemID/employee/${itemid}`;
+        let endPoint = "";
+  
+        if (auth == null || auth === "Customer") {
 
-    }
+          endPoint = `http://localhost:3301/api/inventory/search/itemID/customer/${itemid}`;
+       
+        } else {
 
-    axios
-
-      .get(endPoint, {
-
-        headers: {
-
-          'Authorization': `Bearer ${token}`
-
+          endPoint = `http://localhost:3301/api/inventory/search/itemID/employee/${itemid}`;
+        
         }
+  
+        const response = await axios.get(endPoint, {
 
-      })
+          withCredentials: true,
 
-      .then((response) => {
+          headers: {
 
+            'Content-Type': 'application/json',
+
+          },
+
+        });
+  
         if (response.data.length === 0) {
 
-          alert("No Results Found");
+          alert("No Item Found")
 
           navigate('/');
 
           return;
 
         }
-
+  
         setResults(response.data[0]);
 
-        setFeatured(response.data[0].FeaturedID != null)
-
-        return;
-
-      })
-      .catch((error) => {
-
-        handleError(error)
+        setFeatured(response.data[0].FeaturedID != null);
 
         return
+  
+      } catch (error) {
 
-      });
+        handleError(error);
 
+      }
 
-  }, [itemid]);
+    };
+  
+    fetchInventory();
+
+  }, [itemid, auth]);  
 
   // Adding The Item To Shopping Cart
-  const clickAdd = (e) => {
+  const clickAdd = async (e) => {
 
     e.preventDefault();
-
-    const token = validateToken()
-
-    if (token == null) {
-
-      return;
-
-    }
 
     if (!validateID(itemid)) {
 
@@ -138,23 +124,23 @@ const ItemView = () => {
 
     if (isNaN(quantity)) {
 
-      alert("Quantity Must Be A Number")
+      alert("Quantity Must Be A Number");
 
-      return false;
+      return;
 
     }
 
     const numericQty = Number(quantity);
 
     if (!validateQuantity(numericQty)) {
-
+      
       return;
 
     }
 
-    axios
+    try {
 
-      .post(
+      await axios.post(
 
         `http://localhost:3301/api/shoppingcart/shoppingcart`,
 
@@ -168,105 +154,91 @@ const ItemView = () => {
 
         {
 
+          withCredentials: true,
+
           headers: {
 
-            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
 
           },
 
         }
 
-      )
+      );
+      
+      addItem(itemid)
 
-      .then(() => {
+      if(!searchType || !query){
+        
+        navigate("/")
 
-        alert("Item added to shopping cart!");
+        return 
 
-        navigate('/');
+      }
 
+      navigate(`/search/${searchType}/${query}`);
 
-        return
+      return 
 
-      })
+    } catch (error) {
 
-      .catch((error) => {
+      handleError(error);
 
-        handleError(error);
-
-        return
-
-      });
-
+    }
+    
   };
-
- 
-  //Redirect to Same Page
-  const refreshPage = () => {
-    navigate(`/search/${searchType}/${query}`);
-  }
 
   // Handle Delete Functionality
   const handleDelete = async () => {
 
-    if (window.confirm('Are you sure you want to delete this item?')) {
+    if (!window.confirm('Are you sure you want to delete this item?')) {
 
+      return;
 
-      const token = validateToken();
+    }
+  
+    if (!validateID(itemid)) {
 
-      if (token == null) {
+      return;
 
-        return
+    }
+  
+    try {
 
-      }
+      await axios.delete(
 
-      if (!validateID(itemid)) {
+        `http://localhost:3301/api/inventory/delete/item/${itemid}`,
 
-        return
+        {
 
-      }
+          withCredentials: true,
 
-      axios
+          headers: {
 
-        .delete(
+            'Content-Type': 'application/json',
 
-          `http://localhost:3301/api/inventory/delete/item/${itemid}`,
+          },
 
-          {
+        }
 
-            headers: {
+      );
 
-              Authorization: `Bearer ${token}`,
+      navigate('/');
 
-            },
+      return
+  
+    } catch (error) {
 
-          }
-
-        )
-
-        .then(() => {
-
-          alert('Item Deleted Successfully!');
-
-          navigate('/');
-
-          return;
-
-        })
-
-        .catch((error) => {
-
-          handleError(error)
-
-          return;
-
-        });
+      handleError(error);
+      
+      return
 
     }
 
   };
-
+  
   //Handle Add To Featured
-  const handleAddFeatured = () => {
+  const handleAddFeatured = async () => {
 
     if (!validateID(itemid)) {
 
@@ -274,103 +246,81 @@ const ItemView = () => {
 
     }
 
-    const token = validateToken();
+    try {
 
-    if (token == null) {
+      await axios.post(
 
-      return null
+        `http://localhost:3301/api/inventory/featured`,
 
-    }
-
-    axios
-
-      .post(`http://localhost:3301/api/inventory/featured`, {
-
-        ItemID: itemid,
-
-      },
+        { ItemID: itemid },
 
         {
 
+          withCredentials: true,
+
           headers: {
 
-            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
 
           },
 
-        })
+        }
 
-      .then(() => {
+      );
 
-        alert('Item Added To Featured');
+      setFeatured(true);
 
-        setFeatured(true);
+      return
 
-        return;
+    } catch (error) {
 
-      })
+      handleError(error);
 
-      .catch((error) => {
-
-        handleError(error);
-
-        return;
-
-      });
+    }
 
   };
 
   //Handle Delete From Featured
-  const handleDeleteFeatured = () => {
+  const handleDeleteFeatured = async () => {
 
     if (!validateID(itemid)) {
 
       return;
 
     }
+  
+    try {
 
-    const token = validateToken()
+      await axios.delete(
 
-    if (token == null) {
-
-      return null
-
-    }
-
-    axios
-
-      .delete(`http://localhost:3301/api/inventory/featured/${itemid}`,
+        `http://localhost:3301/api/inventory/featured/${itemid}`,
 
         {
 
+          withCredentials: true,
+
           headers: {
 
-            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
 
           },
 
-        })
+        }
 
-      .then(() => {
+      );
 
-        alert('Item Deleted From Featured');
+      setFeatured(false);
 
-        setFeatured(false);
+      return
+  
+    } catch (error) {
 
-        return;
+      handleError(error);
 
-      })
-
-      .catch((error) => {
-
-        handleError(error)
-
-        return;
-
-      });
+    }
 
   };
-
+  
   return (
 
     <section className="w-full bg-white shadow-lg p-8 flex flex-col gap-8">
@@ -404,7 +354,7 @@ const ItemView = () => {
 
             <div className="space-y-1 text-gray-700">
 
-              <p><span className="font-semibold">Distributed By:</span> {results.Distributor}</p>
+              <p><span className="font-semibold">Last Modified:</span> {results.LastModification? results.LastModification.slice(0,10):null}</p>
 
               <p><span className="font-semibold">Availability:</span> {results.Quantity}</p>
 
@@ -425,6 +375,7 @@ const ItemView = () => {
 
 
         <div className="my-4 row-span-1 md:row-span-2 w-full md:w-[300px] lg:w-[500px] md:h-[500px] flex items-center justify-center">
+            <p><span className="font-semibold">Expiration:</span> {results.Expiration? results.Expiration.slice(0,10):null}</p>
 
           <img
 
@@ -574,6 +525,5 @@ const ItemView = () => {
   );
 
 };
-
 
 export default ItemView;

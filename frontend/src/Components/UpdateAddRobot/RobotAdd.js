@@ -1,18 +1,11 @@
-//Import React Functions
 import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
-//Import Formatter 
 import { validateRobot } from "../Utils/Formatting";
 
-//Import Axios
 import axios from "axios";
 
 //Robot Addition Component
@@ -20,70 +13,52 @@ export function RobotAdd() {
 
     const navigate = useNavigate();
 
-    const validateToken = useValidateToken();
-
     const { handleError } = useErrorResponse(); 
 
     const [RobotID, setRobotID] = useState("");
 
     const [Maintanence, setMaintanence] = useState("");
 
-    //Maybe Try Catch on Type Conversion
     //Submit The Form 
-    const handleSubmit = (e) => {
-        
+    const handleSubmit = async (e) => {
+
         e.preventDefault();
-
-        if(!validateRobot(RobotID, 0, "Free", Maintanence)){
-
-            return; 
-
+      
+        if (!validateRobot(RobotID, 0, "Free", Maintanence)) {
+      
+          return;
+      
         }
-
-        const token = validateToken()
-
-        if(token == null){
-
-            return
-            
-        }
-
-        axios.post('http://localhost:3301/api/robot/robot', {
-
-            RobotID: RobotID,
-
-            CurrentLoad: 0,
-
-            RobotStatus: "Free",
-
-            Maintanence: Maintanence,
-
-        }, {
-
-            headers: {
-
-                'Authorization': `Bearer ${token}`
-
+      
+        try {
+      
+          await axios.post(
+            'http://localhost:3301/api/robot/robot',
+            {
+              RobotID: RobotID,
+      
+              CurrentLoad: 0,
+      
+              RobotStatus: "Free",
+      
+              Maintanence: Maintanence,
+            },
+            {
+              withCredentials: true,
+              headers: { 'Content-Type': 'application/json' },
             }
-
-        })
-
-        .then((response) => {
-
-            alert("Robot Added")
-
-            navigate("/");
-
-        })
-
-        .catch((error) => {
-
-            handleError(error)
-
-        });
-
-    }
-
+          );
+      
+          navigate("/");
+      
+        } catch (error) {
+      
+          handleError(error);
+      
+        }
+      
+    };
+      
     return (
 
         <section>
@@ -137,7 +112,7 @@ export function RobotAdd() {
 
                 <div>
 
-                    <label htmlFor="Maintanence" className="block text-sm font-medium text-gray-700">Maintenance Date</label>
+                    <label htmlFor="Maintanence" className="block text-sm font-medium text-gray-700">Next Maintenance Date</label>
 
                     <input
 

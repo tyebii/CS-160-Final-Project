@@ -6,13 +6,12 @@ const {logger} = require('./Logger')
 
 require('dotenv').config(); 
 
+//Authentication Of Cookie
 function authenticateToken(req, res, next) {
 
     logger.info("Starting Authentication")
 
-    const authHeader = req.headers['authorization'];
-
-    const token = authHeader && authHeader.split(' ')[1];
+    const token = req.cookies.token;
 
     logger.info("Token Recieved: " + (token!=null))
 

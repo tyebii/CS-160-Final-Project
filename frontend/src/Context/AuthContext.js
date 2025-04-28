@@ -1,73 +1,65 @@
-//Import React Functions
 import React, { createContext, useState, useEffect } from 'react';
 
-//Decodes The Base-Encoded JWT
-import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 
-//Create The Context
 export const AuthContext = createContext();
-
 
 export const AuthProvider = ({children}) => {
   
-  //Auth State Variable
-  const [auth, setAuth] = useState("");
+  const [auth, setAuth] = useState();
 
-  //Nulls The Context And Cleans The Local Storage
+  //Logout Function
   const logout = () => {
 
     setAuth(null)
 
-    localStorage.removeItem("accessToken")
+    axios.delete("http://localhost:3301/api/authentication/signout",{
 
-    localStorage.removeItem("Auth")
+      withCredentials: true,
+
+    })
+
+    .then(()=>{
+
+      console.log("Cookie Cleared")
+
+    })
+
+    .catch((error)=>{
+
+      console.warn(error.message);
+
+    })
 
   }
 
   //Login Function
-  const login = ()=>{
+  const login = async ()=>{
 
     try {
 
-      const decoded = jwtDecode(localStorage.getItem("accessToken"))
+      const response = await axios.get("http://localhost:3301/api/authentication/check", {
 
-      if(decoded.EmployeeID != null && decoded.SupervisorID == null){
+        withCredentials: true,
 
-        localStorage.setItem("Auth", "Manager")
+      });
 
-        return setAuth("Manager")
-        
-      }else if(decoded.EmployeeID == null){
-        localStorage.setItem("Auth", "Customer")
-        return setAuth("Customer")
-
-      }else{
-        localStorage.setItem("Auth", "Employee")
-        return setAuth("Employee")
-      }
+      setAuth(response.data.role);
 
     } catch (error) {
 
-      alert('Bad JWT');
+      setAuth(null)
 
-      logout()
-      
+      return
+
     }
 
   }
 
-  //When The React App Starts It Gets Information From LocalStorage
+  //When The React App Starts It Gets Information From Cookie
   useEffect(() => {
 
-    if(localStorage.getItem("Auth")){
-
-      setAuth(localStorage.getItem("Auth"))
-
-    }else{
-
-      setAuth(null)
-
-    }
+    login();
 
   }, []);
 

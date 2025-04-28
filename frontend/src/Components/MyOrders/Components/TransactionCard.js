@@ -1,4 +1,3 @@
-//Import React Functions
 import { Link } from "react-router-dom";
 
 //Import Transaction Card
@@ -24,9 +23,9 @@ export function TransactionCard({ transaction }) {
 
                         <span className="font-semibold text-gray-800">Amount Paid: </span> 
 
-                        {transaction.TransactionStatus === 'In progress'
+                        {transaction.TransactionStatus === 'Failed'
 
-                            ? <span className="text-yellow-500">In Progress</span>
+                            ? <span className="text-red-500">Failed</span>
 
                             : "$" + transaction.AmountPaid}
 
@@ -34,7 +33,7 @@ export function TransactionCard({ transaction }) {
 
                     <p className="text-lg">
 
-                        <span className="font-semibold text-gray-800">Weight:</span> {transaction.TransactionWeight} LBS
+                        <span className="font-semibold text-gray-800">Weight:</span> {transaction.TransactionWeight?.toFixed(2)} LBS
 
                     </p>
 
@@ -60,7 +59,9 @@ export function TransactionCard({ transaction }) {
 
                                 : transaction.TransactionStatus === 'Pending Delivery'
 
-                                ? 'bg-orange-500'
+                                ? 'bg-orange-500': transaction.TransactionStatus === 'Failed'?
+
+                                'bg-red-500'
 
                                 : 'bg-blue-600'
 
@@ -71,10 +72,21 @@ export function TransactionCard({ transaction }) {
                         </span>
 
                     </p>
+                        
+                    {transaction.TransactionFailure?(                    
+                        
+                        <p className="text-lg">
+
+                            <span className="font-semibold text-gray-800">Reason For Failure:</span> {transaction.TransactionFailure} 
+
+                        </p>
+
+                    ):null}
+
 
                     <p className="text-lg">
 
-                        <span className="font-semibold text-gray-800">Date:</span> {transaction.TransactionDate?.slice(0,10)}
+                        <span className="font-semibold text-gray-800">Date:</span> {transaction.TransactionDate?new Date(transaction.TransactionDate).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }):null} 
 
                     </p>
 

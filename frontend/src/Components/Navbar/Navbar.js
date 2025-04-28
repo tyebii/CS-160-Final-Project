@@ -1,4 +1,3 @@
-//React functions
 import { useState } from 'react';
 
 import { useEffect } from 'react';
@@ -9,7 +8,6 @@ import { Link } from 'react-router-dom';
 
 import { useNavigate } from 'react-router-dom';
 
-//Import Auth Context
 import { useAuth } from '../../Context/AuthHook';
 
 //Import React Icons
@@ -21,6 +19,8 @@ import {
 
 // Images for the Navbar
 import ofsLogoBig from './NavbarImages/ofsLogo_big.png';
+
+import { useCart } from '../../Context/ShoppingcartContext';
 
 import loginIcon from './NavbarImages/loginIcon.jpg';
 
@@ -47,11 +47,13 @@ function Navbar() {
 
   useEffect(() => {
     document.body.addEventListener('click', () => {
-      if (dropdownRef.current && !event.composedPath().includes(dropdownRef.current) ) {
+      if (dropdownRef.current && !event.composedPath().includes(dropdownRef.current)) {
         setDropdownVisible(false)
       }
     });
   }, []);
+
+  const { cartItems } = useCart();
 
   //Set Dropdown Visibility
   const toggleDropdown = () => {
@@ -160,6 +162,8 @@ function Navbar() {
 
     logout()
 
+    navigate("/")
+
   }
 
   //Click shopping cart
@@ -215,11 +219,10 @@ function Navbar() {
         </li>
 
         {/* Dropdown */}
+
         <li
 
           className="relative flex items-center space-x-2 p-2 hover:bg-green-800 rounded-xl cursor-pointer transition duration-200"
-
-          onClick={toggleDropdown}
 
           ref={dropdownRef}
 
@@ -245,99 +248,113 @@ function Navbar() {
 
         </li>
 
-      </ul>
+      </ul >
 
       {/* Right: Search, Login, Cart, etc */}
 
-      <ul className="flex w-full justify-end items-center space-x-6 pr-4">
+      < ul className="flex w-full justify-end items-center space-x-6 pr-4" >
 
         {/* Search Bar */}
 
-        <li className="flex items-center mx-2 bg-white border border-gray-400 rounded-lg overflow-hidden">
+        <form
+          onSubmit={(e) => {
 
-          <input
+            e.preventDefault();
 
-            onChange={(e) => setSearchText(e.target.value)}
+            clickSearch();
 
-            required
+          }}
 
-            value={searchText}
+        >
+          <li className="flex items-center bg-white border border-gray-400 rounded-lg overflow-hidden">
 
-            maxLength={255}
+            <input
 
-            type="text"
+              onChange={(e) => setSearchText(e.target.value)}
 
-            placeholder="Search"
+              required
 
-            className="w-full h-10 px-4 text-2xl outline-none"
+              value={searchText}
 
-          />
+              maxLength={255}
 
-          <div
+              type="search"
 
-            className="px-3 py-2 border-l border-gray-400 hover:bg-gray-200 cursor-pointer transition duration-200"
+              placeholder="Search"
 
-            onClick={clickSearch}
+              className="w-64 h-10 px-4 text-2xl outline-none"
 
-          >
+            />
 
-            <img src={searchIcon} alt="search icon" className="min-w-6 h-6" />
+            <div
 
-          </div>
+              className="px-3 py-2 border-l border-gray-400 hover:bg-gray-200 cursor-pointer transition duration-200"
 
-        </li>
+              onClick={clickSearch}
+
+            >
+
+              <img src={searchIcon} alt="search icon" className="min-w-6 h-6" />
+
+            </div>
+
+          </li >
+
+        </form >
 
         {/* Portal / Cart */}
 
-        {auth === "Manager" || auth === "Employee" ? (
+        {
+          auth === "Manager" || auth === "Employee" ? (
 
-          <li
+            <li
 
-            onClick={clickPortal}
+              onClick={clickPortal}
 
-            className="hidden lg:flex items-center space-x-2 p-2 hover:bg-green-800 rounded-lg cursor-pointer transition duration-200 text-white"
+              className="hidden lg:flex items-center space-x-2 p-2 hover:bg-green-800 rounded-lg cursor-pointer transition duration-200 text-white"
 
-          >
+            >
 
-            <img
+              <img
 
-              src={portalIcon}
+                src={portalIcon}
 
-              alt="portal icon"
+                alt="portal icon"
 
-              className="w-8 h-8 invert object-contain"
+                className="w-8 h-8 invert object-contain"
 
-            />
+              />
 
-            <p className="text-2xl">Portal</p>
+              <p className="text-2xl">Portal</p>
 
-          </li>
+            </li>
 
-        ) : (
+          ) : (
 
-          <li
+            <li
 
-            onClick={auth ? clickShoppingCart : clickLogin}
+              onClick={auth ? clickShoppingCart : clickLogin}
 
-            className="hidden lg:flex items-center space-x-2 p-2 hover:bg-green-800 rounded-lg cursor-pointer transition duration-200 text-white"
+              className="hidden lg:flex items-center space-x-2 p-2 hover:bg-green-800 rounded-lg cursor-pointer transition duration-200 text-white"
 
-          >
+            >
 
-            <img
+              <img
 
-              src={shoppingCartIcon}
+                src={shoppingCartIcon}
 
-              alt="shopping cart icon"
+                alt="shopping cart icon"
 
-              className="w-8 h-8 invert object-contain"
+                className="w-8 h-8 invert object-contain"
 
-            />
+              />
 
-            <p className="text-2xl">Shopping Cart</p>
+              <p className="text-2xl">Shopping Cart</p>
 
-          </li>
+            </li>
 
-        )}
+          )
+        }
 
 
         {/* Login / Logout */}
@@ -394,6 +411,16 @@ function Navbar() {
 
                 >
 
+                  {cartItems.size > 0 && (
+
+                    <span className="bg-red-500 text-white text-sm font-bold px-2 py-1 rounded-full">
+
+                      {cartItems.size}
+
+                    </span>
+
+                  )}
+
                   <p className="">Shopping Cart</p>
 
                 </li>
@@ -430,7 +457,7 @@ function Navbar() {
 
                   <p className="">My Orders</p>
 
-                </li>
+                </li >
 
               ) : null}
 
@@ -446,9 +473,9 @@ function Navbar() {
 
               </li>
 
-            </ul>
+            </ul >
 
-          </div>
+          </div >
 
           <button
             onClick={toggleDrawer}
@@ -457,11 +484,11 @@ function Navbar() {
             &times;
           </button>
 
-        </div>
+        </div >
 
-      </ul>
+      </ul >
 
-    </nav>
+    </nav >
 
   );
 

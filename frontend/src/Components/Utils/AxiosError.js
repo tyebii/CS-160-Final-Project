@@ -2,6 +2,7 @@ import { useAuth } from "../../Context/AuthHook";
 
 import { useNavigate } from 'react-router-dom';
 
+//Error Hook
 export const useErrorResponse = () => {
 
   const { logout } = useAuth();
@@ -10,9 +11,7 @@ export const useErrorResponse = () => {
 
   const handleError = (error) => {
 
-    if (error?.response?.status === 401) {
-
-      alert("You need to log in again.");
+    if (error?.response?.status === 401 || error?.response?.status === 403) {
 
       logout();  
 

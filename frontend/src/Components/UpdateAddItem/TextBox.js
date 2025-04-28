@@ -24,6 +24,6 @@ const TextEntryBox = ({ value, onChange, type, ...props }) => {
 
     );
 
-  };
+};
 
 export default TextEntryBox;

@@ -36,6 +36,7 @@ const getAddress = (req, res) => {
         return res.status(statusCode.OK).json(results)
 
     })
+
 }   
 
 //Adding Customer-Address Relationship
@@ -58,16 +59,22 @@ const addAddress = async (req, res) => {
         }
 
         let {address, name} = req.body;
-
-        logger.info("Address Recieved As " + address)
-
-        logger.info("Name Recieved As " + name)
             
         if(! await validateAddress(address)){
 
             logger.error("Address Is Invalid")
 
             return res.status(statusCode.BAD_REQUEST).json({error:"Address Is Invalid"})
+
+        }
+
+        console.log(address)
+
+        if(address === "272 East Santa Clara Street, San Jose, California 95113, United States" || address === "272 E Santa Clara St, San Jose, CA 95112"){
+
+            logger.error("Cannot Add The Store")
+
+            return res.status(statusCode.BAD_REQUEST).json({error:"Cannot Add The Store"})
 
         }
 
@@ -147,13 +154,21 @@ const addAddress = async (req, res) => {
             
         }
 
+        if (error.code === 'ER_DUP_ENTRY') {
+
+            logger.warn("Duplicate address entry for customer");
+
+            return res.status(statusCode.RESOURCE_CONFLICT).json({ error: "You have already added this address"});
+
+          }
+
         return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error On Addition Of Address" });
     
     }
 
 };
 
-//Delete The address Associated With A Customer
+//Delete The Address Associated With A Customer
 const deleteAddress =  async (req,res)=>{
 
     const {address} = req.params
@@ -185,6 +200,13 @@ const deleteAddress =  async (req,res)=>{
             return res.status(statusCode.BAD_REQUEST).json({error:"Address Is Invalid"})
 
         }
+
+        if(address === "272 E Santa Clara St, San Jose, CA 95112"){
+
+            logger.error("Cannot Delete The Store")
+
+            return res.status(statusCode.BAD_REQUEST).json({error:"Store Address Cannot Be Deleted"})
+        }
             
         connection = await pool.promise().getConnection(); 
 
@@ -204,11 +226,11 @@ const deleteAddress =  async (req,res)=>{
 
             logger.info("Deleting From Address Table If Hanging")
         
-            const sqlQueryTwo = `DELETE FROM Address WHERE NOT EXISTS (SELECT 1 FROM customeraddress WHERE customeraddress.address = Address.address) AND NOT EXISTS (SELECT 1 FROM transactions WHERE transactions.TransactionAddress = Address.address);`;
+            const sqlQueryTwo = `DELETE FROM Address WHERE Address = ? AND NOT EXISTS (SELECT 1 FROM customeraddress WHERE customeraddress.address = Address.address) AND NOT EXISTS (SELECT 1 FROM transactions WHERE transactions.TransactionAddress = Address.address);`;
             
             await connection.query(
 
-                sqlQueryTwo, 
+                sqlQueryTwo, [address] 
 
             );
     
@@ -257,7 +279,5 @@ const deleteAddress =  async (req,res)=>{
     }
 
 }
-
-
 
 module.exports={deleteAddress, getAddress, addAddress}

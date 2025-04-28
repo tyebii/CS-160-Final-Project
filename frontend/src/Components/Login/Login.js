@@ -1,26 +1,15 @@
-//Refactored on Apr 12
-
-//React Functions
 import { useNavigate } from "react-router-dom";
 
 import { useState } from 'react';
 
-//Import Auth Hook
 import {useAuth} from '../../Context/AuthHook'
 
-//Import Format
 import { loginFormat } from "../Utils/Formatting";
 
-//Import Axios
 import axios from 'axios'; 
 
-//Error Message Hook
-import { useErrorResponse } from '../Utils/AxiosError';
-
 //Login Component
-function Login() {
-    
-    const { handleError } = useErrorResponse();  
+function Login() {  
 
     const [username, setUserName] = useState("");
 
@@ -30,53 +19,58 @@ function Login() {
 
     const {login} = useAuth();
 
-    const handleSubmit = (e) => {
+    //Handle Login Submission
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
-
-        if(!loginFormat(username,password)){
+    
+        if (!loginFormat(username, password)) {
 
             return;
 
         }
+    
+        try {
 
-        axios.post(
+            await axios.post(
 
-            "http://localhost:3301/api/authentication/login", 
+                "http://localhost:3301/api/authentication/login",
 
-            { 
-                UserID: username,
+                {
 
-                Password: password
+                    UserID: username,
 
-            }
+                    Password: password
 
-        )
+                },
 
-        .then((results) => {
 
-            let token = results.data?.accessToken
+                {
+                    withCredentials: true, 
 
-            localStorage.setItem("accessToken", token);
+                    headers: {
 
-            login()
+                        'Content-Type': 'application/json'
+
+                    }
+
+                }
+
+            );
+    
+            await login(); 
 
             navigate("/");
+    
+        } catch (error) {
 
-            return;
+            alert('Failed Login')
 
-        })
-
-        .catch((error) => {
-
-            handleError(error)
-
-            return ;
-
-        });
-
+        }
+        
     };
 
+    //When User Clicks Signup
     const clickSignUp = () => {
 
         navigate("/signup")

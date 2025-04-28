@@ -1,4 +1,3 @@
-//Import Custom Hook
 import { useAuth } from "../../Context/AuthHook";
 
 import { validateID } from "../Utils/Formatting";
@@ -7,18 +6,12 @@ import { useState } from "react";
 
 import axios from "axios";
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 //Transaction Details Component
 export function TransactionDetails({transaction}) {
 
-  const { auth} = useAuth();
-
-  const validateToken = useValidateToken();
+  const {auth} = useAuth();
 
   const { handleError } = useErrorResponse(); 
   
@@ -41,58 +34,50 @@ export function TransactionDetails({transaction}) {
   const [visibility,setVisibility] = useState(true)
 
   //Click Fullfill
-  const handleFulfill = () => {
+  const handleFulfill = async () => {
 
-    const token = validateToken()
-
-    if(token == null){
-
-      return
-      
+    if (!validateID(transaction.TransactionID)) {
+  
+      alert("Invalid Transaction ID");
+  
+      return;
+  
     }
+  
+    try {
+  
+      await axios.post(
 
-    if(!validateID(transaction.TransactionID)){
+        `http://localhost:3301/api/transaction//transactions/fulfill`,
 
-      alert("Invalid Transaction ID")
+        {
 
-      return
-
-    }
-
-    axios
-      .post(`http://localhost:3301/api/transaction//transactions/fulfill`,         {
-
-        TransactionID: transaction.TransactionID,
-
-      },
-
-      {
-
-        headers: {
-
-          Authorization: `Bearer ${token}`,
+          TransactionID: transaction.TransactionID,
 
         },
 
-      })
+        {
 
-      .then(() => {
+          withCredentials: true,
 
-        alert("Successfully Fulfilled")
+          headers: { 'Content-Type': 'application/json' },
 
-        setVisibility(false)
+        }
         
-        setTransactionStatus("Fulfilled")
-
-      })
-      .catch((error) => {
-
-        handleError(error)
-
-      });
-
-  }
-
+      );
+  
+      setVisibility(false);
+  
+      setTransactionStatus("Fulfilled");
+  
+    } catch (error) {
+  
+      handleError(error);
+  
+    }
+  
+  };
+  
   return (
 
     <section className="flex items-center justify-center min-h-screen  p-6">
@@ -121,9 +106,9 @@ export function TransactionDetails({transaction}) {
 
           </>): null}
 
-          <DetailRow label="Transaction Cost" value={`$${transaction.TransactionCost}`} />
+          <DetailRow label="Transaction Cost" value={`$${transaction.TransactionCost?.toFixed(2)}`} />
 
-          <DetailRow label="Transaction Weight" value={`${transaction.TransactionWeight} lbs`} />
+          <DetailRow label="Transaction Weight" value={`${transaction.TransactionWeight?.toFixed(2)} lbs`} />
 
           <DetailRow label="Transaction Address" value={transaction.TransactionAddress} />
 
@@ -137,22 +122,39 @@ export function TransactionDetails({transaction}) {
 
           />
 
-          <DetailRow label="Transaction Date" value={new Date(transaction.TransactionDate).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })} />
-
-          <DetailRow label="Transaction Arrival Date" value={transaction.TransactionTime ? new Date(transaction.TransactionTime).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }) : "N/A"} />
+          {transaction.TransactionFailure? (<DetailRow label="Transaction Failure" value={transaction.TransactionFailure} />):null}
 
 
-          <DetailRow label="Robot ID" value={transaction.RobotID} defaultValue="None" />
 
-          <DetailRow label="Payment Method" value={transaction.PaymentMethod} defaultValue="None" />
 
-          <DetailRow label="Charge Status" value={transaction.ChargeStatus} defaultValue="None" />
+          <DetailRow label="Transaction Date" value={transaction.TransactionDate?new Date(transaction.TransactionDate).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }):null} />
+          
+          {
+            transaction.TransactionStatus !== "Failed" ? (
 
-          <DetailRow label="Receipt URL" value={transaction.ReceiptURL} defaultValue="None" />
+              <>
 
-          <DetailRow label="Currency" value={transaction.Currency} defaultValue="None" />
+                <DetailRow label="Transaction Arrival Date" value={transaction.TransactionTime ? new Date(transaction.TransactionTime).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }) : "None"} />
 
-          <DetailRow label="Amount Paid" value={transaction.AmountPaid} defaultValue="None" />
+                <DetailRow label="Robot ID" value={transaction.RobotID} defaultValue="None" />
+
+                <DetailRow label="Payment Method" value={transaction.PaymentMethod} defaultValue="None" />
+
+                <DetailRow label="Charge Status" value={transaction.ChargeStatus} defaultValue="None" />
+
+                <DetailRow label="Receipt URL" value={transaction.ReceiptURL} defaultValue="None" />
+
+                <DetailRow label="Currency" value={transaction.Currency} defaultValue="None" />
+
+                <DetailRow label="Amount Paid" value={transaction.AmountPaid ? `$${transaction.AmountPaid.toFixed(2)}` : "None"} />
+              
+              </>
+
+            ) : null
+
+          }
+
+
 
         </div>
 
@@ -199,15 +201,21 @@ const DetailRow = ({ label, value, defaultValue = "", isBadge = false }) => {
 
             className={`ml-2 px-2 py-1 rounded text-white text-sm ${
 
-              value === "Complete"
+              value === 'Complete'
 
-                ? "bg-green-500"
+              ? 'bg-green-600'
 
-                : value === "In progress"
+              : value === 'In progress'
 
-                ? "bg-yellow-500"
+              ? 'bg-yellow-500'
 
-                : "bg-blue-500"
+              : value === 'Pending Delivery'
+
+              ? 'bg-orange-500': value === 'Failed'?
+
+              'bg-red-500'
+
+              : 'bg-blue-600'
 
             }`}
 
@@ -261,6 +269,6 @@ const DetailRow = ({ label, value, defaultValue = "", isBadge = false }) => {
 
     );
 
-  };
+};
   
   

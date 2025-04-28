@@ -1,10 +1,5 @@
-//Import UseEffect
 import { useEffect, useState } from "react";
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 import { useNavigate } from "react-router-dom";
@@ -15,8 +10,6 @@ import axios from 'axios';
 
 //Gets And Present Account Information
 export function MyAccount (){
-    
-    const validateToken = useValidateToken();
 
     const { handleError } = useErrorResponse();
 
@@ -26,119 +19,88 @@ export function MyAccount (){
 
     const [result, setResult] = useState({})
 
+    //Fetch The Account Information
     useEffect(() => {
+
+        const fetchAccount = async () => {
+
+            if(!auth){
+
+                return
+
+            }
+
+            const endpoints = {
+
+                Customer: "http://localhost:3301/api/customer/customer",
+
+                Employee: "http://localhost:3301/api/customer/employee",
+
+                Manager: "http://localhost:3301/api/customer/employee",
+
+            };
         
-        const token = validateToken()
+            const endpoint = endpoints[auth];
+        
+            if (!endpoint) {
+                
+                logout();
 
-        if(token == null){
+                navigate("/login");
 
-            return
+                return;
 
-        }
+            }
+        
+            try {
 
-        const endpoints = {
+                const response = await axios.get(endpoint, {
 
-            Customer: "http://localhost:3301/api/customer/customer",
+                withCredentials: true,
 
-            Employee: "http://localhost:3301/api/customer/employee",
+                headers: { 'Content-Type': 'application/json' },
 
-            Manager: "http://localhost:3301/api/customer/employee",
+                });
+
+                setResult(response.data[0]);
+        
+            } catch (error) {
+
+                handleError(error);
+
+            }
 
         };
+      
+        fetchAccount();
 
-        const endpoint = endpoints[auth];
+    }, [auth]);
+      
+    //Delete The Account
+    const handleDelete = async () => {
 
-        if (!endpoint) {
+        try {
 
-            alert("Invalid user role");
+            await axios.delete("http://localhost:3301/api/customer/customer", {
 
-            logout();
+            withCredentials: true,
 
-            navigate("/login");
-
-            return;
-
-        }
-
-        axios
-
-            .get(endpoint, {
-
-                headers: {
-
-                    Authorization: `Bearer ${token}`,
-
-                },
-                
-            })
-
-            .then((response) => {
-
-                if(response.data.length === 0){
-
-                    alert("No Results Found")
-
-                    navigate('/')
-
-                    return;
-
-                }
-
-                setResult(response.data[0])
-                
-            })
-
-            .catch((error) => {
-
-                handleError(error)
-                
-                return; 
+            headers: { 'Content-Type': 'application/json' },
 
             });
 
-    }, []);
+            logout();
 
-    const handleDelete = () => {
+            navigate("/");
 
-        const token = validateToken()
+        } catch (error) {
 
-        if(token == null){
-
-            return
+            handleError(error);
 
         }
 
-        axios.delete("http://localhost:3301/api/customer/customer", {
+    };
 
-            headers: {
-
-                Authorization: `Bearer ${token}`,
-
-            },
-            
-        })
-
-        .then((response) => {
-
-            logout()
-
-            navigate("/")
-
-            return 
-            
-        })
-
-        .catch((error) => {
-
-            handleError(error)
-
-            return;
-
-        });
-
-
-    }
-    
     return (
         
         <section className="flex flex-col w-full h-full p-8 bg-white">
@@ -199,4 +161,5 @@ export function MyAccount (){
         </section>
 
     )
+    
 }

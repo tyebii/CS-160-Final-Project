@@ -1,79 +1,52 @@
-//Refactored Apr 12
-
-//Import React Functions
 import { useState, useEffect } from "react"
 
-//Import Axios
 import axios from "axios"
 
-//Import Custom Component 
 import { TransactionCard } from "./Components/TransactionCard"
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
-
 
 //List Of Transactions
 export function MyOrders() {
-
-    const validateToken = useValidateToken();
 
     const { handleError } = useErrorResponse();
 
     const [results, setResults] = useState([])
 
+    //Fetch The Customer's Transactions
     useEffect(() => {
 
-        const token = validateToken()
+        const fetchTransactions = async () => {
 
-        if (token == null) {
+            try {
 
-            return;
+                const response = await axios.get("http://localhost:3301/api/transaction/transactions/customer", {
 
-        }
+                    withCredentials: true,
 
-        axios
+                    headers: { 'Content-Type': 'application/json' },
 
-            .get("http://localhost:3301/api/transaction/transactions/customer", {
+                });
 
-                headers: {
-
-                    Authorization: `Bearer ${token}`,
-
-                },
-
-            })
-
-            .then((response) => {
-
-                if (response.length === 0) {
-
-                    alert("No Results Found")
-
-                    return;
-
-                } else {
-
-                    setResults(response.data)
+                if (response.data.length === 0) {
 
                     return;
 
                 }
 
-            })
+                setResults(response.data);
 
-            .catch((error) => {
+            } catch (error) {
 
-                handleError(error)
+                handleError(error);
 
-                return;
+            }
 
-            });
+        };
 
-    }, [])
+        fetchTransactions();
+
+    }, []);
 
     return (
 
@@ -112,4 +85,5 @@ export function MyOrders() {
         </section>
 
     )
+
 }

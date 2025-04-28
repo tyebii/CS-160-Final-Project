@@ -1,16 +1,11 @@
-//Import React Functions
 import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-//Import Axios
 import axios from "axios";
 
 //Error Message Hook
 import { useErrorResponse } from '../../../Utils/AxiosError';
-
-//Import Formatter 
-import { useValidateToken } from "../../../Utils/TokenValidation";
 
 export default function SubordinatesArea({ auth, logout }) {
 
@@ -24,7 +19,7 @@ export default function SubordinatesArea({ auth, logout }) {
 
         <h2 className="text-center text-2xl font-bold text-gray-800 mb-4">Employees</h2>
 
-        <Subordinates logout={logout} />
+        <Subordinates auth = {auth} />
                 
         <h2 className="text-center text-2xl font-bold text-gray-800 mb-4">Add Employee</h2>
 
@@ -53,9 +48,7 @@ export default function SubordinatesArea({ auth, logout }) {
 }
 
 //Import List Of Employees
-const Subordinates = ({logout}) => {
-
-  const validateToken = useValidateToken();
+const Subordinates = ({auth}) => {
   
   const { handleError } = useErrorResponse(); 
 
@@ -66,23 +59,19 @@ const Subordinates = ({logout}) => {
   //Load The Employees
   useEffect(() => {
 
-    const token = validateToken();
+    if(auth == null){
 
-    if(token == null){
-
-      return
-
+      return 
+      
     }
     
     axios
 
       .get(`http://localhost:3301/api/employee/employee/supervisor`, {
 
-        headers: {
+        withCredentials: true,
 
-          Authorization: `Bearer ${token}`,
-
-        },
+        headers: { 'Content-Type': 'application/json' }
 
       })
 
@@ -98,34 +87,22 @@ const Subordinates = ({logout}) => {
 
       });
 
-    }, []);
+  }, [auth]);
 
   //Clicking Delete On An Employee
   const clickTerminate = (employeeID)=>{
-
-    const token = validateToken();
-
-    if(token == null){
-
-      return
-      
-    }
 
     axios.delete("http://localhost:3301/api/employee/employee", {
 
         data: { EmployeeID: employeeID },
 
-        headers: {
+        withCredentials: true,
 
-          Authorization: `Bearer ${token}`,
-
-        },
+        headers: { 'Content-Type': 'application/json' }
 
       })
 
       .then((response) => {
-
-        alert("Successfully Deleted");
 
         setSubordinates(subordinates.filter(subordinate => subordinate.EmployeeID !== employeeID));
 
@@ -220,5 +197,3 @@ const Subordinates = ({logout}) => {
   );
   
 };
-
-

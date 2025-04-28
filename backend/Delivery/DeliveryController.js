@@ -5,6 +5,7 @@ const { statusCode } = require('../Utils/Formatting');
 
 const {logger} = require('../Utils/Logger'); 
 
+//Schedules The Robots
 const scheduleRobots = async (req, res) => {
 
     logger.info("Scheduling Robots...")
@@ -21,11 +22,13 @@ const scheduleRobots = async (req, res) => {
 
             await connection.query("Update Transactions Set Transactions.RobotID = NULL Where Transactions.RobotID Is Not Null And TransactionStatus = 'Pending Delivery'")
 
-            logger.info("Getting Robots That Are Free")
+            await connection.query("Update Robot Set CurrentLoad = 0 Where RobotStatus != 'Delivering' And CurrentLoad != 0")
             
+            logger.info("Getting Robots That Are Free")
+
             const [freeRobots] = await connection.query(
 
-                'SELECT * FROM Robot WHERE RobotStatus = "Free"'
+                'SELECT * FROM Robot WHERE RobotStatus = "Free" Order By RobotID ASC'
 
             );
 
@@ -51,7 +54,7 @@ const scheduleRobots = async (req, res) => {
 
                 WHERE TransactionStatus = "Pending Delivery" 
 
-                ORDER BY TransactionDate DESC`
+                ORDER BY TransactionDate ASC`
 
             );
 
@@ -78,7 +81,7 @@ const scheduleRobots = async (req, res) => {
 
                 const transactionIDList = []
 
-                while (robotAddresses[i].length <= 10 && j < pendingDelivery.length) {
+                while (robotAddresses[i].length < 10 && j < pendingDelivery.length) {
 
                     const delivery = pendingDelivery[j];
 
@@ -98,7 +101,7 @@ const scheduleRobots = async (req, res) => {
 
                 if (transactionIDList.length > 0) {
 
-                    const placeholders = transactionIDList.map(() => '?').join(', '); // => "?, ?"
+                    const placeholders = transactionIDList.map(() => '?').join(', ');
                 
                     await connection.query(
 
@@ -160,12 +163,25 @@ const scheduleRobots = async (req, res) => {
             
         }
 
+        if(error.message === "No Free Robots"){
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "No Robots To Schedule"})
+
+        }
+
+        if(error.message === "No Transactions To Deliver"){
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error:"No Transactions To Schedule"})
+
+        }
+
         return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Error While Scheduling Robots"})
 
     }
 
 };
 
+//Deploys The Robots
 const deployRobots = async (req, res) => {
 
     logger.info("Deploying Robots...");
@@ -198,7 +214,7 @@ const deployRobots = async (req, res) => {
 
         if (transactions.length === 0) {
 
-            logger.error("There Are No Robot To Deploy")
+            logger.error("There Are No Robots To Deploy")
 
             throw new Error("There Are No Robots To Deploy");
 
@@ -311,7 +327,7 @@ const deployRobots = async (req, res) => {
 
                             await connectionAsync.query(
                                 
-                                'UPDATE Robot SET RobotStatus = "Free", EstimatedDelivery = NULL, CurrentLoad = "0" WHERE RobotID = ?',
+                                'UPDATE Robot SET RobotStatus = "Free", CurrentLoad = "0" WHERE RobotID = ?',
                                 
                                 [robotID]
 
@@ -387,13 +403,9 @@ const deployRobots = async (req, res) => {
 
         connection.release();
 
-        logger.info("Failed Robots: " + failedRobots)
-
     } catch (error) {
 
         logger.error("Deployment Error: " + error.message);
-
-        logger.error("Failed Robots: " + failedRobots)
 
         if (connection) {
 
@@ -411,11 +423,21 @@ const deployRobots = async (req, res) => {
 
         }
 
+        if(error.message === "There Are No Robots To Deploy"){
+
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "No Robots To Deploy"})
+
+        }
+        
+        if(error.message === "")
+
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({error: "Internal Server Error On Robot Deployment"})
+
     }
 
+    return res.sendStatus(statusCode.OK)
+
 };
-
-
 
 //Turn Address Into Geocode
 const geocodeAddress = async (address) => {
@@ -508,6 +530,5 @@ const getOptimizedRoute = async (geoCodes) => {
     };
 
 };
-
 
 module.exports = { deployRobots, scheduleRobots };

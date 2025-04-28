@@ -1,6 +1,6 @@
-//Import navigation functionality
 import { useNavigate } from "react-router-dom";
 
+//Alert Card
 const FlaggedItem = ({ item, robots }) => {
 
   const navigate = useNavigate();
@@ -9,14 +9,14 @@ const FlaggedItem = ({ item, robots }) => {
 
     return (
 
-      <div onClick = {()=>{navigate(`/itemview/${item.ItemID}`)}} className="flex items-center border p-5 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+      <div onClick = {()=>{navigate(`/itemview/${item.ItemID}`)}} className="flex items-center border p-5 mb-3 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 hover:cursor-pointer">
   
         {/* Product Details */}
         <div className="ml-6">
 
           <h3 className="text-xl font-semibold text-gray-800 mb-2">Item ID: {item.ItemID}</h3>
 
-          <p className="text-sm text-gray-500">Date of Event Add: {item.EventDate}</p>
+          <p className="text-sm text-gray-500">Date of Event Add: {item.EventDate?.slice(0,10)}</p>
 
         </div>
   
@@ -36,7 +36,7 @@ const FlaggedItem = ({ item, robots }) => {
 
     return (
 
-      <div onClick = {()=>{navigate(`/`)}} className="flex items-center border p-5 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+      <div onClick = {()=>{navigate(`/`)}} className="flex items-center border hover:cursor-pointer p-5 mb-3 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
   
         {/* Product Details */}
         <div className="ml-6">

@@ -1,5 +1,3 @@
-//Ready For Testing
-
 const pool = require('../Database Pool/DBConnections')
 
 const {validateCategory, validateProduct, validateID, statusCode, insertFormat} = require('../Utils/Formatting')
@@ -46,7 +44,7 @@ const categoryQuery = (req, res) => {
 
     logger.info(`Fetching The Items Associated With The Category: ${name}`)
 
-    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE category = ?', [name], (error, results) => {
+    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE category = ? and Expiration > Now()', [name], (error, results) => {
 
         if (error) {
 
@@ -112,7 +110,7 @@ const productQueryName = (req, res) => {
 
     logger.info(`Fetching The Items Associated With The Product: ${name}`)
 
-    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE ProductName like ?', ["%" + name + "%"], (error, results) => {
+    pool.query('SELECT * FROM inventory WHERE (ProductName LIKE ? OR Category LIKE ?) AND Expiration >= NOW()', ["%" + name + "%", "%" + name + "%"], (error, results) => {
 
         if (error) {
 
@@ -226,6 +224,8 @@ const productQueryNameEmployee = (req, res) => {
 
     }
 
+    const item = name
+
     try{
 
         name = name.replace(/-/g, " "); 
@@ -240,7 +240,7 @@ const productQueryNameEmployee = (req, res) => {
 
     logger.info(`Fetching The Items Associated With The Product: ${name}`)
 
-    pool.query('SELECT * FROM inventory WHERE ProductName like ?', ["%" + name + "%"], (error, results) => {
+    pool.query('SELECT * FROM inventory WHERE ItemID = ? OR ProductName LIKE ? OR Category LIKE ?', [item, "%" + name + "%", "%" + name + "%"], (error, results) => {
 
         if (error) {
 
@@ -346,7 +346,7 @@ const productCustomerQueryID = (req, res) => {
 
     logger.info("Querying Item With ItemID As A Customer: " + itemid)
 
-    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE ItemID = ?', [itemid], (error, results) => {
+    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE ItemID = ? and Expiration >= Now()', [itemid], (error, results) => {
 
         if (error) {
 
@@ -403,7 +403,6 @@ const storage = multer.diskStorage({
     }
 
 });
-
 
 const upload = multer({ storage: storage });
 
@@ -473,7 +472,7 @@ const productInsert = async (req, res) => {
         }
     
                     
-        pool.query('INSERT IGNORE INTO inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, StorageRequirement, LastModification, ImageLink, Cost, Description) Values (?,?,?,?,?,?,?,?,?,?,?,?,?)', [InventoryID, Number(Quantity), Distributor, Number(Weight), ProductName, Category, Number(SupplierCost), new Date(Expiration), StorageRequirement, new Date(), fileName, Number(Cost), Description], (error, results) => {
+        pool.query('INSERT IGNORE INTO inventory (ItemID, Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Expiration, StorageRequirement, LastModification, ImageLink, Cost, Description) Values (?,?,?,?,?,?,?,?,?,?,?,?,?)', [InventoryID, Number(Quantity), Distributor, Number(Weight), ProductName, Category, Number(SupplierCost), Expiration, StorageRequirement, new Date(), fileName, Number(Cost), Description], (error, results) => {
     
             if (error) {
     
@@ -628,7 +627,7 @@ const productUpdate = async (req, res) => {
 
                         ProductName, Category, Number(SupplierCost),
 
-                        new Date(Expiration), StorageRequirement,
+                        Expiration, StorageRequirement,
 
                         fileName, Number(Cost), Description, ItemID
 
@@ -666,7 +665,7 @@ const productUpdate = async (req, res) => {
 
                     Number(Quantity), Distributor, Number(Weight), ProductName, 
 
-                    Category, Number(SupplierCost), new Date(Expiration), 
+                    Category, Number(SupplierCost), Expiration, 
 
                     StorageRequirement, Number(Cost), Description, ItemID
 
@@ -905,7 +904,7 @@ const featuredSearch = (req,res) => {
     
     logger.info("Starting Featured Search")
 
-    pool.query('SELECT * FROM featureditems , inventory  WHERE featureditems.ItemID = inventory.ItemID', (error, results) => {
+    pool.query('SELECT * FROM featureditems , inventory  WHERE featureditems.ItemID = inventory.ItemID and Expiration >= Now()', (error, results) => {
 
         if (error) {
 
@@ -996,7 +995,7 @@ const featuredAdd = (req,res)=>{
 
     }
 
-    pool.query('Insert Into FeaturedItems(ItemID) Values (?)', ItemID, (error,results)=>{
+    pool.query('Insert Into FeaturedItems(ItemID, EventDate) Values (?, NOW())', [ItemID], (error,results)=>{
 
         if (error) {
 
@@ -1029,7 +1028,7 @@ const featuredDelete = (req,res) => {
 
     }
 
-    pool.query('Delete From FeaturedItems Where ItemID = ?', itemid, (error,results)=>{
+    pool.query('Delete From FeaturedItems Where ItemID = ?', [itemid], (error,results)=>{
 
         if (error) {
 
@@ -1048,4 +1047,3 @@ const featuredDelete = (req,res) => {
 }
 
 module.exports = {upload, featuredAdd,  expirationSearch, featuredDelete, featuredSearch, productQueryID, productQueryNameEmployee, productQueryName, categoryQuery, categoryQueryEmployee, productInsert, productUpdate, deleteProduct, lowStockSearch, productCustomerQueryID}
-    

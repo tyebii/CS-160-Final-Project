@@ -42,7 +42,7 @@ const fullfillOrder = (req, res) => {
 
     }
 
-    pool.query('Update transactions Set TransactionStatus = "Fulfilled" Where TransactionID = ?', TransactionID, (error,results) => {
+    pool.query('Update transactions Set TransactionStatus = "Fulfilled" Where TransactionID = ? AND TransactionStatus = "Complete" ', TransactionID, (error,results) => {
         
         if(error){
 
@@ -108,7 +108,7 @@ const getCustomerTransactions = (req, res) => {
 
     }
 
-    const sqlQuery = "Select * From Transactions Where CustomerID = ? Order By TransactionDate Desc"
+    const sqlQuery = "Select * From Transactions Where CustomerID = ? And TransactionStatus != 'In Progress' Order By TransactionDate Desc"
 
     pool.query(sqlQuery, [customerID], (error,results) => {
 

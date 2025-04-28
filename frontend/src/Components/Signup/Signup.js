@@ -1,15 +1,11 @@
-// Import axios
 import axios from "axios";
 
-// Import navigation functionality
 import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 
-//Formatting
 import { signUpFormat } from "../Utils/Formatting";
 
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 // Signup Component
@@ -33,7 +29,7 @@ export function Signup() {
 
     });
 
-    // Handle form input changes
+    // Handle Form Input Changes
     const handleChange = (e) => {
 
         const { name, value } = e.target;
@@ -49,44 +45,57 @@ export function Signup() {
     };
 
     // Handler function on submit
-    const clickSubmit = (e) => {
+    const clickSubmit = async (e) => {
 
         e.preventDefault();
+      
+        if (
 
-        if(signUpFormat(formData.UserID, formData.Password, formData.UserNameFirst, formData.UserNameLast, formData.UserPhoneNumber ) === false){
+          signUpFormat(
 
-            return
+            formData.UserID,
 
+            formData.Password,
+
+            formData.UserNameFirst,
+
+            formData.UserNameLast,
+
+            formData.UserPhoneNumber
+
+          ) === false
+
+        ) {
+      
+          return;
+      
         }
+      
+        try {
+      
+          await axios.post(
 
-        axios.post(
-
-            "http://localhost:3301/api/authentication/signup/customer", 
+            "http://localhost:3301/api/authentication/signup/customer",
 
             formData
 
-        )
-
-        .then((results) => {
-
-            alert("Successful Signup");
-
-            navigate("/");
-
-        })
-        .catch((error) => {
-
-            handleError(error)
-
-        });
-
+          );
+      
+          navigate("/login");
+      
+        } catch (error) {
+      
+          handleError(error);
+      
+        }
+      
     };
-
+      
     return (
 
         <section>
 
-            <form onSubmit={clickSubmit} className="m-auto bg-white p-6 rounded-2xl shadow-lg w-96 mt-10">
+            <form onSubmit={clickSubmit} className="m-auto bg-white p-6 rounded-2xl shadow-lg w-96 mt-10 mb-10">
 
                 <h2 className="text-2xl font-semibold text-center mb-4">Sign Up</h2>
                 

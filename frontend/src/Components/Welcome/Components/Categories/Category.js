@@ -1,7 +1,5 @@
-//Import React Functions
 import { Link } from "react-router-dom";
 
-//Import Category Images :: Assumes That We Have A Set Of Fixed Categories
 import bakeryAndBreadImage from '../../CategoryImages/bakeryandbread.jpg';
 
 import beverages from '../../CategoryImages/beverages.jpg';
@@ -23,7 +21,6 @@ import snacksAndSweets from '../../CategoryImages/snacksandsweets.jpg';
 //Categories
 export default function Categories({ auth }) {
 
-  //List Of Categories :: Assumption On Fixed Categories
   const categories = [
 
     { link: "Fresh-Produce", image: freshProduce, name: "Fresh Produce" },
@@ -46,10 +43,8 @@ export default function Categories({ auth }) {
 
   ]
 
-  //Array To Hold JSX
   let categoriesJSX = []
 
-  //Iterate Over The Categories And Create A Card For Each Category
   for (let i = 0; i < categories.length; i++) {
 
     categoriesJSX.push(
@@ -61,13 +56,12 @@ export default function Categories({ auth }) {
       </Link>
 
     )
-
+    
   }
 
-  //Return The JSX
   return (
 
-    <article className="mt-10">
+    <article className="mt-20">
 
       <h2 className="text-4xl font-semibold mx-4 mb-6">
 
@@ -115,15 +109,6 @@ const Category = ({ imageSrc, categoryName }) => {
 
     </div>
 
-
-
   );
 
 };
-
-
-
-
-
-
-

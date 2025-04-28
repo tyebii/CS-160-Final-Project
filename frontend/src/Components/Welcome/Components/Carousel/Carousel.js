@@ -1,12 +1,9 @@
-//Import React Functions
 import { useNavigate } from "react-router-dom";
 
 import { useState, useEffect } from 'react';
 
-//Import Axios
 import axios from "axios";
 
-//Error Message Hook
 import { useErrorResponse } from '../../../Utils/AxiosError';
 
 //Carousel Component
@@ -118,9 +115,9 @@ export default function Carousel({ auth }) {
 
         (auth === null || auth === "Customer") ? (
 
-            <article className="mb-10">
+            <article className="text-center p-20">
 
-                <h2 className="text-4xl font-semibold px-12">Featured Products</h2>
+                <h2 className="text-center text-5xl mb-20 font-semibold text-black tracking-wide">Featured Products</h2>
 
                 <div className="flex items-center overflow-hidden relative">
 
@@ -169,18 +166,12 @@ export default function Carousel({ auth }) {
 }
 
 
-
-
-
-
 //Featured Product Card
 const FeaturedProductCard = ({ item, cost, distributor, imageSrc, productName }) => {
 
-    //Import Navigate 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    //View The Item
-    const clickView = () => {
+  const clickView = () => {
 
         navigate(`/itemview/${item}`);
 

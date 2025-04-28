@@ -1,29 +1,18 @@
-//Navigation Hook
 import { useNavigate } from 'react-router-dom';
 
-//State
 import { useState } from 'react';
 
-//Axios
 import axios from 'axios';
 
-//Custom Component
 import TextEntryBox from "./TextBox";
 
-//Formatting Util
 import { insertFormat } from '../Utils/Formatting'
 
-//Token Validation Hook
-import { useValidateToken } from '../Utils/TokenValidation';
-
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 export const ItemEdit = ({ item }) => {
 
     const navigate = useNavigate();
-
-    const validateToken = useValidateToken();
 
     const { handleError } = useErrorResponse(); 
 
@@ -55,58 +44,56 @@ export const ItemEdit = ({ item }) => {
 
     });
     
-
     // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
 
         e.preventDefault();
-
-        const token = validateToken()
-
-        if(token == null){
-
-            return
-            
+      
+        if (
+          !insertFormat(
+            formData.Quantity,
+            formData.Distributor,
+            formData.Weight,
+            formData.ProductName,
+            formData.Category,
+            formData.SupplierCost,
+            formData.Cost,
+            formData.Expiration,
+            formData.StorageRequirement,
+            formData.Description
+          )
+        ) {
+      
+          return false;
+      
         }
-
-        if(!insertFormat(formData.Quantity, formData.Distributor, formData.Weight, formData.ProductName, formData.Category, formData.SupplierCost, formData.Cost, formData.Expiration, formData.StorageRequirement, formData.Description)){
-
-            return false
-
-        }
-
+      
         const form = new FormData();
-
+      
         form.append('File', file);
-
+      
         form.append('Json', JSON.stringify(formData));
-
-        axios.put('http://localhost:3301/api/inventory/update/item', form, {
-
-            headers: {
-
-                'Authorization': `Bearer ${token}`
-
+      
+        try {
+      
+          await axios.put(
+            'http://localhost:3301/api/inventory/update/item',
+            form,
+            {
+              withCredentials: true,
             }
-
-        })
-
-        .then((response) => {
-
-            alert("Updated Item");
-
-            navigate("/itemview/" + formData.ItemID);
-
-        })
-
-        .catch((error) => {
-
-            handleError(error);
-
-        });
-        
+          );
+      
+          navigate("/itemview/" + formData.ItemID);
+      
+        } catch (error) {
+      
+          handleError(error);
+      
+        }
+      
     };
-
+      
     //Handle File Import
     const handleFile = (e) => {
 
@@ -134,6 +121,7 @@ export const ItemEdit = ({ item }) => {
 
     };
 
+    //Handle Form Updates
     const handleFieldChange = (fieldName) => (value) => {
 
         const numberFields = ['Quantity', 'Cost', 'Weight', 'SupplierCost'];
@@ -399,7 +387,7 @@ export const ItemEdit = ({ item }) => {
 
                                 onChange={handleFieldChange('Weight')}
 
-                                placeholder="Weight In KG"
+                                placeholder="Weight In LBS"
 
                             />
 

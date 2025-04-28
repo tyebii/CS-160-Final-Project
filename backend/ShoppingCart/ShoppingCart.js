@@ -6,7 +6,26 @@ const {authorizeCustomer} = require('../Utils/Authorization')
 
 const {authenticateToken} = require('../Utils/Authentication')
 
+const rateLimit = require('express-rate-limit');
+
 const router = express.Router()
+
+//Rate Limiter
+const shoppingcartLimiter = rateLimit({
+
+    windowMs: 60 * 1000 * 2, 
+
+    max: 50, 
+
+    message: { error: "Too many requests. Please try again later." },
+
+    standardHeaders: true, 
+
+    legacyHeaders: false,
+
+});
+
+router.use(shoppingcartLimiter)
 
 router.use([express.json(), authenticateToken, authorizeCustomer])
 
