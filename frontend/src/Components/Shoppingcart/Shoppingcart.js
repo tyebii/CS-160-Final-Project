@@ -26,7 +26,7 @@ import { useCart } from '../../Context/ShoppingcartContext';
 //Shopping Cart Component
 function ShoppingCart() {
 
-  const {removeItem, clearItems} = useCart()
+  const { removeItem, clearItems } = useCart()
 
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -40,7 +40,7 @@ function ShoppingCart() {
 
   const [cost, setCost] = useState(0);
 
-  const [selectedAddress, setSelectedAddress] = useState(null); 
+  const [selectedAddress, setSelectedAddress] = useState(null);
 
   const [addressModalOpen, setAddressModalOpen] = useState(false);
 
@@ -72,9 +72,9 @@ function ShoppingCart() {
           })
 
         ]);
-        
+
         setResults(cartRes.data);
-  
+
         setAddresses(prev => {
 
           const existingAddresses = new Set(prev.map(addr => addr.Address));
@@ -84,7 +84,7 @@ function ShoppingCart() {
           return [...prev, ...newUniqueAddresses];
 
         });
-  
+
       } catch (error) {
 
         handleError(error);
@@ -92,7 +92,7 @@ function ShoppingCart() {
       }
 
     })();
-    
+
   }, []);
 
   //Load The Total
@@ -115,7 +115,7 @@ function ShoppingCart() {
 
     try {
 
-      if(results.length == 0){
+      if (results.length == 0) {
 
         alert("Nothing To Clear");
 
@@ -170,7 +170,7 @@ function ShoppingCart() {
 
     } catch (error) {
 
-      handleError(error); 
+      handleError(error);
 
     }
 
@@ -183,7 +183,7 @@ function ShoppingCart() {
 
     setIsProcessing(true);
 
-    if(selectedAddress == null){
+    if (selectedAddress == null) {
 
       alert("Must Select Address")
 
@@ -193,16 +193,16 @@ function ShoppingCart() {
 
     }
 
-    if(weight > 200 && selectedAddress.Address != addresses[0].Address){
+    if (weight > 200 && selectedAddress.Address != addresses[0].Address) {
 
       alert("Cannot Have A Transaction Over 200 LBS Be Delivered")
 
       setIsProcessing(false);
 
       return
-      
+
     }
-  
+
     if (results.length === 0) {
 
       alert("Cannot checkout. There are no items");
@@ -213,7 +213,7 @@ function ShoppingCart() {
 
     }
 
-    for(let i = 0; i < results.length; i++){
+    for (let i = 0; i < results.length; i++) {
 
       if (results[i].Quantity == 0) {
 
@@ -223,7 +223,7 @@ function ShoppingCart() {
 
       }
 
-      if(results[i].Quantity < results[i].OrderQuantity){
+      if (results[i].Quantity < results[i].OrderQuantity) {
 
         alert("Not Enough Supply")
 
@@ -232,7 +232,7 @@ function ShoppingCart() {
       }
 
     }
-  
+
     if (! await validateAddress(selectedAddress?.Address)) {
 
       setIsProcessing(false);
@@ -274,7 +274,7 @@ function ShoppingCart() {
       );
 
       clearItems();
-  
+
       window.location.href = response.data.url;
 
     } catch (error) {
@@ -286,38 +286,38 @@ function ShoppingCart() {
     }
 
   };
-  
+
   //Enables Users To Add Addresses
   const handleAddAddress = async (e) => {
 
     e.preventDefault();
-  
+
     const formData = new FormData(e.target);
 
     const name = formData.get("Name");
 
     const address = formData.get("Address");
-  
+
     const composedAddress = address
-  
+
     const isAddressValid = await validateAddress(composedAddress);
 
     const isNameValid = validateName(name);
-  
+
     if (!isAddressValid || !isNameValid) {
 
       return;
 
     }
 
-    if(address === "272 East Santa Clara Street, San Jose, California 95113, United States" || address === "272 E Santa Clara St, San Jose, CA 95112"){
+    if (address === "272 East Santa Clara Street, San Jose, California 95113, United States" || address === "272 E Santa Clara St, San Jose, CA 95112") {
 
       alert("Cannot Add Store")
-      
+
       return
 
     }
-  
+
     try {
 
       const response = await axios.post(
@@ -341,7 +341,7 @@ function ShoppingCart() {
         }
 
       );
-  
+
       setAddresses((prevAddresses) => [
 
         ...prevAddresses,
@@ -349,21 +349,21 @@ function ShoppingCart() {
         { Address: composedAddress, Name: name },
 
       ]);
-  
+
       setAddressModalOpen(false);
 
     } catch (error) {
 
       handleError(error);
 
-        setAddressModalOpen(false);
+      setAddressModalOpen(false);
 
     }
 
   };
 
   return (
-    
+
     <section className="md:flex w-full p-8 bg-white">
 
       <div className="flex md:w-2/3 md:flex-row justify-between mb-8">
@@ -416,13 +416,13 @@ function ShoppingCart() {
 
             </h3>
 
-            <div className="flex justify-between gap-4 text-gray-700">
+            <div className="flex justify-between gap-6 text-gray-700">
 
               <div className="flex flex-col border-gray-300 text-lg font-semibold">
 
-                <h3>Subtotal:</h3>
+                <h3>Weight:</h3>
 
-                <h3>Weight: {weight.toFixed(2)}</h3>
+                <h3>Subtotal:</h3>
 
                 <h3>Delivery Fee:</h3>
 
@@ -430,15 +430,15 @@ function ShoppingCart() {
 
               </div>
 
-              <div className="flex flex-col border-gray-300 text-lg">
+              <div className="flex flex-col text-end border-gray-300 text-lg">
 
-                <h3>$ {cost}</h3>
+                <h3>{weight.toFixed(2)} lbs</h3>
 
-                <h3>{weight} lbs</h3>
+                <h3>{cost}</h3>
 
-                <h3>$ {selectedAddress.Name === "In Store Pickup" ? 0 : deliveryFee} </h3>
+                <h3>{deliveryFee.toFixed(2)}</h3>
 
-                <h3>$ {selectedAddress.Name === "In Store Pickup" ? cost : deliveryFee + cost} </h3>
+                <h3>${(deliveryFee + cost).toFixed(2)} </h3>
 
               </div>
 

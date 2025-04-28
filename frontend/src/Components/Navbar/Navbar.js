@@ -13,7 +13,7 @@ import { useAuth } from '../../Context/AuthHook';
 //Import React Icons
 import {
 
-  FaBars, FaTrash
+  FaBars,
 
 } from "react-icons/fa";
 
@@ -98,7 +98,7 @@ function Navbar() {
 
     return (
 
-      <div className="absolute top-full left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-2xl w-72 z-10">
+      <div className="absolute top-full left-1/2 transform -translate-x-1/2 bg-white shadow-lg border rounded-2xl w-36 md:w-48 z-10">
 
         {categories.map((category) => (
 
@@ -222,7 +222,7 @@ function Navbar() {
 
         <li
 
-          className="relative flex items-center space-x-2 p-2 hover:bg-green-800 rounded-xl cursor-pointer transition duration-200"
+          className="relative flex items-center space-x-2 mx-2 p-2 md:pr-4 hover:bg-green-800 rounded-xl cursor-pointer transition duration-200"
 
           ref={dropdownRef}
 
@@ -282,7 +282,7 @@ function Navbar() {
 
               placeholder="Search"
 
-              className="w-64 h-10 px-4 text-2xl outline-none"
+              className="w-full h-10 px-4 text-2xl outline-none"
 
             />
 
@@ -335,7 +335,7 @@ function Navbar() {
 
               onClick={auth ? clickShoppingCart : clickLogin}
 
-              className="hidden lg:flex items-center space-x-2 p-2 hover:bg-green-800 rounded-lg cursor-pointer transition duration-200 text-white"
+              className="hidden lg:flex items-center space-x-2 text-nowrap py-2 px-4 hover:bg-green-800 rounded-lg cursor-pointer transition duration-200 text-white"
 
             >
 
@@ -349,7 +349,17 @@ function Navbar() {
 
               />
 
-              <p className="text-2xl">Shopping Cart</p>
+              {cartItems.size > 0 && (
+
+                <span className="absolute z-10 scale-50 top-2 translate-x-1.5 bg-red-500 text-white text-sm font-bold px-2 py-1 rounded-full">
+
+                  {cartItems.size}
+
+                </span>
+
+              )}
+
+              <p className="text-2xl">My Cart</p>
 
             </li>
 
@@ -410,17 +420,7 @@ function Navbar() {
                   className="hover:text-green-600 rounded-lg cursor-pointer transition duration-200"
 
                 >
-
-                  {cartItems.size > 0 && (
-
-                    <span className="bg-red-500 text-white text-sm font-bold px-2 py-1 rounded-full">
-
-                      {cartItems.size}
-
-                    </span>
-
-                  )}
-
+              
                   <p className="">Shopping Cart</p>
 
                 </li>

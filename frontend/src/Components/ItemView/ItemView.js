@@ -375,7 +375,6 @@ const ItemView = ({ searchType, query }) => {
 
 
         <div className="my-4 row-span-1 md:row-span-2 w-full md:w-[300px] lg:w-[500px] md:h-[500px] flex items-center justify-center">
-            <p><span className="font-semibold">Expiration:</span> {results.Expiration? results.Expiration.slice(0,10):null}</p>
 
           <img
 
