@@ -72,6 +72,12 @@ const addRobot = (req, res) => {
 
             logger.error("Error Adding Robots: " + error.message)
 
+            if (error.code === 'ER_DUP_ENTRY') {
+
+                return res.status(statusCode.RESOURCE_CONFLICT).json({ error: 'Robot ID Already Exists' });
+
+            }
+
             return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Adding Robots'});
 
         }
@@ -89,6 +95,18 @@ const updateRobot = (req, res) => {
     logger.info("Updating Robot...")
 
     const {RobotID, CurrentLoad, RobotStatus, Maintanence} = req.body
+
+    if(CurrentLoad != 0){
+
+        return res.status(statusCode.BAD_REQUEST).json({error:"Cannot Update While The Robot Has A Carrying Load"})
+
+    }
+
+    if(RobotStatus === "Delivering"){
+
+        return res.status(statusCode.BAD_REQUEST).json({error:"Cannot Update While The Robot Is Delivering"})
+
+    }
 
     const sqlQuery = "Update robot set CurrentLoad = ?, RobotStatus = ?, Maintanence = ? Where RobotID = ?"
 
@@ -122,7 +140,7 @@ const deleteRobot = (req, res) => {
 
     }
 
-    const sqlQuery = "Update robot Set RobotStatus = 'Retired' Where RobotID = ?"
+    const sqlQuery = "Update robot Set RobotStatus = 'Retired' Where RobotID = ? AND RobotStatus != 'Delivering' AND CurrentLoad = 0"
 
     pool.query(sqlQuery, [RobotID], (error, results)=>{
 

@@ -21,11 +21,13 @@ const scheduleRobots = async (req, res) => {
 
             await connection.query("Update Transactions Set Transactions.RobotID = NULL Where Transactions.RobotID Is Not Null And TransactionStatus = 'Pending Delivery'")
 
-            logger.info("Getting Robots That Are Free")
+            await connection.query("Update Robot Set CurrentLoad = 0 Where RobotStatus != 'Delivering' And CurrentLoad != 0")
             
+            logger.info("Getting Robots That Are Free")
+
             const [freeRobots] = await connection.query(
 
-                'SELECT * FROM Robot WHERE RobotStatus = "Free"'
+                'SELECT * FROM Robot WHERE RobotStatus = "Free" Order By RobotID ASC'
 
             );
 
@@ -51,7 +53,7 @@ const scheduleRobots = async (req, res) => {
 
                 WHERE TransactionStatus = "Pending Delivery" 
 
-                ORDER BY TransactionDate DESC`
+                ORDER BY TransactionDate ASC`
 
             );
 
@@ -78,7 +80,7 @@ const scheduleRobots = async (req, res) => {
 
                 const transactionIDList = []
 
-                while (robotAddresses[i].length <= 10 && j < pendingDelivery.length) {
+                while (robotAddresses[i].length < 10 && j < pendingDelivery.length) {
 
                     const delivery = pendingDelivery[j];
 

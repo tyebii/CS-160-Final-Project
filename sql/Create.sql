@@ -237,32 +237,32 @@ INSERT INTO Robot (RobotID, CurrentLoad, RobotStatus, Maintanence, EstimatedDeli
 -- Insert Fresh Produce
 INSERT INTO Inventory VALUES 
 ('d2f24db5-70f2-4e7d-9a96-4a387a858a1e', 120, 'SunFresh Farms', 0.25, 'Green Apple', 'Fresh Produce', 0.30, '2025-05-15', 0.50, 'Cool', '2025-04-18', 'appleGreen.jpg', 'Crisp and tart green apples perfect for snacking.'),
-('fa5c3cb8-abc2-4e30-9504-bc5e15315b6d', 200, 'Tropic Harvest', 0.22, 'Banana', 'Fresh Produce', 0.18, '2025-04-25', 0.40, 'Room Temperature', '2025-04-18', 'bannana.jpg', 'Sweet ripe bananas, ideal for smoothies or snacks.'),
-('63106d30-4efb-4300-8a26-2a346580a979', 75, 'BerryBest Co.', 0.05, 'Blueberry', 'Fresh Produce', 0.40, '2025-04-22', 0.75, 'Refrigerated', '2025-04-18', 'blueberry.jpg', 'Fresh blueberries picked at peak ripeness.'),
-('afc62d64-3ed1-4487-a71b-3f2e658dc16f', 80, 'BerryBest Co.', 0.05, 'Blueberry', 'Fresh Produce', 0.40, '2025-04-22', 0.75, 'Refrigerated', '2025-04-18', 'blueberryTwo.jpg', 'Another batch of sweet fresh blueberries.'),
+('fa5c3cb8-abc2-4e30-9504-bc5e15315b6d', 200, 'Tropic Harvest', 0.22, 'Banana', 'Fresh Produce', 0.18, '2025-05-25', 0.40, 'Room Temperature', '2025-04-18', 'bannana.jpg', 'Sweet ripe bananas, ideal for smoothies or snacks.'),
+('63106d30-4efb-4300-8a26-2a346580a979', 75, 'BerryBest Co.', 0.05, 'Blueberry', 'Fresh Produce', 0.40, '2025-05-22', 0.75, 'Refrigerated', '2025-04-18', 'blueberry.jpg', 'Fresh blueberries picked at peak ripeness.'),
+('afc62d64-3ed1-4487-a71b-3f2e658dc16f', 80, 'BerryBest Co.', 0.05, 'Blueberry', 'Fresh Produce', 0.40, '2025-05-22', 0.75, 'Refrigerated', '2025-04-18', 'blueberryTwo.jpg', 'Another batch of sweet fresh blueberries.'),
 ('8f05f5d0-bc0e-4be3-b1cd-f82c9893e7aa', 90, 'VeggiePro Ltd.', 0.30, 'Carrot', 'Fresh Produce', 0.20, '2025-05-01', 0.45, 'Cool', '2025-04-18', 'carrot.jpg', 'Crunchy orange carrots full of nutrients.'),
 ('c891defe-6f09-4a79-9083-30820d2170f4', 85, 'VeggiePro Ltd.', 0.30, 'Carrot', 'Fresh Produce', 0.20, '2025-05-01', 0.45, 'Cool', '2025-04-18', 'carrotTwo.jpg', 'Second harvest of fresh carrots.'),
-('f71d4ae3-2914-407f-9645-b2f2c3b72e5c', 150, 'GrapeVine Distributors', 0.15, 'Grapes', 'Fresh Produce', 0.35, '2025-04-27', 0.60, 'Refrigerated', '2025-04-18', 'grapes.jpg', 'Seedless grapes—juicy and sweet.'),
-('15db8d64-62aa-4a69-8262-60aa9434352e', 100, 'LeafyGood Greens', 0.20, 'Lettuce', 'Fresh Produce', 0.25, '2025-04-20', 0.50, 'Cool', '2025-04-18', 'lettuce.jpg', 'Crisp romaine lettuce for fresh salads.'),
-('59ff0a4a-1a15-4961-8a9e-89b062f60a7d', 60, 'Tropic Harvest', 0.50, 'Mango', 'Fresh Produce', 0.60, '2025-04-28', 1.00, 'Room Temperature', '2025-04-18', 'mango.jpg', 'Juicy tropical mangoes, great for desserts.'),
+('f71d4ae3-2914-407f-9645-b2f2c3b72e5c', 150, 'GrapeVine Distributors', 0.15, 'Grapes', 'Fresh Produce', 0.35, '2025-05-27', 0.60, 'Refrigerated', '2025-04-18', 'grapes.jpg', 'Seedless grapes—juicy and sweet.'),
+('15db8d64-62aa-4a69-8262-60aa9434352e', 100, 'LeafyGood Greens', 0.20, 'Lettuce', 'Fresh Produce', 0.25, '2025-05-20', 0.50, 'Cool', '2025-04-18', 'lettuce.jpg', 'Crisp romaine lettuce for fresh salads.'),
+('59ff0a4a-1a15-4961-8a9e-89b062f60a7d', 60, 'Tropic Harvest', 0.50, 'Mango', 'Fresh Produce', 0.60, '2025-05-28', 1.00, 'Room Temperature', '2025-04-18', 'mango.jpg', 'Juicy tropical mangoes, great for desserts.'),
 ('ae98a92d-9bdf-43a5-8e8e-b1a3eb3a3c8c', 130, 'Citrus Express', 0.28, 'Orange', 'Fresh Produce', 0.32, '2025-05-05', 0.55, 'Cool', '2025-04-18', 'orange.jpg', 'Vitamin C-packed oranges with sweet flavor.'),
 ('76eafcbc-b56e-4be4-9f8e-8a8057c02e35', 50, 'Tropic Harvest', 1.00, 'Pineapple', 'Fresh Produce', 1.00, '2025-05-10', 2.00, 'Room Temperature', '2025-04-18', 'pineapple.jpg', 'Tropical pineapple, sweet and tangy.'),
-('fd71cecf-204e-4a61-95cd-e7d23df9243e', 95, 'BerryBest Co.', 0.06, 'Strawberry', 'Fresh Produce', 0.35, '2025-04-23', 0.70, 'Refrigerated', '2025-04-18', 'strawberry.jpg', 'Sweet and juicy strawberries.'),
-('85d1b51e-4ae9-4f99-a33c-25b369e2e981', 100, 'BerryBest Co.', 0.06, 'Strawberry', 'Fresh Produce', 0.35, '2025-04-23', 0.70, 'Refrigerated', '2025-04-18', 'strawberryTwo.jpg', 'Second batch of strawberries, just as sweet.'),
+('fd71cecf-204e-4a61-95cd-e7d23df9243e', 95, 'BerryBest Co.', 0.06, 'Strawberry', 'Fresh Produce', 0.35, '2025-05-23', 0.70, 'Refrigerated', '2025-04-18', 'strawberry.jpg', 'Sweet and juicy strawberries.'),
+('85d1b51e-4ae9-4f99-a33c-25b369e2e981', 100, 'BerryBest Co.', 0.06, 'Strawberry', 'Fresh Produce', 0.35, '2025-05-23', 0.70, 'Refrigerated', '2025-04-18', 'strawberryTwo.jpg', 'Second batch of strawberries, just as sweet.'),
 ('27b15cfc-d4de-49ae-8cc7-24f51e2ff52d', 45, 'MelonCo Inc.', 1.50, 'Watermelon', 'Fresh Produce', 2.00, '2025-05-12', 3.50, 'Cool', '2025-04-18', 'watermelon.jpg', 'Refreshing watermelon, perfect for warm days.');
 
 -- Insert Dairy And Eggs
 INSERT INTO Inventory VALUES 
-('3e4c9fc9-1af1-4c3f-9953-7e4c2597bc21', 150, 'Golden Farm Co.', 0.05, 'Eggs', 'Dairy and Eggs', 0.12, '2025-04-30', 0.30, 'Refrigerated', '2025-04-18', 'eggs.jpg', 'Farm-fresh eggs, rich in protein and flavor.'),
+('3e4c9fc9-1af1-4c3f-9953-7e4c2597bc21', 150, 'Golden Farm Co.', 0.05, 'Eggs', 'Dairy and Eggs', 0.12, '2025-05-30', 0.30, 'Refrigerated', '2025-04-18', 'eggs.jpg', 'Farm-fresh eggs, rich in protein and flavor.'),
 ('ae4f6a9e-8f8d-4626-bfcf-8f9aa81a0b9a', 80, 'SweetChill', 0.50, 'Ice Cream', 'Dairy and Eggs', 1.00, '2025-08-15', 2.50, 'Frozen', '2025-04-18', 'icecream.jpg', 'Creamy vanilla ice cream, perfect for desserts.'),
 ('90b4d5c6-3b83-4741-9329-c1f987861e01', 60, 'Butter Bliss Co.', 0.25, 'Butter', 'Dairy and Eggs', 0.90, '2025-05-10', 1.75, 'Refrigerated', '2025-04-18', 'butterTwo.jpg', 'Rich creamy butter, ideal for baking or spreading.'),
-('f47d5e28-c755-40a3-91cb-baa0dfe8a623', 100, 'Yogurto Dairy', 0.20, 'Yogurt', 'Dairy and Eggs', 0.45, '2025-04-25', 1.00, 'Refrigerated', '2025-04-18', 'yogurt.jpg', 'Plain yogurt with live cultures.'),
-('b654a09f-6631-4ef3-8572-20950f267c1a', 95, 'Yogurto Dairy', 0.20, 'Yogurt', 'Dairy and Eggs', 0.45, '2025-04-25', 1.00, 'Refrigerated', '2025-04-18', 'yogurtTwo.jpg', 'Extra batch of plain yogurt with probiotics.'),
+('f47d5e28-c755-40a3-91cb-baa0dfe8a623', 100, 'Yogurto Dairy', 0.20, 'Yogurt', 'Dairy and Eggs', 0.45, '2025-05-25', 1.00, 'Refrigerated', '2025-04-18', 'yogurt.jpg', 'Plain yogurt with live cultures.'),
+('b654a09f-6631-4ef3-8572-20950f267c1a', 95, 'Yogurto Dairy', 0.20, 'Yogurt', 'Dairy and Eggs', 0.45, '2025-05-25', 1.00, 'Refrigerated', '2025-04-18', 'yogurtTwo.jpg', 'Extra batch of plain yogurt with probiotics.'),
 ('c2017f6c-8fc3-4f2d-bdc1-49ce1d973b9c', 85, 'Cheesy Delights', 0.40, 'Cheese', 'Dairy and Eggs', 1.20, '2025-06-01', 2.50, 'Refrigerated', '2025-04-18', 'cheese.jpg', 'Sharp cheddar cheese with bold flavor.'),
 ('7f169d49-6290-4d89-89f3-bf7a2c5eae1c', 90, 'Cheesy Delights', 0.40, 'Cheese', 'Dairy and Eggs', 1.20, '2025-06-01', 2.50, 'Refrigerated', '2025-04-18', 'cheeseTwo.jpg', 'Mild cheddar for sandwiches or snacking.'),
 ('20b27d25-84dc-4d4d-b39d-6a808b344d5e', 80, 'Cheesy Delights', 0.40, 'Cheese', 'Dairy and Eggs', 1.20, '2025-06-01', 2.50, 'Refrigerated', '2025-04-18', 'cheeseThree.jpg', 'Third batch of smooth, creamy cheese.'),
-('a3504351-0cc4-44e8-8d80-b19d7b8c19fc', 70, 'DairyFresh Ltd.', 1.00, 'Milk', 'Dairy and Eggs', 0.85, '2025-04-22', 1.50, 'Refrigerated', '2025-04-18', 'milkTwo.jpg', 'Fresh whole milk from grass-fed cows.'),
-('ea6e47b8-85ff-4964-b038-4c7a0f4044f7', 65, 'DairyFresh Ltd.', 1.00, 'Milk', 'Dairy and Eggs', 0.85, '2025-04-22', 1.50, 'Refrigerated', '2025-04-18', 'milkThree.jpg', 'Additional lot of organic fresh milk.');
+('a3504351-0cc4-44e8-8d80-b19d7b8c19fc', 70, 'DairyFresh Ltd.', 1.00, 'Milk', 'Dairy and Eggs', 0.85, '2025-05-22', 1.50, 'Refrigerated', '2025-04-18', 'milkTwo.jpg', 'Fresh whole milk from grass-fed cows.'),
+('ea6e47b8-85ff-4964-b038-4c7a0f4044f7', 65, 'DairyFresh Ltd.', 1.00, 'Milk', 'Dairy and Eggs', 0.85, '2025-05-22', 1.50, 'Refrigerated', '2025-04-18', 'milkThree.jpg', 'Additional lot of organic fresh milk.');
 
 -- Insert Into Meat And Seafood
 INSERT INTO Inventory (
@@ -273,22 +273,22 @@ INSERT INTO Inventory (
 '2025-05-10', 4.00, 'Deep Frozen', '2025-04-18', 'clams.jpg', 'Freshly harvested Atlantic clams'),
 
 ('21a7d06d-c45d-49b8-b4a5-8a27c9f9d91e', 30, 'Crustacean Co.', 1.10, 'Lobster', 'Meat and Seafood', 8.00,
- '2025-04-28', 12.00, 'Cryogenic', '2025-04-18', 'lobster.jpg', 'Wild-caught Maine lobster'),
+ '2025-05-28', 12.00, 'Cryogenic', '2025-04-18', 'lobster.jpg', 'Wild-caught Maine lobster'),
 
 ('b19d8919-fd3a-4137-b04a-c04fdad9f5a4', 50, 'SeaHarvest Inc.', 0.53, 'Crab', 'Meat and Seafood', 3.25,
  '2025-05-05', 5.75, 'Frozen', '2025-04-18', 'crab.jpg', 'Snow crab meat, shelled'),
 
 ('a2c9b5ec-f1b4-4a26-a504-6a74797b69e0', 20, 'ShrimpShack', 0.54, 'Shrimp Pack 2', 'Meat and Seafood', 3.10,
- '2025-04-25', 4.99, 'Frozen', '2025-04-18', 'shrimpTwo.jpg', 'Peeled and deveined shrimp'),
+ '2025-05-25', 4.99, 'Frozen', '2025-04-18', 'shrimpTwo.jpg', 'Peeled and deveined shrimp'),
 
 ('19a1878c-7be3-4d7e-a6e7-89cd10998be0', 40, 'Pacific Bluefish', 0.83, 'Tuna', 'Meat and Seafood', 6.00,
- '2025-04-30', 9.25, 'Refrigerated', '2025-04-18', 'tuna.jpg', 'Yellowfin tuna steaks'),
+ '2025-05-30', 9.25, 'Refrigerated', '2025-04-18', 'tuna.jpg', 'Yellowfin tuna steaks'),
 
 ('47e83cd1-943e-44d3-b9b6-9bcdac2d1706', 25, 'Atlantic Cuts', 1.54, 'Salmon Pack 2', 'Meat and Seafood', 5.00,
- '2025-04-26', 7.50, 'Frozen', '2025-04-18', 'salmonTwo.jpg', 'Wild-caught Atlantic salmon'),
+ '2025-05-26', 7.50, 'Frozen', '2025-04-18', 'salmonTwo.jpg', 'Wild-caught Atlantic salmon'),
 
 ('4a5cf262-78e1-45ec-8e29-cd39662a7a42', 10, 'Barnyard Brothers', 0.01, 'Goat Sample', 'Meat and Seafood', 0.25,
- '2025-04-20', 0.50, 'Refrigerated', '2025-04-18', 'goat.jpg', 'Testing sample of goat meat'),
+ '2025-05-20', 0.50, 'Refrigerated', '2025-04-18', 'goat.jpg', 'Testing sample of goat meat'),
 
 ('0a48c8f9-e022-4328-9287-c0cf22d1d96d', 15, 'WildGame Meats', 2.18, 'Venison', 'Meat and Seafood', 9.25,
  '2025-05-15', 13.50, 'Frozen', '2025-04-18', 'venison.jpg', 'Premium venison loin cuts'),
@@ -308,31 +308,31 @@ INSERT INTO Inventory (
  '2025-04-23', 4.25, 'Room Temperature', '2025-04-18', 'danish.jpg', 'Buttery danish with fruit filling'),
 
 ('3c0e6e1b-13e0-4646-b2db-320206e26f91', 40, 'FreshLoaf Distributors', 1.45, 'Bread Pack 2', 'Bakery and Bread', 1.80,
- '2025-04-21', 3.25, 'Cool', '2025-04-18', 'breadTwo.jpg', 'Soft multigrain bread loaves'),
+ '2025-05-21', 3.25, 'Cool', '2025-04-18', 'breadTwo.jpg', 'Soft multigrain bread loaves'),
 
 ('654ea8b3-87c2-4b07-9c35-c557f52e007c', 38, 'FreshLoaf Distributors', 0.92, 'Bread Pack 3', 'Bakery and Bread', 1.60,
- '2025-04-21', 2.90, 'Cool', '2025-04-18', 'breadThree.jpg', 'Classic white sandwich bread'),
+ '2025-05-21', 2.90, 'Cool', '2025-04-18', 'breadThree.jpg', 'Classic white sandwich bread'),
 
 ('7d420da2-635c-48cd-8ff9-8c5cb679ad6c', 20, 'Pie & Co.', 1.49, 'Pie', 'Bakery and Bread', 3.90,
- '2025-04-24', 5.50, 'Room Temperature', '2025-04-18', 'pie.jpg', 'Homestyle apple pie'),
+ '2025-05-24', 5.50, 'Room Temperature', '2025-04-18', 'pie.jpg', 'Homestyle apple pie'),
 
 ('38c6eac0-0d69-43db-b6db-55d2cdb48e14', 50, 'SweetTreats Inc.', 1.33, 'Cookie', 'Bakery and Bread', 1.25,
- '2025-04-26', 2.25, 'Room Temperature', '2025-04-18', 'cookie.jpg', 'Chocolate chip cookies'),
+ '2025-05-26', 2.25, 'Room Temperature', '2025-04-18', 'cookie.jpg', 'Chocolate chip cookies'),
 
 ('cf2d8e2c-85ea-4147-a1d4-e7a8a0be38cc', 45, 'Muffin Magic', 0.63, 'Muffin', 'Bakery and Bread', 1.00,
- '2025-04-22', 1.99, 'Room Temperature', '2025-04-18', 'muffin.jpg', 'Blueberry breakfast muffin'),
+ '2025-05-22', 1.99, 'Room Temperature', '2025-04-18', 'muffin.jpg', 'Blueberry breakfast muffin'),
 
 ('4ae50e68-f17f-4c29-8a8a-c6dbce45ec8f', 35, 'Baker’s Basket', 3.18, 'Scone', 'Bakery and Bread', 2.90,
- '2025-04-23', 4.50, 'Cool', '2025-04-18', 'scone.jpg', 'British-style butter scones'),
+ '2025-05-23', 4.50, 'Cool', '2025-04-18', 'scone.jpg', 'British-style butter scones'),
 
 ('0c1a91e1-f148-4c11-8121-4371c03a56d3', 28, 'Cheesecake Central', 1.05, 'Cheesecake', 'Bakery and Bread', 4.25,
- '2025-04-27', 6.75, 'Refrigerated', '2025-04-18', 'cheesecake.jpg', 'New York-style cheesecake'),
+ '2025-05-27', 6.75, 'Refrigerated', '2025-04-18', 'cheesecake.jpg', 'New York-style cheesecake'),
 
 ('5b8ab365-bd98-4e31-88a2-d39607c9c0a7', 22, 'French Pastry Supply', 1.76, 'Croissant', 'Bakery and Bread', 2.25,
- '2025-04-21', 3.95, 'Room Temperature', '2025-04-18', 'croissant.jpg', 'Flaky buttery croissants'),
+ '2025-05-21', 3.95, 'Room Temperature', '2025-04-18', 'croissant.jpg', 'Flaky buttery croissants'),
 
 ('ac5a3d77-1c0e-429e-bc3b-0cb4ea84fc27', 30, 'ChocoCraft Ltd.', 0.66, 'Chocolate Cake', 'Bakery and Bread', 3.25,
- '2025-04-25', 5.50, 'Refrigerated', '2025-04-18', 'chocolatecake.jpg', 'Rich double-layer chocolate cake');
+ '2025-05-25', 5.50, 'Refrigerated', '2025-04-18', 'chocolatecake.jpg', 'Rich double-layer chocolate cake');
 
 -- Insert Into Pantry Staples
 INSERT INTO Inventory (
@@ -340,10 +340,10 @@ INSERT INTO Inventory (
 	Expiration, Cost, StorageRequirement, LastModification, ImageLink, Description
 ) VALUES
 ('50230ec7-12b3-4dbb-8ec9-9d113191e474', 100, 'PantryPro Supplies', 5.80, 'Beans', 'Pantry Staples', 2.50,
- '2026-04-18', 4.00, 'Dry', '2025-04-18', 'beans.jpg', 'Dried mixed beans for cooking'),
+ '2026-05-18', 4.00, 'Dry', '2025-04-18', 'beans.jpg', 'Dried mixed beans for cooking'),
 
 ('1ac4f144-9967-4702-99e1-34a1a00c4b28', 90, 'PantryPro Supplies', 1.32, 'Black Beans', 'Pantry Staples', 1.75,
- '2026-04-18', 3.20, 'Dry', '2025-04-18', 'blackbeans.jpg', 'Organic black beans'),
+ '2026-05-18', 3.20, 'Dry', '2025-04-18', 'blackbeans.jpg', 'Organic black beans'),
 
 ('af57e96d-5566-4765-b733-4fbb7861c401', 60, 'CafeBasics Inc.', 0.56, 'Coffee', 'Pantry Staples', 3.10,
  '2025-10-01', 5.50, 'Dry', '2025-04-18', 'coffee.jpg', 'Instant ground coffee'),

@@ -112,7 +112,7 @@ const productQueryName = (req, res) => {
 
     logger.info(`Fetching The Items Associated With The Product: ${name}`)
 
-    pool.query('SELECT ... FROM inventory WHERE (ProductName LIKE ? OR Category LIKE ?) AND Expiration > NOW()', ["%" + name + "%", "%" + name + "%"], (error, results) => {
+    pool.query('SELECT * FROM inventory WHERE (ProductName LIKE ? OR Category LIKE ?) AND Expiration >= NOW()', ["%" + name + "%", "%" + name + "%"], (error, results) => {
 
         if (error) {
 
@@ -242,7 +242,7 @@ const productQueryNameEmployee = (req, res) => {
 
     logger.info(`Fetching The Items Associated With The Product: ${name}`)
 
-    pool.query('SELECT * FROM inventory WHERE (ItemID = ? OR ProductName LIKE ? OR Category LIKE ?)', [item, "%" + name + "%", "%" + name + "%"], (error, results) => {
+    pool.query('SELECT * FROM inventory WHERE ItemID = ? OR ProductName LIKE ? OR Category LIKE ?', [item, "%" + name + "%", "%" + name + "%"], (error, results) => {
 
         if (error) {
 
@@ -348,7 +348,7 @@ const productCustomerQueryID = (req, res) => {
 
     logger.info("Querying Item With ItemID As A Customer: " + itemid)
 
-    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE ItemID = ? and Expiration > Now()', [itemid], (error, results) => {
+    pool.query('SELECT ItemID, Quantity, Distributor, Weight, ProductName, Category, Expiration, Cost, StorageRequirement, ImageLink, Description FROM inventory WHERE ItemID = ? and Expiration >= Now()', [itemid], (error, results) => {
 
         if (error) {
 
@@ -907,7 +907,7 @@ const featuredSearch = (req,res) => {
     
     logger.info("Starting Featured Search")
 
-    pool.query('SELECT * FROM featureditems , inventory  WHERE featureditems.ItemID = inventory.ItemID and Expiration > Now()', (error, results) => {
+    pool.query('SELECT * FROM featureditems , inventory  WHERE featureditems.ItemID = inventory.ItemID and Expiration >= Now()', (error, results) => {
 
         if (error) {
 
