@@ -1,78 +1,132 @@
-## Project Requirements
-The mission is to develop a full stack website for “OFS”, a local retail chain. The website should have three separate users: customer, employee, and manager. The website should allow the customer users to select and purchase organic food online (this includes fruits, vegetables, and other organic products). The items that are selected are placed in a virtual shopping cart while they await purchase. Furthermore, the store employee and manager users need a dashboard page to update or query the inventory database.  The database will use a relational database management system (RDBMS), which is where the data related to inventory, customer information, and transactions is stored.
+# Organic Food Service (OFS) - Full Stack Web Application
 
- Additionally, the application requires a delivery service mechanism. After the customer user pays for the virtual shopping cart, the purchased products are delivered to their home. The conditions of delivery state that if the total weight of a customer's order is less than 20 pounds, then the delivery is free. Otherwise, there is a $10 dollar charge on the order. In order to calculate order weight, each organic food item in the database should have an associated weight, which is totaled at the time of purchase. The delivery mechanism is a self-driving vehicle that has a capacity of 10 orders with a maximum weight of 200 lbs on a given trip. If there are multiple orders in the queue, the delivery service must be optimized. 
+## 📜 Project Overview
+The mission is to develop a full-stack web platform for **OFS**, a local organic food retailer.  
+The application supports three user roles:
+- **Customers**: Browse, select, and purchase organic food items online.
+- **Employees**: Manage and update the inventory.
+- **Managers**: Oversee inventory and operational dashboards.
 
-## Required Dependencies
-All required dependencies are automatically installed when building the docker containers. <br />
-For local development you'll need: <br />
+All inventory, customer, and transaction data is stored in a **MySQL** relational database.
 
-**Docker** and **Docker Compose** (for running containers)
+Additionally, after purchase, orders are delivered using a **self-driving delivery vehicle**:
+- **Free delivery** for orders under **20 lbs**.
+- **$10 charge** for orders **20 lbs and above**.
+- Delivery vehicle capacity: **10 orders** or **200 lbs maximum**.
+- The system automatically **optimizes delivery scheduling** based on the order queue.
 
-**Node.js v18+** and **npm** (for frontend and backend code)
+---
 
-**MySQL 8.x** (database inside container)
+## ⚙️ Tech Stack
 
-**Backend Dependencies**: <br /><br />
-express
+**Frontend**:
+- React
+- React Router DOM
+- Axios
 
-cors
+**Backend**:
+- Express.js
+- MySQL2
+- CORS
+- Dotenv
+- Nodemon (for development)
 
-mysql2
+**Database**:
+- MySQL 8.x (inside Docker container)
 
-dotenv
+**Infrastructure**:
+- Docker & Docker Compose
+- Stripe for secure payments
 
-nodemon (for dev)
+---
 
-**Frontend Depedencies**: <br /><br />
-react
+## 📦 Required Installations
 
-react-dom
+Before running locally, ensure you have:
+- [Docker & Docker Compose](https://docs.docker.com/get-docker/)
+- [Node.js (v18+)](https://nodejs.org/en/download/) and npm
+- [Stripe CLI](https://docs.stripe.com/stripe-cli) (for webhook testing)
 
-axios
+---
 
-react-router-dom
+## 🚀 Getting Started
 
-Run **npm i** when inside the frontend and backend directories in order to install all required dependencies needed to run the application
-## Instructions To Run The Project
-**1. Clone the repository and navigate to the root folder containing the Frontend, Backend, App-mapping, and SQL directories**
-```
+### 1. Clone the Repository
+```bash
 git clone https://github.com/bmonty98/CS-160-Final-Project.git
-
 cd CS-160-Final-Project
 ```
-**2. Install Docker and Dockercompose through** https://docs.docker.com/get-docker/
 
-**3. Install and setup Stripe CLI**
-```
-- Install Stripe CLI: https://docs.stripe.com/stripe-cli
+### 2. Install Dependencies
+Install Node modules in both the **frontend** and **backend** folders:
+```bash
+cd frontend
+npm install
 
-- Login to Stripe CLI in the command prompt
-  
-- Run: stripe listen --forward-to localhost:3301/api/stripe/webhook
-
-- Go to the .env file in the backend folder and replace STRIPE_WEBHOOK_SECRET with the one Stripe CLI provided you
-
+cd ../backend
+npm install
 ```
 
-**4. Build and start the containers**
-```
-docker-compose up -build or docker compose up --build
-```
-**5. Application access** <br />
-```
-Frontend (React app): http://localhost:3300
+### 3. Stripe CLI Setup
+- Install Stripe CLI: [Installation Guide](https://docs.stripe.com/stripe-cli)
+- Login through the terminal:
+  ```bash
+  stripe login
+  ```
+- Start listening for Stripe events and forward to the backend:
+  ```bash
+  stripe listen --forward-to localhost:3301/api/stripe/webhook
+  ```
+- Update your `backend/.env` file:  
+  Replace `STRIPE_WEBHOOK_SECRET` with the secret generated by Stripe CLI.
 
-Backend (API server): http://localhost:3301
+---
 
-MySQL database: accessible via localhost:3307 (MySQL clients)
+### 4. Build and Run Docker Containers
+From the project root:
+```bash
+docker compose up --build
 ```
 
+_(Note: `docker-compose` with a dash is deprecated; use `docker compose` without a dash.)_
 
-## Authors
-**Austin Nguyen** <br />
-**Aaron Wang** <br />
-**Blake Montgomery** <br />
-**Matthew Delurio** <br />
-**Tiffany Huynh** <br />
-**Tyler Biesemeyer** <br />
+---
+
+### 5. Access the Application
+- **Frontend** (React app): [http://localhost:3300](http://localhost:3300)
+- **Backend** (Express server API): [http://localhost:3301](http://localhost:3301)
+- **MySQL** (connect using a client like MySQL Workbench):  
+  Host: `localhost`, Port: `3307`
+
+---
+
+## 📑 Table of Contents
+- [📜 Project Overview](#-project-overview)
+- [⚙️ Tech Stack](#️-tech-stack)
+- [📦 Required Installations](#-required-installations)
+- [🚀 Getting Started](#-getting-started)
+  - [1. Clone the Repository](#1-clone-the-repository)
+  - [2. Install Dependencies](#2-install-dependencies)
+  - [3. Stripe CLI Setup](#3-stripe-cli-setup)
+  - [4. Build and Run Docker Containers](#4-build-and-run-docker-containers)
+  - [5. Access the Application](#5-access-the-application)
+- [👥 Team Members](#-team-members)
+- [📝 Notes](#-notes)
+
+---
+
+## 👥 Team Members
+- **Austin Nguyen**
+- **Aaron Wang**
+- **Blake Montgomery**
+- **Matthew Delurio**
+- **Tiffany Huynh**
+- **Tyler Biesemeyer**
+
+---
+
+## 📝 Notes
+- All required Node dependencies are automatically installed inside Docker containers.
+- Local development requires manual `npm install` inside frontend and backend folders.
+- Make sure Docker Desktop is running before using `docker compose`.
+- Stripe CLI must be running during checkout sessions for successful webhook handling.
