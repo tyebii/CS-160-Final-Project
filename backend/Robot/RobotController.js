@@ -89,44 +89,80 @@ const addRobot = (req, res) => {
     )
 }
 
-//Updates Robot
-const updateRobot = (req, res) => {
+// Updates Robot
+const updateRobot = async (req, res) => {
 
-    logger.info("Updating Robot...")
+    logger.info("Updating Robot...");
 
-    const {RobotID, CurrentLoad, RobotStatus, Maintanence} = req.body
+    const { RobotID, CurrentLoad, RobotStatus, Maintanence } = req.body;
 
-    if(CurrentLoad != 0){
+    if (CurrentLoad != 0) {
 
-        return res.status(statusCode.BAD_REQUEST).json({error:"Cannot Update While The Robot Has A Carrying Load"})
-
-    }
-
-    if(RobotStatus === "Delivering"){
-
-        return res.status(statusCode.BAD_REQUEST).json({error:"Cannot Update While The Robot Is Delivering"})
+        return res.status(statusCode.BAD_REQUEST).json({ error: "Cannot Update While The Robot Has A Carrying Load" });
 
     }
 
-    const sqlQuery = "Update robot set CurrentLoad = ?, RobotStatus = ?, Maintanence = ? Where RobotID = ?"
+    if (RobotStatus === "En Route") {
 
-    pool.query(sqlQuery, [CurrentLoad,RobotStatus, Maintanence, RobotID], (error, results)=>{
-
-        if(error){
-
-            logger.error("Error Updating Robots: " + error.message)
-
-            return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error Updating Robots'});
-
-        }
-
-        logger.info("Successfully Updated")
-
-        return res.sendStatus(statusCode.OK)
+        return res.status(statusCode.BAD_REQUEST).json({ error: "Cannot Update While The Robot Is Delivering" });
         
-        }  
-    )
-}
+    }
+
+    let connection;
+
+    try {
+
+        connection = await pool.promise().getConnection();
+
+        await connection.beginTransaction();
+
+        const sqlQuery = `
+
+            UPDATE robot 
+
+            SET CurrentLoad = 0, RobotStatus = ?, Maintanence = ? 
+
+            WHERE RobotID = ? AND RobotStatus != "En Route"
+
+        `;
+
+        await connection.query(sqlQuery, [RobotStatus, Maintanence, RobotID]);
+
+        const updateTransactionsQuery = `
+
+        UPDATE Transactions 
+
+        SET RobotID = NULL
+
+        WHERE TransactionStatus = 'Pending Delivery' 
+
+        AND RobotID = ?
+
+        `;
+
+        await connection.query(updateTransactionsQuery, [RobotID]);
+
+        await connection.commit();
+
+        logger.info("Successfully Updated Robot");
+
+        return res.sendStatus(statusCode.OK);
+
+    } catch (error) {
+
+        if (connection) await connection.rollback();
+
+        logger.error("Error Updating Robot: " + error.message);
+
+        return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error Updating Robot" });
+
+    } finally {
+
+        if (connection) connection.release();
+
+    }
+
+};
 
 //Deletes Robot
 const deleteRobot = (req, res) => {
@@ -141,7 +177,7 @@ const deleteRobot = (req, res) => {
 
     }
 
-    const sqlQuery = "Update robot Set RobotStatus = 'Retired' Where RobotID = ? AND RobotStatus != 'Delivering' AND CurrentLoad = 0"
+    const sqlQuery = "Update robot Set RobotStatus = 'Retired' Where RobotID = ? AND RobotStatus != 'En Route' AND CurrentLoad = 0"
 
     pool.query(sqlQuery, [RobotID], (error, results)=>{
 
