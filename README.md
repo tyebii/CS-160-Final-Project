@@ -6,7 +6,7 @@ The mission is to develop a full-stack web platform for **OFS**, a local organic
 The application supports three user roles:
 
 - **Customers**: Browse, select, and purchase organic food items online.
-- **Employees**: Manage and update the inventory.
+- **Employees**: Execute business operations with limited management.
 - **Managers**: Oversee inventory and operational dashboards.
 
 All inventory, customer, and transaction data is stored in a **MySQL** relational database.
