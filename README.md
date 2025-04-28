@@ -25,16 +25,12 @@ Additionally, after purchase, orders are delivered using a **self-driving delive
 **Frontend**:
 
 - React
-- React Router DOM
-- Axios
+- Tailwind
 
 **Backend**:
 
 - Express.js
-- MySQL2
-- CORS
-- Dotenv
-- Nodemon (for development)
+- Node.js
 
 **Database**:
 
