@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { validateAddress, validateName} from "../../Utils/Formatting";
+import { validateAddress, validateName } from "../../Utils/Formatting";
 
 //Token Validation Hook
 import { useValidateToken } from '../../Utils/TokenValidation';
@@ -9,108 +9,108 @@ import { useValidateToken } from '../../Utils/TokenValidation';
 import { useErrorResponse } from '../../Utils/AxiosError';
 
 //The Address Block Containing Information And Remove
-function AddressComponent({address,setAddress,}){
+function AddressComponent({ address, setAddress, }) {
 
-    const validateToken = useValidateToken();
-  
-    const { handleError } = useErrorResponse(); 
+  const validateToken = useValidateToken();
 
-    const clickAddressRemove = () => {
-        
-        if(address.Name=="In Store Pickup"){
+  const { handleError } = useErrorResponse();
 
-          alert("Can't delete store")
+  const clickAddressRemove = () => {
 
-          return; 
+    if (address.Name == "In Store Pickup") {
+
+      alert("Can't delete store")
+
+      return;
+
+    }
+
+    if (!validateName(address.Name)) {
+
+      alert("Invalid Input")
+
+      return;
+
+    }
+
+    const token = validateToken()
+
+    if (token == null) {
+
+      return
+
+    }
+
+    if (!validateAddress(address.Address)) {
+
+      alert("Invalid Address")
+
+      return
+
+    }
+
+    axios.delete(
+
+      `http://localhost:3301/api/address/address/${address.Address}`,
+
+      {
+
+        headers: {
+
+          Authorization: `Bearer ${token}`
 
         }
 
-        if(!validateName(address.Name)){
+      }
 
-          alert("Invalid Input")
+    )
 
-          return; 
+      .then((response) => {
 
-        }
+        alert("Address Removed");
 
-        const token = validateToken()
+        setAddress(addressList => {
 
-        if(token == null){
+          return addressList.filter((a) => a.Address !== address.Address);
 
-          return
+        });
 
-        }
+      })
 
-        if(!validateAddress(address.Address)){
-          
-          alert("Invalid Address")
-          
-          return
+      .catch((error) => {
 
-        }
+        handleError(error)
 
-        axios.delete(
+      });
 
-          `http://localhost:3301/api/address/address/${address.Address}`,
+  };
 
-          {
 
-            headers: {
+  return (
 
-              Authorization: `Bearer ${token}`
+    <div className="flex w-full px-2 pt-2 pb-2 rounded-md hover:bg-gray-100 hover:shadow-xl border border-gray-900 border-solid">
 
-            }
+      <div className="flex-col nowrap w-11/12">
 
-          }
+        <div className="flex">
 
-        )
-
-          .then((response) => {
-
-            alert("Address Removed");
-            
-            setAddress(addressList => {
-
-                return addressList.filter((a) => a.Address !== address.Address);
-
-            });
-
-          })
-
-          .catch((error) => {
-
-            handleError(error)
-
-          });
-
-      };
-      
-
-    return (
-
-        <div className="flex w-3/4 px-2 pt-2 pb-2 rounded-md hover:bg-gray-100 hover:shadow-xl border-2 border-gray-900 border-solid">
-
-            <div className="flex-col nowrap w-11/12">
-
-                <div className="flex">
-
-                    <h2>{address.Name}</h2>
-
-                </div>
-
-                <div className="text-gray-600 font-thin ">
-
-                    <p>{address.Address}</p>
-
-                </div>
-
-            </div>
-
-            <span className="hover:underline" onClick={clickAddressRemove}>Remove</span>
+          <h2>{address.Name}</h2>
 
         </div>
 
-    )
+        <div className="text-gray-600 font-thin ">
+
+          <p>{address.Address}</p>
+
+        </div>
+
+      </div>
+
+      <span className="text-sm hover:underline hover:text-red-500" onClick={clickAddressRemove}>Remove</span>
+
+    </div>
+
+  )
 
 }
 

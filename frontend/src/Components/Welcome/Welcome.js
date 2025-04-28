@@ -35,9 +35,9 @@ function Welcome() {
 
         >
         
-        <div className="w-full max-w-[80%] mx-auto mt-10 mb-10 bg-white p-8 rounded-lg shadow-lg"
+        <div className="space-y-12 w-full max-w-[80%] mx-auto mt-10 mb-10 bg-white p-8 rounded-2xl shadow-lg"
             style={{
-                background: "linear-gradient(rgb(231, 204, 204),rgb(206, 200, 200))", // Gradient background
+                background: "linear-gradient(rgb(255, 251, 236),rgb(217, 205, 173))", // Gradient background
               }}
         >
             {/* Dynamic Welcome Header */}
@@ -60,9 +60,9 @@ function Welcome() {
 
             {/* Categories Section */}
             <Categories auth={auth} logout={logout} ></Categories>
-     
-            <hr className="border-t border-gray-300 my-10" />
     
+            {auth=== "Employee" || auth === "Manager"? (<hr className="my-4 border-2 border-gray-300" />):null}
+            
             {/* Robot Section */}
             <RobotArea trigger = {trigger} setTrigger = {setTrigger} auth={auth} logout={logout} ></RobotArea>
             
@@ -76,7 +76,7 @@ function Welcome() {
             {/* Employees Section for Managers */}
             <SubordinatesArea auth={auth} logout={logout} ></SubordinatesArea>
 
-            {auth === "Manager"? (<hr className="border-t border-gray-300 my-10" />):null}
+            {auth === "Manager"? (<hr className="my-4 border-2 border-gray-300" />):null}
 
             {/*Add Items */}
             <AddItem auth={auth}></AddItem>

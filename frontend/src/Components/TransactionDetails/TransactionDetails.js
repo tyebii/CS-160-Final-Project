@@ -98,7 +98,7 @@ export function TransactionDetails({transaction}) {
     <section className="flex items-center justify-center min-h-screen  p-6">
 
       <div className="bg-white shadow-lg rounded-lg p-6 max-w-2xl w-full border border-gray-300">
-
+        
         <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Transaction Summary</h2>
 
         <div className="space-y-4">

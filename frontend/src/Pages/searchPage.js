@@ -8,7 +8,7 @@ function SearchPage() {
   return (
     //TODO: Add loginNavbar component
     <div className="flex">
-      <div className="flex-grow p-4">
+      <div className="flex-grow">
         <SearchResults />
       </div>
     </div>

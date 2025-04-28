@@ -17,19 +17,19 @@ import { useErrorResponse } from '../Utils/AxiosError';
 
 
 //List Of Transactions
-export function MyOrders (){
+export function MyOrders() {
 
     const validateToken = useValidateToken();
 
-    const { handleError } = useErrorResponse(); 
+    const { handleError } = useErrorResponse();
 
     const [results, setResults] = useState([])
 
-    useEffect(()=>{
+    useEffect(() => {
 
         const token = validateToken()
 
-        if(token == null){
+        if (token == null) {
 
             return;
 
@@ -37,75 +37,77 @@ export function MyOrders (){
 
         axios
 
-        .get("http://localhost:3301/api/transaction/transactions/customer", {
+            .get("http://localhost:3301/api/transaction/transactions/customer", {
 
-            headers: {
+                headers: {
 
-                Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
 
-            },
+                },
 
-        })
+            })
 
-        .then((response) => {
+            .then((response) => {
 
-            if(response.length === 0){
+                if (response.length === 0) {
 
-                alert("No Results Found")
+                    alert("No Results Found")
+
+                    return;
+
+                } else {
+
+                    setResults(response.data)
+
+                    return;
+
+                }
+
+            })
+
+            .catch((error) => {
+
+                handleError(error)
 
                 return;
 
-            }else{
+            });
 
-                setResults(response.data)
+    }, [])
 
-                return;
+    return (
 
-            }
+        <section className="w-full mx-auto px-6 py-10 border border-gray-200">
 
-        })
+            <h2 className="text-3xl mx-8 my-4">Transaction History</h2>
 
-        .catch((error) => {
+            <hr className="border-1 mx-6 mb-4 border-gray-300"></hr>
 
-            handleError(error)
+            <div className="mx-8 p-4 grid h-[400px] overflow-y-auto border border-gray-300 rounded-md">
 
-            return;
+                {results.length === 0 ? (
 
-        });
+                    <h3 className="text-2xl font-semibold text-center text-gray-600 py-10">
 
-    },[])
+                        No results found
 
-    return(
+                    </h3>
 
-        <section className="max-w-5xl mx-auto px-6 py-10 bg-gray-50 rounded-xl shadow-lg mt-10 mb-10 border border-gray-200">
+                ) : (
 
-            <h2 className="text-4xl font-extrabold text-center text-gray-900 mb-8 border-b pb-4">
+                    <div className="">
 
-                Transactions
-                
-            </h2>
+                        {results.map((result) => (
 
-            {results.length === 0 ? (
+                            <TransactionCard key={result.TransactionID} transaction={result} />
 
-                <h3 className="text-2xl font-semibold text-center text-gray-600 py-10">
+                        ))}
 
-                    No results found
+                    </div>
 
-                </h3>
+                )}
 
-            ) : (
-
-                <div className="">
-
-                    {results.map((result) => (
-
-                        <TransactionCard key={result.TransactionID} transaction={result} />
-
-                    ))}
-
-                </div>
-
-            )}
+            </div>
 
         </section>
 

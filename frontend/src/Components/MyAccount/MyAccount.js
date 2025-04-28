@@ -141,13 +141,13 @@ export function MyAccount (){
     
     return (
         
-        <section className="bg-white rounded-lg p-8 m-8 max-w-4xl mx-auto shadow-2xl">
+        <section className="flex flex-col w-full h-full p-8 bg-white">
 
-            <h2 className="text-3xl font-semibold text-gray-800 mb-8 text-center">Account Details</h2>
+            <h2 className="py-4 px-8 text-3xl text-gray-800 mb-8">Account Details</h2>
 
-            <div className="space-y-4">
+            <div className="px-8 space-y-4 mb-12">
 
-                <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">UserID:</span> {result.UserID}</p>
+                <p className="text-lg text-gray-700"><span className="font-semibold text-xl text-gray-800">UserID:</span> {result.UserID}</p>
                 
                 <p className="text-lg text-gray-700"><span className="font-semibold text-gray-800">First Name:</span> {result.UserNameFirst}</p>
                 

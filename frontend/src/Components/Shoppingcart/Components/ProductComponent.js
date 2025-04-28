@@ -3,7 +3,7 @@ function ProductComponent({ result }) {
   
   return (
     
-    <div className="flex items-center border p-4 bg-white rounded-lg shadow-lg max-w-4xl mx-auto mt-5">
+    <div className="flex items-center border-b p-4 bg-white mx-auto">
 
       <img
 
@@ -15,29 +15,23 @@ function ProductComponent({ result }) {
 
       />
 
-      <div className="ml-6 flex-1">
+      <div className="ml-6 flex-1 space-y-2">
 
-        <h3 className="text-lg font-bold">{result.ProductName}</h3>
+        <h3 className="text-xl font-semibold">{result.ProductName}</h3>
 
-        <p className="text-gray-600">Distributed by {result.Distributor}</p>
+        <p className="text-sm text-gray-600">Distributed by {result.Distributor}</p>
         
-        <div className="mt-2 space-y-1 text-gray-700">
+        <div className="text-md text-gray-700">
 
           <p>
 
-            <strong>Cost:</strong> ${result.Cost}
+          {result.Weight} lbs. | ${result.Cost.toFixed(2)}/ea
 
           </p>
 
           <p>
 
-            <strong>Average Weight:</strong> {result.Weight} LBS
-
-          </p>
-
-          <p>
-
-            <strong>Stock:</strong> {result.Quantity}
+            <strong>In Stock:</strong> {result.Quantity}
 
           </p>
 
