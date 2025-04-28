@@ -1,7 +1,5 @@
-//Import React Functions
 import { Link } from "react-router-dom";
 
-//Import Category Images :: Assumes That We Have A Set Of Fixed Categories
 import bakeryAndBreadImage from '../../CategoryImages/bakeryandbread.jpg';
 
 import beverages from '../../CategoryImages/beverages.jpg';
@@ -23,7 +21,6 @@ import snacksAndSweets from '../../CategoryImages/snacksandsweets.jpg';
 //Categories
 export default function Categories({auth}) {
 
-    //List Of Categories :: Assumption On Fixed Categories
     const categories =[
 
         { link: "Fresh-Produce", image: freshProduce, name: "Fresh Produce" },
@@ -46,10 +43,8 @@ export default function Categories({auth}) {
 
     ]
     
-    //Array To Hold JSX
     let categoriesJSX = []
 
-    //Iterate Over The Categories And Create A Card For Each Category
     for(let i = 0; i < categories.length; i++){
 
         categoriesJSX.push(
@@ -64,7 +59,6 @@ export default function Categories({auth}) {
 
     }
 
-    //Return The JSX
     return(
 
       <article className="mt-20">
@@ -99,26 +93,25 @@ const Category = ({ imageSrc, categoryName }) => {
 
   return (
 
-<div className="flex flex-col items-center text-center mt-10 hover:scale-110 hover:-translate-y-3 transition-all duration-300 ease-in-out">
-  
-  <div className="p-4 bg-black rounded-lg shadow-xl hover:shadow-3xl transition-shadow duration-300">
-    
-    <div className="w-64 h-64 rounded-lg overflow-hidden">  {/* Increased size to make it more square */}
+    <div className="flex flex-col items-center text-center mt-10 hover:scale-110 hover:-translate-y-3 transition-all duration-300 ease-in-out">
       
-      <img
-        src={imageSrc}
-        alt={categoryName}
-        className="w-full h-full object-cover"
-      />
+      <div className="p-4 bg-black rounded-lg shadow-xl hover:shadow-3xl transition-shadow duration-300">
+        
+        <div className="w-64 h-64 rounded-lg overflow-hidden">  {/* Increased size to make it more square */}
+          
+          <img
+            src={imageSrc}
+            alt={categoryName}
+            className="w-full h-full object-cover"
+          />
+          
+        </div>
+
+      </div>
+
+      <p className="mt-6 text-3xl font-bold text-gray-800">{categoryName}</p>
+
     </div>
-
-  </div>
-
-  <p className="mt-6 text-3xl font-bold text-gray-800">{categoryName}</p>
-
-</div>
-
-
 
   );
   

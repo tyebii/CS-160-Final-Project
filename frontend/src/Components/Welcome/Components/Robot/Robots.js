@@ -1,12 +1,9 @@
-//Import React Functions
 import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-//Import Axios
 import axios from "axios";
 
-//Error Message Hook
 import { useErrorResponse } from '../../../Utils/AxiosError';
 
 //Robot Area 

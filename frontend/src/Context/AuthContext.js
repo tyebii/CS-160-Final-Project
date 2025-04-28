@@ -1,16 +1,14 @@
-//Import React Functions
 import React, { createContext, useState, useEffect } from 'react';
 
-//Decodes The Base-Encoded JWT
 import axios from 'axios';
 
-//Create The Context
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
   
   const [auth, setAuth] = useState();
 
+  //Logout Function
   const logout = () => {
 
     setAuth(null)

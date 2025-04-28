@@ -1,4 +1,3 @@
-const { add } = require('winston');
 const pool = require('../Database Pool/DBConnections')
 
 const {validateID, statusCode, validateAddress, validateName} = require('../Utils/Formatting')
@@ -169,7 +168,7 @@ const addAddress = async (req, res) => {
 
 };
 
-//Delete The address Associated With A Customer
+//Delete The Address Associated With A Customer
 const deleteAddress =  async (req,res)=>{
 
     const {address} = req.params
@@ -280,7 +279,5 @@ const deleteAddress =  async (req,res)=>{
     }
 
 }
-
-
 
 module.exports={deleteAddress, getAddress, addAddress}

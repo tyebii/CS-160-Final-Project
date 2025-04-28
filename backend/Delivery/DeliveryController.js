@@ -5,6 +5,7 @@ const { statusCode } = require('../Utils/Formatting');
 
 const {logger} = require('../Utils/Logger'); 
 
+//Schedules The Robots
 const scheduleRobots = async (req, res) => {
 
     logger.info("Scheduling Robots...")
@@ -180,6 +181,7 @@ const scheduleRobots = async (req, res) => {
 
 };
 
+//Deploys The Robots
 const deployRobots = async (req, res) => {
 
     logger.info("Deploying Robots...");
@@ -437,8 +439,6 @@ const deployRobots = async (req, res) => {
 
 };
 
-
-
 //Turn Address Into Geocode
 const geocodeAddress = async (address) => {
 
@@ -530,6 +530,5 @@ const getOptimizedRoute = async (geoCodes) => {
     };
 
 };
-
 
 module.exports = { deployRobots, scheduleRobots };

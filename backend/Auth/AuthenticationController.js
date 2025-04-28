@@ -495,6 +495,4 @@ const clearCookie = (req,res) => {
 
 }
 
-
-
 module.exports = {login, signUpCustomer, signUpEmployee, signUpManager, checkCookie, clearCookie}

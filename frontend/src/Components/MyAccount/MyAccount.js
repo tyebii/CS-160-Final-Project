@@ -1,7 +1,5 @@
-//Import UseEffect
 import { useEffect, useState } from "react";
 
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 import { useNavigate } from "react-router-dom";
@@ -21,6 +19,7 @@ export function MyAccount (){
 
     const [result, setResult] = useState({})
 
+    //Fetch The Account Information
     useEffect(() => {
 
         const fetchAccount = async () => {
@@ -75,9 +74,9 @@ export function MyAccount (){
       
         fetchAccount();
 
-      }, [auth]);
+    }, [auth]);
       
-
+    //Delete The Account
     const handleDelete = async () => {
 
         try {
@@ -102,7 +101,6 @@ export function MyAccount (){
 
     };
 
-    
     return (
         
         <section className="bg-white rounded-lg p-8 m-8 max-w-4xl mx-auto shadow-2xl">
@@ -163,4 +161,5 @@ export function MyAccount (){
         </section>
 
     )
+    
 }

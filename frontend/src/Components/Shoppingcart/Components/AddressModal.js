@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 import axios from 'axios';
 
-//Public Key
 const MAPBOX_TOKEN = "pk.eyJ1IjoibWF0dGhld2RlbHVyaW8iLCJhIjoiY205Yzc5ODkwMG9pYzJtcTEweXVncnhraiJ9.fLo2x7rTBbss2-K6O4hBrQ";
 
 //Address Input
@@ -14,6 +13,7 @@ export const AddressModal = ({ submitHandle, onCancel, onClose }) => {
 
   const [ignoreNextInputChange, setIgnoreNextInputChange] = useState(false);
 
+  //Fetches The Suggestions Of Mapbox
   useEffect(() => {
 
     if (ignoreNextInputChange) return;

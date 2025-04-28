@@ -37,7 +37,7 @@ const rateLimit = require('express-rate-limit');
 //Cross Origin Resource Sharing
 app.use(cors({
 
-  origin: ['http://localhost:3300','http://192.168.1.210:3300'],
+  origin: ['http://localhost:3300'],
 
   credentials: true,
 

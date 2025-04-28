@@ -1,15 +1,11 @@
-//Import React Functions
 import { useState, useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-//The Search Icon
 import WelcomesearchIcon from './searchIcon.jpg';
 
-//Import Axios
 import axios from 'axios';
 
-//Error Message Hook
 import { useErrorResponse } from '../../../Utils/AxiosError';
 
 import { validateID } from '../../../Utils/Formatting';
@@ -23,6 +19,7 @@ export default function TransactionArea({ trigger, setTrigger, auth, logout }) {
 
     const { handleError } = useErrorResponse(); 
   
+    //When Transaction Is Searched
     var clickTransactionSearch = (e) => {
 
         if(!validateID(transactionSearchInput)) {

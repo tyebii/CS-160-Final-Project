@@ -1,5 +1,4 @@
 
-//React Functions
 import { useNavigate } from 'react-router-dom';
 
 //Add Item

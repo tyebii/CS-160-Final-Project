@@ -1,17 +1,10 @@
-//Refactored Apr 12
-
-//Import React Functions
 import { useState, useEffect } from "react"
 
-//Import Axios
 import axios from "axios"
 
-//Import Custom Component 
 import { TransactionCard } from "./Components/TransactionCard"
 
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
-
 
 //List Of Transactions
 export function MyOrders (){
@@ -20,6 +13,7 @@ export function MyOrders (){
 
     const [results, setResults] = useState([])
 
+    //Fetch The Customer's Transactions
     useEffect(() => {
         
         const fetchTransactions = async () => {
@@ -52,9 +46,8 @@ export function MyOrders (){
       
         fetchTransactions();
 
-      }, []);
+    }, []);
       
-
     return(
 
         <section className="max-w-5xl mx-auto px-6 py-10 bg-gray-50 rounded-xl shadow-lg mt-10 mb-10 border border-gray-200">
@@ -90,4 +83,5 @@ export function MyOrders (){
         </section>
 
     )
+
 }

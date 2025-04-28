@@ -634,7 +634,6 @@ export const validatePassword = (input) => {
 
 }
 
-
 export const loginFormat = (UserID,Password) => {
 
     if (!validateRegularID(UserID)){
@@ -700,7 +699,6 @@ export const validateTransactionStatus = (input) => {
     return true;
 }
 
-
 export const validateEmployeeStatus = (input) => {
 
     const validStatuses = ["Employed", "Absence", "Fired"];
@@ -733,7 +731,6 @@ export const validateEmployeeStatus = (input) => {
 
 }
 
-
 export const validateEmployeeHourly = (input) => {
 
     if (input == null) {
@@ -763,7 +760,6 @@ export const validateEmployeeHourly = (input) => {
     return true;
 
 }
-
 
 export const signUpFormatEmployee = (
     EmployeeHireDate,
@@ -813,7 +809,6 @@ export const signUpFormatEmployee = (
     return true;
 
 }
-
 
 export const signUpFormatManager = (
     EmployeeHireDate,
@@ -888,7 +883,6 @@ export const validateCategory = (input) => {
 
 }
 
-
 export const validateProduct = (input) => {
 
     if (input == null) {
@@ -943,7 +937,6 @@ export const validateProduct = (input) => {
 
 }
 
-
 export const validateWeight = (input) => {
 
     if (input == null) {
@@ -974,7 +967,6 @@ export const validateWeight = (input) => {
 
 }
 
-
 export const validateCost = (input) => {
     if (input == null) {
         alert("Cost Not Provided");
@@ -993,7 +985,6 @@ export const validateCost = (input) => {
 
     return true;
 }
-
 
 export const validateStorageRequirement = (input) => {
 
@@ -1097,5 +1088,3 @@ export const insertFormat = (Quantity, Distributor, Weight, ProductName, Categor
     return true
     
 }
-
-

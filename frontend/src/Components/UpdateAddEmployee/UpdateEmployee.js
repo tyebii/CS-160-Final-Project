@@ -1,12 +1,9 @@
-//Import React Functions 
 import { useState} from "react";
 
 import { useNavigate } from "react-router-dom";
 
-//Import Axios
 import axios from "axios";
 
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 import { employeeFormat, signUpFormatEmployee } from '../Utils/Formatting';
@@ -129,7 +126,6 @@ export function UpdateEmployee({ employee }) {
       }
     
     };
-    
     
     return (
 
@@ -385,4 +381,4 @@ export function UpdateEmployee({ employee }) {
 
     );
 
-  }
+}

@@ -1,19 +1,13 @@
-//Navigation Hook
 import { useNavigate } from 'react-router-dom';
 
-//State
 import { useState } from 'react';
 
-//Axios
 import axios from 'axios';
 
-//Custom Component
 import TextEntryBox from "./TextBox";
 
-//Formatting Util
 import { insertFormat } from '../Utils/Formatting'
 
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 export const ItemEdit = ({ item }) => {
@@ -50,7 +44,6 @@ export const ItemEdit = ({ item }) => {
 
     });
     
-
     // Handle form submission
     const handleSubmit = async (e) => {
 
@@ -101,7 +94,6 @@ export const ItemEdit = ({ item }) => {
       
     };
       
-
     //Handle File Import
     const handleFile = (e) => {
 
@@ -129,6 +121,7 @@ export const ItemEdit = ({ item }) => {
 
     };
 
+    //Handle Form Updates
     const handleFieldChange = (fieldName) => (value) => {
 
         const numberFields = ['Quantity', 'Cost', 'Weight', 'SupplierCost'];

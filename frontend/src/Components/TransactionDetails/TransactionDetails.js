@@ -1,4 +1,3 @@
-//Import Custom Hook
 import { useAuth } from "../../Context/AuthHook";
 
 import { validateID } from "../Utils/Formatting";
@@ -7,13 +6,12 @@ import { useState } from "react";
 
 import axios from "axios";
 
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 //Transaction Details Component
 export function TransactionDetails({transaction}) {
 
-  const { auth} = useAuth();
+  const {auth} = useAuth();
 
   const { handleError } = useErrorResponse(); 
   
@@ -80,7 +78,6 @@ export function TransactionDetails({transaction}) {
   
   };
   
-
   return (
 
     <section className="flex items-center justify-center min-h-screen  p-6">
@@ -272,6 +269,6 @@ const DetailRow = ({ label, value, defaultValue = "", isBadge = false }) => {
 
     );
 
-  };
+};
   
   

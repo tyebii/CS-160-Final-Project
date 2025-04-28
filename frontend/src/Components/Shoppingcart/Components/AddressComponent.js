@@ -64,7 +64,6 @@ function AddressComponent({address,setAddress,}){
 
     };
       
-
     return (
 
         <div className="flex w-3/4 px-2 pt-2 pb-2 rounded-md hover:bg-gray-100 hover:shadow-xl border-2 border-gray-900 border-solid">

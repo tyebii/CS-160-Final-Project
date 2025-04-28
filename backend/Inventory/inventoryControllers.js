@@ -1,5 +1,3 @@
-//Ready For Testing
-
 const pool = require('../Database Pool/DBConnections')
 
 const {validateCategory, validateProduct, validateID, statusCode, insertFormat} = require('../Utils/Formatting')
@@ -405,7 +403,6 @@ const storage = multer.diskStorage({
     }
 
 });
-
 
 const upload = multer({ storage: storage });
 
@@ -1050,4 +1047,3 @@ const featuredDelete = (req,res) => {
 }
 
 module.exports = {upload, featuredAdd,  expirationSearch, featuredDelete, featuredSearch, productQueryID, productQueryNameEmployee, productQueryName, categoryQuery, categoryQueryEmployee, productInsert, productUpdate, deleteProduct, lowStockSearch, productCustomerQueryID}
-    

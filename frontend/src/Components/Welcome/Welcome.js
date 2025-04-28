@@ -1,4 +1,3 @@
-//Import Custom Components
 import Categories from './Components/Categories/Category'
 
 import Carousel from './Components/Carousel/Carousel';
@@ -9,7 +8,6 @@ import TransactionArea from './Components/Transactions/TransactionsTable';
 
 import SubordinatesArea from './Components/Employees/Subordinates';
 
-//Import Auth Context
 import { useAuth } from '../../Context/AuthHook'; 
 
 import AddItem from './Components/AddItem/AddItem';

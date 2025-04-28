@@ -1,4 +1,3 @@
-//Import the database connection pool
 const pool = require('../Database Pool/DBConnections')
 
 const {validateRegularID, statusCode} = require('../Utils/Formatting')
@@ -90,6 +89,7 @@ const addRobot = (req, res) => {
     )
 }
 
+//Updates Robot
 const updateRobot = (req, res) => {
 
     logger.info("Updating Robot...")
@@ -128,6 +128,7 @@ const updateRobot = (req, res) => {
     )
 }
 
+//Deletes Robot
 const deleteRobot = (req, res) => {
 
     logger.info("Deleting Robot")

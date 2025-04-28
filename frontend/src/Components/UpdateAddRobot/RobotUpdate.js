@@ -1,15 +1,11 @@
-//Import React Functions
-import { useState, useEffect } from "react";
+import { useState} from "react";
 
 import { useNavigate } from "react-router-dom";
 
-//Import Axios
 import axios from "axios";
 
-//Import Formatter 
 import { validateRobot } from "../Utils/Formatting";
 
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 //RobotUpdate Component
@@ -70,7 +66,6 @@ export function RobotUpdate({ robot }) {
       
     };
       
-
     return (
 
         <section>

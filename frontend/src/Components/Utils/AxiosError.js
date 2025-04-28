@@ -2,6 +2,7 @@ import { useAuth } from "../../Context/AuthHook";
 
 import { useNavigate } from 'react-router-dom';
 
+//Error Hook
 export const useErrorResponse = () => {
 
   const { logout } = useAuth();

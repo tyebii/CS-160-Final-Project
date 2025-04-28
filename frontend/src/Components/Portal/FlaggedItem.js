@@ -1,6 +1,6 @@
-//Import navigation functionality
 import { useNavigate } from "react-router-dom";
 
+//Alert Card
 const FlaggedItem = ({ item, robots }) => {
 
   const navigate = useNavigate();

@@ -6,12 +6,14 @@ import { useAuth } from './AuthHook';
 
 const CartContext = createContext();
 
+//Cart Number
 export const CartProvider = ({ children }) => {
 
     const [cartItems, setCartItems] = useState(new Set()); 
 
     const {auth} = useAuth()
 
+    //Add Item Function
     const addItem = (item) => {
 
         setCartItems(prev => {
@@ -26,6 +28,7 @@ export const CartProvider = ({ children }) => {
 
     };
   
+    //Remove Item Function
     const removeItem = (itemId) => {
 
         setCartItems(prev => {
@@ -40,6 +43,7 @@ export const CartProvider = ({ children }) => {
 
     };
 
+    //Clear Items
     const clearItems= () => {
 
         setCartItems(new Set())
@@ -48,6 +52,7 @@ export const CartProvider = ({ children }) => {
 
     }
 
+    //Sets The Cart Value
     useEffect(() => {
 
         if(!auth || auth === "Manager" || auth === "Employee"){

@@ -1,7 +1,5 @@
-//Import React Function
 import { useState } from "react";
 
-//Import Filter Icon
 import { FaFilter } from "react-icons/fa";
 
 //Filter Component

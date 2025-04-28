@@ -1,15 +1,11 @@
-// Import axios
 import axios from "axios";
 
-// Import navigation functionality
 import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 
-//Formatting
 import { signUpFormat } from "../Utils/Formatting";
 
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 // Signup Component
@@ -33,7 +29,7 @@ export function Signup() {
 
     });
 
-    // Handle form input changes
+    // Handle Form Input Changes
     const handleChange = (e) => {
 
         const { name, value } = e.target;
@@ -95,7 +91,6 @@ export function Signup() {
       
     };
       
-
     return (
 
         <section>

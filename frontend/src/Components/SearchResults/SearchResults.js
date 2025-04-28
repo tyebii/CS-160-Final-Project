@@ -1,20 +1,15 @@
-//React funtions
 import { useState, useEffect } from "react";
 
 import { Link, useParams} from "react-router-dom";
 
-//Custom Components
 import SearchResultsItem from "./SearchResultsItem";
 
 import SearchResultsFilter from "./SearchResultsFilter";
 
-//Custom Context
 import { useAuth } from '../../Context/AuthHook';
 
-//Backend Requests
 import axios from "axios";
 
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 //Search Result Component
@@ -28,7 +23,7 @@ function SearchResults() {
 
   const [results, setResults] = useState([]);
 
-  //Renders based on changes to searchType and Query 
+  //Fetches The Results Of The Queries
   useEffect(() => {
     
     const fetchSearchResults = async () => {
@@ -68,7 +63,6 @@ function SearchResults() {
     fetchSearchResults();
 
   }, [searchType, query]);
-  
   
   //Filtering the results based on demmand
   const handleFilterSelect = (filterType) => {

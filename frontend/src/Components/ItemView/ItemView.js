@@ -1,21 +1,15 @@
-// Import React Functions
 import React, { useState, useEffect } from 'react';
 
-// Navigation Elements
 import { useParams, useNavigate } from 'react-router-dom';
 
-// Import Auth Context
 import { useAuth } from '../../Context/AuthHook';
 
-// Import Formatter
 import { validateID, validateQuantity } from '../Utils/Formatting';
 
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 import { useCart } from '../../Context/ShoppingcartContext';
 
-// Import Axios For Backend Queries
 import axios from 'axios';
 
 // Item View Component
@@ -110,7 +104,6 @@ const ItemView = ({ searchType, query }) => {
     fetchInventory();
 
   }, [itemid, auth]);  
-
 
   // Adding The Item To Shopping Cart
   const clickAdd = async (e) => {
@@ -280,7 +273,6 @@ const ItemView = ({ searchType, query }) => {
     }
 
   };
-
 
   //Handle Delete From Featured
   const handleDeleteFeatured = async () => {
@@ -506,6 +498,5 @@ const ItemView = ({ searchType, query }) => {
   );
 
 };
-
 
 export default ItemView;

@@ -1,9 +1,7 @@
-//Import React Functions
 import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-//Import Axios
 import axios from "axios";
 
 //Error Message Hook
@@ -89,7 +87,7 @@ const Subordinates = ({auth}) => {
 
       });
 
-    }, [auth]);
+  }, [auth]);
 
   //Clicking Delete On An Employee
   const clickTerminate = (employeeID)=>{
@@ -199,5 +197,3 @@ const Subordinates = ({auth}) => {
   );
   
 };
-
-

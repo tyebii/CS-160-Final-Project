@@ -1,16 +1,13 @@
-//React functions
 import { useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
 import { useNavigate } from 'react-router-dom';
 
-//Import Auth Context
 import { useAuth } from '../../Context/AuthHook';
 
 import { useCart } from '../../Context/ShoppingcartContext';
 
-// Images for the Navbar
 import ofsLogo from './NavbarImages/ofsLogo.png';
 
 import loginIcon from './NavbarImages/loginIcon.jpg';

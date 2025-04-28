@@ -12,7 +12,6 @@ import axios from 'axios';
 
 import { validateAddress, validateID, validateName} from '../Utils/Formatting';
 
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 import { useCart } from '../../Context/ShoppingcartContext';
@@ -104,75 +103,71 @@ function ShoppingCart() {
 
   }, [results, selectedAddress]);
 
+  // Clear The Cart
+  const handleClear = async () => {
 
-// Clear The Cart
-const handleClear = async () => {
+    try {
 
-  try {
+      if(results.length == 0){
 
-    if(results.length == 0){
+        alert("Nothing To Clear");
 
-      alert("Nothing To Clear");
+        return
 
-      return
+      }
+
+      await axios.delete('http://localhost:3301/api/shoppingcart/shoppingcart/clear', {
+
+        withCredentials: true,
+
+        headers: { 'Content-Type': 'application/json' }
+
+      });
+
+      clearItems();
+
+      setResults([]);
+
+    } catch (error) {
+
+      handleError(error);
 
     }
 
-    await axios.delete('http://localhost:3301/api/shoppingcart/shoppingcart/clear', {
+  };
 
-      withCredentials: true,
+  //Remove From The Cart
+  const clickRemove = async (itemid) => {
 
-      headers: { 'Content-Type': 'application/json' }
+    if (!validateID(itemid)) {
 
-    });
+      return;
 
-    clearItems();
+    }
 
-    setResults([]);
+    try {
 
-  } catch (error) {
+      await axios.delete('http://localhost:3301/api/shoppingcart/shoppingcart', {
 
-    handleError(error);
+        withCredentials: true,
 
-  }
+        headers: { 'Content-Type': 'application/json' },
 
-};
+        data: { ItemID: itemid },
 
+      });
 
+      removeItem(itemid)
 
-//Remove From The Cart
-const clickRemove = async (itemid) => {
+      setResults((prevItems) => prevItems.filter((item) => item.ItemID !== itemid));
 
-  if (!validateID(itemid)) {
+    } catch (error) {
 
-    return;
+      handleError(error); 
 
-  }
+    }
 
-  try {
-
-    await axios.delete('http://localhost:3301/api/shoppingcart/shoppingcart', {
-
-      withCredentials: true,
-
-      headers: { 'Content-Type': 'application/json' },
-
-      data: { ItemID: itemid },
-
-    });
-
-    removeItem(itemid)
-
-    setResults((prevItems) => prevItems.filter((item) => item.ItemID !== itemid));
-
-  } catch (error) {
-
-    handleError(error); 
-
-  }
-
-};
-
+  };
 
   //Click Checkout
   const clickCheckout = async () => {
@@ -285,7 +280,6 @@ const clickRemove = async (itemid) => {
 
   };
   
-
   //Enables Users To Add Addresses
   const handleAddAddress = async (e) => {
 
@@ -362,6 +356,7 @@ const clickRemove = async (itemid) => {
   };
 
   return (
+    
     <section className="w-full max-w-4xl mx-auto my-10 p-8 bg-gray-100 rounded-lg shadow-lg">
 
       <div className="text-center mb-6">

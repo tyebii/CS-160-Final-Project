@@ -1,16 +1,12 @@
-//Import React Functions
 import { useEffect, useState } from "react";
 
-//Import axios
 import  axios  from "axios";
 
-//Import Custom Components
 import { TaggedItems } from "./TaggedItems";
 
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
-//System alerts 
+//System Alerts 
 const SystemAlerts = () => {
 
   const { handleError } = useErrorResponse(); 
@@ -23,6 +19,7 @@ const SystemAlerts = () => {
 
   const [featured, setFeatured] = useState([]);
 
+  //Loads The System Alerts
   useEffect(() => {
 
     const fetchAllDashboardData = async () => {
@@ -85,8 +82,8 @@ const SystemAlerts = () => {
     
   }, []);
   
-
   return (
+    
     <section className="w-[80%] mx-auto bg-white p-6 border shadow-lg mb-10 mt-10">
 
       {/* Main Title */}

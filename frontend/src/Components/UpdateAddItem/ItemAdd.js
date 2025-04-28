@@ -1,19 +1,13 @@
-//Navigation Hook
 import { useNavigate } from 'react-router-dom';
 
-//State
 import { useState } from 'react';
 
-//Axios
 import axios from 'axios';
 
-//Custom Component
 import TextEntryBox from "./TextBox";
 
-//Formatting Util
 import { insertFormat } from '../Utils/Formatting'
 
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
 //Add Inventory Item 
@@ -103,7 +97,6 @@ export const ItemAdd = () => {
       
     };
       
-
     //Handle File Import
     const handleFile = (e) => {
 

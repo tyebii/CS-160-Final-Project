@@ -1,4 +1,3 @@
-//Import React Functions
 import { Link } from "react-router-dom";
 
 //Import Transaction Card

@@ -1,12 +1,9 @@
-//Import React Functions
 import React, { useState} from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-//Error Message Hook
 import { useErrorResponse } from '../Utils/AxiosError';
 
-//Import Axios
 import axios from 'axios';
 
 import { signUpFormat, signUpFormatEmployee } from '../Utils/Formatting';
@@ -131,7 +128,6 @@ function AddEmployee() {
   
   };
   
-
   return (
 
     <section>

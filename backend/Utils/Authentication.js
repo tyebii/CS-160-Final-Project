@@ -6,6 +6,7 @@ const {logger} = require('./Logger')
 
 require('dotenv').config(); 
 
+//Authentication Of Cookie
 function authenticateToken(req, res, next) {
 
     logger.info("Starting Authentication")

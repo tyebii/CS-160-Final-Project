@@ -27,8 +27,10 @@ const deliveryLimiter = rateLimit({
 
 router.use(deliveryLimiter)
 
+//Deploys The Robots
 router.put("/deploy", deployRobots)
 
+//Schedules The Robots
 router.put("/schedule", authenticateToken, authorizeManager, scheduleRobots)
 
 module.exports = router

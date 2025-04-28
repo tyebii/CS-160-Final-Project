@@ -39,5 +39,3 @@ export const TaggedItems = ({items, robots}) => {
   }
 
 };
-
-

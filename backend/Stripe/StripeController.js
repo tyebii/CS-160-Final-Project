@@ -2,7 +2,7 @@ const pool = require('../Database Pool/DBConnections');
 
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
-const {statusCode, validateAddress, validateTransactionStatus, validateID, validateCost, validateWeight, validatePastDate } = require("../Utils/Formatting")
+const {statusCode, validateAddress, validateID} = require("../Utils/Formatting")
 
 const {transactionIDExists} = require('../Utils/ExistanceChecks')
 
@@ -707,9 +707,4 @@ const handleHook = async (req, res) => {
 
 };
 
-
-
 module.exports = { handleStripe, addTransaction, handleHook };
-
-
-
