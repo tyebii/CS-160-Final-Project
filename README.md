@@ -4,7 +4,7 @@
 The mission is to develop a full-stack web platform for **OFS**, a local organic food retailer.  
 The application supports three user roles:
 - **Customers**: Browse, select, and purchase organic food items online.
-- **Employees**: Manage and update the inventory.
+- **Employees**: View inventory, view robots, view current transactions, access to system alerts, and order fulfillment.
 - **Managers**: Oversee inventory and operational dashboards.
 
 All inventory, customer, and transaction data is stored in a **MySQL** relational database.
@@ -21,18 +21,15 @@ Additionally, after purchase, orders are delivered using a **self-driving delive
 
 **Frontend**:
 - React
-- React Router DOM
-- Axios
+- Tailwind CSS
 
 **Backend**:
 - Express.js
+- Node.js
 - MySQL2
-- CORS
-- Dotenv
-- Nodemon (for development)
 
 **Database**:
-- MySQL 8.x (inside Docker container)
+- MySQL 8.x 
 
 **Infrastructure**:
 - Docker & Docker Compose
