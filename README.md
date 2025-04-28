@@ -43,11 +43,23 @@ cd CS-160-Final-Project
 ```
 **2. Install Docker and Dockercompose through** https://docs.docker.com/get-docker/
 
-**3. Build and start the containers**
+**3. Install and setup Stripe CLI**
 ```
-docker-compose up -build
+- Install Stripe CLI: https://docs.stripe.com/stripe-cli
+
+- Login to Stripe CLI in the command prompt
+  
+- Run: stripe listen --forward-to localhost:3301/api/stripe/webhook
+
+- Go to the .env file in the backend folder and replace STRIPE_WEBHOOK_SECRET with the one Stripe CLI provided you
+
 ```
-**4. Application access** <br />
+
+**4. Build and start the containers**
+```
+docker-compose up -build or docker compose up --build
+```
+**5. Application access** <br />
 ```
 Frontend (React app): http://localhost:3300
 
@@ -55,6 +67,7 @@ Backend (API server): http://localhost:3301
 
 MySQL database: accessible via localhost:3307 (MySQL clients)
 ```
+
 
 ## Authors
 **Austin Nguyen** <br />
