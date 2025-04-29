@@ -115,9 +115,9 @@ export default function Carousel({ auth }) {
 
         (auth === null || auth === "Customer") ? (
 
-            <article className="text-center p-20">
+            <article className="text-center p-16">
 
-                <h2 className="text-center text-5xl mb-20 font-semibold text-black tracking-wide">Featured Products</h2>
+                <h2 className="text-center text-5xl font-semibold text-black tracking-wide">Featured Products</h2>
 
                 <div className="flex items-center overflow-hidden relative">
 
