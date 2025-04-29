@@ -29,7 +29,8 @@ function Welcome() {
     const { auth, logout } = useAuth()
 
     const slides = [
-        landingpage
+        landingpage,
+        ad_1
     ]
 
     return (
@@ -44,7 +45,7 @@ function Welcome() {
 
             <div className=" w-full max-w-[80%] mx-auto mt-10 mb-10 bg-white p-8 rounded-2xl shadow-lg"
                 style={{
-                    background: "linear-gradient(rgb(255, 251, 236),rgb(217, 205, 173))",
+                    background: "linear-gradient(rgb(255, 251, 236),rgb(255, 249, 214))",
                 }}
             >
 
@@ -71,14 +72,12 @@ function Welcome() {
 
                     <div
 
-                        className="bg-cover bg-center rounded-lg shadow-xl mx-auto my-2 w-5/6 h-[400px] flex items-center justify-center"
-
-                        style={{ backgroundImage: `url(${landingpage})` }}
+                        className="bg-cover bg-center rounded-lg shadow-xl mx-auto my-2 w-[960px] h-[400px] flex items-center justify-center"
 
                     >
                         <AdCarousel>
                             {slides.map((s) => (
-                                <img src={s} className="min-w-[960px] w-[960px] h-[400px] object-cover" />
+                                <img src={s} className="min-w-[960px] h-[400px] object-cover" />
                             ))}
                         </AdCarousel>
 

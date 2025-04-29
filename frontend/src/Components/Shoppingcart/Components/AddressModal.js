@@ -222,7 +222,7 @@ export const AddressModal = ({ submitHandle, onCancel, onClose }) => {
 
             <button
 
-              type="button"
+              type="submit"
 
               className="px-8 py-2 rounded-md bg-green-400 hover:bg-green-500 text-white font-semibold border border-green-500"
 
