@@ -22,7 +22,7 @@ const scheduleRobots = async (req, res) => {
 
             await connection.query("Update Transactions Set Transactions.RobotID = NULL Where Transactions.RobotID Is Not Null And TransactionStatus = 'Pending Delivery'")
 
-            await connection.query("Update Robot Set CurrentLoad = 0 Where RobotStatus != 'Delivering' And CurrentLoad != 0")
+            await connection.query("Update Robot Set CurrentLoad = 0 Where RobotStatus != 'En Route' And CurrentLoad != 0")
             
             logger.info("Getting Robots That Are Free")
 
@@ -327,7 +327,7 @@ const deployRobots = async (req, res) => {
 
                             await connectionAsync.query(
                                 
-                                'UPDATE Robot SET RobotStatus = "Free", CurrentLoad = "0" WHERE RobotID = ?',
+                                'UPDATE Robot SET RobotStatus = "Free", EstimatedDelivery = NULL, CurrentLoad = 0 WHERE RobotID = ?',
                                 
                                 [robotID]
 

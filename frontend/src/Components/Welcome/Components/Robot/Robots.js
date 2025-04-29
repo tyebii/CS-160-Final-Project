@@ -164,11 +164,27 @@ function Robots ({trigger, setTrigger, auth}){
   }
 
   //Function To Handle The Click Of The Delete Button
-  const clickDelete = (RobotID) => {
+  const clickDelete = (robotTemp) => {
+
+    if(robotTemp.CurrentLoad != "0"){
+
+      alert("Cannot Delete With A Load")
+
+      return 
+
+    }
+
+    if(robotTemp.RobotStatus === "En Route"){
+
+      alert("Cannot Delete While Delivering")
+
+      return
+
+    }
 
     axios.delete("http://localhost:3301/api/robot/robot", {
 
-      data: { RobotID: RobotID },
+      data: { RobotID: robotTemp.RobotID },
 
       withCredentials: true,
 
@@ -178,7 +194,7 @@ function Robots ({trigger, setTrigger, auth}){
 
     .then((response) => {
 
-      setRobots(robots.filter(robot => robot.RobotID !== RobotID));
+      setRobots(robots.filter(robot => robot.RobotID !== robotTemp.RobotID));
 
     })
 
@@ -270,7 +286,7 @@ function Robots ({trigger, setTrigger, auth}){
 
                       }else{
 
-                        clickDelete(robot.RobotID)
+                        clickDelete(robot)
 
                       }
 
