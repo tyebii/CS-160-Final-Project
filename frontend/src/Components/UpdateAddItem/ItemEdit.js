@@ -329,9 +329,8 @@ export const ItemEdit = ({ item }) => {
                                 className="mt-1 w-48 h-8 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm"
 
                             >
-                                    <option value="">Select</option>
 
-                                    <option value="Fresh Food">Fresh Food</option>
+                                    <option value="Fresh Produce">Fresh Produce</option>
 
                                     <option value="Dairy and Eggs">Dairy and Eggs</option>
 
