@@ -17,14 +17,6 @@ export const validateDate = (input) => {
         return false
 
     } 
-    
-    if(validateBlacklist(input)){
-
-        alert("Blacklisted Characters Found")
-
-        return false;
-
-    } 
 
     const date = new Date(input);
 
@@ -58,17 +50,17 @@ export const validateSpaces = (input) => {
 
 export const validateBlacklist = (input) => {
 
-    if(/[<>;]/.test(input)){
+    const blacklistPattern = /[^a-zA-Z0-9]/;
 
-        alert("Blacklisted Characters Detected")
+    if (blacklistPattern.test(input)) {
 
-        return true
+        return true; 
 
     }
 
-    return false
+    return false; 
 
-}
+};
 
 export const validateID = (input) => {
 
@@ -92,7 +84,7 @@ export const validateID = (input) => {
     
     if(validateBlacklist(input)){
 
-        alert("Has Blacklisted Characters")
+        alert("ID Has Blacklisted Characters. Should only be alphanumeric characters")
 
         return false
 
@@ -154,7 +146,7 @@ export const validateRegularID = (input) => {
 
     if (validateBlacklist(input)) {
 
-        alert("Has Blacklisted Characters");
+        alert("ID Has Blacklisted Characters. Should only be alphanumeric characters")
 
         return false;
 
@@ -194,14 +186,6 @@ export const validateAddress = async (address) => {
     if (address.length > 255) {
 
         alert("Address Too Long (Maximum 255 Characters)");
-
-        return false;
-
-    }
-
-    if (validateBlacklist(address)) {
-
-        alert("Address Has Blacklisted Characters");
 
         return false;
 
@@ -482,7 +466,7 @@ export const validateName = (input) => {
 
     if (validateBlacklist(input)) {
 
-        alert("Name Contains Blacklisted Characters");
+        alert("Name Has Blacklisted Characters. Should only be alphanumeric characters")
 
         return false;
 
@@ -515,14 +499,6 @@ export const validatePhoneNumber = (input) => {
     if (validateSpaces(input)) {
 
         alert("Phone Number Cannot Contain Spaces");
-
-        return false;
-
-    }
-
-    if (validateBlacklist(input)) {
-
-        alert("Phone Number Contains Blacklisted Characters");
 
         return false;
 
@@ -607,14 +583,6 @@ export const validatePassword = (input) => {
     if (validateSpaces(input)) {
 
         alert("Password Cannot Contain Spaces");
-
-        return false;
-
-    }
-
-    if (validateBlacklist(input)) {
-
-        alert("Password Contains Blacklisted Characters");
 
         return false;
 
@@ -927,7 +895,7 @@ export const validateProduct = (input) => {
 
     if (validateBlacklist(input)) {
 
-        alert("Product Name Contains Blacklisted Characters");
+        alert("Product Name Has Blacklisted Characters. Should only be alphanumeric characters")
 
         return false;
 

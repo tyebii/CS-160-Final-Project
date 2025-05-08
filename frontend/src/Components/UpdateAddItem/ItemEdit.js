@@ -167,7 +167,7 @@ export const ItemEdit = ({ item }) => {
 
                             Insert Image
 
-                            <input type="file" accept="image/*" className="hidden" onChange={(e)=>{handleFile(e)}} />
+                            <input required type="file" accept="image/*" className="hidden" onChange={(e)=>{handleFile(e)}} />
 
                         </label>
 

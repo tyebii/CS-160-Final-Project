@@ -420,7 +420,7 @@ const ItemView = ({ searchType, query }) => {
 
               >
 
-                {Array.from({ length: results.Quantity }, (_, i) => (
+                {Array.from({ length: Math.min(results.Quantity, 100) }, (_, i) => (
 
                   <option key={i + 1} value={i + 1}>{i + 1}</option>
 

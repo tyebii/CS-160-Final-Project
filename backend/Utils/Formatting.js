@@ -23,14 +23,6 @@ const validateDate = (input) => {
         return false
 
     } 
-    
-    if(validateBlacklist(input)){
-
-        logger.error("Blacklisted Characters Found")
-
-        return false;
-
-    } 
 
     const date = new Date(input);
 
@@ -63,12 +55,14 @@ const validateSpaces = (input) => {
 
 const validateBlacklist = (input) => {
 
-    if(/[<>;]/.test(input)){
+    const blacklistPattern = /[^a-zA-Z0-9]/;
+
+    if (blacklistPattern.test(input)) {
 
         logger.error("Blacklisted Characters Detected")
 
-        return true
-
+        return true; 
+        
     }
 
     return false
@@ -97,7 +91,7 @@ const validateID = (input) => {
     
     if(validateBlacklist(input)){
 
-        logger.error("Has Blacklisted Characters")
+        logger.error("ID Has Blacklisted Characters")
 
         return false
 
@@ -159,7 +153,7 @@ const validateRegularID = (input) => {
 
     if (validateBlacklist(input)) {
 
-        logger.error("Has Blacklisted Characters");
+        logger.error("ID Has Blacklisted Characters");
 
         return false;
 
@@ -198,14 +192,6 @@ const validateAddress = async (address) => {
     if (address.length > 255) {
 
         logger.error("Address Too Long (Maximum 255 Characters)");
-
-        return false;
-
-    }
-
-    if (validateBlacklist(address)) {
-
-        logger.error("Address Has Blacklisted Characters");
 
         return false;
 
@@ -552,14 +538,6 @@ const validatePhoneNumber = (input) => {
 
     }
 
-    if (validateBlacklist(input)) {
-
-        logger.error("Phone Number Contains Blacklisted Characters");
-
-        return false;
-
-    }
-
     if (!input.match(regexNumber)) {
 
         logger.error("Invalid Phone Number Format. Must be in the format: 1-XXX-XXX-XXXX");
@@ -643,14 +621,6 @@ const validatePassword = (input) => {
     if (validateSpaces(input)) {
 
         logger.error("Password Cannot Contain Spaces");
-
-        return false;
-
-    }
-
-    if (validateBlacklist(input)) {
-
-        logger.error("Password Contains Blacklisted Characters");
 
         return false;
 
@@ -1057,14 +1027,6 @@ const validateDateTime = (input) => {
     if (!dateTimePattern.test(input)) {
 
         logger.error("DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)");
-
-        return false;
-
-    }
-
-    if (validateBlacklist(input)) {
-
-        logger.error("Blacklisted Characters Found");
 
         return false;
 
