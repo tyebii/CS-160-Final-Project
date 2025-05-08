@@ -1,94 +1,94 @@
 import axios from "axios";
 
-import { validateAddress, validateName} from "../../Utils/Formatting";
+import { validateAddress, validateName } from "../../Utils/Formatting";
 
 import { useErrorResponse } from '../../Utils/AxiosError';
 
 //The Address Block Containing Information And Remove
-function AddressComponent({address,setAddress,}){
-  
-    const { handleError } = useErrorResponse(); 
+function AddressComponent({ address, setAddress, }) {
 
-    //Removes The Address
-    const clickAddressRemove = async () => {
+  const { handleError } = useErrorResponse();
 
-      try {
+  //Removes The Address
+  const clickAddressRemove = async () => {
 
-        if (address.Name === "In Store Pickup") {
+    try {
 
-          alert("Can't delete store");
+      if (address.Name === "In Store Pickup") {
 
-          return;
+        alert("Can't delete store");
 
-        }
-  
-        if (!validateName(address.Name)) {
-
-          return;
-
-        }
-  
-        if (!validateAddress(address.Address)) {
-
-          return;
-
-        }
-  
-        await axios.delete(
-
-          `http://localhost:3301/api/address/address/${address.Address}`,
-
-          {
-
-            withCredentials: true,
-
-            headers: { 'Content-Type': 'application/json' }
-
-          }
-
-        );
-  
-        alert("Address Removed");
-  
-        setAddress((addressList) => 
-
-          addressList.filter((a) => a.Address !== address.Address)
-
-        );
-  
-      } catch (error) {
-
-        handleError(error);
+        return;
 
       }
 
-    };
-      
-    return (
+      if (!validateName(address.Name)) {
 
-        <div className="flex w-3/4 px-2 pt-2 pb-2 rounded-md hover:bg-gray-100 hover:shadow-xl border-2 border-gray-900 border-solid">
+        return;
 
-            <div className="flex-col nowrap w-11/12">
+      }
 
-                <div className="flex">
+      if (!validateAddress(address.Address)) {
 
-                    <h2>{address.Name}</h2>
+        return;
 
-                </div>
+      }
 
-                <div className="text-gray-600 font-thin ">
+      await axios.delete(
 
-                    <p>{address.Address}</p>
+        `http://localhost:3301/api/address/address/${address.Address}`,
 
-                </div>
+        {
 
-            </div>
+          withCredentials: true,
 
-            <span className="hover:underline" onClick={clickAddressRemove}>Remove</span>
+          headers: { 'Content-Type': 'application/json' }
+
+        }
+
+      );
+
+      alert("Address Removed");
+
+      setAddress((addressList) =>
+
+        addressList.filter((a) => a.Address !== address.Address)
+
+      );
+
+    } catch (error) {
+
+      handleError(error);
+
+    }
+
+  };
+
+  return (
+
+    <div className="flex w-full px-2 pt-2 pb-2 rounded-md hover:bg-gray-100 hover:shadow-xl border border-gray-900 border-solid">
+
+      <div className="flex-col nowrap w-11/12">
+
+        <div className="flex">
+
+          <h2>{address.Name}</h2>
 
         </div>
 
-    )
+        <div className="text-gray-600 font-thin ">
+
+          <p>{address.Address}</p>
+
+        </div>
+
+      </div>
+
+      <span className="text-sm hover:underline hover:text-red-500" onClick={clickAddressRemove}>Remove</span>
+
+    </div>
+
+  )
 
 }
 

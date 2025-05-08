@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { Link, useParams} from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import SearchResultsItem from "./SearchResultsItem";
 
@@ -19,7 +19,7 @@ function SearchResults() {
   
   const {auth} = useAuth()
 
-  const {searchType, query} = useParams();
+  const { searchType, query } = useParams();
 
   const [results, setResults] = useState([]);
 
@@ -67,15 +67,15 @@ function SearchResults() {
   //Filtering the results based on demmand
   const handleFilterSelect = (filterType) => {
 
-    let sortedResults = [...results]; 
+    let sortedResults = [...results];
 
     if (filterType === "Low to High Weight") {
 
-        sortedResults.sort((a, b) => a.Weight - b.Weight);
+      sortedResults.sort((a, b) => a.Weight - b.Weight);
 
     } else if (filterType === "High to Low Weight") {
 
-        sortedResults.sort((a, b) => b.Weight - a.Weight);
+      sortedResults.sort((a, b) => b.Weight - a.Weight);
 
     } else if (filterType === "Low to High Cost") {
 
@@ -93,22 +93,27 @@ function SearchResults() {
 
   return (
 
-    <section className="flex justify-center w-full">
+    <section className="flex flex-col px-4 md:px-8 bg-white">
 
-      <nav className="p-4 bg-gray-200 w-[1000px] mx-auto">
+      <div className="flex flex-row justify-between items-center py-8 sm:mx-8 md:mx-4 lg:mx-2 text-2xl">
 
-        {/* Search Results Header */}
-        <h2 className="text-4xl font-bold text-center mb-4">Search Results</h2>
-  
+        <div className="p-4 w-1/2 max-w-2/3">
+          Displaying <strong>{results.length}</strong> results for <strong>{query}</strong>
+        </div>
+
         {/* Filter Section */}
-        <div className="flex justify-start mb-4">
+        <div className="flex p-4 justify-end">
 
           <SearchResultsFilter onFilterSelect={handleFilterSelect} />
 
         </div>
-  
+
+      </div>
+
+      <nav className="p-2">
+
         {/* Search Result List */}
-        <div className="grid gap-4">
+        <div className="md:mx-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 justify-items-center">
 
           {results.length === 0 ? (
 
@@ -142,7 +147,7 @@ function SearchResults() {
 
     </section>
 
-  );  
+  );
 
 };
 

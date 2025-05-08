@@ -7,9 +7,7 @@ function SearchPage() {
   return (
 
     <div className="flex">
-
-      <div className="flex-grow p-4">
-
+      <div className="flex-grow">
         <SearchResults />
 
       </div>

@@ -18,32 +18,32 @@ const SearchResultsFilter = ({ onFilterSelect }) => {
 
   return (
 
-    <div className="relative inline-block">
+    <div className="inline-block z-10">
 
       {/* Filter Description And Icon */}
       <button
 
         className="flex items-center space-x-2 fond-bold"
 
-        onClick={()=>{setIsOpen(!isOpen)}}
+        onClick={() => { setIsOpen(!isOpen) }}
 
       >
 
-        <span>Filter by</span>
-
         <FaFilter className="text-xl" />
+
+        <span>Sort by</span>
 
       </button>
 
       {/* Dropdown Items */}
       {isOpen && (
 
-        <div className="absolute left-0 mt-2 w-32 bg-white border rounded-lg shadow-lg">
+        <div className="absolute right-8 mt-2 w-32 text-base md:text-lg bg-white border rounded-lg shadow-lg">
 
           <button
 
-            className="block w-full p-2 hover:bg-gray-200"
-            
+            className="block w-full rounded-t-lg p-2 hover:bg-gray-200 border-b"
+
             onClick={() => handleFilterClick("Low to High Weight")}
 
           >
@@ -54,7 +54,7 @@ const SearchResultsFilter = ({ onFilterSelect }) => {
 
           <button
 
-            className="block w-full p-2 hover:bg-gray-200"
+            className="block w-full p-2 hover:bg-gray-200 border-b"
 
             onClick={() => handleFilterClick("High to Low Weight")}
 
@@ -66,7 +66,7 @@ const SearchResultsFilter = ({ onFilterSelect }) => {
 
           <button
 
-            className="block w-full p-2 hover:bg-gray-200"
+            className="block w-full p-2 hover:bg-gray-200 border-b"
 
             onClick={() => handleFilterClick("Low to High Cost")}
 
@@ -78,7 +78,7 @@ const SearchResultsFilter = ({ onFilterSelect }) => {
 
           <button
 
-            className="block w-full p-2 hover:bg-gray-200"
+            className="block w-full rounded-b-lg p-2 hover:bg-gray-200"
 
             onClick={() => handleFilterClick("High to Low Cost")}
 
@@ -95,7 +95,7 @@ const SearchResultsFilter = ({ onFilterSelect }) => {
     </div>
 
   );
-  
+
 };
 
 export default SearchResultsFilter;

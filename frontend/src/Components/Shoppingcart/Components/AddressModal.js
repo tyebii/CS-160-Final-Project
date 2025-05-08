@@ -68,13 +68,19 @@ export const AddressModal = ({ submitHandle, onCancel, onClose }) => {
 
     <section className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
 
-      <div className="bg-white p-6 rounded-2xl shadow-2xl w-full max-w-md">
+      <div className="bg-white pt-2 p-6 rounded-lg shadow-xl w-96">
 
-        <div className="flex justify-end">
+        <div className="flex justify-between">
+
+          <h2 className="flex items-center text-xl pl-1">
+
+            New Address
+
+          </h2>
 
           <button
 
-            className="text-3xl font-bold text-gray-600 hover:text-black"
+            className="py-2 text-3xl font-bold text-gray-600 hover:text-black"
 
             onClick={onClose}
 
@@ -140,6 +146,8 @@ export const AddressModal = ({ submitHandle, onCancel, onClose }) => {
 
               value={input}
 
+              className="w-full border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
+
               onChange={(e) => {
 
                 if (!ignoreNextInputChange) {
@@ -153,8 +161,6 @@ export const AddressModal = ({ submitHandle, onCancel, onClose }) => {
               }}
 
               placeholder="Start typing your address..."
-
-              className="w-full border border-gray-300 text-sm rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
               
               required
 
@@ -202,22 +208,10 @@ export const AddressModal = ({ submitHandle, onCancel, onClose }) => {
 
             <button
 
-              type="submit"
-
-              className="px-6 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-semibold shadow"
-            
-            >
-
-              Submit
-
-            </button>
-
-            <button
-
               type="button"
 
-              className="px-6 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white font-semibold shadow"
-              
+              className="px-8 py-2 rounded-md bg-red-400 hover:bg-red-500 text-white font-semibold border border-red-400"
+
               onClick={onCancel}
 
             >
@@ -225,6 +219,20 @@ export const AddressModal = ({ submitHandle, onCancel, onClose }) => {
               Cancel
 
             </button>
+
+            <button
+
+              type="submit"
+
+              className="px-8 py-2 rounded-md bg-green-400 hover:bg-green-500 text-white font-semibold border border-green-500"
+
+            >
+
+              Submit
+
+            </button>
+
+
 
           </div>
 

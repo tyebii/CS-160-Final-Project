@@ -11,9 +11,7 @@ function Layout() {
         <div className="min-h-screen flex flex-col items-center box-border">
 
             <Navbar />
-
-            <div className="flex flex-col justify-between w-full flex-grow">
-
+            <div className="flex flex-col justify-between w-full flex-grow bg-white">
                 <Outlet />
 
             </div>

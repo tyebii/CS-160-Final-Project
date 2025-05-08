@@ -1,14 +1,26 @@
 import { useState } from 'react';
 
+import { useEffect } from 'react';
+
+import { useRef } from 'react';
+
 import { Link } from 'react-router-dom';
 
 import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../Context/AuthHook';
 
-import { useCart } from '../../Context/ShoppingcartContext';
+//Import React Icons
+import {
 
-import ofsLogo from './NavbarImages/ofsLogo.png';
+  FaBars,
+
+} from "react-icons/fa";
+
+// Images for the Navbar
+import ofsLogoBig from './NavbarImages/ofsLogo_big.png';
+
+import { useCart } from '../../Context/ShoppingcartContext';
 
 import loginIcon from './NavbarImages/loginIcon.jpg';
 
@@ -23,13 +35,23 @@ import portalIcon from './NavbarImages/portalIcon.png';
 //Navbar Component
 function Navbar() {
 
-  const { auth, logout} = useAuth();
-  
+  const { auth, logout } = useAuth();
+
   const navigate = useNavigate();
 
   const [searchText, setSearchText] = useState("")
 
   const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const dropdownRef = useRef();
+
+  useEffect(() => {
+    document.body.addEventListener('click', () => {
+      if (dropdownRef.current && !event.composedPath().includes(dropdownRef.current)) {
+        setDropdownVisible(false)
+      }
+    });
+  }, []);
 
   const { cartItems } = useCart();
 
@@ -40,61 +62,68 @@ function Navbar() {
 
   };
 
+  //Set Drawer Visibility
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const toggleDrawer = () => {
+    setDrawerOpen(!drawerOpen);
+  };
+
   //Render The Dropdown
   const renderDropdown = (visible) => {
 
     if (!visible) return null;
 
-      const categories = [
+    const categories = [
 
-        'Fresh Produce',
+      'Fresh Produce',
 
-        'Dairy and Eggs',
+      'Dairy and Eggs',
 
-        'Meat and Seafood',
+      'Meat and Seafood',
 
-        'Frozen Foods',
+      'Frozen Foods',
 
-        'Bakery and Bread',
+      'Bakery and Bread',
 
-        'Pantry Staples',
+      'Pantry Staples',
 
-        'Beverages',
+      'Beverages',
 
-        'Snacks and Sweets',
+      'Snacks and Sweets',
 
-        'Health and Wellness',
+      'Health and Wellness',
 
-      ];
-  
-      return (
+    ];
 
-        <div className="absolute top-full left-1/2 transform -translate-x-1/2 bg-white shadow-lg rounded-2xl w-72 z-10">
+    return (
 
-          {categories.map((category) => (
+      <div className="absolute top-full left-1/2 transform -translate-x-1/2 bg-white shadow-lg border rounded-2xl w-36 md:w-48 z-10">
 
-            <Link 
+        {categories.map((category) => (
 
-              key={category} 
+          <Link
 
-              to={`/search/category/${category.trim().replace(/ /g, '-')}`} 
+            key={category}
 
-              className="block p-3 text-lg hover:bg-gray-300 rounded-lg"
+            to={`/search/category/${category.trim().replace(/ /g, '-')}`}
 
-            >
+            className="block p-3 text-lg text-black hover:bg-gray-300 rounded-lg"
 
-              {category}
+          >
 
-            </Link>
+            {category}
 
-          ))}
+          </Link>
 
-        </div>
+        ))}
 
-      );
+      </div>
+
+    );
 
   };
-  
+
   //Clicking The Logo
   const clickLogo = () => {
 
@@ -105,11 +134,11 @@ function Navbar() {
   //Clicking The Search Icon
   const clickSearch = () => {
 
-    let text = searchText; 
+    let text = searchText;
 
     if (text.trim() === "") {
 
-      alert("There Is Nothing To Search")
+      alert("Search Must be Non-Empty")
 
       return;
 
@@ -167,21 +196,21 @@ function Navbar() {
 
   return (
 
-    <nav className="w-full h-48 bg-gray-100 px-8 flex justify-between items-center shadow-md">
+    <nav className="relative w-full h-16 bg-green-900 flex justify-between items-center shadow-md">
 
       {/* Left: Logo and Dropdown */}
-      <ul className="flex items-center space-x-6">
+      <ul className="flex items-center gap-2 pl-4">
 
         {/* Logo */}
         <li>
 
           <img
 
-            src={ofsLogo}
+            className="invert min-w-20 min-h-16 h-16  object-contain hover:cursor-pointer"
 
-            alt="ofsLogo"
+            src={ofsLogoBig}
 
-            className="w-64 h-40 object-contain hover:cursor-pointer"
+            alt="ofsLogoBig"
 
             onClick={clickLogo}
 
@@ -191,49 +220,48 @@ function Navbar() {
 
         {/* Dropdown */}
 
-          {auth !== "Employee" && auth !== "Manager" ? (    
+        <li
 
-            <li
+          className="relative flex items-center space-x-2 mx-2 p-2 md:pr-4 hover:bg-green-800 rounded-xl cursor-pointer transition duration-200"
 
-            className="relative flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 rounded-xl cursor-pointer transition duration-200"
+          ref={dropdownRef}
 
-            onClick={toggleDropdown}
+        >
 
-            >
+          {auth !== "Employee" && auth !== "Manager" ? (
 
-            <div className="text-2xl font-medium">
+            <div className="text-lg md:text-2xl text-white mx-2">
 
-              <span className="flex items-center gap-2">
+              <span className="flex items-center" onMouseOver={toggleDropdown}>
 
-                Browse
+                Categories
 
-                <img src={dropDownIcon} alt="dropdownIcon" className="mt-1 w-6 h-6" />
+                <img src={dropDownIcon} alt="dropdownIcon" className="invert mt-1 w-4 md:w-6 h-4 md:h-6 mx-2" />
 
               </span>
 
               {renderDropdown(dropdownVisible)}
-              
+
             </div>
-          </li>
 
           ) : null}
 
-        
+        </li>
 
-      </ul>
+      </ul >
 
       {/* Right: Search, Login, Cart, etc */}
 
-      <ul className="flex items-center space-x-6">
+      < ul className="flex w-full justify-end items-center space-x-6 pr-4" >
 
         {/* Search Bar */}
 
-        <form 
+        <form
           onSubmit={(e) => {
 
-            e.preventDefault(); 
-            
-            clickSearch();      
+            e.preventDefault();
+
+            clickSearch();
 
           }}
 
@@ -254,7 +282,7 @@ function Navbar() {
 
               placeholder="Search"
 
-              className="w-64 h-10 px-4 text-2xl outline-none"
+              className="w-full h-10 px-4 text-2xl outline-none"
 
             />
 
@@ -266,131 +294,201 @@ function Navbar() {
 
             >
 
-              <img src={searchIcon} alt="search icon" className="w-6 h-6" />
+              <img src={searchIcon} alt="search icon" className="min-w-6 h-6" />
 
             </div>
 
-          </li>
+          </li >
 
-        </form>
+        </form >
+
+        {/* Portal / Cart */}
+
+        {
+          auth === "Manager" || auth === "Employee" ? (
+
+            <li
+
+              onClick={clickPortal}
+
+              className="hidden lg:flex items-center space-x-2 p-2 hover:bg-green-800 rounded-lg cursor-pointer transition duration-200 text-white"
+
+            >
+
+              <img
+
+                src={portalIcon}
+
+                alt="portal icon"
+
+                className="w-8 h-8 invert object-contain"
+
+              />
+
+              <p className="text-2xl">Portal</p>
+
+            </li>
+
+          ) : (
+
+            <li
+
+              onClick={auth ? clickShoppingCart : clickLogin}
+
+              className="hidden lg:flex items-center space-x-2 text-nowrap py-2 px-4 hover:bg-green-800 rounded-lg cursor-pointer transition duration-200 text-white"
+
+            >
+
+              <img
+
+                src={shoppingCartIcon}
+
+                alt="shopping cart icon"
+
+                className="w-8 h-8 invert object-contain"
+
+              />
+
+              {cartItems.size > 0 && (
+
+                <span className="absolute z-10 scale-50 top-2 translate-x-1.5 bg-red-500 text-white text-sm font-bold px-2 py-1 rounded-full">
+
+                  {cartItems.size}
+
+                </span>
+
+              )}
+
+              <p className="text-2xl">My Cart</p>
+
+            </li>
+
+          )
+        }
+
 
         {/* Login / Logout */}
         <li
 
           onClick={auth ? clickLogout : clickLogin}
 
-          className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 rounded-lg cursor-pointer transition duration-200"
+          className="hidden lg:flex items-center space-x-2 p-2 hover:bg-green-800 text-white rounded-lg cursor-pointer transition duration-200"
 
         >
 
-          <img src={loginIcon} alt="loginIcon" className="w-6 h-6" />
+          <img src={loginIcon} alt="loginIcon" className="invert w-6 h-6" />
 
           <p className="text-2xl">{auth ? "Logout" : "Login"}</p>
 
         </li>
 
-        {/* My Account */}
+        {/* Sidebar */}
+        <FaBars
+          className="flex min-w-8 items-center text-4xl text-white space-x-2 hover:cursor-pointer"
+          onClick={toggleDrawer}
+        >
+        </FaBars>
 
-        {auth? (
+        <div
+          className={`absolute top-0 right-0 z-20 w-24 md:w-48 h-auto bg-white border rounded-bl-xl shadow-lg transition-transform transform ${drawerOpen ? "-translate-x-0" : "translate-x-full"}`}
+        >
+          <div className="p-4 mt-4 text-xl">
 
-          <li
+            <ul className="space-y-4">
 
-            onClick={clickAccount}
+              {/* Portal / Cart */}
+              {auth === "Manager" || auth === "Employee" ? (
 
-            className="px-4 py-2 hover:bg-gray-200 rounded-lg cursor-pointer transition duration-200"
+                <li
 
+                  onClick={clickPortal}
+
+                  className="hover:text-green-600 rounded-lg cursor-pointer transition duration-200"
+
+                >
+
+                  <p className="">Portal</p>
+
+                </li>
+
+              ) : (
+
+                <li
+
+                  onClick={() => { { auth ? clickShoppingCart() : clickLogin() }; toggleDrawer() }}
+
+                  className="hover:text-green-600 rounded-lg cursor-pointer transition duration-200"
+
+                >
+              
+                  <p className="">Shopping Cart</p>
+
+                </li>
+
+              )}
+
+              {/* My Account */}
+              {auth ? (
+
+                <li
+
+                  onClick={() => { clickAccount(); toggleDrawer() }}
+
+                  className="hover:text-green-600 rounded-lg cursor-pointer transition duration-200"
+
+                >
+
+                  <p className="">My Account</p>
+
+                </li>
+
+              ) : null}
+
+              {/* My Orders */}
+              {auth === "Customer" ? (
+
+                <li
+
+                  onClick={() => { clickOrders(); toggleDrawer() }}
+
+                  className="hover:text-green-600 rounded-lg cursor-pointer transition duration-200"
+
+                >
+
+                  <p className="">My Orders</p>
+
+                </li >
+
+              ) : null}
+
+              <li
+
+                onClick={auth ? clickLogout : clickLogin}
+
+                className="hover:text-red-500 rounded-lg cursor-pointer transition duration-200"
+
+              >
+
+                <p className="">{auth ? "Logout" : "Login"}</p>
+
+              </li>
+
+            </ul >
+
+          </div >
+
+          <button
+            onClick={toggleDrawer}
+            className="absolute top-0 right-4 text-gray-600 hover:text-black text-2xl font-bold"
           >
+            &times;
+          </button>
 
-            <p className="text-2xl">My Account</p>
+        </div >
 
-          </li>
+      </ul >
 
-        ): null}
-
-        {/* My Orders */}
-
-        {auth === "Customer"? (
-
-          <li
-
-            onClick={clickOrders}
-
-            className="px-4 py-2 hover:bg-gray-200 rounded-lg cursor-pointer transition duration-200"
-
-          >
-
-            <p className="text-2xl">My Orders</p>
-
-          </li>
-
-        ): null}
-
-        {/* Portal / Cart */}
-
-        {auth === "Manager" || auth === "Employee" ? (
-
-          <li
-
-            onClick={clickPortal}
-
-            className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 rounded-lg cursor-pointer transition duration-200"
-
-          >
-
-            <img
-
-              src={portalIcon}
-
-              alt="portal icon"
-
-              className="w-8 h-8 object-contain"
-
-            />
-
-            <p className="text-2xl">Portal</p>
-
-          </li>
-
-        ) : auth === "Customer" ? (
-          
-          <li
-
-            onClick={auth ? clickShoppingCart : clickLogin}
-
-            className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-200 rounded-lg cursor-pointer transition duration-200"
-
-          >
-
-            {cartItems.size > 0 && (
-
-              <span className="bg-red-500 text-white text-sm font-bold px-2 py-1 rounded-full">
-
-                {cartItems.size}
-
-              </span>
-
-            )}
-
-            <img
-
-              src={shoppingCartIcon}
-
-              alt="shopping cart icon"
-
-              className="w-8 h-8 object-contain"
-
-            />
-
-            <p className="text-2xl">Shopping Cart</p>
-
-          </li>
-
-
-        ):null}
-
-      </ul>
-
-    </nav>
+    </nav >
 
   );
 

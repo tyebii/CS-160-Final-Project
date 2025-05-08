@@ -268,7 +268,7 @@ function TransactionsTable({trigger, auth}) {
 
                                 <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
                                     
-                                    <td className="px-2 py-2 border break-words hover:cursor-pointer hover:underline" onClick = {()=>{navigate("/transaction/view", { state:  transaction  })}}>{transaction.TransactionID}</td>
+                                    <td className="px-2 py-2 border break-words hover:cursor-pointer underline hover:text-blue-600" onClick = {()=>{navigate("/transaction/view", { state:  transaction  })}}>{transaction.TransactionID}</td>
 
                                     <td className="px-2 py-2 border break-words">{transaction.CustomerID}</td>
 
