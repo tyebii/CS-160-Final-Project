@@ -178,7 +178,7 @@ const FeaturedProductCard = ({ item, cost, distributor, imageSrc, productName })
     };
 
     return (
-        <button onClick={clickView} className="w-64 h-[26rem] bg-white border border-gray-200 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col justify-between items-center p-5 transform hover:scale-[1.06] hover:-translate-y-1 hover:border-green-600 group">
+        <div onClick={clickView} className="w-64 h-[26rem] bg-white border border-gray-200 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col justify-between items-center p-5 transform hover:scale-[1.06] hover:-translate-y-1 hover:border-green-600 group">
 
             {/* Product Image */}
             <div className="w-48 h-48 flex items-center justify-center bg-gradient-to-br from-pink-100 via-yellow-100 to-blue-100 rounded-xl overflow-hidden shadow-inner group-hover:shadow-xl transition duration-300">
@@ -233,7 +233,7 @@ const FeaturedProductCard = ({ item, cost, distributor, imageSrc, productName })
 
             </button>
 
-        </button>
+        </div>
 
 
 

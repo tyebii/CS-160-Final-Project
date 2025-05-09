@@ -22,13 +22,13 @@ function AddressComponent({ address, setAddress, }) {
 
       }
 
-      if (!validateName(address.Name)) {
+      if (!validateName(address.Name, "Name")) {
 
         return;
 
       }
 
-      if (!validateAddress(address.Address)) {
+      if (!validateAddress(address.Address, "Address")) {
 
         return;
 

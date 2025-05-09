@@ -49,7 +49,7 @@ const ItemView = ({ searchType, query }) => {
       }
 
 
-      if (!validateID(itemid)) {
+      if (!validateID(itemid, "Item ID")) {
 
         navigate('/');
 
@@ -116,7 +116,7 @@ const ItemView = ({ searchType, query }) => {
 
     e.preventDefault();
 
-    if (!validateID(itemid)) {
+    if (!validateID(itemid, "Item ID")) {
 
       return;
 
@@ -132,7 +132,7 @@ const ItemView = ({ searchType, query }) => {
 
     const numericQty = Number(quantity);
 
-    if (!validateQuantity(numericQty)) {
+    if (!validateQuantity(numericQty, "Quantity")) {
       
       return;
 
@@ -197,7 +197,7 @@ const ItemView = ({ searchType, query }) => {
 
     }
   
-    if (!validateID(itemid)) {
+    if (!validateID(itemid, "Item ID")) {
 
       return;
 
@@ -240,7 +240,7 @@ const ItemView = ({ searchType, query }) => {
   //Handle Add To Featured
   const handleAddFeatured = async () => {
 
-    if (!validateID(itemid)) {
+    if (!validateID(itemid, "Item ID")) {
 
       return;
 
@@ -283,7 +283,7 @@ const ItemView = ({ searchType, query }) => {
   //Handle Delete From Featured
   const handleDeleteFeatured = async () => {
 
-    if (!validateID(itemid)) {
+    if (!validateID(itemid, "Item ID")) {
 
       return;
 

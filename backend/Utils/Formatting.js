@@ -4,555 +4,506 @@ const {logger} = require('../Utils/Logger');
 
 require('dotenv').config(); 
 
-const validateDate = (input) => {
 
-    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 
-    if (input == null){
 
-        logger.error("No Date Found")
+//---------------------------------------------------------------------------------------------------------------
+// -------------------------------Helper Functions For Generalized Validation------------------------------------
+//---------------------------------------------------------------------------------------------------------------
 
-        return false
 
-    } 
 
-    if(!datePattern.test(input)){
 
-        logger.error("Date Fails The Pattern xxxx-xx-xx")
+//Checks if the value is null
+const isNull = (value, message) => { if (value == null) throw new Error(message); };
 
-        return false
+//Checks if the vvalue is a string
+const isString = (value, message) => { if (typeof value !== 'string') throw new Error(message); };
 
-    } 
+//Checks if the value is a number
+const isNumber = (value, message) => { if (typeof value !== 'number') throw new Error(message); };
 
-    const date = new Date(input);
+//Checks if the value is an integer
+const isInteger = (value, message) => {
 
-    const timestamp = date.getTime();
+  if (!Number.isInteger(value)) throw new Error(message);
 
-    if (isNaN(timestamp)){
+};
 
-        logger.error("Not A Valid Date")
+//Checks if the value matches the regex
+const matches = (value, regex, message) => { if (!regex.test(value)) throw new Error(message); };
 
-        return false;
+//Checks if the value falls within the specified range
+const inRange = (value, min, max, message) => { if (value < min || value > max) throw new Error(message); };
 
-    }
+//Checks if the value can be found in a specified list
+const inList = (value, list, message) => { if (!list.includes(value)) throw new Error(message); };
 
-    return input === date.toISOString().slice(0, 10);
+//Checks if there are spaces in the value
+const hasNoSpaces = (value, message) => { if (/\s/.test(value)) throw new Error(message); };
 
-}
+//Checks if the value is a valid UUID
+const isUUID = (value, message) => {
 
-const validateSpaces = (input) => {
+  const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
-    if(/\s/.test(input)){
+  if (!uuidRegex.test(value)) throw new Error(message);
 
-        logger.error("Spaces Detected")
+};
 
-        return true 
-    }
+//Checks if the value is a valid number with a specified max decimal places and limit
+const isValidDecimal = (value, maxDecimals, maxValue, message) => {
 
-        return false
+  const regex = new RegExp(`^\\d+(\\.\\d{1,${maxDecimals}})?$`);
 
-}
+  if (!regex.test(value)) throw new Error(message); 
 
-const validateBlacklist = (input) => {
+  if (value > maxValue) throw new Error(message); 
 
-    const blacklistPattern = /[^a-zA-Z0-9]/;
+};
 
-    if (blacklistPattern.test(input)) {
+//Checks if the value is a valid date
+const isISODate = (value, message) => {
 
-        logger.error("Blacklisted Characters Detected")
+  const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 
-        return true; 
-        
-    }
+  if (!datePattern.test(value)) throw new Error(message);
 
-    return false
+  const date = new Date(value);
 
-}
+  if (isNaN(date.getTime())) throw new Error('Not a valid date');
 
-const validateID = (input) => {
+  const normalized = date.toISOString().slice(0, 10);
 
-    const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+  if (value !== normalized) throw new Error(message);
 
-    if (input == null){
+};
 
-        logger.error("Input Not Found")
+//Checks if the value is a valid date in the past
+const isPastDate = (value, message) => {
 
-        return false
+    const today = new Intl.DateTimeFormat('en-CA', {
 
-    } 
-    
-    if(typeof input !== 'string'){
+        timeZone: 'America/Los_Angeles',
 
-        logger.error("Must Be A String")
+        year: 'numeric',
 
-        return false
+        month: '2-digit',
 
-    } 
-    
-    if(!uuidRegex.test(input)) {
+        day: '2-digit',
 
-        logger.error("Improper Format On ID")
+    }).format(new Date()); 
 
-        return false;
+    if (value > today) {
 
-    }
-
-    return true;
-    
-}
-
-const validateRegularID = (input) => {
-
-    if (input == null) {
-
-         logger.error("Input Not Found");
-
-        return false;
+        throw new Error(message);
 
     }
 
-    if (typeof input !== 'string') {
+};
 
-        logger.error("Must Be A String");
+//Checks if the value is a valid date in the future
+const isFutureDate = (value, message) => {
 
-        return false;
+    const today = new Intl.DateTimeFormat('en-CA', {
 
-    }
+        timeZone: 'America/Los_Angeles',
 
-    if (input.length < 5) {
+        year: 'numeric',
 
-        logger.error("Input Too Short (Minimum 5 Characters)");
+        month: '2-digit',
 
-        return false;
+        day: '2-digit',
 
-    }
+    }).format(new Date()); 
 
-    if (input.length > 255) {
-        
-        logger.error("Input Too Long (Maximum 255 Characters)");
+    if (value <= today) {
 
-        return false;
-
-    }
-
-    if (validateSpaces(input)) {
-
-        logger.error("Contains Spaces");
-
-        return false;
+        throw new Error(message);
 
     }
 
-    if (validateBlacklist(input)) {
+};
 
-        logger.error("ID Has Blacklisted Characters");
+//Validate Item Belonging To A List
+const validateEnum = (input, list, label) => validate(input, [
 
-        return false;
+  () => isNull(input, `${label}: ${label} Not Provided`),
 
-    }
+  () => isString(input, `${label}: ${label} Must Be A String`),
+
+  () => inList(input, list, `${label}: Invalid ${label}. Must be one of: ${list.join(', ')}`)
+
+]);
+
+//Checks the input against the selected validators
+const validate = (input, validators) => {
+
+  try {
+
+    for (const func of validators) func();
 
     return true;
 
-}
+  } catch (err) {
 
-const validateAddress = async (address) => {
+    logger.error(err.message);
 
-    if (address == null) {
+    return false;
 
-        logger.error("Address Not Found");
+  }
 
-        return false;
+};
 
-    }
 
-    if (typeof address !== "string") {
 
-        logger.error("Address Must Be A String");
 
-        return false;
+//---------------------------------------------------------------------------------------------------------------
+// -------------------------------Field Validations--------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------
 
-    }
 
-    if (address.length < 5) {
 
-        logger.error("Address Too Short (Minimum 5 Characters)");
 
-        return false;
+//Validate Regular ID
+const validateRegularID = (input, label) => validate(input, [
 
-    }
+    () => isNull(input, `${label}: ID Input Not Found`),
+  
+    () => isString(input, `${label}: ID Must Be A String`),
+  
+    () => inRange(input.length, 5, 255, `${label}: ID Input must be 5–255 characters`),
+  
+    () => hasNoSpaces(input, `${label}: Contains Spaces`),
+  
+    () => matches(input, /^[a-zA-Z0-9]+$/, `${label}: ID Must be alphanumeric`)
+  
+]);
 
-    if (address.length > 255) {
+//Validate UUID
+const validateID = (input, label) => validate(input, [
 
-        logger.error("Address Too Long (Maximum 255 Characters)");
+    () => isNull(input, `${label}: Input Not Found`),
+  
+    () => isString(input, `${label}: Must Be A String`),
+  
+    () => isUUID(input, `${label}: Improper Format On ID`)
+  
+]);
 
-        return false;
+//Validate Date
+const validateDate = (input, label) => validate(input, [
 
-    }
+  () => isNull(input, `${label}: No Date Found`),
 
-    const regex = /,\s*San\s+Jose,\s*(California|CA)/i;
+  () => isISODate(input, `${label}: Date Fails The Pattern xxxx-xx-xx`)
 
-    if (!regex.test(address)) {
+]);
 
-        logger.error("Must Be In San Jose California");
-        
-        return false;
+//Validate Future Date
+const validateFutureDate = (input, label) => validate(input, [
 
-    }
+    () => isNull(input, `${label}: Date Not Provided`),
+  
+    () => isISODate(input, `${label}: Date Fails The Pattern xxxx-xx-xx`),
+  
+    () => isFutureDate(input, `${label}: Date Must Be In The Future`)
+  
+]);
+  
+//Validate Past Date
+const validatePastDate = (input, label) => validate(input, [
+  
+    () => isNull(input, `${label}: Date Not Provided`),
+  
+    () => isISODate(input, `${label}: Date Fails The Pattern xxxx-xx-xx`),
+  
+    () => isPastDate(input, `${label}: Date Must Be In The Past`)
+  
+]);
 
-    const encodedAddress = encodeURIComponent(address);
+//Validate Name
+const validateName = (input, label) => validate(input, [
 
-    const accessToken = process.env.MAPBOXSECRET;
+    () => isNull(input, `${label}: Name Not Provided`),
+  
+    () => isString(input, `${label}: Name Must Be A String`),
+  
+    () => inRange(input.trim().length, 2, 255, `${label}: Name must be 2–255 characters`),
+  
+    () => matches(input, /^[a-zA-Z]+(?: [a-zA-Z]+)*$/, `${label}: Name must be alphabetical`)
+  
+]);
+
+//Validate Description
+const validateDescription = (input, label) => validate(input, [
+
+  () => isNull(input, `${label}: Description Not Provided`),
+
+  () => isString(input, `${label}: Description Must Be A String`),
+
+  () => inRange(input.trim().length, 2, 255, `${label}: Description must be 2–255 characters`),
+
+  () => matches(input, /^[a-zA-Z0-9\s.,'\-?!]*$/, `${label}: Description must be alphabetical`)
+
+]);
+
+//Validate Phone Number
+const validatePhoneNumber = (input, label) => validate(input, [
+
+    () => isNull(input, `${label}: Phone Number Not Provided`),
+  
+    () => isString(input, `${label}: Phone Number Must Be A String`),
+  
+    () => hasNoSpaces(input, `${label}: Phone Number Cannot Contain Spaces`),
+  
+    () => matches(input, /^\d{11}$/, `${label}: Invalid Phone Number Format. Must be in the format: XXXXXXXXXXX`)
+  
+]);
+
+//Validate Password
+const validatePassword = (input, label) => validate(input, [
+
+    () => isNull(input, `${label}: Password Not Provided`),
+  
+    () => isString(input, `${label}: Password Must Be A String`),
+  
+    () => inRange(input.length, 8, 255, `${label}: Password must be 8–255 characters`),
+  
+    () => hasNoSpaces(input, `${label}: Password Cannot Contain Spaces`),
+  
+    () => matches(input, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/, `${label}: Password must contain upper, lower, number, and special character`)
+  
+]);
+
+//Validate Quantity
+const validateQuantity = (input, label) => validate(input, [
+
+    () => isNull(input, `${label}: Quantity Not Provided`),
+  
+    () => isNumber(input, `${label}: Quantity Must Be A Number`),
+  
+    () => isInteger(input, `${label}: Quantity Must Be an Integer`),
+  
+    () => inRange(input, 1, 5000, `${label}: Quantity Must Be Between 1 and 5000`)
+  
+]);
+
+//Validate Weight
+const validateWeight = (input, label) => validate(input, [
+
+    () => isNull(input, `${label}: Weight Not Provided`),
+
+    () => isNumber(input, `${label}: Weight Must Be A Number`),
+
+    () => inRange(input, 0.01, 1000, `${label}: Weight Must Be Between 0.01 and 1000`),
+
+    () => isValidDecimal(input, 2, 1000, `${label}: Weight cannot have more than 2 decimal places or exceed 1000`)
+
+]);
+
+//Validate Cost
+const validateCost = (input, label) => validate(input, [
+
+    () => isNull(input, `${label}: Cost Not Provided`),
+  
+    () => isNumber(input, `${label}: Cost Must Be A Number`),
+  
+    () => inRange(input, 0.01, 100000, `${label}: Cost Must Be Between 0.01 and 100000`),
+  
+    () => isValidDecimal(input, 2, 100000, `${label}: Cost cannot have more than 2 decimal places or exceed 100000`)
+  
+]);
+
+//Validate Employee Hourly
+const validateEmployeeHourly = (input, label) => validate(input, [
+
+    () => isNull(input, `${label}: Hourly Rate Not Provided`),
+  
+    () => isNumber(input, `${label}: Hourly Rate Must Be A Number`),
+  
+    () => inRange(input, 0, 1000, `${label}: Hourly Rate Cannot Exceed 1000`),
+  
+    () => isValidDecimal(input, 2, 1000, `${label}: Hourly cannot have more than 2 decimal places or exceed 1000`)
+  
+]);
+
+//Validate Address
+const validateAddress = async (address, label = "Address") => {
 
     try {
 
-        const response = await fetch(
+      const valid = validate(address, [
 
-            `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedAddress}.json?access_token=${accessToken}`
-        
-        );
+        () => isNull(address, `${label}: Address Not Provided`),
 
-        const data = await response.json();
+        () => isString(address, `${label}: Address Must Be A String`),
 
-        if (!data || data.features.length === 0) {
-            
-            logger.error("Address Not Found On Map");
+        () => inRange(address.length, 5, 255, `${label}: Address must be 5–255 characters`),
 
-            return false;
+        () => matches(address, /,\s*San\s+Jose,\s*(California|CA)/i, `${label}: Must Be In San Jose`)
 
-        }
+      ]);
+  
+      if (!valid) return false;
 
-        logger.info("Address Found On Map");
+    } catch (err) {
 
-        return true;
+      logger.error(`Validation failed: ${err.message}`);
+
+      return false;
+
+    }
+  
+    const encodedAddress = encodeURIComponent(address);
+
+    const accessToken = process.env.MAPBOXSECRET;
+  
+    try {
+
+      const response = await fetch(
+
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedAddress}.json?access_token=${accessToken}`
+
+      );
+
+      const data = await response.json();
+  
+      if (!data || data.features.length === 0) {
+
+        logger.error("Address Not Found On Map");
+
+        return false;
+
+      }
+  
+      logger.info("Address Found On Map");
+
+      return true;
 
     } catch (error) {
 
-        console.error("Mapbox fetch error: ", error);
+      console.error("Mapbox fetch error: ", error);
 
-        logger.error("Error Validating Address With Mapbox");
+      logger.error("Error Validating Address With Mapbox");
 
-        return false;
-        
+      return false;
+
     }
+
+};
+  
+//Validate Robot Load
+const validateRobotLoad = (input, label) => validate(input, [
+
+  () => isNull(input, `${label}: Robot Load Not Provided`),
+
+  () => isNumber(input, `${label}: Robot Load Must Be A Number`),
+
+  () => inRange(input, 0, 200, `${label}: Robot Load Must Be Between 0 and 200`)
+
+]);
+
+//Validate Robot Status
+const validateRobotStatus = (input, label) => validateEnum(input, ['En Route', 'Broken', 'Maintenance', 'Charging', 'Free', 'Retired'], `${label}: Robot Status`);
+
+//Validate Transaction Status
+const validateTransactionStatus = (input, label) => validateEnum(input, ['In progress', 'Complete', 'Failed', 'Delivering', 'Pending Delivery'], `${label}: Transaction Status`);
+
+//Validate Employee Status
+const validateEmployeeStatus = (input, label) => validateEnum(input, ['Employed', 'Absence', 'Fired'], `${label}: Employee Status`);
+
+//Validate Category
+const validateCategory = (input, label) => validateEnum(input, ['Fresh Produce','Dairy and Eggs','Meat and Seafood','Frozen Foods','Bakery and Bread','Pantry Staples','Beverages','Snacks and Sweets','Health and Wellness'], `${label}: Category`);
+
+//Validate Storage Requirement
+const validateStorageRequirement = (input, label) => validateEnum(input, ['Frozen', 'Deep Frozen', 'Cryogenic', 'Refrigerated', 'Cool', 'Room Temperature', 'Ambient', 'Warm', 'Hot', 'Dry', 'Moist', 'Airtight', 'Dark Storage', 'UV-Protected', 'Flammable', 'Hazardous', 'Perishable', 'Non-Perishable'], `${label}: Storage Requirement`);
+
+//Validate Search Term
+const validateProduct = (input, label = "Product Name") => {
+
+    return validate(input, [
+
+      () => isNull(input, `${label} Not Provided`),
+
+      () => isString(input, `${label} Must Be A String`),
+
+      () => inRange(input.length, 1, 255, `${label} must be 1–255 characters`),
+
+      () => matches(input, /^[a-zA-Z0-9\s]*$/, `${label} Contains Blacklisted Characters`)
+
+    ]);
+
 };
 
-const validateQuantity = (input) => {
 
-    if (input == null) {
 
-        logger.error("Quantity Not Provided");
 
-        return false;
+//---------------------------------------------------------------------------------------------------------------
+// -------------------------------Composite Validations----------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------
 
-    }
 
-    if (typeof input !== 'number') {
 
-        logger.error("Quantity Must Be A Number");
 
-        return false;
+//Validate Product Format
+const insertFormat = (Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost, Expiration, StorageRequirement, Description) => {
 
-    }
+    return (
 
-    if (input <= 0) {
+        validateQuantity(Quantity, "Quantity") &&
 
-        logger.error("Quantity Must Be Greater Than Zero");
+        validateName(Distributor, "Distributor") &&
 
-        return false;
+        validateWeight(Weight, "Weight") &&
 
-    }
+        validateName(ProductName, "Product Name") &&
 
-    if (input > 5000) {
+        validateCategory(Category, "Category") &&
 
-        logger.error("Quantity Cannot Exceed 5000");
+        validateCost(SupplierCost, "Supplier Cost") &&
 
-        return false;
+        validateCost(Cost, "Product Cost") &&
 
-    }
+        validateFutureDate(Expiration, "Expiration Date") &&
 
-    if (!Number.isInteger(input)) {
+        validateStorageRequirement(StorageRequirement, "Storage Requirement") &&
 
-        logger.error("Quantity Must Be An Integer");
+        validateDescription(Description, "Description")
 
-        return false;
+    );
 
-    }
+};
 
-    return true;
-    
-}
-
-const validateRobotLoad = (input) => {
-
-    if (input == null) {
-
-        logger.error("Robot Load Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== 'number') {
-
-        logger.error("Robot Load Must Be A Number");
-
-        return false;
-
-    }
-
-    if (input < 0) {
-
-        logger.error("Robot Load Cannot Be Negative");
-
-        return false;
-
-    }
-
-    return true;
-
-}
-
-const validateRobotStatus = (input) => {
-
-    const statusList = ['En Route', 'Broken', 'Maintenance', 'Charging', 'Free', 'Retired'];
-
-    if (input == null) {
-
-        logger.error("Robot Status Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== 'string') {
-
-        logger.error("Robot Status Must Be A String");
-
-        return false;
-
-    }
-
-    if (!statusList.includes(input)) {
-
-        logger.error(`Invalid Robot Status. Must be one of: ${statusList.join(', ')}`);
-
-        return false;
-
-    }
-
-    return true;
-    
-}
-
-const validateFutureDate = (input) => {
-
-    if (input == null) {
-
-        logger.error("Date Not Provided");
-
-        return false;
-
-    }
-
-    if (!validateDate(input)) {
-
-        return false;
-
-    }
-
-    const date = new Date(input);
-
-    const now = new Date();
-
-    if (isNaN(date.getTime())) {
-
-        logger.error("Invalid Date Value");
-
-        return false;
-
-    }
-
-    if (date <= now) {
-
-        logger.error("Date Must Be In The Future");
-
-        return false;
-
-    }
-
-    return true;
-    
-}
-
-const validatePastDate = (input) => {
-
-    if (input == null) {
-
-        logger.error("Date Not Provided");
-
-        return false;
-
-    }
-
-    if (!validateDate(input)) {
-
-        logger.error("Invalid Date Format");
-
-        return false;
-
-    }
-
-    const date = new Date(input);
-
-    const now = new Date();
-
-    if (isNaN(date.getTime())) {
-
-        logger.error("Invalid Date Value");
-
-        return false;
-
-    }
-
-    if (date > now) {
-
-        logger.error("Date Must Be In The Past");
-
-        return false;
-        
-    }
-
-    return true;
-
-}
-
+//Validate Robot Format
 const validateRobot = (req, res, next) => {
 
-    if(!validateRegularID(req.body.RobotID)){
+    if(
 
-        return res.status(statusCode.BAD_REQUEST).json({error:"RobotID Format Invalid"})
-
-    } 
+        validateRegularID(req.body.RobotID, "RobotID") &&
     
-    if(!validateRobotLoad(req.body.CurrentLoad)){
-
-        return res.status(statusCode.BAD_REQUEST).json({error:"Current Load Format Invalid"})
-
-    } 
+        validateRobotLoad(req.body.CurrentLoad, "Robot's Current Load") &&
     
-    if(!validateRobotStatus(req.body.RobotStatus)){
+        validateRobotStatus(req.body.RobotStatus, "Robot's Status") &&
+    
+        validateFutureDate(req.body.Maintanence, "Robot's Maintanence Date") 
 
-        return res.status(statusCode.BAD_REQUEST).json({error:"Robot Status Format Invalid"})
+    ){
+            
+            next();
 
-    } 
+    }else{
+            
+            return res.status(statusCode.BAD_REQUEST).json({error:"Robot Format Invalid"})
 
-    if(!validateFutureDate(req.body.Maintanence)){
-
-        return res.status(statusCode.BAD_REQUEST).json({error:"Maintenance Date Format Invalid"})
-
-    } 
-
-    next();
+    }
 
 }
 
-const validateName = (input) => {
-
-    if (input == null) {
-
-        logger.error("Name Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== "string") {
-
-        logger.error("Name Must Be A String");
-
-        return false;
-
-    }
-
-    if (input.trim() === "") {
-
-        logger.error("Name Cannot Be Empty or Whitespace");
-
-        return false;
-
-    }
-
-    if (input.length < 2) {
-
-        logger.error("Name Too Short (Minimum 2 Characters)");
-
-        return false;
-
-    }
-
-    if (input.length > 255) {
-
-        logger.error("Name Too Long (Maximum 255 Characters)");
-
-        return false;
-
-    }
-
-    if (validateBlacklist(input)) {
-
-        logger.error("Name Contains Blacklisted Characters");
-
-        return false;
-
-    }
-
-    return true;
-    
-}
-
-const validatePhoneNumber = (input) => {
-
-    const regexNumber = /^\d{11}$/;
-
-    if (input == null) {
-
-        logger.error("Phone Number Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== "string") {
-
-        logger.error("Phone Number Must Be A String");
-
-        return false;
-
-    }
-
-    if (validateSpaces(input)) {
-
-        logger.error("Phone Number Cannot Contain Spaces");
-
-        return false;
-
-    }
-
-    if (!input.match(regexNumber)) {
-
-        logger.error("Invalid Phone Number Format. Must be in the format: XXXXXXXXXXX");
-
-        return false;
-
-    }
-
-    return true;
-
-}
-
+//Validate Employee Format
 const employeeFormat = (req, res, next) => {
 
-    if(!validateRegularID(req.body.UserID)){
+    if(!validateRegularID(req.body.UserID, "UserID")){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"UserID Format Invalid"})
 
@@ -562,19 +513,19 @@ const employeeFormat = (req, res, next) => {
 
     const {UserNameFirst, UserNameLast, UserPhoneNumber } = req.body;
 
-    if(!validateName(UserNameFirst)){
+    if(!validateName(UserNameFirst, "First Name")){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"First Name Format Invalid"})
 
     }
     
-    if(!validateName(UserNameLast)){
+    if(!validateName(UserNameLast, "Last Name")){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"Last Name Format Invalid"})
 
     }
 
-    if (!validatePhoneNumber(UserPhoneNumber)) {
+    if (!validatePhoneNumber(UserPhoneNumber, "Phone Number")) {
 
         return res.status(statusCode.BAD_REQUEST).json({error:"Phone Number Format Invalid"})
         
@@ -584,65 +535,10 @@ const employeeFormat = (req, res, next) => {
     
 }
 
-const validatePassword = (input) => {
-
-    if (input == null) {
-
-        logger.error("Password Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== 'string') {
-
-        logger.error("Password Must Be A String");
-
-        return false;
-
-    }
-
-    if (input.length < 7) {
-
-        logger.error("Password Too Short (Minimum 7 Characters)");
-
-        return false;
-
-    }
-
-    if (input.length > 255) {
-
-        logger.error("Password Too Long (Maximum 255 Characters)");
-
-        return false;
-
-    }
-
-    if (validateSpaces(input)) {
-
-        logger.error("Password Cannot Contain Spaces");
-
-        return false;
-
-    }
-
-    const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
-
-    if (!input.match(regexPassword)) {
-
-        logger.error("Password Must Contain At Least One Lowercase Letter, One Uppercase Letter, One Number, and One Special Character");
-
-        return false;
-
-    }
-
-    return true;
-
-}
-
+//Validate Login Format
 const loginFormat = (req,res,next) => {
 
-    if (!validateRegularID(req.body.UserID)){
+    if (!validateRegularID(req.body.UserID, "UserID")){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"Username Not Found"})
 
@@ -650,7 +546,7 @@ const loginFormat = (req,res,next) => {
 
     req.body.UserID = req.body.UserID.toLowerCase()
 
-    if (!validatePassword(req.body.Password)){
+    if (!validatePassword(req.body.Password, "Password")) {
 
         return res.status(statusCode.BAD_REQUEST).json({error:"Password Not Found"})
 
@@ -660,9 +556,10 @@ const loginFormat = (req,res,next) => {
 
 }
 
+//Sign Up Format For User
 const signUpFormat = (req, res, next) => {
 
-    if (!validateRegularID(req.body.UserID)){
+    if (!validateRegularID(req.body.UserID, "UserID")) {
 
         return res.status(statusCode.BAD_REQUEST).json({error:"Username Format Illegal"})
 
@@ -672,25 +569,25 @@ const signUpFormat = (req, res, next) => {
 
     const { Password, UserNameFirst, UserNameLast, UserPhoneNumber } = req.body;
 
-    if(!validateName(UserNameFirst)){
+    if(!validateName(UserNameFirst, "First Name")){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"First Name Format Invalid"})
 
     }
 
-    if(!validateName(UserNameLast)){
+    if(!validateName(UserNameLast, "Last Name")){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"Last Name Format Invalid"})
 
     }
 
-    if (!validatePhoneNumber(UserPhoneNumber)) {
+    if (!validatePhoneNumber(UserPhoneNumber, "Phone Number")) {
 
         return res.status(statusCode.BAD_REQUEST).json({error:"Phone Number Format Invalid"})
 
     }
 
-    if (!validatePassword(Password)) {
+    if (!validatePassword(Password, "Password")) {
 
         return res.status(statusCode.BAD_REQUEST).json({ error: "Password Format Invalid" });
 
@@ -700,50 +597,7 @@ const signUpFormat = (req, res, next) => {
 
 }
 
-const validateEmployeeStatus = (input) => {
-
-    const validStatuses = ["Employed", "Absence", "Fired"];
-
-    if (input == null) {
-
-        logger.error("Employee Status Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== "string") {
-
-        logger.error("Employee Status Must Be A String");
-
-        return false;
-
-    }
-
-    if (!validStatuses.includes(input)) {
-
-        logger.error(`Invalid Employee Status. Must be one of: ${validStatuses.join(", ")}`);
-
-        return false;
-
-    }
-
-    return true;
-
-}
-
-const validateEmployeeHourly = (input) => {
-
-    if (input == null || typeof input !== 'number' || input < 0 || input > 1000) {
-
-        return false; 
-
-    }
-
-    return true; 
-
-}
-
+//Validate Sign Up Format For Employee
 const signUpFormatEmployee = async (req, res, next) => {
 
     const {
@@ -755,37 +609,37 @@ const signUpFormatEmployee = async (req, res, next) => {
         SupervisorID
     } = req.body;
 
-    if(!validatePastDate(EmployeeHireDate)){
+    if(!validatePastDate(EmployeeHireDate, "EmployeeHireDate")){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"EmployeeHireDate Format Invalid"})
 
     }
 
-    if(!validatePastDate(EmployeeBirthDate)){
+    if(!validatePastDate(EmployeeBirthDate, "EmployeeBirthDate")){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"EmployeeBirthDate Format Invalid"}) 
 
     }
 
-    if(!validateEmployeeStatus(EmployeeStatus)){
+    if(!validateEmployeeStatus(EmployeeStatus, "EmployeeStatus")){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"EmployeeStatus Format Invalid"})  
 
     }
 
-    if(!validateName(EmployeeDepartment)){
+    if(!validateName(EmployeeDepartment, "EmployeeDepartment")){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"EmployeeDepartment Format Invalid"})  
 
     }
 
-    if(!validateEmployeeHourly(EmployeeHourly)){
+    if(!validateEmployeeHourly(EmployeeHourly, "EmployeeHourly")){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"EmployeeHourly Format Invalid"})
 
     }
 
-    if(!validateID(SupervisorID)){
+    if(!validateID(SupervisorID, "SupervisorID")){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"SupervisorID Format Invalid"})
 
@@ -811,6 +665,7 @@ const signUpFormatEmployee = async (req, res, next) => {
 
 }
 
+//Validate Sign Up Format For Manager
 const signUpFormatManager = (req, res, next) => {
 
     const {
@@ -822,395 +677,37 @@ const signUpFormatManager = (req, res, next) => {
     } = req.body;
 
     
-    if(!validatePastDate(EmployeeHireDate)){
+    if(!validatePastDate(EmployeeHireDate, "EmployeeHireDate")){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"EmployeeHireDate Format Invalid"})
 
     }
 
-    if(!validatePastDate(EmployeeBirthDate)){
+    if(!validatePastDate(EmployeeBirthDate, "EmployeeBirthDate")){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"EmployeeBirthDate Format Invalid"}) 
 
     }
 
-    if(!validateEmployeeStatus(EmployeeStatus)){
+    if(!validateEmployeeStatus(EmployeeStatus, "EmployeeStatus")){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"EmployeeStatus Format Invalid"})  
 
     }
 
-    if(!validateName(EmployeeDepartment)){
+    if(!validateName(EmployeeDepartment, "EmployeeDepartment")){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"EmployeeDepartment Format Invalid"})    
 
     }
 
-    if(!validateEmployeeHourly(EmployeeHourly)){
+    if(!validateEmployeeHourly(EmployeeHourly, "EmployeeHourly")){
 
         return res.status(statusCode.BAD_REQUEST).json({error:"EmployeeHourly Format Invalid"})   
 
     }
 
     next();
-}
-
-const validateCategory = (input) => {
-
-    const categoryEnum = [
-        'Fresh Produce',
-        'Dairy and Eggs',
-        'Meat and Seafood',
-        'Frozen Foods',
-        'Bakery and Bread',
-        'Pantry Staples',
-        'Beverages',
-        'Snacks and Sweets',
-        'Health and Wellness'
-    ];
-
-    if (input == null) {
-
-        logger.error("Category Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== "string") {
-
-        logger.error("Category Must Be A String");
-
-        return false;
-
-    }
-
-    if (!categoryEnum.includes(input)) {
-
-        logger.error(`Invalid Category. Must be one of: ${categoryEnum.join(", ")}`);
-
-        return false;
-
-    }
-
-    return true;
-    
-}
-
-const validateProduct = (input) => {
-
-    if (input == null) {
-
-        logger.error("Product Name Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== "string") {
-
-        logger.error("Product Name Must Be A String");
-
-        return false;
-
-    }
-
-    if (input.length == 0) {
-
-        logger.error("Product Name Cannot Be Empty");
-
-        return false;
-
-    }
-
-    if (input.length > 255) {
-
-        logger.error("Product Name Too Long (Maximum 255 Characters)");
-
-        return false;
-
-    }
-
-    if (validateSpaces(input)) {
-
-        logger.error("Product Name Cannot Contain Spaces");
-
-        return false;
-
-    }
-
-    if (validateBlacklist(input)) {
-
-        logger.error("Product Name Contains Blacklisted Characters");
-
-        return false;
-
-    }
-
-    return true;
-    
-}
-
-const validateWeight = (input) => {
-
-    if (input == null) {
-
-        logger.error("Weight Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== 'number') {
-
-        logger.error("Weight Must Be A Number");
-
-        return false;
-
-    }
-
-    if (input <= 0) {
-
-        logger.error("Weight Must Be Greater Than Zero");
-
-        return false;
-
-    }
-
-    if (input > 1000) {
-
-        logger.error("Weight Cannot Exceed 1000");
-
-        return false;
-
-    }
-
-    return true;
-    
-}
-
-
-const validateCost = (input) => {
-
-    if (input == null) {
-
-        logger.error("Cost Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== 'number') {
-
-        logger.error("Cost Must Be A Number");
-
-        return false;
-
-    }
-
-    if (input <= 0) {
-
-        logger.error("Cost Must Be Greater Than Zero");
-
-        return false;
-
-    }
-
-    if (input > 100000) {
-
-        logger.error("Cost Cannot Exceed 100,000");
-
-        return false;
-
-    }
-
-    return true;
-
-}
-
-const validateDateTime = (input) => {
-
-    const dateTimePattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?$/;
-
-    if (input == null) {
-
-        logger.error("No DateTime Found");
-
-        return false;
-
-    }
-
-    if (!dateTimePattern.test(input)) {
-
-        logger.error("DateTime fails the pattern yyyy-mm-ddTHH:MM(:SS)");
-
-        return false;
-
-    }
-
-    const date = new Date(input);
-
-    if(date > new Date()){
-
-        logger.error("No Future Dates");
-
-        return false
-        
-    }
-
-    const timestamp = date.getTime();
-
-    if (isNaN(timestamp)) {
-
-        logger.error("Not A Valid DateTime");
-
-        return false;
-
-    }
-
-    const isoInput = input.length === 16
-
-        ? input + ":00"  
-
-        : input;
-
-    const normalized = new Date(isoInput).toISOString().slice(0, isoInput.length);
-
-    return input === normalized;
-
-};
-
-const validateStorageRequirement = (input) => {
-
-    const validStorage = [
-        'Frozen', 'Deep Frozen', 'Cryogenic', 'Refrigerated', 'Cool', 
-        'Room Temperature', 'Ambient', 'Warm', 'Hot', 'Dry', 'Moist', 
-        'Airtight', 'Dark Storage', 'UV-Protected', 'Flammable', 'Hazardous', 
-        'Perishable', 'Non-Perishable'
-    ];
-
-    if (input == null) {
-
-        logger.error("Storage Requirement Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== "string") {
-
-        logger.error("Storage Requirement Must Be A String");
-
-        return false;
-
-    }
-
-    if (!validStorage.includes(input)) {
-
-        logger.error(`Invalid Storage Requirement. Must be one of: ${validStorage.join(", ")}`);
-
-        return false;
-
-    }
-
-    return true;
-
-}
-
-const validateTransactionStatus = (input) => {
-
-    const validStorage = ['In progress','Complete', 'Delivering', 'Failed','Pending Delivery'];
-
-    if (input == null) {
-
-        logger.error("Transaction Status Not Provided");
-
-        return false;
-
-    }
-
-    if (typeof input !== "string") {
-
-        logger.error("Transaction Status Must Be A String");
-
-        return false;
-
-    }
-
-    if (!validStorage.includes(input)) {
-
-        logger.error(`Invalid Transaction Status. Must be one of: ${validStorage.join(", ")}`);
-
-        return false;
-
-    }
-
-    return true;
-}
-
-const insertFormat = (Quantity, Distributor, Weight, ProductName, Category, SupplierCost, Cost, Expiration, StorageRequirement, Description) => {
-
-    if(!validateName(Distributor)){
-
-        return false
-
-    }
-
-    if(!validateName(ProductName)){
-
-        return false
-
-    }
-
-    if(!validateWeight(Weight)){
-
-        return false
-
-    }
-
-    if(!validateQuantity(Quantity)){
-
-        return false
-
-    }
-
-    if(!validateCategory(Category)){
-
-        return false
-
-    }
-
-    if(!validateCost(Cost)){
-
-        return false
-
-    }
-
-    if(!validateFutureDate(Expiration)){
-
-        return false
-
-    }
-
-    if(!validateStorageRequirement(StorageRequirement)){
-
-        return false
-
-    }
-
-    if(!validateCost(SupplierCost)){
-
-        return false
-
-    }
-
-    if(!validateName(Description)){
-
-        return false
-
-    }
-
-    return true
 }
 
 const statusCode = {
@@ -1226,7 +723,6 @@ const statusCode = {
 
 module.exports = {
     validateDate,
-    validateSpaces,
     validateID,
     statusCode,
     validateAddress,
@@ -1240,13 +736,12 @@ module.exports = {
     signUpFormatEmployee,
     signUpFormatManager,
     validateCategory,
-    validateProduct,
     insertFormat,
     validateTransactionStatus,
     validateCost,
     validateWeight,
     validateFutureDate,
-    validateDateTime,
     validatePastDate,
-    validatePhoneNumber
+    validatePhoneNumber,
+    validateProduct
 }

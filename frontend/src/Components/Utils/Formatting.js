@@ -4,6 +4,16 @@
 
 
 
+//Validate Item Belonging To A List
+export const validateEnum = (input, list, label) => validate(input, [
+
+  () => isNull(input, `${label}: ${label} Not Provided`),
+
+  () => isString(input, `${label}: ${label} Must Be A String`),
+
+  () => inList(input, list, `${label}: Invalid ${label}. Must be one of: ${list.join(', ')}`)
+
+]);
 
 //Checks if the value is null
 const isNull = (value, message) => { if (value == null) throw new Error(message); };
@@ -13,6 +23,13 @@ const isString = (value, message) => { if (typeof value !== 'string') throw new 
 
 //Checks if the value is a number
 const isNumber = (value, message) => { if (typeof value !== 'number') throw new Error(message); };
+
+//Checks if the value is an integer
+const isInteger = (value, message) => {
+
+  if (!Number.isInteger(value)) throw new Error(message);
+
+};
 
 //Checks if the value matches the regex
 const matches = (value, regex, message) => { if (!regex.test(value)) throw new Error(message); };
@@ -35,6 +52,17 @@ const isUUID = (value, message) => {
 
 };
 
+//Checks if the value is a valid number with a specified max decimal places and limit
+const isValidDecimal = (value, maxDecimals, maxValue, message) => {
+
+  const regex = new RegExp(`^\\d+(\\.\\d{1,${maxDecimals}})?$`);
+
+  if (!regex.test(value)) throw new Error(message); 
+
+  if (value > maxValue) throw new Error(message); 
+
+};
+
 //Checks if the value is a valid date
 const isISODate = (value, message) => {
 
@@ -52,11 +80,55 @@ const isISODate = (value, message) => {
 
 };
 
-//Checks if the value is a past date
-const isPastDate = (value, message) => { if (new Date(value) > new Date()) throw new Error(message); };
+//Checks if the value is a valid date in the past
+const isPastDate = (value, message) => {
 
-//Checks if the value is a future date
-const isFutureDate = (value, message) => { if (new Date(value) <= new Date()) throw new Error(message); };
+  const today = new Intl.DateTimeFormat('en-CA', {
+
+    timeZone: 'America/Los_Angeles',
+
+    year: 'numeric',
+
+    month: '2-digit',
+
+    day: '2-digit',
+
+  }).format(new Date()); 
+
+  console.log(value, today);
+
+  if (value > today) {
+
+    throw new Error(message);
+
+  }
+
+};
+
+//Checks if the value is a valid date in the future
+const isFutureDate = (value, message) => {
+
+  const today = new Intl.DateTimeFormat('en-CA', {
+
+    timeZone: 'America/Los_Angeles',
+
+    year: 'numeric',
+
+    month: '2-digit',
+
+    day: '2-digit',
+
+  }).format(new Date()); 
+
+  console.log(value, today);
+
+  if (value <= today) {
+
+    throw new Error(message);
+
+  }
+
+};
 
 //Checks the input against the selected validators
 const validate = (input, validators) => {
@@ -84,218 +156,223 @@ const validate = (input, validators) => {
 // -------------------------------Field Validations--------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------
 
+//Validate Regular ID
+export const validateRegularID = (input, label) => validate(input, [
 
+  () => isNull(input, `${label}: ID Input Not Found`),
 
+  () => isString(input, `${label}: ID Must Be A String`),
 
-// Validate IDs
-export const validateRegularID = (input) => validate(input, [
+  () => inRange(input.length, 5, 255, `${label}: ID Input must be 5–255 characters`),
 
-  () => isNull(input, 'ID Input Not Found'),
+  () => hasNoSpaces(input, `${label}: Contains Spaces`),
 
-  () => isString(input, 'ID Must Be A String'),
-
-  () => inRange(input.length, 5, 255, 'ID Input must be 5–255 characters'),
-
-  () => hasNoSpaces(input, 'Contains Spaces'),
-
-  () => matches(input, /^[a-zA-Z0-9]+$/, 'ID Must be alphanumeric')
+  () => matches(input, /^[a-zA-Z0-9]+$/, `${label}: ID Must be alphanumeric`)
 
 ]);
 
-//Validate UUIDs
-export const validateID = (input) => validate(input, [
+//Validate UUID
+export const validateID = (input, label) => validate(input, [
 
-  () => isNull(input, 'Input Not Found'),
+  () => isNull(input, `${label}: Input Not Found`),
 
-  () => isString(input, 'Must Be A String'),
+  () => isString(input, `${label}: Must Be A String`),
 
-  () => isUUID(input, 'Improper Format On ID')
+  () => isUUID(input, `${label}: Improper Format On ID`)
 
 ]);
 
 //Validate Date
-export const validateDate = (input) => validate(input, [
+export const validateDate = (input, label) => validate(input, [
 
-  () => isNull(input, 'No Date Found'),
+  () => isNull(input, `${label}: No Date Found`),
 
-  () => isISODate(input, 'Date Fails The Pattern xxxx-xx-xx')
+  () => isISODate(input, `${label}: Date Fails The Pattern xxxx-xx-xx`)
 
 ]);
 
-//Validate Furture Date
-export const validateFutureDate = (input) => validate(input, [
+//Validate Future Date
+export const validateFutureDate = (input, label) => validate(input, [
 
-  () => isNull(input, 'Date Not Provided'),
+  () => isNull(input, `${label}: Date Not Provided`),
 
-  () => isISODate(input, 'Date Fails The Pattern xxxx-xx-xx'),
+  () => isISODate(input, `${label}: Date Fails The Pattern xxxx-xx-xx`),
 
-  () => isFutureDate(input, 'Date Must Be In The Future')
+  () => isFutureDate(input, `${label}: Date Must Be In The Future`)
 
 ]);
 
 //Validate Past Date
-export const validatePastDate = (input) => validate(input, [
+export const validatePastDate = (input, label) => validate(input, [
 
-  () => isNull(input, 'Date Not Provided'),
+  () => isNull(input, `${label}: Date Not Provided`),
 
-  () => isISODate(input, 'Date Fails The Pattern xxxx-xx-xx'),
+  () => isISODate(input, `${label}: Date Fails The Pattern xxxx-xx-xx`),
 
-  () => isPastDate(input, 'Date Must Be In The Past')
+  () => isPastDate(input, `${label}: Date Must Be In The Past`)
 
 ]);
 
 //Validate Name
-export const validateName = (input) => validate(input, [
+export const validateName = (input, label) => validate(input, [
 
-  () => isNull(input, 'Name Not Provided'),
+  () => isNull(input, `${label}: Name Not Provided`),
 
-  () => isString(input, 'Name Must Be A String'),
+  () => isString(input, `${label}: Name Must Be A String`),
 
-  () => inRange(input.trim().length, 2, 255, 'Name must be 2–255 characters'),
+  () => inRange(input.trim().length, 2, 255, `${label}: Name must be 2–255 characters`),
 
-  () => matches(input, /^[a-zA-Z]+$/, 'Name must be alphabetical')
+  () => matches(input, /^[a-zA-Z]+(?: [a-zA-Z]+)*$/, `${label}: Name must be alphabetical`)
+
+]);
+
+//Validate Description
+export const validateDescription = (input, label) => validate(input, [
+
+  () => isNull(input, `${label}: Description Not Provided`),
+
+  () => isString(input, `${label}: Description Must Be A String`),
+
+  () => inRange(input.trim().length, 2, 255, `${label}: Description must be 2–255 characters`),
+
+  () => matches(input, /^[a-zA-Z0-9\s.,'\-?!]*$/, `${label}: Description must be alphabetical`)
 
 ]);
 
 //Validate Phone Number
-export const validatePhoneNumber = (input) => validate(input, [
+export const validatePhoneNumber = (input, label) => validate(input, [
 
-  () => isNull(input, 'Phone Number Not Provided'),
+  () => isNull(input, `${label}: Phone Number Not Provided`),
 
-  () => isString(input, 'Phone Number Must Be A String'),
+  () => isString(input, `${label}: Phone Number Must Be A String`),
 
-  () => hasNoSpaces(input, 'Phone Number Cannot Contain Spaces'),
+  () => hasNoSpaces(input, `${label}: Phone Number Cannot Contain Spaces`),
 
-  () => matches(input, /^\d{11}$/, "Invalid Phone Number Format. Must be in the format: XXXXXXXXXXX")
+  () => matches(input, /^\d{11}$/, `${label}: Invalid Phone Number Format. Must be in the format: XXXXXXXXXXX`)
 
 ]);
 
 //Validate Password
-export const validatePassword = (input) => validate(input, [
+export const validatePassword = (input, label) => validate(input, [
 
-  () => isNull(input, 'Password Not Provided'),
+  () => isNull(input, `${label}: Password Not Provided`),
 
-  () => isString(input, 'Password Must Be A String'),
+  () => isString(input, `${label}: Password Must Be A String`),
 
-  () => inRange(input.length, 8, 255, 'Password must be 8–255 characters'),
+  () => inRange(input.length, 8, 255, `${label}: Password must be 8–255 characters`),
 
-  () => hasNoSpaces(input, 'Password Cannot Contain Spaces'),
+  () => hasNoSpaces(input, `${label}: Password Cannot Contain Spaces`),
 
-  () => matches(input, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/, 'Password must contain upper, lower, number, and special character')
-
+  () => matches(input, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/, `${label}: Password must contain upper, lower, number, and special character`)
 ]);
 
 //Validate Quantity
-export const validateQuantity = (input) => validate(input, [
+export const validateQuantity = (input, label) => validate(input, [
 
-  () => isNull(input, 'Quantity Not Provided'),
+  () => isNull(input, `${label}: Quantity Not Provided`),
 
-  () => isNumber(input, 'Quantity Must Be A Number'),
+  () => isNumber(input, `${label}: Quantity Must Be A Number`),
 
-  () => inRange(input, 1, 5000, 'Quantity Must Be Between 1 and 5000')
+  () => isInteger(input, `${label}: Quantity Must Be an Integer`),
+
+  () => inRange(input, 1, 5000, `${label}: Quantity Must Be Between 1 and 5000`)
 
 ]);
 
 //Validate Weight
-export const validateWeight = (input) => validate(input, [
+export const validateWeight = (input, label) => validate(input, [
 
-  () => isNull(input, 'Weight Not Provided'),
+    () => isNull(input, `${label}: Weight Not Provided`),
 
-  () => isNumber(input, 'Weight Must Be A Number'),
+    () => isNumber(input, `${label}: Weight Must Be A Number`),
 
-  () => inRange(input, 0.01, 1000, 'Weight Must Be Between 0.01 and 1000')
+    () => inRange(input, 0.01, 1000, `${label}: Weight Must Be Between 0.01 and 1000`),
 
-]);
+    () => isValidDecimal(input, 2, 1000, `${label}: Weight cannot have more than 2 decimal places or exceed 1000`)
+
+  ]);
 
 //Validate Cost
-export const validateCost = (input) => validate(input, [
+export const validateCost = (input, label) => validate(input, [
 
-  () => isNull(input, 'Cost Not Provided'),
+  () => isNull(input, `${label}: Cost Not Provided`),
 
-  () => isNumber(input, 'Cost Must Be A Number'),
+  () => isNumber(input, `${label}: Cost Must Be A Number`),
 
-  () => inRange(input, 0.01, 100000, 'Cost Must Be Between 0.01 and 100000')
+  () => inRange(input, 0.01, 100000, `${label}: Cost Must Be Between 0.01 and 100000`),
+
+  () => isValidDecimal(input, 2, 100000, `${label}: Cost cannot have more than 2 decimal places or exceed 100000`)
 
 ]);
 
 //Validate Employee Hourly
-export const validateEmployeeHourly = (input) => validate(input, [
+export const validateEmployeeHourly = (input, label) => validate(input, [
 
-  () => isNull(input, 'Hourly Rate Not Provided'),
+  () => isNull(input, `${label}: Hourly Rate Not Provided`),
 
-  () => isNumber(input, 'Hourly Rate Must Be A Number'),
+  () => isNumber(input, `${label}: Hourly Rate Must Be A Number`),
 
-  () => inRange(input, 0, 1000, 'Hourly Rate Cannot Exceed 1000')
+  () => inRange(input, 0, 1000, `${label}: Hourly Rate Cannot Exceed 1000`),
 
-]);
-
-//Validate Item Belonging To A List
-export const validateEnum = (input, list, label) => validate(input, [
-
-  () => isNull(input, `${label} Not Provided`),
-
-  () => isString(input, `${label} Must Be A String`),
-
-  () => inList(input, list, `Invalid ${label}. Must be one of: ${list.join(', ')}`)
+  () => isValidDecimal(input, 2, 1000, `${label}: Hourly cannot have more than 2 decimal places or exceed 1000`)
 
 ]);
 
 //Validate Address
-export const validateAddress = (input) => validate(input, [
+export const validateAddress = (input, label) => validate(input, [
 
-  () => isNull(input, 'Address Not Provided'),
+  () => isNull(input, `${label}: Address Not Provided`),
 
-  () => isString(input, 'Address Must Be A String'),
+  () => isString(input, `${label}: Address Must Be A String`),
 
-  () => inRange(input.length, 5, 255, 'Address must be 5–255 characters'),
+  () => inRange(input.length, 5, 255, `${label}: Address must be 5–255 characters`),
 
-  () => matches(input, /,\s*San\s+Jose,\s*(California|CA)/i, 'Must Be In San Jose')
+  () => matches(input, /,\s*San\s+Jose,\s*(California|CA)/i, `${label}: Must Be In San Jose`)
 
 ]);
 
 //Validate Robot Load
-export const validateRobotLoad = (input) => validate(input, [
+export const validateRobotLoad = (input, label) => validate(input, [
 
-  () => isNull(input, 'Robot Load Not Provided'),
+  () => isNull(input, `${label}: Robot Load Not Provided`),
 
-  () => isNumber(input, 'Robot Load Must Be A Number'),
+  () => isNumber(input, `${label}: Robot Load Must Be A Number`),
 
-  () => inRange(input, 0, 200, 'Robot Load Must Be Between 0 and 200')
+  () => inRange(input, 0, 200, `${label}: Robot Load Must Be Between 0 and 200`)
 
 ]);
 
 //Validate Robot Status
-export const validateRobotStatus = (input) => validateEnum(input, ['En Route', 'Broken', 'Maintenance', 'Charging', 'Free', 'Retired'], 'Robot Status');
+export const validateRobotStatus = (input, label) => validateEnum(input, ['En Route', 'Broken', 'Maintenance', 'Charging', 'Free', 'Retired'], `${label}: Robot Status`);
 
 //Validate Transaction Status
-export const validateTransactionStatus = (input) => validateEnum(input, ['In progress','Complete','Failed', 'Delivering', 'Pending Delivery'], 'Transaction Status');
+export const validateTransactionStatus = (input, label) => validateEnum(input, ['In progress', 'Complete', 'Failed', 'Delivering', 'Pending Delivery'], `${label}: Transaction Status`);
 
 //Validate Employee Status
-export const validateEmployeeStatus = (input) => validateEnum(input, ['Employed', 'Absence', 'Fired'], 'Employee Status');
+export const validateEmployeeStatus = (input, label) => validateEnum(input, ['Employed', 'Absence', 'Fired'], `${label}: Employee Status`);
 
 //Validate Category
-export const validateCategory = (input) => validateEnum(input, ['Fresh Produce','Dairy and Eggs','Meat and Seafood','Frozen Foods','Bakery and Bread','Pantry Staples','Beverages','Snacks and Sweets','Health and Wellness'], 'Category');
+export const validateCategory = (input, label) => validateEnum(input, ['Fresh Produce','Dairy and Eggs','Meat and Seafood','Frozen Foods','Bakery and Bread','Pantry Staples','Beverages','Snacks and Sweets','Health and Wellness'], `${label}: Category`);
 
 //Validate Storage Requirement
-export const validateStorageRequirement = (input) => validateEnum(input, ['Frozen', 'Deep Frozen', 'Cryogenic', 'Refrigerated', 'Cool', 'Room Temperature', 'Ambient', 'Warm', 'Hot', 'Dry', 'Moist', 'Airtight', 'Dark Storage', 'UV-Protected', 'Flammable', 'Hazardous', 'Perishable', 'Non-Perishable'], 'Storage Requirement');
+export const validateStorageRequirement = (input, label) => validateEnum(input, ['Frozen', 'Deep Frozen', 'Cryogenic', 'Refrigerated', 'Cool', 'Room Temperature', 'Ambient', 'Warm', 'Hot', 'Dry', 'Moist', 'Airtight', 'Dark Storage', 'UV-Protected', 'Flammable', 'Hazardous', 'Perishable', 'Non-Perishable'], `${label}: Storage Requirement`);
 
-//Validate Robot
-export const validateRobot = (RobotID, CurrentLoad, RobotStatus, Maintanence) => {
+//Validate Search Term
+export const validateProduct = (input, label = "Product Name") => {
 
-    return (
+    return validate(input, [
 
-      validateRegularID(RobotID) &&
+      () => isNull(input, `${label} Not Provided`),
 
-      validateRobotLoad(CurrentLoad) &&
+      () => isString(input, `${label} Must Be A String`),
 
-      validateRobotStatus(RobotStatus) &&
+      () => inRange(input.length, 1, 255, `${label} must be 1–255 characters`),
 
-      validateFutureDate(Maintanence)
+      () => matches(input, /^[a-zA-Z0-9\s]*$/, `${label} Contains Blacklisted Characters. Must Be Alphanumeric`),
 
-    );
-    
+    ]);
+
 };
-
 
 
 
@@ -306,18 +383,35 @@ export const validateRobot = (RobotID, CurrentLoad, RobotStatus, Maintanence) =>
 
 
 
+//Validate Robot
+export const validateRobot = (RobotID, CurrentLoad, RobotStatus, Maintanence) => {
+
+  return (
+
+    validateRegularID(RobotID, "RobotID") &&
+
+    validateRobotLoad(CurrentLoad, "Robot's Current Load") &&
+
+    validateRobotStatus(RobotStatus, "Robot's Status") &&
+
+    validateFutureDate(Maintanence, "Robot's Maintanence Date") 
+
+  );
+  
+};
+
 //Validate Employee Format
 export const employeeFormat = (UserID, UserNameFirst, UserNameLast, UserPhoneNumber) => {
 
     return (
 
-        validateRegularID(UserID) &&
+        validateRegularID(UserID, "UserID") &&
 
-        validateName(UserNameFirst) &&
+        validateName(UserNameFirst, "User's First Name") &&
 
-        validateName(UserNameLast) &&
+        validateName(UserNameLast, "User's First Name") &&
 
-        validatePhoneNumber(UserPhoneNumber)
+        validatePhoneNumber(UserPhoneNumber, "User's Phone Number")
 
     );
 
@@ -328,9 +422,9 @@ export const loginFormat = (UserID, Password) => {
 
     return (
 
-        validateRegularID(UserID) &&
+        validateRegularID(UserID, "UserID") &&
 
-        validatePassword(Password)
+        validatePassword(Password, "Password")
 
     );
 
@@ -341,15 +435,15 @@ export const signUpFormat = (UserID, Password, UserNameFirst, UserNameLast, User
 
     return (
 
-        validateRegularID(UserID) &&
+        validateRegularID(UserID, "UserID") &&
 
-        validatePassword(Password) &&
+        validatePassword(Password, "Password") &&
 
-        validateName(UserNameFirst) &&
+        validateName(UserNameFirst, "User's First Name") &&
 
-        validateName(UserNameLast) &&
+        validateName(UserNameLast, "User's Last Name") &&
 
-        validatePhoneNumber(UserPhoneNumber)
+        validatePhoneNumber(UserPhoneNumber, "User's Phone Number")
 
     );
 
@@ -360,17 +454,17 @@ export const signUpFormatEmployee = (EmployeeHireDate, EmployeeStatus, EmployeeB
 
     return (
 
-        validatePastDate(EmployeeHireDate) &&
+        validatePastDate(EmployeeHireDate, "User's Hire Date") &&
 
-        validateEmployeeStatus(EmployeeStatus) &&
+        validateEmployeeStatus(EmployeeStatus, "Employee's Status") &&
 
-        validatePastDate(EmployeeBirthDate) &&
+        validatePastDate(EmployeeBirthDate, "Employee's Birthdate") &&
 
-        validateName(EmployeeDepartment) &&
+        validateName(EmployeeDepartment, "Department") &&
 
-        validateEmployeeHourly(EmployeeHourly) &&
+        validateEmployeeHourly(EmployeeHourly, "Hourly Pay") &&
 
-        validateID(SupervisorID)
+        validateID(SupervisorID, "SupervisorID")
 
     );
 
@@ -381,15 +475,15 @@ export const signUpFormatManager = (EmployeeHireDate, EmployeeStatus, EmployeeBi
 
     return (
 
-        validatePastDate(EmployeeHireDate) &&
+        validatePastDate(EmployeeHireDate, "User's Hire Date") &&
 
-        validateEmployeeStatus(EmployeeStatus) &&
+        validateEmployeeStatus(EmployeeStatus, "Employee's Status") &&
 
-        validatePastDate(EmployeeBirthDate) &&
+        validatePastDate(EmployeeBirthDate, "Employee's Birthdate") &&
 
-        validateName(EmployeeDepartment) &&
+        validateName(EmployeeDepartment, "Department") &&
 
-        validateEmployeeHourly(EmployeeHourly)
+        validateEmployeeHourly(EmployeeHourly, "Hourly Pay")
 
     );
 
@@ -400,25 +494,25 @@ export const insertFormat = (Quantity, Distributor, Weight, ProductName, Categor
 
     return (
 
-        validateQuantity(Quantity) &&
+        validateQuantity(Quantity, "Quantity") &&
 
-        validateName(Distributor) &&
+        validateName(Distributor, "Distributor") &&
 
-        validateWeight(Weight) &&
+        validateWeight(Weight, "Weight") &&
 
-        validateName(ProductName) &&
+        validateName(ProductName, "Product Name") &&
 
-        validateCategory(Category) &&
+        validateCategory(Category, "Category") &&
 
-        validateCost(SupplierCost) &&
+        validateCost(SupplierCost, "Supplier Cost") &&
 
-        validateCost(Cost) &&
+        validateCost(Cost, "Product Cost") &&
 
-        validateFutureDate(Expiration) &&
+        validateFutureDate(Expiration, "Expiration Date") &&
 
-        validateStorageRequirement(StorageRequirement) &&
+        validateStorageRequirement(StorageRequirement, "Storage Requirement") &&
 
-        validateName(Description)
+        validateDescription(Description, "Description")
 
     );
 

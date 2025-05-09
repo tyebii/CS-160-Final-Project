@@ -21,7 +21,7 @@ export const ItemAdd = () => {
 
     const [formData, setFormData] = useState({
 
-        ProductName:'',
+        ProductName: '',
 
         Distributor: '',
 
@@ -70,8 +70,10 @@ export const ItemAdd = () => {
         }
     
         if (file == null) {
+
+            alert("Please select image.");
       
-          return false;
+            return false;
       
         }
       
@@ -107,6 +109,8 @@ export const ItemAdd = () => {
             if (file.type === 'image/jpeg') {
 
                 setFile(file);
+
+                alert("Image Successfully Added");
 
             } else {
 
@@ -161,7 +165,7 @@ export const ItemAdd = () => {
 
             <h2 className="text-center text-2xl font-bold text-gray-800 mb-4">Add Item</h2>
 
-            <form>
+            <form onSubmit={handleSubmit}>
 
                 <div className="flex mb-5">
 
@@ -171,7 +175,7 @@ export const ItemAdd = () => {
                         
                             Insert Image
 
-                            <input type="file" required accept="image/*" className="hidden" onChange={(e)=>{handleFile(e)}} />
+                            <input type="file" accept="image/*" className="hidden" onChange={(e)=>{handleFile(e)}} />
 
                         </label>
 
@@ -375,6 +379,8 @@ export const ItemAdd = () => {
 
                                 type="number"
 
+                                step = "any"
+
                                 min = "0"
 
                                 placeholder="Cost In USD"
@@ -390,6 +396,8 @@ export const ItemAdd = () => {
                             <TextEntryBox
 
                                 type="number"
+
+                                step = "any"
 
                                 min = "0"
 
@@ -410,6 +418,8 @@ export const ItemAdd = () => {
                             <TextEntryBox
 
                                 type = "number"
+
+                                step = "any"
 
                                 min = "0"
 
@@ -449,7 +459,7 @@ export const ItemAdd = () => {
 
                 <div className="flex gap-3">
 
-                    <button onClick={handleSubmit} className="bg-blue-600 text-white p-4 font-semibold rounded-lg w-full max-w-[500px] hover:bg-blue-700">Confirm</button>
+                    <button type="submit" className="bg-blue-600 text-white p-4 font-semibold rounded-lg w-full max-w-[500px] hover:bg-blue-700">Confirm</button>
 
                     <button onClick={() => navigate(`/`)} className="bg-red-600 text-white p-4 font-semibold rounded-lg w-full max-w-[500px] hover:bg-red-700">Cancel</button>
                 

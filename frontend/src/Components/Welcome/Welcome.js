@@ -76,8 +76,10 @@ function Welcome() {
 
                     >
                         <AdCarousel>
-                            {slides.map((s) => (
-                                <img src={s} className="min-w-[960px] h-[400px] object-cover" />
+                            {slides.map((s,index) => (
+
+                                <img key = {index} src={s} className="min-w-[960px] h-[400px] object-cover" />
+                            
                             ))}
                         </AdCarousel>
 
@@ -93,7 +95,7 @@ function Welcome() {
                 {/* Categories Section */}
                 <Categories auth={auth} logout={logout} ></Categories>
 
-                {auth === "Employee" || auth === "Manager" ? (<hr className="my-4 border-2 border-gray-300" />) : null}
+                {auth === "Employee" || auth === "Manager" ? (<hr className="border-t border-black mt-10 mb-20" />) : null}
 
                 {/* Robot Section */}
                 <RobotArea trigger={trigger} setTrigger={setTrigger} auth={auth} logout={logout} ></RobotArea>
@@ -103,12 +105,12 @@ function Welcome() {
                 {/* Transactions Section for Employees and Managers */}
                 <TransactionArea trigger={trigger} setTrigger={setTrigger} auth={auth} logout={logout} ></TransactionArea>
 
-                {auth === "Employee" || auth === "Manager" ? (<hr className="border-t border-black my-20" />) : null}
+                {auth === "Employee" || auth === "Manager" ? (<hr className="border-t border-black mt-10 mb-20" />) : null}
 
                 {/* Employees Section for Managers */}
                 <SubordinatesArea auth={auth} logout={logout} ></SubordinatesArea>
 
-                {auth === "Manager" ? (<hr className="my-4 border-t border-gray-300 my-20" />) : null}
+                {auth === "Manager" ? (<hr className="border-t border-black mt-10 mb-20" />) : null}
 
                 {/*Add Items */}
                 <AddItem auth={auth}></AddItem>

@@ -22,7 +22,7 @@ export default function TransactionArea({ trigger, setTrigger, auth, logout }) {
     //When Transaction Is Searched
     var clickTransactionSearch = (e) => {
 
-        if(!validateID(transactionSearchInput)) {
+        if(!validateID(transactionSearchInput, "Transaction ID")){ 
 
             return
 

@@ -32,6 +32,9 @@ import dropDownIcon from './NavbarImages/dropdownIcon.png';
 
 import portalIcon from './NavbarImages/portalIcon.png';
 
+//Formatting for the Navbar input
+import {validateProduct} from '../Utils/Formatting'
+
 //Navbar Component
 function Navbar() {
 
@@ -136,9 +139,7 @@ function Navbar() {
 
     let text = searchText;
 
-    if (text.trim() === "") {
-
-      alert("Search Must be Non-Empty")
+    if(validateProduct(text) === false){
 
       return;
 

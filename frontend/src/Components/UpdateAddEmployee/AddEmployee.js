@@ -368,6 +368,8 @@ function AddEmployee() {
 
           type="number" 
 
+          step = "any"
+
           min = "0"
 
           value={formData.EmployeeHourly} 

@@ -98,7 +98,7 @@ function SearchResults() {
       <div className="flex flex-row justify-between items-center py-8 sm:mx-8 md:mx-4 lg:mx-2 text-2xl">
 
         <div className="p-4 w-1/2 max-w-2/3">
-          Displaying <strong>{results.length}</strong> results for <strong>{query}</strong>
+          Displaying <strong>{results.length}</strong> results for <strong>{query.replace(/-/g," ")}</strong>
         </div>
 
         {/* Filter Section */}

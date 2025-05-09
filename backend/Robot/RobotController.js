@@ -189,6 +189,14 @@ const deleteRobot = (req, res) => {
 
             }
 
+            if (results.affectedRows === 0) {
+
+                logger.info("No Robot Updated: Either Robot is En Route or has a Non-zero Load");
+
+                return res.status(statusCode.NOT_FOUND).json({ error: 'No matching robot found for deletion or robot is En Route/has load' });
+            
+            }
+
             logger.info("Successfully Deleted Robot")
 
             return res.sendStatus(statusCode.OK)

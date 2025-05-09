@@ -36,7 +36,7 @@ export function TransactionDetails({transaction}) {
   //Click Fullfill
   const handleFulfill = async () => {
 
-    if (!validateID(transaction.TransactionID)) {
+    if (!validateID(transaction.TransactionID, "Transaction ID")) {
   
       alert("Invalid Transaction ID");
   

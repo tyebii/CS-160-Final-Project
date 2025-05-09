@@ -105,6 +105,8 @@ export const ItemEdit = ({ item }) => {
 
                 setFile(file);
 
+                alert("Image Successfully Added!");
+
             } else {
 
                 alert("Please select a valid JPEG file.");
@@ -157,7 +159,7 @@ export const ItemEdit = ({ item }) => {
 
             <h2 className="text-2xl font-semibold text-center mb-4">Update Item</h2>
 
-            <form>
+            <form onSubmit={handleSubmit}>
 
                 <div className="flex mb-5">
 
@@ -167,7 +169,7 @@ export const ItemEdit = ({ item }) => {
 
                             Insert Image
 
-                            <input required type="file" accept="image/*" className="hidden" onChange={(e)=>{handleFile(e)}} />
+                            <input type="file" accept="image/*" className="hidden" onChange={(e)=>{handleFile(e)}} />
 
                         </label>
 
@@ -363,6 +365,8 @@ export const ItemEdit = ({ item }) => {
                                 onChange={handleFieldChange('Cost')}
 
                                 type="number"
+                                
+                                step = "any"
 
                                 min = "0"
 
@@ -379,6 +383,8 @@ export const ItemEdit = ({ item }) => {
                             <TextEntryBox
 
                                 type="number"
+
+                                step = "any"
 
                                 min="0"
 
@@ -401,6 +407,8 @@ export const ItemEdit = ({ item }) => {
                                 min="0"
 
                                 type = "number"
+
+                                step = "any"
 
                                 value={formData?.SupplierCost}
 
@@ -436,7 +444,7 @@ export const ItemEdit = ({ item }) => {
 
                 <div className="flex gap-3">
 
-                    <button onClick={handleSubmit} className="bg-blue-600 text-white p-4 font-semibold rounded-lg w-full max-w-[500px] hover:bg-blue-700">Confirm</button>
+                    <button type="submit" className="bg-blue-600 text-white p-4 font-semibold rounded-lg w-full max-w-[500px] hover:bg-blue-700">Confirm</button>
 
                     <button onClick={() => navigate(`/itemview/${formData.ItemID}`)} className="bg-red-600 text-white p-4 font-semibold rounded-lg w-full max-w-[500px] hover:bg-red-700">Cancel</button>
 
