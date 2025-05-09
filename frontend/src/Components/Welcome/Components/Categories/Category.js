@@ -63,7 +63,7 @@ export default function Categories({ auth }) {
 
     <article className="mt-20">
 
-      <h2 className="text-4xl font-semibold mx-4 mb-6">
+      <h2 className="text-4xl text-center font-semibold mx-4 mb-6">
 
         {auth === "Employee" || auth === "Manager"
 

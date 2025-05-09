@@ -364,7 +364,7 @@ function ShoppingCart() {
 
   return (
 
-    <section className="md:flex w-full p-8 bg-white">
+    <section className="md:flex w-full p-8 bg-white flex-1">
 
       <div className="flex md:w-2/3 md:flex-row justify-between mb-8">
 

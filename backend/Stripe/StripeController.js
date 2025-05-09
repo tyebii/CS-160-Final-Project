@@ -131,8 +131,6 @@ const addTransaction = async (req, res, next) => {
 
     const { TransactionAddress } = req.body;
 
-    let store = false
-
     const customerID = req.user.CustomerID;
 
     if (!validateID(customerID)) {
@@ -144,12 +142,6 @@ const addTransaction = async (req, res, next) => {
     if (!validateAddress(TransactionAddress)) {
 
         return res.status(statusCode.INTERNAL_SERVER_ERROR).json({ error: "Invalid Transaction Address" });
-
-    }
-
-    if (TransactionAddress != "272 E Santa Clara St, San Jose, CA 95112") {
-    
-        store = true
 
     }
 
@@ -203,11 +195,11 @@ const addTransaction = async (req, res, next) => {
 
         }
 
-        if (!store && weight > 200) {
+        if (TransactionAddress != "272 E Santa Clara St, San Jose, CA 95112" && weight > 200) {
 
-            logger.error("Weight Too High For A Stripe Transaction");
+            logger.error("Weight Too High For A Delivery");
 
-            return res.status(statusCode.BAD_REQUEST).json({ error: "Transaction must be less than 200 lbs" });
+            return res.status(statusCode.BAD_REQUEST).json({ error: "Transaction must be less than 200 lbs for delivery" });
         
         }
 

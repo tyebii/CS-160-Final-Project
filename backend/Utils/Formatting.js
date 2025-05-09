@@ -89,14 +89,6 @@ const validateID = (input) => {
 
     } 
     
-    if(validateBlacklist(input)){
-
-        logger.error("ID Has Blacklisted Characters")
-
-        return false
-
-    }
-    
     if(!uuidRegex.test(input)) {
 
         logger.error("Improper Format On ID")
@@ -265,6 +257,14 @@ const validateQuantity = (input) => {
     if (input <= 0) {
 
         logger.error("Quantity Must Be Greater Than Zero");
+
+        return false;
+
+    }
+
+    if (input > 5000) {
+
+        logger.error("Quantity Cannot Exceed 5000");
 
         return false;
 
@@ -512,7 +512,7 @@ const validateName = (input) => {
 
 const validatePhoneNumber = (input) => {
 
-    const regexNumber = /^1-\d{3}-\d{3}-\d{4}$/;
+    const regexNumber = /^\d{11}$/;
 
     if (input == null) {
 
@@ -540,7 +540,7 @@ const validatePhoneNumber = (input) => {
 
     if (!input.match(regexNumber)) {
 
-        logger.error("Invalid Phone Number Format. Must be in the format: 1-XXX-XXX-XXXX");
+        logger.error("Invalid Phone Number Format. Must be in the format: XXXXXXXXXXX");
 
         return false;
 
@@ -734,7 +734,7 @@ const validateEmployeeStatus = (input) => {
 
 const validateEmployeeHourly = (input) => {
 
-    if (input == null || typeof input !== 'number' || input < 0) {
+    if (input == null || typeof input !== 'number' || input < 0 || input > 1000) {
 
         return false; 
 
@@ -977,6 +977,14 @@ const validateWeight = (input) => {
 
     }
 
+    if (input > 1000) {
+
+        logger.error("Weight Cannot Exceed 1000");
+
+        return false;
+
+    }
+
     return true;
     
 }
@@ -1003,6 +1011,14 @@ const validateCost = (input) => {
     if (input <= 0) {
 
         logger.error("Cost Must Be Greater Than Zero");
+
+        return false;
+
+    }
+
+    if (input > 100000) {
+
+        logger.error("Cost Cannot Exceed 100,000");
 
         return false;
 

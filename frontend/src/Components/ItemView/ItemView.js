@@ -323,7 +323,7 @@ const ItemView = ({ searchType, query }) => {
   
   return (
 
-    <section className="w-full bg-white shadow-lg p-8 flex flex-col gap-8">
+  <section className="w-full bg-white shadow-lg p-8 flex flex-col gap-8 flex-grow">
 
       <div className="grid md:grid-cols-2 px-8 justify-between">
 

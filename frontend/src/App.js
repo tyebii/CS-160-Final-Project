@@ -6,7 +6,7 @@ import WelcomePage from './Pages/WelcomePage';
 
 import LoginPage from './Pages/LoginPage';
 
-import Shoppingcart from './Pages/Cart';
+import Shoppingcart from './Pages/CartPage';
 
 import SearchPage from './Pages/searchPage';
 
@@ -26,9 +26,9 @@ import { UpdateRobotPage } from './Pages/UpdateRobotPage';
 
 import { AddEmployePage } from './Pages/AddEmployeePage';
 
-import { UpdateEmployeePage } from './Pages/UpdateEmployee';
+import { UpdateEmployeePage } from './Pages/UpdateEmployeePage';
 
-import Portal from './Pages/Portal';
+import Portal from './Pages/PortalPage';
 
 import { ItemEditPage } from './Pages/ItemEditPage';
 
