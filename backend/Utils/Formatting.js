@@ -512,7 +512,7 @@ const validateName = (input) => {
 
 const validatePhoneNumber = (input) => {
 
-    const regexNumber = /^1-\d{3}-\d{3}-\d{4}$/;
+    const regexNumber = /^\d{1}-\d{3}-\d{3}-\d{4}$/;
 
     if (input == null) {
 
@@ -540,7 +540,7 @@ const validatePhoneNumber = (input) => {
 
     if (!input.match(regexNumber)) {
 
-        logger.error("Invalid Phone Number Format. Must be in the format: 1-XXX-XXX-XXXX");
+        logger.error("Invalid Phone Number Format. Must be in the format: 1XXXXXXXXXX");
 
         return false;
 

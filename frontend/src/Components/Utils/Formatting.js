@@ -478,7 +478,7 @@ export const validateName = (input) => {
 
 export const validatePhoneNumber = (input) => {
 
-    const regexNumber = /^1-\d{3}-\d{3}-\d{4}$/;
+    const regexNumber = /^1\d{10}$/;
 
     if (input == null) {
 
@@ -506,7 +506,7 @@ export const validatePhoneNumber = (input) => {
 
     if (!input.match(regexNumber)) {
 
-        alert("Invalid Phone Number Format. Must be in the format: 1-XXX-XXX-XXXX");
+        alert("Invalid Phone Number Format. Must be in the format: 1XXXXXXXXXX");
 
         return false;
 

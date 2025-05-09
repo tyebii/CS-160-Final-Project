@@ -227,7 +227,7 @@ export function UpdateEmployee({ employee }) {
 
             onChange={handleChange}
 
-            placeholder="Enter Phone Number: 1-xxx-xxx-xxxx" 
+            placeholder="Enter Phone Number: x-xxx-xxx-xxxx" 
 
             required 
 
