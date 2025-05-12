@@ -13,9 +13,11 @@ import { useErrorResponse } from '../Utils/AxiosError';
 //Add Inventory Item 
 export const ItemAdd = () => {
 
+    const [imageURL, setURL] = useState(null);
+
     const navigate = useNavigate();
 
-    const { handleError } = useErrorResponse(); 
+    const { handleError } = useErrorResponse();
 
     const [file, setFile] = useState(null);
 
@@ -25,23 +27,23 @@ export const ItemAdd = () => {
 
         Distributor: '',
 
-        Quantity:  '',
+        Quantity: '',
 
         Expiration: '',
 
         StorageRequirement: '',
 
-        ItemID:  '',
+        ItemID: '',
 
         Cost: '',
 
         Weight: '',
 
-        Category:  '',
+        Category: '',
 
-        SupplierCost:  '',
+        SupplierCost: '',
 
-        Description:  ''
+        Description: ''
 
     });
 
@@ -49,74 +51,82 @@ export const ItemAdd = () => {
     const handleSubmit = async (e) => {
 
         e.preventDefault();
-      
+
         if (
-          !insertFormat(
-            formData.Quantity,
-            formData.Distributor,
-            formData.Weight,
-            formData.ProductName,
-            formData.Category,
-            formData.SupplierCost,
-            formData.Cost,
-            formData.Expiration,
-            formData.StorageRequirement,
-            formData.Description
-          )
+            !insertFormat(
+                formData.Quantity,
+                formData.Distributor,
+                formData.Weight,
+                formData.ProductName,
+                formData.Category,
+                formData.SupplierCost,
+                formData.Cost,
+                formData.Expiration,
+                formData.StorageRequirement,
+                formData.Description
+            )
         ) {
-      
-          return false;
-      
+
+            return false;
+
         }
-    
+
         if (file == null) {
 
             alert("Please select image.");
-      
+
             return false;
-      
+
         }
-      
+
         const form = new FormData();
-      
+
         form.append('File', file);
-      
+
         form.append('Json', JSON.stringify(formData));
-    
+
         try {
-      
-          await axios.post('http://localhost:3301/api/inventory/insert/item', form, {
-            withCredentials: true,
-          });
-      
-          navigate("/");
-      
+
+            await axios.post('http://localhost:3301/api/inventory/insert/item', form, {
+                withCredentials: true,
+            });
+
+            navigate("/");
+
         } catch (error) {
-      
-          handleError(error);
-      
+
+            handleError(error);
+
         }
-      
+
     };
-      
+
     //Handle File Import
     const handleFile = (e) => {
 
         const file = e.target.files[0];
-    
+
         if (file) {
 
-            if (file.type === 'image/jpeg') {
+            if (file.size <= 1e7) {
 
-                setFile(file);
+                if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/webp') {
 
-                alert("Image Successfully Added");
+                    setFile(file);
+
+                    setURL(URL.createObjectURL(file));
+
+                } else {
+
+                    alert("Please select a valid file type (jpeg, png, webp).");
+
+                    e.target.value = '';
+
+                }
 
             } else {
 
-                alert("Please select a valid JPEG file.");
-
-                e.target.value = ''; 
+                alert("File size is too large (10MB limit).");
 
             }
 
@@ -132,7 +142,7 @@ export const ItemAdd = () => {
     const handleFieldChange = (fieldName) => (value) => {
 
         const numberFields = ['Quantity', 'Cost', 'Weight', 'SupplierCost'];
-    
+
         setFormData(prev => {
 
             if (numberFields.includes(fieldName)) {
@@ -161,128 +171,135 @@ export const ItemAdd = () => {
 
     return (
 
-        <section className="w-[800px] mx-auto bg-gray-200 p-5 mt-12 mb-12 flex flex-col">
+        <section className="w-full bg-white p-8 flex flex-col gap-8 flex-grow">
 
-            <h2 className="text-center text-2xl font-bold text-gray-800 mb-4">Add Item</h2>
+            <div className="mx-auto bg-gray-100 border border-gray-200 rounded-lg shadow-lg p-5 mt-12 mb-12 flex flex-col">
 
-            <form onSubmit={handleSubmit}>
+                <h2 className="text-center text-2xl font-semibold mb-4">Add Item</h2>
 
-                <div className="flex mb-5">
+                <form onSubmit={handleSubmit}>
 
-                    <div className="border-2 border-gray-300 rounded-lg shadow-sm bg-white p-4 w-[300px] h-[300px] flex items-center justify-center mr-5">
-                        
-                        <label className="cursor-pointer bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">
-                        
-                            Insert Image
+                    <div className="flex flex-col md:flex-row mb-5 gap-4">
 
-                            <input type="file" accept="image/*" className="hidden" onChange={(e)=>{handleFile(e)}} />
+                        <div className="flex flex-col gap-2 items-center">
 
-                        </label>
+                            <div className="flex-col border border-gray-300 rounded-lg shadow-sm bg-white p-4 w-[300px] h-[300px] flex items-center justify-center mr-5">
 
-                    </div>
+                                <img alt=" no image" src={imageURL} ></img>
 
+                            </div>
 
-                    <div className="flex-1">
+                            <label className="mx-auto cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
 
-                        <div className="flex items-center mb-3 text-lg">
+                                Insert Image
 
-                            <span className="mr-2">Product Name: </span>
+                                <input type="file" accept="image/jpeg, image/png, image/webp, image/jpg" className="hidden" onChange={(e) => { handleFile(e) }} />
 
-                            <TextEntryBox
-
-                                value={formData.ProductName}
-
-                                type ="text"
-
-                                minLength={2}
-              
-                                maxLength={255}
-
-                                onChange={handleFieldChange('ProductName')}
-
-                                placeholder="Product Name"
-
-                            />
-                        
-                        </div>
-
-                        <div className="flex mb-3 text-lg">
-
-                            <span className="mr-2">Distributor: </span>
-
-                            <TextEntryBox
-
-                                type="text"
-
-                                minLength={2}
-              
-                                maxLength={255}
-
-                                value={formData.Distributor}
-
-                                onChange={handleFieldChange('Distributor')}
-
-                                placeholder="Distributor"
-
-                            />
+                            </label>
 
                         </div>
 
-                        <div className="flex mb-3 text-lg">
+                        <div className="flex-1">
 
-                            <span className="mr-2">Availability: </span>
+                            <div className="flex items-center mb-3 text-lg">
 
-                            <TextEntryBox
+                                <span className="mr-2">Product Name: </span>
 
-                                type="number"
+                                <TextEntryBox
 
-                                min = "0"
+                                    value={formData.ProductName}
 
-                                value={formData.Quantity}
+                                    type="text"
 
-                                onChange={handleFieldChange('Quantity')}
+                                    minLength={2}
 
-                                placeholder="Quantity"
+                                    maxLength={255}
 
-                            />
+                                    onChange={handleFieldChange('ProductName')}
 
-                        </div>
+                                    placeholder="Product Name"
 
-                        <div className="flex mb-3 text-lg">
+                                />
 
-                            <span className="mr-2">Expiration: </span>
+                            </div>
 
-                            <TextEntryBox
+                            <div className="flex mb-3 text-lg">
 
-                                type="date"
+                                <span className="mr-2">Distributor: </span>
 
-                                value={formData.Expiration}
+                                <TextEntryBox
 
-                                onChange={handleFieldChange('Expiration')}
+                                    type="text"
 
-                                placeholder="Expiration"
+                                    minLength={2}
 
-                            />
+                                    maxLength={255}
 
-                        </div>
+                                    value={formData.Distributor}
 
-                        <div className="flex mb-3 text-lg">
+                                    onChange={handleFieldChange('Distributor')}
 
-                            <span className="mr-2">Storage Type: </span>
+                                    placeholder="Distributor"
 
-                            <select
+                                />
 
-                                id="StorageRequirement"
+                            </div>
 
-                                value={formData.StorageRequirement}  
+                            <div className="flex mb-3 text-lg">
 
-                                required
+                                <span className="mr-2">Availability: </span>
 
-                                onChange={(e)=>{handleFieldChange('StorageRequirement')(e.target.value)}}
+                                <TextEntryBox
 
-                                className="w-48 h-8 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm"
+                                    type="number"
 
-                            >
+                                    min="0"
+
+                                    value={formData.Quantity}
+
+                                    onChange={handleFieldChange('Quantity')}
+
+                                    placeholder="Quantity"
+
+                                />
+
+                            </div>
+
+                            <div className="flex mb-3 text-lg">
+
+                                <span className="mr-2">Expiration: </span>
+
+                                <TextEntryBox
+
+                                    type="date"
+
+                                    value={formData.Expiration}
+
+                                    onChange={handleFieldChange('Expiration')}
+
+                                    placeholder="Expiration"
+
+                                />
+
+                            </div>
+
+                            <div className="flex mb-3 text-lg">
+
+                                <span className="mr-2">Storage Type: </span>
+
+                                <select
+
+                                    id="StorageRequirement"
+
+                                    value={formData.StorageRequirement}
+
+                                    required
+
+                                    onChange={(e) => { handleFieldChange('StorageRequirement')(e.target.value) }}
+
+                                    className="w-48 h-8 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm"
+
+                                >
                                     <option value="">Select</option>
 
                                     <option value="Frozen">Frozen</option>
@@ -321,27 +338,27 @@ export const ItemAdd = () => {
 
                                     <option value="Non-Perishable">Non-Perishable</option>
 
-                            </select>
+                                </select>
 
-                        </div>
+                            </div>
 
-                        <div className="flex mb-3 text-lg">
+                            <div className="flex mb-3 text-lg">
 
-                            <span className="mr-2">Category: </span>
+                                <span className="mr-2">Category: </span>
 
-                            <select
+                                <select
 
-                                id="StorageRequirement"
+                                    id="StorageRequirement"
 
-                                value={formData.Category}  
+                                    value={formData.Category}
 
-                                required
+                                    required
 
-                                onChange={(e)=>{handleFieldChange('Category')(e.target.value)}}
+                                    onChange={(e) => { handleFieldChange('Category')(e.target.value) }}
 
-                                className="w-48 h-8 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm"
+                                    className="w-48 h-8 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm"
 
-                            >
+                                >
 
                                     <option value="">Select</option>
 
@@ -363,110 +380,111 @@ export const ItemAdd = () => {
 
                                     <option value="Frozen Foods">Frozen Foods</option>
 
-                            </select>
+                                </select>
 
-                        </div>
+                            </div>
 
-                        <div className="flex mb-3 text-lg">
+                            <div className="flex mb-3 text-lg">
 
-                            <span className="mr-2">Cost: </span>
+                                <span className="mr-2">Cost: </span>
 
-                            <TextEntryBox
+                                <TextEntryBox
 
-                                value={formData?.Cost}
+                                    value={formData?.Cost}
 
-                                onChange={handleFieldChange('Cost')}
+                                    onChange={handleFieldChange('Cost')}
 
-                                type="number"
+                                    type="number"
 
-                                step = "any"
+                                    step="any"
 
-                                min = "0"
+                                    min="0"
 
-                                placeholder="Cost In USD"
+                                    placeholder="Cost In USD"
 
-                            />
+                                />
 
-                        </div>
+                            </div>
 
-                        <div className="flex mb-3 text-lg">
+                            <div className="flex mb-3 text-lg">
 
-                            <span className="mr-2">Weight: </span>
+                                <span className="mr-2">Weight: </span>
 
-                            <TextEntryBox
+                                <TextEntryBox
 
-                                type="number"
+                                    type="number"
 
-                                step = "any"
+                                    step="any"
 
-                                min = "0"
+                                    min="0"
 
-                                value={formData?.Weight}
+                                    value={formData?.Weight}
 
-                                onChange={handleFieldChange('Weight')}
+                                    onChange={handleFieldChange('Weight')}
 
-                                placeholder="Weight In LBS"
+                                    placeholder="Weight In LBS"
 
-                            />
+                                />
 
-                        </div>
+                            </div>
 
-                        <div className="flex mb-3 text-lg">
+                            <div className="flex mb-3 text-lg">
 
-                            <span className="mr-2">SupplierCost: </span>
+                                <span className="mr-2">Supplier Cost: </span>
 
-                            <TextEntryBox
+                                <TextEntryBox
 
-                                type = "number"
+                                    type="number"
 
-                                step = "any"
+                                    step="any"
 
-                                min = "0"
+                                    min="0"
 
-                                value={formData?.SupplierCost}
+                                    value={formData?.SupplierCost}
 
-                                onChange={handleFieldChange('SupplierCost')}
+                                    onChange={handleFieldChange('SupplierCost')}
 
-                                placeholder="Supplier Cost In USD"
+                                    placeholder="Supplier Cost In USD"
 
-                            />
+                                />
+
+                            </div>
 
                         </div>
 
                     </div>
 
-                </div>
+                    <h2 className="text-2xl font-bold mb-3">Description</h2>
 
-                <h2 className="text-2xl font-bold mb-3">Description</h2>
+                    <TextEntryBox
 
-                <TextEntryBox
+                        value={formData?.Description}
 
-                    value={formData?.Description}
+                        type={"text"}
 
-                    type={"text"}
+                        minLength={2}
 
-                    minLength={2}
-              
-                    maxLength={255}
+                        maxLength={255}
 
-                    onChange={handleFieldChange('Description')}
+                        onChange={handleFieldChange('Description')}
 
-                    className="w-full border border-gray-300 p-4 mb-5 text-lg"
+                        className="w-full border border-gray-300 p-4 mb-5 text-lg rounded-lg"
 
-                    placeholder="Description"
+                        placeholder="Description"
 
-                />
+                    />
 
-                <div className="flex gap-3">
+                    <div className="flex gap-3">
 
-                    <button type="submit" className="bg-blue-600 text-white p-4 font-semibold rounded-lg w-full max-w-[500px] hover:bg-blue-700">Confirm</button>
+                        <button onClick={() => navigate(`/`)} className="bg-red-600 text-white p-4 font-semibold rounded-lg w-full max-w-[500px] hover:bg-red-700">Cancel</button>
 
-                    <button onClick={() => navigate(`/`)} className="bg-red-600 text-white p-4 font-semibold rounded-lg w-full max-w-[500px] hover:bg-red-700">Cancel</button>
-                
-                </div>
-                
-            </form>
-            
+                        <button type="submit" className="bg-green-500 text-white p-4 font-semibold rounded-lg w-full max-w-[500px] hover:bg-green-600">Confirm</button>
+
+                    </div>
+
+                </form>
+
+            </div>
         </section>
 
     );

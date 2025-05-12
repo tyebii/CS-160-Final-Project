@@ -7,7 +7,7 @@ const SearchResultsItem = ({ result }) => {
 
   return (
 
-    <div className="flex flex-col [width:280px] h-full items-center border p-4 bg-white rounded-lg shadow-md">
+    <div className="flex flex-col w-48 h-full items-center border p-4 bg-white rounded-lg shadow-md">
 
       {/* Product Image */}
       <img

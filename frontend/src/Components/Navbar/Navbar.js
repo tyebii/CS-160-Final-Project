@@ -46,13 +46,15 @@ function Navbar() {
 
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   const dropdownRef = useRef();
 
   useEffect(() => {
     document.body.addEventListener('click', () => {
       if (dropdownRef.current && !event.composedPath().includes(dropdownRef.current)) {
-        setDropdownVisible(false)
-      }
+        setDropdownVisible(false);
+      } 
     });
   }, []);
 
@@ -66,7 +68,6 @@ function Navbar() {
   };
 
   //Set Drawer Visibility
-  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -112,6 +113,8 @@ function Navbar() {
             to={`/search/category/${category.trim().replace(/ /g, '-')}`}
 
             className="block p-3 text-lg text-black hover:bg-gray-300 rounded-lg"
+
+            onClick={() => {setDrawerOpen(false); setDropdownVisible(false)}}
 
           >
 

@@ -12,25 +12,27 @@ import { useErrorResponse } from '../Utils/AxiosError';
 
 export const ItemEdit = ({ item }) => {
 
+    const [imageURL, setURL] = useState(null);
+
     const navigate = useNavigate();
 
-    const { handleError } = useErrorResponse(); 
+    const { handleError } = useErrorResponse();
 
     const [file, setFile] = useState(null);
 
     const [formData, setFormData] = useState({
 
         ProductName: item.ProductName,
-    
+
         Distributor: item.Distributor,
 
-        Quantity:  item.Quantity? Number(item.Quantity) : 0,
+        Quantity: item.Quantity ? Number(item.Quantity) : 0,
 
-        Expiration: item.Expiration?.slice(0,10),
+        Expiration: item.Expiration?.slice(0, 10),
 
         StorageRequirement: item.StorageRequirement,
 
-        ItemID: item.ItemID, 
+        ItemID: item.ItemID,
 
         Cost: item.Cost ? Number(item.Cost) : 0,
 
@@ -43,75 +45,83 @@ export const ItemEdit = ({ item }) => {
         Description: item.Description
 
     });
-    
+
     // Handle form submission
     const handleSubmit = async (e) => {
 
         e.preventDefault();
-      
+
         if (
-          !insertFormat(
-            formData.Quantity,
-            formData.Distributor,
-            formData.Weight,
-            formData.ProductName,
-            formData.Category,
-            formData.SupplierCost,
-            formData.Cost,
-            formData.Expiration,
-            formData.StorageRequirement,
-            formData.Description
-          )
+            !insertFormat(
+                formData.Quantity,
+                formData.Distributor,
+                formData.Weight,
+                formData.ProductName,
+                formData.Category,
+                formData.SupplierCost,
+                formData.Cost,
+                formData.Expiration,
+                formData.StorageRequirement,
+                formData.Description
+            )
         ) {
-      
-          return false;
-      
+
+            return false;
+
         }
-      
+
         const form = new FormData();
-      
+
         form.append('File', file);
-      
+
         form.append('Json', JSON.stringify(formData));
-      
+
         try {
-      
-          await axios.put(
-            'http://localhost:3301/api/inventory/update/item',
-            form,
-            {
-              withCredentials: true,
-            }
-          );
-      
-          navigate("/itemview/" + formData.ItemID);
-      
+
+            await axios.put(
+                'http://localhost:3301/api/inventory/update/item',
+                form,
+                {
+                    withCredentials: true,
+                }
+            );
+
+            navigate("/itemview/" + formData.ItemID);
+
         } catch (error) {
-      
-          handleError(error);
-      
+
+            handleError(error);
+
         }
-      
+
     };
-      
+
     //Handle File Import
     const handleFile = (e) => {
 
         const file = e.target.files[0];
-    
+
         if (file) {
 
-            if (file.type === 'image/jpeg') {
+            if (file.size <= 1e7) {
 
-                setFile(file);
+                if (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/webp') {
 
-                alert("Image Successfully Added!");
+                    setFile(file);
+
+                    setURL(URL.createObjectURL(file));
+
+                } else {
+
+                    alert("Please select a valid file type (jpeg, png, webp).");
+
+                    e.target.value = '';
+
+                }
 
             } else {
 
-                alert("Please select a valid JPEG file.");
-
-                e.target.value = ''; 
+                alert("File size is too large (10MB limit).");
 
             }
 
@@ -127,7 +137,7 @@ export const ItemEdit = ({ item }) => {
     const handleFieldChange = (fieldName) => (value) => {
 
         const numberFields = ['Quantity', 'Cost', 'Weight', 'SupplierCost'];
-    
+
         setFormData(prev => {
 
             if (numberFields.includes(fieldName)) {
@@ -138,7 +148,7 @@ export const ItemEdit = ({ item }) => {
 
                     alert(`${fieldName} Must Be A Valid Number`);
 
-                    return prev; 
+                    return prev;
 
                 }
 
@@ -153,129 +163,138 @@ export const ItemEdit = ({ item }) => {
         });
 
     };
-    
+
     return (
-        <section className="w-[800px] mx-auto bg-gray-200 p-5 mt-12 mb-12 flex flex-col">
 
-            <h2 className="text-2xl font-semibold text-center mb-4">Update Item</h2>
+        <section className="w-full bg-white p-8 flex flex-col gap-8 flex-grow">
 
-            <form onSubmit={handleSubmit}>
+            <div className="mx-auto bg-gray-100 border border-gray-200 rounded-lg shadow-lg p-5 mt-12 mb-12 flex flex-col">
 
-                <div className="flex mb-5">
+                <h2 className="text-2xl font-semibold text-center mb-4">Update Item</h2>
 
-                    <div className="border-2 border-gray-300 rounded-lg shadow-sm bg-white p-4 w-[300px] h-[300px] flex items-center justify-center mr-5">
+                <form onSubmit={handleSubmit}>
 
-                        <label className="cursor-pointer bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">
+                    <div className="flex flex-col md:flex-row mb-5 gap-4">
 
-                            Insert Image
+                        <div className="flex flex-col gap-2 items-center">
 
-                            <input type="file" accept="image/*" className="hidden" onChange={(e)=>{handleFile(e)}} />
+                            <div className="flex-col border border-gray-300 rounded-lg shadow-sm bg-white p-4 w-[300px] h-[300px] flex items-center justify-center mr-5">
 
-                        </label>
+                                <img alt=" no image" src={imageURL} ></img>
 
-                    </div>
+                            </div>
 
-                    <div className="flex-1">
+                            <label className="mx-auto cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
 
-                        <p className="text-lg mb-3">Item ID: {formData.ItemID}</p>
+                                Insert Image
 
-                        <div className="flex mb-3 text-lg">
+                                <input type="file" accept="image/jpeg, image/png, image/webp, image/jpg" className="hidden" onChange={(e) => { handleFile(e) }} />
 
-                            <span className="mr-2">Product Name: </span>
-
-                            <TextEntryBox
-
-                                value={formData.ProductName}
-
-                                minLength={2}
-              
-                                maxLength={255}
-
-                                type ="text"
-
-                                onChange={handleFieldChange('ProductName')}
-
-                                placeholder="Product Name"
-
-                            />
-                        
-                        </div>
-
-                        <div className="flex mb-3 text-lg">
-
-                            <span className="mr-2">Distributed By: </span>
-
-                            <TextEntryBox
-
-                                type ="text"
-
-                                minLength={2}
-              
-                                maxLength={255}
-
-                                value={formData?.Distributor}
-
-                                onChange={handleFieldChange('Distributor')}
-
-                                placeholder="Distributor"
-
-                            />
+                            </label>
 
                         </div>
 
-                        <div className="flex mb-3 text-lg">
+                        <div className="flex-1">
 
-                            <span className="mr-2">Availability: </span>
+                            <p className="text-lg mb-3">Item ID: {formData.ItemID}</p>
 
-                            <TextEntryBox
+                            <div className="flex mb-3 text-lg">
 
-                                type="number"
+                                <span className="mr-2">Product Name: </span>
 
-                                min="0"
+                                <TextEntryBox
 
-                                value={formData?.Quantity}
+                                    value={formData.ProductName}
 
-                                onChange={handleFieldChange('Quantity')}
+                                    minLength={2}
 
-                                placeholder="Quantity"
+                                    maxLength={255}
 
-                            />
+                                    type="text"
 
-                        </div>
+                                    onChange={handleFieldChange('ProductName')}
 
-                        <div className="flex mb-3 text-lg">
+                                    placeholder="Product Name"
 
-                            <span className="mr-2">Expiration: </span>
+                                />
 
-                            <TextEntryBox
+                            </div>
 
-                                type="date"
+                            <div className="flex mb-3 text-lg">
 
-                                value={formData?.Expiration}
+                                <span className="mr-2">Distributed By: </span>
 
-                                onChange={handleFieldChange('Expiration')}
+                                <TextEntryBox
 
-                                placeholder="Expiration"
+                                    type="text"
 
-                            />
+                                    minLength={2}
 
-                        </div>
+                                    maxLength={255}
 
-                        <div className="flex mb-3 text-lg">
+                                    value={formData?.Distributor}
 
-                            <span className="mr-2">Storage Type: </span>
+                                    onChange={handleFieldChange('Distributor')}
 
-                            <select
+                                    placeholder="Distributor"
 
-                                id="StorageRequirement"
+                                />
 
-                                value={formData.StorageRequirement}  
+                            </div>
 
-                                onChange={(e)=>{handleFieldChange('StorageRequirement')(e.target.value)}}
+                            <div className="flex mb-3 text-lg">
 
-                                className="mt-1 w-48 h-8 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm"
+                                <span className="mr-2">Availability: </span>
 
-                            >
+                                <TextEntryBox
+
+                                    type="number"
+
+                                    min="0"
+
+                                    value={formData?.Quantity}
+
+                                    onChange={handleFieldChange('Quantity')}
+
+                                    placeholder="Quantity"
+
+                                />
+
+                            </div>
+
+                            <div className="flex mb-3 text-lg">
+
+                                <span className="mr-2">Expiration: </span>
+
+                                <TextEntryBox
+
+                                    type="date"
+
+                                    value={formData?.Expiration}
+
+                                    onChange={handleFieldChange('Expiration')}
+
+                                    placeholder="Expiration"
+
+                                />
+
+                            </div>
+
+                            <div className="flex mb-3 text-lg">
+
+                                <span className="mr-2">Storage Type: </span>
+
+                                <select
+
+                                    id="StorageRequirement"
+
+                                    value={formData.StorageRequirement}
+
+                                    onChange={(e) => { handleFieldChange('StorageRequirement')(e.target.value) }}
+
+                                    className="mt-1 w-48 h-8 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm"
+
+                                >
                                     <option value="Frozen">Frozen</option>
 
                                     <option value="Deep Frozen">Deep Frozen</option>
@@ -309,28 +328,28 @@ export const ItemEdit = ({ item }) => {
                                     <option value="Hazardous">Hazardous</option>
 
                                     <option value="Perishable">Perishable</option>
-                                    
+
                                     <option value="Non-Perishable">Non-Perishable</option>
 
-                            </select>
+                                </select>
 
-                        </div>
+                            </div>
 
-                        <div className="flex mb-3 text-lg">
+                            <div className="flex mb-3 text-lg">
 
-                            <span className="mr-2">Category: </span>
+                                <span className="mr-2">Category: </span>
 
-                            <select
+                                <select
 
-                                id="StorageRequirement"
+                                    id="StorageRequirement"
 
-                                value={formData.Category}  
+                                    value={formData.Category}
 
-                                onChange={(e)=>{handleFieldChange('Category')(e.target.value)}}
+                                    onChange={(e) => { handleFieldChange('Category')(e.target.value) }}
 
-                                className="mt-1 w-48 h-8 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm"
+                                    className="mt-1 w-48 h-8 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 text-sm"
 
-                            >
+                                >
 
                                     <option value="Fresh Produce">Fresh Produce</option>
 
@@ -350,112 +369,114 @@ export const ItemEdit = ({ item }) => {
 
                                     <option value="Frozen Foods">Frozen Foods</option>
 
-                            </select>
+                                </select>
 
-                        </div>
+                            </div>
 
-                        <div className="flex mb-3 text-lg">
+                            <div className="flex mb-3 text-lg">
 
-                            <span className="mr-2">Cost: </span>
+                                <span className="mr-2">Cost: </span>
 
-                            <TextEntryBox
+                                <TextEntryBox
 
-                                value={formData?.Cost}
+                                    value={formData?.Cost}
 
-                                onChange={handleFieldChange('Cost')}
+                                    onChange={handleFieldChange('Cost')}
 
-                                type="number"
-                                
-                                step = "any"
+                                    type="number"
 
-                                min = "0"
+                                    step="any"
 
-                                placeholder="Cost In USD"
+                                    min="0"
 
-                            />
+                                    placeholder="Cost In USD"
 
-                        </div>
+                                />
 
-                        <div className="flex mb-3 text-lg">
+                            </div>
 
-                            <span className="mr-2">Weight: </span>
+                            <div className="flex mb-3 text-lg">
 
-                            <TextEntryBox
+                                <span className="mr-2">Weight: </span>
 
-                                type="number"
+                                <TextEntryBox
 
-                                step = "any"
+                                    type="number"
 
-                                min="0"
+                                    step="any"
 
-                                value={formData?.Weight}
+                                    min="0"
 
-                                onChange={handleFieldChange('Weight')}
+                                    value={formData?.Weight}
 
-                                placeholder="Weight In LBS"
+                                    onChange={handleFieldChange('Weight')}
 
-                            />
+                                    placeholder="Weight In LBS"
 
-                        </div>
+                                />
 
-                        <div className="flex mb-3 text-lg">
+                            </div>
 
-                            <span className="mr-2">SupplierCost: </span>
+                            <div className="flex mb-3 text-lg">
 
-                            <TextEntryBox
+                                <span className="mr-2">Supplier Cost: </span>
 
-                                min="0"
+                                <TextEntryBox
 
-                                type = "number"
+                                    min="0"
 
-                                step = "any"
+                                    type="number"
 
-                                value={formData?.SupplierCost}
+                                    step="any"
 
-                                onChange={handleFieldChange('SupplierCost')}
+                                    value={formData?.SupplierCost}
 
-                                placeholder="Supplier Cost In USD"
+                                    onChange={handleFieldChange('SupplierCost')}
 
-                            />
+                                    placeholder="Supplier Cost In USD"
+
+                                />
+
+                            </div>
 
                         </div>
 
                     </div>
 
-                </div>
+                    <h2 className="text-2xl font-bold mb-3">Description</h2>
 
-                <h2 className="text-2xl font-bold mb-3">Description</h2>
+                    <TextEntryBox
 
-                <TextEntryBox
+                        value={formData?.Description}
 
-                    value={formData?.Description}
+                        minLength={2}
 
-                    minLength={2}
-              
-                    maxLength={255}
+                        maxLength={255}
 
-                    onChange={handleFieldChange('Description')}
+                        onChange={handleFieldChange('Description')}
 
-                    className="w-full border border-gray-300 p-4 mb-5 text-lg"
+                        className="w-full border border-gray-300 p-4 mb-5 text-lg"
 
-                    placeholder="Description"
+                        placeholder="Description"
 
-                />
+                    />
 
-                <div className="flex gap-3">
+                    <div className="flex gap-3">
 
-                    <button type="submit" className="bg-blue-600 text-white p-4 font-semibold rounded-lg w-full max-w-[500px] hover:bg-blue-700">Confirm</button>
+                        <button onClick={() => navigate(`/itemview/${formData.ItemID}`)} className="bg-red-600 text-white p-4 font-semibold rounded-lg w-full max-w-[500px] hover:bg-red-700">Cancel</button>
 
-                    <button onClick={() => navigate(`/itemview/${formData.ItemID}`)} className="bg-red-600 text-white p-4 font-semibold rounded-lg w-full max-w-[500px] hover:bg-red-700">Cancel</button>
+                        <button type="submit" className="bg-green-500 text-white p-4 font-semibold rounded-lg w-full max-w-[500px] hover:bg-green-600">Confirm</button>
 
-                </div>
+                    </div>
 
-            </form>
+                </form>
+
+            </div>
 
         </section>
 
     );
-    
+
 };
 
 export default ItemEdit;

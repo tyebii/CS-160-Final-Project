@@ -24,6 +24,9 @@ const isString = (value, message) => { if (typeof value !== 'string') throw new 
 //Checks if the value is a number
 const isNumber = (value, message) => { if (typeof value !== 'number') throw new Error(message); };
 
+//Checks if the value is not just whitespace
+const isBlank = (value, message) => {if (/^\s*$/.test(value)) throw new Error(message)} ;
+
 //Checks if the value is an integer
 const isInteger = (value, message) => {
 
@@ -365,6 +368,8 @@ export const validateProduct = (input, label = "Product Name") => {
       () => isNull(input, `${label} Not Provided`),
 
       () => isString(input, `${label} Must Be A String`),
+
+      () => isBlank(input, `${label} Cannot Be Blank`), 
 
       () => inRange(input.length, 1, 255, `${label} must be 1–255 characters`),
 

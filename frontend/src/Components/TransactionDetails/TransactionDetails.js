@@ -241,13 +241,13 @@ const DetailRow = ({ label, value, defaultValue = "", isBadge = false }) => {
 
               <a
 
-                href={value}
+                href={value === "None" ? undefined : value}
 
                 target="_blank"
 
                 rel="noopener noreferrer"
 
-                className="text-blue-600"
+                className={value === "None" ? "text-gray-900" : "underline text-blue-600"}
 
               >
 

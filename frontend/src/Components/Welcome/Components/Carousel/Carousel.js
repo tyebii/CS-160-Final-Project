@@ -115,7 +115,7 @@ export default function Carousel({ auth }) {
 
         (auth === null || auth === "Customer") ? (
 
-            <article className="text-center p-16">
+            <article className="text-center pt-12 pb-4">
 
                 <h2 className="text-center text-5xl font-semibold text-black tracking-wide">Featured Products</h2>
 

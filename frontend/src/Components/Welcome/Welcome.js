@@ -17,6 +17,8 @@ import { useState } from 'react';
 import backdrop from './backdrop.png';
 import landingpage from './AdImages/LandingPage.png'
 import ad_1 from './AdImages/adcard_1.png'
+import ad_2 from './AdImages/adcard_2.png'
+import ad_3 from './AdImages/adcard_3.png'
 
 
 import AdCarousel from './Components/Carousel/AdCarousel';
@@ -30,7 +32,9 @@ function Welcome() {
 
     const slides = [
         landingpage,
-        ad_1
+        ad_1,
+        ad_2,
+        ad_3
     ]
 
     return (
@@ -45,7 +49,7 @@ function Welcome() {
 
             <div className=" w-full max-w-[80%] mx-auto mt-10 mb-10 bg-white p-8 rounded-2xl shadow-lg"
                 style={{
-                    background: "linear-gradient(rgb(255, 251, 236),rgb(255, 249, 214))",
+                    background: "linear-gradient(rgb(255, 251, 236),rgb(255, 251, 226))",
                 }}
             >
 
@@ -72,13 +76,13 @@ function Welcome() {
 
                     <div
 
-                        className="bg-cover bg-center rounded-lg shadow-xl mx-auto my-2 w-[960px] h-[400px] flex items-center justify-center"
+                        className="bg-cover bg-center rounded-lg shadow-xl mx-auto my-2 w-auto h-auto max-w-[960px] max-h-[400px] flex items-center justify-center"
 
                     >
                         <AdCarousel>
                             {slides.map((s,index) => (
 
-                                <img key = {index} src={s} className="min-w-[960px] h-[400px] object-cover" />
+                                <img key = {index} src={s} className="max-w-full max-h-full object-scale-down m-auto" />
                             
                             ))}
                         </AdCarousel>

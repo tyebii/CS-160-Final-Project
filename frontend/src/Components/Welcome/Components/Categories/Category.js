@@ -56,14 +56,14 @@ export default function Categories({ auth }) {
       </Link>
 
     )
-    
+
   }
 
   return (
 
-    <article className="mt-20">
+    <article className="w-auto h-auto mx-auto px-8 pt-8 pb-8">
 
-      <h2 className="text-4xl text-center font-semibold mx-4 mb-6">
+      <h2 className="text-4xl text-center font-semibold mx-4 mb-4">
 
         {auth === "Employee" || auth === "Manager"
 
@@ -75,11 +75,26 @@ export default function Categories({ auth }) {
 
       </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 px-3 justify-center">
-
+      {/*
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 px-3 justify-center border-2 border-black">
         {categoriesJSX}
+      </div>
+      */}
+
+      <div className="overflow-hidden relative rounded-lg overflow-x-auto pb-4">
+
+        <div className="flex transition-transform ease-out duration-500 gap-4 px-2 items-center"
+          style={{ width: (categoriesJSX.length * 155) + 10 }}
+        >
+          {categoriesJSX}
+
+        </div>
 
       </div>
+
+
+
+
 
     </article>
 
@@ -93,9 +108,9 @@ const Category = ({ imageSrc, categoryName }) => {
 
   return (
 
-    <div className="flex flex-col items-center text-center mt-8 hover:scale-110 hover:-translate-y-3 transition-all duration-300 ease-in-out">
+    <div className="flex flex-col w-[140px] h-[200px] items-center text-center mt-8 hover:scale-110 hover:-translate-y-3 transition-all duration-300 ease-in-out">
 
-      <div className="h-64 rounded-lg ring-2 ring-black hover:ring-rose-500 overflow-hidden">  {/* Increased size to make it more square */}
+      <div className="h-32 w-32 rounded-lg ring-1 ring-black hover:ring-green-500 overflow-hidden">  {/* Increased size to make it more square */}
 
         <img
           src={imageSrc}
@@ -105,7 +120,7 @@ const Category = ({ imageSrc, categoryName }) => {
       </div>
 
 
-      <p className="mt-6 text-3xl font-bold text-gray-800">{categoryName}</p>
+      <p className="mt-2 text-xl font-semibold text-gray-800 text-center">{categoryName}</p>
 
     </div>
 

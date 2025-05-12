@@ -170,7 +170,7 @@ const ItemView = ({ searchType, query }) => {
 
       if(!searchType || !query){
         
-        navigate("/")
+        navigate("/shoppingcart")
 
         return 
 

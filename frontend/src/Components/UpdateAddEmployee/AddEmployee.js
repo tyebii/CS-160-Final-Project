@@ -404,7 +404,7 @@ function AddEmployee() {
 
         />
         
-        <button className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200">Sign Up</button>
+        <button className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-200">Sign Up</button>
 
       </form>
 

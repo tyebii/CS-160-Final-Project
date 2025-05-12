@@ -17,37 +17,37 @@ const Footer = () => {
 
   return (
 
-    <section className="bg-white border-t border-gray-200 p-6 w-full shadow-sm">
+    <section className="bg-green-900 p-6 w-full shadow-sm">
 
-      <div className="container mx-auto flex flex-col justify-between items-center gap-6">
+      <div className="container mx-auto flex flex-col justify-between items-center gap-6 text-gray-200">
 
         <div className="flex flex-col items-center space-y-3">
 
-          <p className="font-semibold text-gray-800">Follow Us</p>
+          <p className="font-semibold">Follow Us</p>
 
           <div className="flex space-x-4">
 
             <a href="#" aria-label="Facebook">
 
-              <FaFacebook className="text-xl text-gray-500 hover:text-blue-600 transition duration-300" />
+              <FaFacebook className="text-xl hover:text-blue-600 transition duration-300" />
 
             </a>
 
             <a href="#" aria-label="Instagram">
 
-              <FaInstagram className="text-xl text-gray-500 hover:text-pink-500 transition duration-300" />
+              <FaInstagram className="text-xl hover:text-pink-500 transition duration-300" />
 
             </a>
 
             <a href="#" aria-label="Pinterest">
 
-              <FaPinterest className="text-xl text-gray-500 hover:text-red-600 transition duration-300" />
+              <FaPinterest className="text-xl hover:text-red-600 transition duration-300" />
 
             </a>
 
             <a href="#" aria-label="YouTube">
 
-              <FaYoutube className="text-xl text-gray-500 hover:text-red-500 transition duration-300" />
+              <FaYoutube className="text-xl hover:text-red-500 transition duration-300" />
 
             </a>
 
@@ -55,7 +55,7 @@ const Footer = () => {
 
         </div>
 
-        <div className="text-center space-y-1 text-gray-700 text-sm">
+        <div className="text-center space-y-1 text-sm">
 
           <p>
 

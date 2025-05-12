@@ -374,8 +374,6 @@ function ShoppingCart() {
 
             <h2 className="text-3xl mx-8 my-4">Your Cart <span className="text-gray-500">({results.length})</span></h2>
 
-            <h2 className="text-2xl mx-8 my-4">Free Delivery Under 20 LBS </h2>
-
             <hr className="border-1 mx-6 mb-4"></hr>
 
             {results.length === 0 ? (
