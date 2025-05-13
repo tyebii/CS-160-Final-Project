@@ -234,7 +234,7 @@ function Navbar() {
 
           {auth !== "Employee" && auth !== "Manager" ? (
 
-            <div className="text-lg md:text-2xl text-white mx-2 border-2 border-white">
+            <div className="text-lg md:text-2xl text-white mx-2">
 
               <span className="flex items-center" onMouseOver={toggleDropdown}>
 
